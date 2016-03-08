@@ -1,2 +1,2 @@
-# PZ
-Projekt Zespołowy
+# SkyCrap - database
+Database for game SkyCrap.
