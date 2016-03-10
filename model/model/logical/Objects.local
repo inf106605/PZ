@@ -3,6 +3,8 @@
    <object objectType="Entity" objectID="412A9302-15E0-807C-4231-C9E955841C3E" name="game" seqName="seg_0"/>
    <object objectType="Entity" objectID="370B687C-A2F1-0519-F4A1-53BEDC504E05" name="player" seqName="seg_0"/>
    <object objectType="Entity" objectID="1502E5E8-B66B-357C-02A6-3FC032E11A26" name="score" seqName="seg_0"/>
+   <object objectType="EntityView" objectID="49607E26-587B-339F-5A2A-2CCABB6219A6" name="view_game" seqName="seg_0"/>
+   <object objectType="EntityView" objectID="CDE2725A-C015-2295-B923-4B9C27451F5B" name="view_player" seqName="seg_0"/>
    <object objectType="Relation" objectID="2D0530AE-01A3-8A29-2477-38BBC70717A2" name="Relation_3" seqName="seg_0"/>
    <object objectType="Relation" objectID="2FEBAE23-687F-9399-8941-DA4DBCEA8F8F" name="sc_pl" seqName="seg_0"/>
 </oracle.dbtools.crest.model.design.logical.LogicalDesign>
