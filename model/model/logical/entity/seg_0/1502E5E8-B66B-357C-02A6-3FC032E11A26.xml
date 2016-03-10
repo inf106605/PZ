@@ -1,0 +1,81 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="1502E5E8-B66B-357C-02A6-3FC032E11A26" name="score">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:33:49 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>sc</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="walkover" id="0B615BAE-E5B8-F65B-AA2F-09D10B4A8DB2">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:35:47 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+</Attribute>
+<Attribute name="place" id="102422A1-18B8-5CD6-CAAD-4545E7F46922">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:38:47 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+</Attribute>
+<Attribute name="score" id="EC3C1CC5-94E2-8574-7440-45C96A63135A">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:39:38 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+</Attribute>
+<Attribute name="id_player" id="A5771494-2D68-3BCF-101F-60AEE5C502E6">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:44:04 UTC</createdTime>
+<generatorID>2FEBAE23-687F-9399-8941-DA4DBCEA8F8F</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>5E69E598-781F-E339-4AED-43C2C0331D28</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+</Attribute>
+<Attribute name="id_game" id="94A57EAF-97BB-F721-4867-5940BE7EFC56">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:46:32 UTC</createdTime>
+<generatorID>2D0530AE-01A3-8A29-2477-38BBC70717A2</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<referedAttribute>A4AC6170-A64A-448D-0E93-26A9AF9E6A50</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+</Attribute>
+</attributes>
+</Entity>

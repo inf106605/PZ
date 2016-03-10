@@ -1,0 +1,104 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="370B687C-A2F1-0519-F4A1-53BEDC504E05" name="player">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:26:07 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>pl</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_player" id="5E69E598-781F-E339-4AED-43C2C0331D28">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:26:24 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+</Attribute>
+<Attribute name="nick" id="4FF6B280-D980-0240-3DAE-F6E08C080927">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:26:49 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+</Attribute>
+<Attribute name="login" id="5CC46C74-20DB-F8B4-9C45-10A5E384F74E">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:29:48 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>25 CHAR</dataTypeSize>
+</Attribute>
+<Attribute name="passwd_hash" id="AD8E4EC6-6EBE-DEB3-7939-1C67B4EE5334">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:30:25 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT033</logicalDatatype>
+</Attribute>
+<Attribute name="register_date" id="17327CC2-2D56-0D87-754D-7176FCD8635E">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:32:17 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+</Attribute>
+<Attribute name="last_act_date" id="43A988B5-4437-58CB-5E65-67FEF453C906">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:32:53 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="CEED3F94-871D-D087-7664-BFA6448612C4" name="{entity} PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-10 07:26:37 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>5E69E598-781F-E339-4AED-43C2C0331D28</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
