@@ -8,8 +8,8 @@ namespace SkyCrab.connection
     class ServerConnection : Connection
     {
 
-        public ServerConnection(TcpClient tcpClient) :
-            base(tcpClient)
+        public ServerConnection(TcpClient tcpClient, int readTimeout) :
+            base(tcpClient, readTimeout)
         {
         }
 
