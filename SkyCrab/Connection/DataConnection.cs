@@ -16,6 +16,20 @@ namespace SkyCrab.connection
         {
         }
 
+        public void WriteUInt8(byte number)
+        {
+            byte[] bytes = new byte[1];
+            bytes[0] = number;
+            WriteBytes(bytes);
+        }
+
+        public byte ReadUInt8()
+        {
+            byte[] bytes = ReadBytes(1);
+            byte number = bytes[0];
+            return number;
+        }
+
         public void WriteUInt16(UInt16 number)
         {
             byte[] bytes = new byte[2];
@@ -50,6 +64,21 @@ namespace SkyCrab.connection
                             ((UInt32)bytes[2]) << 8 |
                             ((UInt32)bytes[3]) << 0;
             return number;
+        }
+
+        public void WriteString(string text)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(text);
+            WriteUInt16((UInt16)bytes.Length);
+            WriteBytes(bytes);
+        }
+
+        public string ReadString()
+        {
+            UInt16 length = ReadUInt16();
+            byte[] bytes = ReadBytes(length);
+            string text = Encoding.UTF8.GetString(bytes);
+            return text;
         }
 
     }

@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyCrab", "SkyCrab\SkyCrab.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Connection", "Connection\Connection.shproj", "{6879BDAD-9AE3-4307-83C2-24EF92CF63A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client test", "Client test\Client test.csproj", "{3880BA3E-3C23-46AD-815A-11B66D8FEABF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyClient", "Client test\DummyClient.csproj", "{3880BA3E-3C23-46AD-815A-11B66D8FEABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server test", "Server test\Server test.csproj", "{9E4218B6-2B06-470B-A22C-B6EF02B16C62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyServer", "Server test\DummyServer.csproj", "{9E4218B6-2B06-470B-A22C-B6EF02B16C62}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

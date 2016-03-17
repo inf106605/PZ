@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Server_test
 {
-    class Program
+    class DummyServer
     {
         static void Main(string[] args)
         {
@@ -21,8 +21,8 @@ namespace Server_test
                 tcpListener.Stop();
 
                 DataConnection connection = new ServerConnection(tcpClient, 100);
-                connection.WriteUInt32(1000000000);
-                uint aaa = connection.ReadUInt32();
+                connection.WriteString("Oh, Hello!");
+                string aaa = connection.ReadString();
                 Console.WriteLine(aaa);
                 Thread.Sleep(1000);
                 connection.Close();

@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Client_test
 {
-    class Program
+    class DummyClient
     {
         static void Main(string[] args)
         {
             try
             {
                 DataConnection connection = new ClientConnection("localhost", 100);
-                connection.WriteUInt32(1000000000);
-                uint aaa = connection.ReadUInt32();
+                connection.WriteString("Hello World!");
+                string aaa = connection.ReadString();
                 Console.WriteLine(aaa);
                 Thread.Sleep(1000);
                 connection.Close();
