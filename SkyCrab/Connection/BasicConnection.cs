@@ -13,13 +13,12 @@ namespace SkyCrab.connection
         public const int PORT = 8888;
 
         private TcpClient tcpClient;
-        private int readTimeout;
 
 
         protected BasicConnection(TcpClient tcpClient, int readTimeout)
         {
             this.tcpClient = tcpClient;
-            this.readTimeout = readTimeout;
+            tcpClient.ReceiveTimeout = readTimeout;
         }
 
         protected void WriteBytes(byte[] bytes)
@@ -35,14 +34,14 @@ namespace SkyCrab.connection
             UInt16 offset = 0;
             do
             {
-                var asyncResult = stream.BeginRead(bytes, offset, size-offset, null, null);
-                WaitHandle waitHandle = asyncResult.AsyncWaitHandle;
-                waitHandle.WaitOne(readTimeout); //TODO timeout for reading ALL bytes
-                offset += (UInt16)stream.EndRead(asyncResult);
+                UInt16 readedBytes = (UInt16)stream.Read(bytes, offset, size - offset);
+                if (readedBytes == 0)
+                    throw new Exception("Cannot read any more bytes from socket!");
+                offset += readedBytes;
             } while (offset != size);
             return bytes;
         }
-        
+
         public void Close()
         {
             tcpClient.GetStream().Close();

@@ -21,7 +21,7 @@ namespace Server_test
                 tcpListener.Stop();
 
                 DataConnection connection = new ServerConnection(tcpClient, 100);
-                connection.WriteString("Oh, Hello!");
+                connection.WriteUInt32(101011101);
                 string aaa = connection.ReadString();
                 Console.WriteLine(aaa);
                 Thread.Sleep(1000);
