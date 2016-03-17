@@ -79,7 +79,7 @@
 <expression>Sum(score.score)</expression>
 <reference>false</reference>
 </viewElement>
-<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="id_winner" id="3BDA3830-B0B5-F684-5111-0DAE41FE618C">
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="id_player" id="3BDA3830-B0B5-F684-5111-0DAE41FE618C">
 <createdBy>Piotr</createdBy>
 <createdTime>2016-03-10 08:05:40 UTC</createdTime>
 <ownerDesignName>model</ownerDesignName>
@@ -90,7 +90,7 @@
 <alias>id_winner</alias>
 <dataType>INTEGER</dataType>
 <reference>false</reference>
-<referencedColumn>A5771494-2D68-3BCF-101F-60AEE5C502E6</referencedColumn>
+<referencedColumn>838EEC5A-3D9C-EFC3-BDE1-3BBAE30507A5</referencedColumn>
 <table>1502E5E8-B66B-357C-02A6-3FC032E11A26</table>
 <tableAlias>winner_score</tableAlias>
 </viewElement>
@@ -108,7 +108,7 @@
 <columnName>score</columnName>
 <tableName>score</tableName>
 </UsedObject>
-<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="A5771494-2D68-3BCF-101F-60AEE5C502E6">
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="838EEC5A-3D9C-EFC3-BDE1-3BBAE30507A5">
 <columnName>id_player</columnName>
 <tableName>score</tableName>
 </UsedObject>

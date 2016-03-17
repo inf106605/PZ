@@ -50,20 +50,6 @@
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 </Attribute>
-<Attribute name="id_player" id="A5771494-2D68-3BCF-101F-60AEE5C502E6">
-<createdBy>Piotr</createdBy>
-<createdTime>2016-03-10 07:44:04 UTC</createdTime>
-<generatorID>2FEBAE23-687F-9399-8941-DA4DBCEA8F8F</generatorID>
-<ownerDesignName>model</ownerDesignName>
-<engineerTo>
-<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<referedAttribute>5E69E598-781F-E339-4AED-43C2C0331D28</referedAttribute>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-</Attribute>
 <Attribute name="id_game" id="94A57EAF-97BB-F721-4867-5940BE7EFC56">
 <createdBy>Piotr</createdBy>
 <createdTime>2016-03-10 07:46:32 UTC</createdTime>
@@ -73,6 +59,20 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <referedAttribute>A4AC6170-A64A-448D-0E93-26A9AF9E6A50</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+</Attribute>
+<Attribute name="id_player" id="838EEC5A-3D9C-EFC3-BDE1-3BBAE30507A5">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 10:30:18 UTC</createdTime>
+<generatorID>A121CE67-72F7-0436-4DAC-674DE6BF3B4D</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>B37F79BD-5E02-2272-2B4B-B2493D44EEE4</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>

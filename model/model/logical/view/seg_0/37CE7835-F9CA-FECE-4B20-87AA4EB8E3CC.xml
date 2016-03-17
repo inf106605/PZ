@@ -1,0 +1,111 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<EntityView class="oracle.dbtools.crest.model.design.logical.EntityView" directorySegmentName="seg_0" id="37CE7835-F9CA-FECE-4B20-87AA4EB8E3CC" name="view_player">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 11:11:13 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<userDefined>true</userDefined>
+<userDefinedSQL>SELECT player.*,&lt;br/&gt;  COUNT(*)                      AS walkover_count,&lt;br/&gt;  COUNT(*)                      AS games_count,&lt;br/&gt;  AVG(non_walkover_score.score) AS avg_score&lt;br/&gt;FROM player&lt;br/&gt;INNER JOIN score walkover_score&lt;br/&gt;ON player.id_player = walkover_score.id_player&lt;br/&gt;INNER JOIN score games_score&lt;br/&gt;ON player.id_player = games_score.id_player&lt;br/&gt;INNER JOIN score non_walkover_score&lt;br/&gt;ON player.id_player             = non_walkover_score.id_player&lt;br/&gt;WHERE walkover_score.walkover   = &apos;true&apos;&lt;br/&gt;AND non_walkover_score.walkover = &apos;false&apos;</userDefinedSQL>
+<layoutSQL>&lt;?xml version = &apos;1.0&apos; encoding = &apos;UTF-8&apos;?&gt;&lt;br&gt;&lt;ActiveQueryBuilderLayout&gt;&lt;SQL&gt;Select player.*, COUNT(*) As walkover_count, COUNT(*) As games_count, Avg(non_walkover_score.score) As avg_score From player Inner Join score walkover_score On player.id_player = walkover_score.id_player Inner Join score games_score On player.id_player = games_score.id_player Inner Join score non_walkover_score On player.id_player = non_walkover_score.id_player Where walkover_score.walkover = &apos;true&apos; And non_walkover_score.walkover = &apos;false&apos;&lt;/SQL&gt;&lt;SubQueries&gt;&lt;SubQuery SQL=&quot;Select player.*, COUNT(*) As walkover_count, COUNT(*) As games_count, Avg(non_walkover_score.score) As avg_score From player Inner Join score walkover_score On player.id_player = walkover_score.id_player Inner Join score games_score On player.id_player = games_score.id_player Inner Join score non_walkover_score On player.id_player = non_walkover_score.id_player Where walkover_score.walkover = &apos;true&apos; And non_walkover_score.walkover = &apos;false&apos;&quot;&gt;&lt;UnionSubQuery&gt;&lt;DataSource SQL=&quot;player&quot; X=&quot;50&quot; Y=&quot;20&quot; Height=&quot;83&quot; Width=&quot;140&quot;/&gt;&lt;DataSource SQL=&quot;score walkover_score&quot; X=&quot;240&quot; Y=&quot;20&quot; Height=&quot;137&quot; Width=&quot;140&quot;/&gt;&lt;DataSource SQL=&quot;score games_score&quot; X=&quot;430&quot; Y=&quot;20&quot; Height=&quot;137&quot; Width=&quot;140&quot;/&gt;&lt;DataSource SQL=&quot;score non_walkover_score&quot; X=&quot;620&quot; Y=&quot;20&quot; Height=&quot;137&quot; Width=&quot;140&quot;/&gt;&lt;/UnionSubQuery&gt;&lt;/SubQuery&gt;&lt;/SubQueries&gt;&lt;/ActiveQueryBuilderLayout&gt;</layoutSQL>
+<parsed>true</parsed>
+<viewType>EntityView</viewType>
+<usedContainers>
+<container containerID="9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF"/>
+</usedContainers>
+<viewElements>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="id_player" id="2A68A42E-ADCC-C8D4-A9CB-E45E972F20A5">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 11:12:54 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<dataType>INTEGER</dataType>
+<reference>false</reference>
+<referencedColumn>B37F79BD-5E02-2272-2B4B-B2493D44EEE4</referencedColumn>
+<table>9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF</table>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="id_player_data" id="D4AFDB98-CE5D-AA46-6A3A-69B222D717C3">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 11:12:54 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<dataType>INTEGER</dataType>
+<reference>false</reference>
+<referencedColumn>3FBCFE6C-F309-E2DC-139D-3D4094F90CCB</referencedColumn>
+<table>9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF</table>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="walkover_count" id="CE81A0BB-6A11-C328-4557-955D5B6CDD90">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 11:12:54 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<alias>walkover_count</alias>
+<expression>COUNT(*)</expression>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="games_count" id="263E383E-E72E-BA13-5D5F-943AE7E64D62">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 11:40:14 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<alias>games_count</alias>
+<expression>COUNT(*)</expression>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="avg_score" id="A7632069-89E9-8E40-D941-B9C15D7624D7">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 11:41:55 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<alias>avg_score</alias>
+<expression>Avg(non_walkover_score.score)</expression>
+<reference>false</reference>
+</viewElement>
+</viewElements>
+<usedObjects>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF">
+<container>true</container>
+<tableName>player</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="1502E5E8-B66B-357C-02A6-3FC032E11A26">
+<container>true</container>
+<tableName>score</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="EC3C1CC5-94E2-8574-7440-45C96A63135A">
+<columnName>score</columnName>
+<tableName>score</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="B37F79BD-5E02-2272-2B4B-B2493D44EEE4">
+<columnName>id_player</columnName>
+<tableName>player</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="838EEC5A-3D9C-EFC3-BDE1-3BBAE30507A5">
+<columnName>id_player</columnName>
+<tableName>score</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="0B615BAE-E5B8-F65B-AA2F-09D10B4A8DB2">
+<columnName>walkover</columnName>
+<tableName>score</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="3FBCFE6C-F309-E2DC-139D-3D4094F90CCB">
+<columnName>id_player_data</columnName>
+<tableName>player</tableName>
+</UsedObject>
+</usedObjects>
+</EntityView>

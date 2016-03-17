@@ -1,19 +1,19 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="sc_pl" directorySegmentName="seg_0" id="2FEBAE23-687F-9399-8941-DA4DBCEA8F8F">
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="sc_pl" directorySegmentName="seg_0" id="A121CE67-72F7-0436-4DAC-674DE6BF3B4D">
 <createdBy>Piotr</createdBy>
-<createdTime>2016-03-10 07:44:04 UTC</createdTime>
+<createdTime>2016-03-17 10:30:18 UTC</createdTime>
 <ownerDesignName>model</ownerDesignName>
 <engineerTo>
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
-<sourcePk>CEED3F94-871D-D087-7664-BFA6448612C4</sourcePk>
+<sourcePk>5A52DE8C-B21D-BD02-91FA-235EF521BACF</sourcePk>
 <identifying>false</identifying>
 <nameOnSource>player</nameOnSource>
 <nameOnTarget>score</nameOnTarget>
 <optionalSource>false</optionalSource>
 <optionalTarget>true</optionalTarget>
 <sourceCardinality>1</sourceCardinality>
-<sourceEntity>370B687C-A2F1-0519-F4A1-53BEDC504E05</sourceEntity>
+<sourceEntity>9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF</sourceEntity>
 <targetCardinalityString>*</targetCardinalityString>
 <targetEntity>1502E5E8-B66B-357C-02A6-3FC032E11A26</targetEntity>
 <transferable>true</transferable>

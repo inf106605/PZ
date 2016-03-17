@@ -1,0 +1,58 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF" name="player">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 10:27:16 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>pl</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_player" id="B37F79BD-5E02-2272-2B4B-B2493D44EEE4">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 10:27:37 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+</Attribute>
+<Attribute name="id_player_data" id="3FBCFE6C-F309-E2DC-139D-3D4094F90CCB">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 10:35:16 UTC</createdTime>
+<generatorID>48712057-4273-7010-0360-9EF46ED761A0</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<referedAttribute>156B8213-F3BA-4202-7BEC-A48AC0ECCC03</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="5A52DE8C-B21D-BD02-91FA-235EF521BACF" name="{entity} PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-17 10:28:44 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>B37F79BD-5E02-2272-2B4B-B2493D44EEE4</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
