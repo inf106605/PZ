@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SkyCrab.connection
 {
-    class ServerConnection : Connection
+    class ServerConnection : DataConnection
     {
 
         public ServerConnection(TcpClient tcpClient, int readTimeout) :

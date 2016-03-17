@@ -9,7 +9,8 @@
     <Import_RootNamespace>Connection</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Connection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BasicConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerConnection.cs" />
   </ItemGroup>

@@ -8,39 +8,12 @@ using System.Threading.Tasks;
 
 namespace SkyCrab.connection
 {
-    abstract class Connection
+    abstract class DataConnection : BasicConnection
     {
-        public const int PORT = 8888;
 
-        private TcpClient tcpClient;
-        private int readTimeout;
-
-
-        protected Connection(TcpClient tcpClient, int readTimeout)
+        protected DataConnection(TcpClient tcpClient, int readTimeout) :
+            base(tcpClient, readTimeout)
         {
-            this.tcpClient = tcpClient;
-            this.readTimeout = readTimeout;
-        }
-
-        private void WriteBytes(byte[] bytes)
-        {
-            NetworkStream stream = tcpClient.GetStream();
-            stream.Write(bytes, 0, bytes.Length);
-        }
-
-        private byte[] ReadBytes(UInt16 size)
-        {
-            NetworkStream stream = tcpClient.GetStream();
-            byte[] bytes = new byte[size];
-            UInt16 offset = 0;
-            do
-            {
-                var asyncResult = stream.BeginRead(bytes, offset, size-offset, null, null);
-                WaitHandle waitHandle = asyncResult.AsyncWaitHandle;
-                waitHandle.WaitOne(readTimeout); //TODO timeout for reading ALL bytes
-                offset += (UInt16)stream.EndRead(asyncResult);
-            } while (offset != size);
-            return bytes;
         }
 
         public void WriteUInt16(UInt16 number)
@@ -77,13 +50,6 @@ namespace SkyCrab.connection
                             ((UInt32)bytes[2]) << 8 |
                             ((UInt32)bytes[3]) << 0;
             return number;
-        }
-
-        public void Close()
-        {
-            tcpClient.GetStream().Close();
-            tcpClient.Close();
-            tcpClient = null;
         }
 
     }

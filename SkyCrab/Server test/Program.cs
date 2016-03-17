@@ -15,12 +15,12 @@ namespace Server_test
         {
             try
             {
-                TcpListener tcpListener = new TcpListener(Connection.PORT);
+                TcpListener tcpListener = new TcpListener(BasicConnection.PORT);
                 tcpListener.Start();
                 TcpClient tcpClient = tcpListener.AcceptTcpClient();
                 tcpListener.Stop();
 
-                Connection connection = new ServerConnection(tcpClient, 100);
+                DataConnection connection = new ServerConnection(tcpClient, 100);
                 connection.WriteUInt32(1000000000);
                 uint aaa = connection.ReadUInt32();
                 Console.WriteLine(aaa);
