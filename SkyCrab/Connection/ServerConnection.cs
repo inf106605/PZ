@@ -16,7 +16,6 @@ namespace SkyCrab.connection
         private static readonly RSACryptoServiceProvider rsa_csp = GetCSP();
 
 
-
         public static void Inicjalize()
         {
             //Do nothing. Just let 'rsa_csp' to initialize.
@@ -57,6 +56,11 @@ namespace SkyCrab.connection
             streamWriter.Write(xml);
             streamWriter.Close();
             return csp;
+        }
+
+        public static void Deinicjalize()
+        {
+            rsa_csp.Dispose();
         }
 
     }

@@ -29,6 +29,8 @@ namespace Server_test
                 Console.WriteLine(aaa);
                 Thread.Sleep(1000);
                 connection.Close();
+
+                ServerConnection.Deinicjalize();
                 Console.WriteLine("OK");
             }
             catch (Exception e)

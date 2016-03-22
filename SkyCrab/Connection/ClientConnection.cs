@@ -14,7 +14,6 @@ namespace SkyCrab.connection
         private static readonly RSACryptoServiceProvider rsa_csp = GetCSPFromFile(publicKeyFilePath);
 
 
-
         public static void Inicjalize()
         {
             //Do nothing. Just let 'rsa_csp' to initialize.
@@ -28,6 +27,11 @@ namespace SkyCrab.connection
         protected override void Initialize()
         {
             //TODO
+        }
+
+        public static void Deinicjalize()
+        {
+            rsa_csp.Dispose();
         }
 
     }

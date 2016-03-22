@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SkyCrab.connection
 {
-    internal abstract class BasicConnection
+    internal abstract class BasicConnection : IDisposable
     {
         public const int PORT = 8888;
 
@@ -46,6 +46,12 @@ namespace SkyCrab.connection
         {
             tcpClient.GetStream().Close();
             tcpClient.Close();
+            
+        }
+
+        public void Dispose()
+        {
+            Close();
             tcpClient = null;
         }
 
