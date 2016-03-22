@@ -55,6 +55,19 @@
 <referencedColumn>A3D4DD37-7EB1-C556-7031-BB63B9DFF764</referencedColumn>
 <table>412A9302-15E0-807C-4231-C9E955841C3E</table>
 </viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="game_log" id="CC74961F-904D-9730-1353-C1414FD9BB3C">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 11:10:07 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<dataType>CLOB</dataType>
+<reference>false</reference>
+<referencedColumn>D877CCE0-B53A-A6ED-BC01-31AA64328858</referencedColumn>
+<table>412A9302-15E0-807C-4231-C9E955841C3E</table>
+</viewElement>
 <viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="player_count" id="57C96405-BBFC-BAAF-E092-58CFF7E162F7">
 <createdBy>Piotr</createdBy>
 <createdTime>2016-03-10 08:05:40 UTC</createdTime>
@@ -79,7 +92,7 @@
 <expression>Sum(score.score)</expression>
 <reference>false</reference>
 </viewElement>
-<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="id_player" id="3BDA3830-B0B5-F684-5111-0DAE41FE618C">
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="id_winner" id="3BDA3830-B0B5-F684-5111-0DAE41FE618C">
 <createdBy>Piotr</createdBy>
 <createdTime>2016-03-10 08:05:40 UTC</createdTime>
 <ownerDesignName>model</ownerDesignName>
@@ -130,6 +143,10 @@
 </UsedObject>
 <UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="A3D4DD37-7EB1-C556-7031-BB63B9DFF764">
 <columnName>end_date</columnName>
+<tableName>game</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="D877CCE0-B53A-A6ED-BC01-31AA64328858">
+<columnName>game_log</columnName>
 <tableName>game</tableName>
 </UsedObject>
 </usedObjects>

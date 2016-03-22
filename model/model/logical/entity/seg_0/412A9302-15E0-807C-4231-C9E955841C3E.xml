@@ -49,6 +49,18 @@
 <use>1</use>
 <logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
 </Attribute>
+<Attribute name="game_log" id="D877CCE0-B53A-A6ED-BC01-31AA64328858">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 10:58:27 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="D5978EF6-9333-DDE6-782E-1950462A58AC" name="{entity} PK">
