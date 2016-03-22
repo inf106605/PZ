@@ -38,7 +38,7 @@
 <nullsAllowed>true</nullsAllowed>
 <dataType>INTEGER</dataType>
 <reference>false</reference>
-<referencedColumn>3FBCFE6C-F309-E2DC-139D-3D4094F90CCB</referencedColumn>
+<referencedColumn>78BFC73C-2605-2101-E884-C3A03B773BD2</referencedColumn>
 <table>9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF</table>
 </viewElement>
 <viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="walkover_count" id="CE81A0BB-6A11-C328-4557-955D5B6CDD90">
@@ -103,7 +103,7 @@
 <columnName>walkover</columnName>
 <tableName>score</tableName>
 </UsedObject>
-<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="3FBCFE6C-F309-E2DC-139D-3D4094F90CCB">
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="78BFC73C-2605-2101-E884-C3A03B773BD2">
 <columnName>id_player_data</columnName>
 <tableName>player</tableName>
 </UsedObject>

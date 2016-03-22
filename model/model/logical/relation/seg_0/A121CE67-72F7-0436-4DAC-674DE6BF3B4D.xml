@@ -10,8 +10,8 @@
 <identifying>false</identifying>
 <nameOnSource>player</nameOnSource>
 <nameOnTarget>score</nameOnTarget>
-<optionalSource>false</optionalSource>
-<optionalTarget>true</optionalTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
 <sourceCardinality>1</sourceCardinality>
 <sourceEntity>9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF</sourceEntity>
 <targetCardinalityString>*</targetCardinalityString>

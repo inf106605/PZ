@@ -27,9 +27,9 @@
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 </Attribute>
-<Attribute name="id_player_data" id="3FBCFE6C-F309-E2DC-139D-3D4094F90CCB">
+<Attribute name="id_player_data" id="78BFC73C-2605-2101-E884-C3A03B773BD2">
 <createdBy>Piotr</createdBy>
-<createdTime>2016-03-17 10:35:16 UTC</createdTime>
+<createdTime>2016-03-22 11:56:35 UTC</createdTime>
 <generatorID>48712057-4273-7010-0360-9EF46ED761A0</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <engineerTo>
