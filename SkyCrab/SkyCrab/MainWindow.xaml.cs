@@ -1,59 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using SkyCrab.Classess;
+using SkyCrab.Classess.Menu;
 
 namespace SkyCrab
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PageSwitcher.xaml
     /// </summary>
-    public partial class MainWindow : Window
+
+    public interface ISwitchable
     {
-        public MainWindow()
+        void UtilizeState(object state);
+    }
+    
+    public partial class PageSwitcher : Window
+    {
+        public PageSwitcher()
         {
             InitializeComponent();
+            Switcher.pageSwitcher = this;
+            Switcher.Switch(new MainMenu());
         }
 
-        private void button_test_Click(object sender, RoutedEventArgs e)
+        public void Navigate(UserControl nextPage)
         {
-            MessageBox.Show("Test application");
+            this.Content = nextPage;
         }
 
-        private void Image_Loaded(object sender, RoutedEventArgs e)
+        public void Navigate(UserControl nextPage, object state)
         {
-            // ... Create a new BitmapImage.
-            BitmapImage b = new BitmapImage();
-            b.BeginInit();
-            b.UriSource = new Uri("crab_logo.png", UriKind.Relative);
-            b.CacheOption = BitmapCacheOption.OnLoad;
-            b.EndInit();
+            this.Content = nextPage;
+            ISwitchable s = nextPage as ISwitchable;
 
-            // ... Get Image reference from sender.
-            var image = sender as Image;
-            // ... Assign Source.
-            image.Source = b;
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void button6_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
+            if (s != null)
+            {
+                s.UtilizeState(state);
+            }
+            else
+                throw new ArgumentException("NextPage is not ISwitchable!" + nextPage.Name.ToString());
         }
     }
 }
