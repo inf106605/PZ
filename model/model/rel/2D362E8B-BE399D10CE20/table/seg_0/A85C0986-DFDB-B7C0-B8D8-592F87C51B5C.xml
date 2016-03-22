@@ -16,7 +16,11 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<autoIncrementColumn>true</autoIncrementColumn>
+<identityColumn>true</identityColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
+<autoIncrementSequenceName>sequence_game_id</autoIncrementSequenceName>
+<autoIncrementTriggerName>trigger_new_game_id</autoIncrementTriggerName>
 </Column>
 <Column name="begin_date" id="CD6300DE-50C9-FD6E-BE2A-1F48C5D17E64">
 <createdBy>Piotr</createdBy>
@@ -87,7 +91,7 @@
 <validTimeDimensions>
 <validTimeDimension class="oracle.dbtools.crest.model.design.relational.ValidTimeDimension" name="ValidTime_game" directorySegmentName="seg_0" id="003D99DD-68C4-BFD7-F4B0-0211B2D85D64">
 <createdBy>Piotr</createdBy>
-<createdTime>2016-03-22 19:07:39 UTC</createdTime>
+<createdTime>2016-03-22 19:32:10 UTC</createdTime>
 <ownerDesignName>model</ownerDesignName>
 <endTimeColumn>A68800D9-B5C5-A08E-27B5-98419796341F</endTimeColumn>
 <startTimeColumn>CD6300DE-50C9-FD6E-BE2A-1F48C5D17E64</startTimeColumn>

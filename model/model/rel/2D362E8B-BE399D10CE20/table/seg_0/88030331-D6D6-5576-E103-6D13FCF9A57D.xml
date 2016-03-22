@@ -16,7 +16,12 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<autoIncrementColumn>true</autoIncrementColumn>
+<identityColumn>true</identityColumn>
+<autoIncrementGenerateAlways>true</autoIncrementGenerateAlways>
 <autoIncrementCycle>false</autoIncrementCycle>
+<autoIncrementSequenceName>sequence_player_data</autoIncrementSequenceName>
+<autoIncrementTriggerName>trigger_new_player_data_id</autoIncrementTriggerName>
 </Column>
 <Column name="nick" id="343D1270-BFE5-60D2-6BB8-2DB78BA4200C">
 <createdBy>Piotr</createdBy>
@@ -150,7 +155,7 @@
 <validTimeDimensions>
 <validTimeDimension class="oracle.dbtools.crest.model.design.relational.ValidTimeDimension" name="ValidTime_dates" directorySegmentName="seg_0" id="691B9461-86BE-5561-7F05-98F2750E493B">
 <createdBy>Piotr</createdBy>
-<createdTime>2016-03-22 13:53:17 UTC</createdTime>
+<createdTime>2016-03-22 19:26:58 UTC</createdTime>
 <ownerDesignName>model</ownerDesignName>
 <endTimeColumn>9CA486A5-EDD3-7718-2D93-68BDFE91A911</endTimeColumn>
 <startTimeColumn>D38ED490-568D-94DB-BC97-53385B2460F4</startTimeColumn>

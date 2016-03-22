@@ -16,7 +16,12 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<autoIncrementColumn>true</autoIncrementColumn>
+<identityColumn>true</identityColumn>
+<autoIncrementGenerateAlways>true</autoIncrementGenerateAlways>
 <autoIncrementCycle>false</autoIncrementCycle>
+<autoIncrementSequenceName>sequence_player_id</autoIncrementSequenceName>
+<autoIncrementTriggerName>trigger_new_player_id</autoIncrementTriggerName>
 </Column>
 <Column name="player_data_id_player_data" id="163A4D57-84D8-1906-DC89-346AA261EEE9">
 <createdBy>Piotr</createdBy>
