@@ -23,12 +23,13 @@ namespace Server_test
                 TcpClient tcpClient = tcpListener.AcceptTcpClient();
                 tcpListener.Stop();
 
-                DataConnection connection = new ServerConnection(tcpClient, 100);
-                connection.WriteUInt32(101011101);
-                string aaa = connection.ReadString();
-                Console.WriteLine(aaa);
-                Thread.Sleep(1000);
-                connection.Close();
+                using (DataConnection connection = new ServerConnection(tcpClient, 100))
+                {
+                    connection.WriteUInt32(101011101);
+                    string aaa = connection.ReadString();
+                    Console.WriteLine(aaa);
+                    Thread.Sleep(1000);
+                }
 
                 ServerConnection.Deinicjalize();
                 Console.WriteLine("OK");

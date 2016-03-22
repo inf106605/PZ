@@ -26,12 +26,21 @@ namespace SkyCrab.connection
 
         protected override void Initialize()
         {
+            GenerateSessionKey();
             //TODO
+        }
+
+        private void GenerateSessionKey()
+        {
+            rijndael = new RijndaelManaged();
+            rijndael.GenerateKey();
+            rijndael.GenerateIV();
         }
 
         public static void Deinicjalize()
         {
-            rsa_csp.Dispose();
+            if (rsa_csp != null)
+                rsa_csp.Dispose();
         }
 
     }

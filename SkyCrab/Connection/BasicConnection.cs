@@ -44,12 +44,14 @@ namespace SkyCrab.connection
 
         public void Close()
         {
-            tcpClient.GetStream().Close();
-            tcpClient.Close();
-            
+            if (tcpClient != null)
+            {
+                tcpClient.GetStream().Close();
+                tcpClient.Close();
+            }
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             Close();
             tcpClient = null;

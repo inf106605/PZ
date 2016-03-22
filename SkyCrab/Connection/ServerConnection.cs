@@ -45,22 +45,25 @@ namespace SkyCrab.connection
         private static RSACryptoServiceProvider GenerateCSP()
         {
             var csp = new RSACryptoServiceProvider(2048);
-            String xml = csp.ToXmlString(true);
-            FileStream fileStream = new FileStream(keysFilePath, FileMode.Create);
-            StreamWriter streamWriter = new StreamWriter(fileStream);
-            streamWriter.Write(xml);
-            streamWriter.Close();
-            xml = csp.ToXmlString(false);
-            fileStream = new FileStream(publicKeyFilePath, FileMode.Create);
-            streamWriter = new StreamWriter(fileStream);
-            streamWriter.Write(xml);
-            streamWriter.Close();
+            using (StreamWriter streamWriter = new StreamWriter(new FileStream(keysFilePath, FileMode.Create)))
+            {
+                string xml = csp.ToXmlString(true);
+                streamWriter.Write(xml);
+                streamWriter.Close();
+            }
+            using (StreamWriter streamWriter = new StreamWriter(new FileStream(publicKeyFilePath, FileMode.Create)))
+            {
+                string xml = csp.ToXmlString(false);
+                streamWriter.Write(xml);
+                streamWriter.Close();
+            }
             return csp;
         }
 
         public static void Deinicjalize()
         {
-            rsa_csp.Dispose();
+            if (rsa_csp != null)
+                rsa_csp.Dispose();
         }
 
     }

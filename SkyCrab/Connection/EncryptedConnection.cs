@@ -13,6 +13,9 @@ namespace SkyCrab.connection
     internal abstract class EncryptedConnection : BasicConnection
     {
 
+        protected RijndaelManaged rijndael;
+        
+
         protected EncryptedConnection(TcpClient tcpClient, int readTimeout) :
             base(tcpClient, readTimeout)
         {
@@ -45,12 +48,20 @@ namespace SkyCrab.connection
 
         protected static RSACryptoServiceProvider GetCSPFromFile(string filePath)
         {
-            FileStream fileStream = new FileStream(filePath, FileMode.Open);
-            StreamReader streamReader = new StreamReader(fileStream);
-            string xml = streamReader.ReadToEnd();
-            var csp = new RSACryptoServiceProvider(2048);
-            csp.FromXmlString(xml);
-            return csp;
+            using (StreamReader streamReader = new StreamReader(new FileStream(filePath, FileMode.Open)))
+            {
+                string xml = streamReader.ReadToEnd();
+                var csp = new RSACryptoServiceProvider(2048);
+                csp.FromXmlString(xml);
+                return csp;
+            }
+        }
+
+        public override void Dispose()
+        {
+            if (rijndael != null)
+                rijndael.Dispose();
+            rijndael = null;
         }
 
     }
