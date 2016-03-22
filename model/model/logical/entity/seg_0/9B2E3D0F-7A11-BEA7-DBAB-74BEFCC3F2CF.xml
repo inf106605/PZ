@@ -46,8 +46,9 @@
 <createdBy>Piotr</createdBy>
 <createdTime>2016-03-17 10:28:44 UTC</createdTime>
 <ownerDesignName>model</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

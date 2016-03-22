@@ -1,2 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<oracle.dbtools.crest.model.design.relational.RelationalDesign/>
+<oracle.dbtools.crest.model.design.relational.RelationalDesign>
+   <object objectType="Table" objectID="EBF99B45-E5A9-D0D8-80AD-D95B02786305" name="friend" seqName="seg_0"/>
+   <object objectType="Table" objectID="A85C0986-DFDB-B7C0-B8D8-592F87C51B5C" name="game" seqName="seg_0"/>
+   <object objectType="Table" objectID="0A7F7DFB-4E7A-AABC-E994-03BCFD32B9FC" name="player" seqName="seg_0"/>
+   <object objectType="Table" objectID="88030331-D6D6-5576-E103-6D13FCF9A57D" name="player_data" seqName="seg_0"/>
+   <object objectType="Table" objectID="2749A349-37C0-15BC-473B-F9E00B214D92" name="score" seqName="seg_0"/>
+   <object objectType="View" objectID="8901FF9F-B766-9DF5-DAC9-3865AB36B1D8" name="view_game" seqName="seg_0"/>
+   <object objectType="View" objectID="9ADA8F2D-3D42-909C-E36D-119816DA0C7D" name="view_logged_player" seqName="seg_0"/>
+   <object objectType="View" objectID="075FD872-2752-A1EB-D987-8B3A1147D9ED" name="view_player" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="D4C1C653-6F51-F75F-3992-B74C144962DB" name="FK_ASS_2" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="928FF6F7-00D2-CBA5-04F2-B8A1F5CA6021" name="FK_ASS_3" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="00CA951C-4A78-22A3-5546-C98EEEB39049" name="player_player_data_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="4C305E7E-0C18-8A9C-64BC-B2517B968A51" name="score_game_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="416B2A2F-7CDB-4CF9-9055-B1429C61E965" name="score_player_FK" seqName="seg_0"/>
+</oracle.dbtools.crest.model.design.relational.RelationalDesign>

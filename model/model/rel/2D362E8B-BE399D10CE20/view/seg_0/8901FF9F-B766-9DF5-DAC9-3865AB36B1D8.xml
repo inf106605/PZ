@@ -1,0 +1,143 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableView class="oracle.dbtools.crest.model.design.relational.TableView" directorySegmentName="seg_0" id="8901FF9F-B766-9DF5-DAC9-3865AB36B1D8" name="view_game">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 13:40:53 UTC</createdTime>
+<generatorID>49607E26-587B-339F-5A2A-2CCABB6219A6</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<userDefined>true</userDefined>
+<userDefinedSQL>SELECT game.*,&lt;br/&gt;  COUNT(*)                      AS player_count,&lt;br/&gt;  SUM(score.score)              AS score_sum,&lt;br/&gt;  winner_score.player_id_player AS id_winner&lt;br/&gt;FROM game&lt;br/&gt;INNER JOIN score&lt;br/&gt;ON game.id_game = score.game_id_game&lt;br/&gt;INNER JOIN score winner_score&lt;br/&gt;ON game.id_game          = winner_score.game_id_game&lt;br/&gt;WHERE winner_score.place = 1&lt;br/&gt;GROUP BY winner_score.player_id_player</userDefinedSQL>
+<layoutSQL>&lt;?xml version = &apos;1.0&apos; encoding = &apos;UTF-8&apos;?&gt;&lt;br&gt;&lt;ActiveQueryBuilderLayout&gt;&lt;SQL&gt;Select game.*, COUNT(*) As player_count, Sum(score.score) As score_sum, winner_score.player_id_player As id_winner From game Inner Join score On game.id_game = score.game_id_game Inner Join score winner_score On game.id_game = winner_score.game_id_game Where winner_score.place = 1 Group By winner_score.player_id_player&lt;/SQL&gt;&lt;SubQueries&gt;&lt;SubQuery SQL=&quot;Select game.*, COUNT(*) As player_count, Sum(score.score) As score_sum, winner_score.player_id_player As id_winner From game Inner Join score On game.id_game = score.game_id_game Inner Join score winner_score On game.id_game = winner_score.game_id_game Where winner_score.place = 1 Group By winner_score.player_id_player&quot;&gt;&lt;UnionSubQuery&gt;&lt;DataSource SQL=&quot;game&quot; X=&quot;50&quot; Y=&quot;20&quot; Height=&quot;101&quot; Width=&quot;140&quot;/&gt;&lt;DataSource SQL=&quot;score&quot; X=&quot;240&quot; Y=&quot;20&quot; Height=&quot;137&quot; Width=&quot;140&quot;/&gt;&lt;DataSource SQL=&quot;score winner_score&quot; X=&quot;430&quot; Y=&quot;20&quot; Height=&quot;137&quot; Width=&quot;140&quot;/&gt;&lt;/UnionSubQuery&gt;&lt;/SubQuery&gt;&lt;/SubQueries&gt;&lt;/ActiveQueryBuilderLayout&gt;</layoutSQL>
+<parsed>true</parsed>
+<usedContainers>
+<container containerID="A85C0986-DFDB-B7C0-B8D8-592F87C51B5C"/>
+<container alias="winner_score" containerID="2749A349-37C0-15BC-473B-F9E00B214D92"/>
+</usedContainers>
+<viewElements>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="id_game" id="292D8233-50A6-F848-F614-3A3955AA1EF9">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 13:40:53 UTC</createdTime>
+<generatorID>117BFA71-A5C2-F0C8-5113-40860390715F</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<dataType>INTEGER</dataType>
+<reference>false</reference>
+<referencedColumn>0E5C83A4-3864-A861-59BE-327B03970F07</referencedColumn>
+<table>A85C0986-DFDB-B7C0-B8D8-592F87C51B5C</table>
+<viewID>8901FF9F-B766-9DF5-DAC9-3865AB36B1D8</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="begin_date" id="49866C24-F265-A39B-6911-BFF5D0D146FE">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 13:40:53 UTC</createdTime>
+<generatorID>2B958C34-07E9-54FA-2438-B4DDAD9A37DC</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<dataType>TIMESTAMP</dataType>
+<reference>false</reference>
+<referencedColumn>CD6300DE-50C9-FD6E-BE2A-1F48C5D17E64</referencedColumn>
+<table>A85C0986-DFDB-B7C0-B8D8-592F87C51B5C</table>
+<viewID>8901FF9F-B766-9DF5-DAC9-3865AB36B1D8</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="end_date" id="E924C967-1B27-9C5A-C0F7-A2B092BE3110">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 13:40:53 UTC</createdTime>
+<generatorID>C1F16FD5-EEA2-A9B9-4409-D509173E590D</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<dataType>TIMESTAMP</dataType>
+<reference>false</reference>
+<referencedColumn>A68800D9-B5C5-A08E-27B5-98419796341F</referencedColumn>
+<table>A85C0986-DFDB-B7C0-B8D8-592F87C51B5C</table>
+<viewID>8901FF9F-B766-9DF5-DAC9-3865AB36B1D8</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="game_log" id="E815E335-D4E0-2E88-1B70-6DD1FD596F36">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 13:40:53 UTC</createdTime>
+<generatorID>CC74961F-904D-9730-1353-C1414FD9BB3C</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<dataType>CLOB</dataType>
+<reference>false</reference>
+<referencedColumn>3A131744-E443-6385-F423-1AEA6D668988</referencedColumn>
+<table>A85C0986-DFDB-B7C0-B8D8-592F87C51B5C</table>
+<viewID>8901FF9F-B766-9DF5-DAC9-3865AB36B1D8</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="player_count" id="F812CFED-44FF-3087-2013-D712089A4BAF">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 13:40:53 UTC</createdTime>
+<generatorID>57C96405-BBFC-BAAF-E092-58CFF7E162F7</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<alias>player_count</alias>
+<expression>COUNT(*)</expression>
+<reference>false</reference>
+<viewID>8901FF9F-B766-9DF5-DAC9-3865AB36B1D8</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="score_sum" id="7502F673-31A4-22AD-D186-64F305F6FE75">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 13:40:53 UTC</createdTime>
+<generatorID>DBC90395-D34D-7D32-1723-3458FEEDBD7C</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<alias>score_sum</alias>
+<expression>Sum(score.score)</expression>
+<reference>false</reference>
+<viewID>8901FF9F-B766-9DF5-DAC9-3865AB36B1D8</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="id_player" id="3511E653-82F8-4299-D785-C2A62F48229F">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 13:40:53 UTC</createdTime>
+<generatorID>3BDA3830-B0B5-F684-5111-0DAE41FE618C</generatorID>
+<ownerDesignName>model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<alias>id_winner</alias>
+<dataType>INTEGER</dataType>
+<reference>false</reference>
+<referencedColumn>19EDE68D-008B-A044-48F6-7392450026BD</referencedColumn>
+<table>2749A349-37C0-15BC-473B-F9E00B214D92</table>
+<tableAlias>winner_score</tableAlias>
+<viewID>8901FF9F-B766-9DF5-DAC9-3865AB36B1D8</viewID>
+</viewElement>
+</viewElements>
+<usedObjects>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="A85C0986-DFDB-B7C0-B8D8-592F87C51B5C">
+<container>true</container>
+<tableName>game</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="2749A349-37C0-15BC-473B-F9E00B214D92">
+<container>true</container>
+<tableName>score</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="43D6968A-09D4-34D1-8FB4-27FAAC3EAB69">
+<columnName>score</columnName>
+<tableName>score</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="19EDE68D-008B-A044-48F6-7392450026BD">
+<columnName>player_id_player</columnName>
+<tableName>score</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="0E5C83A4-3864-A861-59BE-327B03970F07">
+<columnName>id_game</columnName>
+<tableName>game</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="2A779BAD-8F18-8668-EAF5-C2D616189FC9">
+<columnName>game_id_game</columnName>
+<tableName>score</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="F5A407D7-26EB-F4DF-8B59-F19C3DE93531">
+<columnName>place</columnName>
+<tableName>score</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="CD6300DE-50C9-FD6E-BE2A-1F48C5D17E64">
+<columnName>begin_date</columnName>
+<tableName>game</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="A68800D9-B5C5-A08E-27B5-98419796341F">
+<columnName>end_date</columnName>
+<tableName>game</tableName>
+</UsedObject>
+<UsedObject class="oracle.dbtools.crest.swingui.editor.viewbuilder.SQLNameHelper" id="3A131744-E443-6385-F423-1AEA6D668988">
+<columnName>game_log</columnName>
+<tableName>game</tableName>
+</UsedObject>
+</usedObjects>
+</TableView>

@@ -7,7 +7,7 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <sourcePk>5A52DE8C-B21D-BD02-91FA-235EF521BACF</sourcePk>
-<identifying>false</identifying>
+<identifying>true</identifying>
 <nameOnSource>player</nameOnSource>
 <nameOnTarget>score</nameOnTarget>
 <optionalSource>true</optionalSource>

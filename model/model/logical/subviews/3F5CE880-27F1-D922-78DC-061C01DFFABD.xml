@@ -14,31 +14,31 @@
 <objectViews>
 <OView class="oracle.dbtools.crest.swingui.logical.TVEntity" oid="1502E5E8-B66B-357C-02A6-3FC032E11A26" otype="Entity" vid="F4A9D5D9-F5BC-DA9C-459F-0B4A46A540F1">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
-<bounds x="384" y="372" width="237" height="211"/>
+<bounds x="382" y="213" width="237" height="80"/>
 </OView>
 <OView class="oracle.dbtools.crest.swingui.logical.TVEntity" oid="370B687C-A2F1-0519-F4A1-53BEDC504E05" otype="Entity" vid="2430FF4E-9F71-77AB-8886-EA3E5E65A1EC">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
-<bounds x="77" y="69" width="223" height="197"/>
+<bounds x="77" y="69" width="223" height="130"/>
 </OView>
 <OView class="oracle.dbtools.crest.swingui.logical.TVEntityView" oid="37CE7835-F9CA-FECE-4B20-87AA4EB8E3CC" otype="EntityView" vid="E3CFAACB-7255-177F-BA73-3C7F4EE19902">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
-<bounds x="695" y="66" width="243" height="135"/>
+<bounds x="667" y="203" width="250" height="135"/>
 </OView>
 <OView class="oracle.dbtools.crest.swingui.logical.TVEntity" oid="412A9302-15E0-807C-4231-C9E955841C3E" otype="Entity" vid="169FB70A-363D-E7B2-EF02-32AC3B4CBA52">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
-<bounds x="362" y="68" width="258" height="210"/>
+<bounds x="380" y="366" width="244" height="101"/>
 </OView>
 <OView class="oracle.dbtools.crest.swingui.logical.TVEntityView" oid="49607E26-587B-339F-5A2A-2CCABB6219A6" otype="EntityView" vid="A8474D51-FB7D-A4FF-CBB5-654607A7D355">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
-<bounds x="994" y="64" width="254" height="168"/>
+<bounds x="663" y="13" width="254" height="168"/>
 </OView>
 <OView class="oracle.dbtools.crest.swingui.logical.TVEntityView" oid="5371DEE2-69F3-4D50-B614-1DEB9EA20BD0" otype="EntityView" vid="EFBBF3B4-4A08-AAF7-52EC-8D3037317681">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
-<bounds x="694" y="223" width="246" height="217"/>
+<bounds x="666" y="352" width="250" height="217"/>
 </OView>
 <OView class="oracle.dbtools.crest.swingui.logical.TVEntity" oid="9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF" otype="Entity" vid="C9CE64AE-B75E-3441-7B98-3621507C50FE">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
-<bounds x="70" y="456" width="239" height="126"/>
+<bounds x="383" y="68" width="239" height="48"/>
 </OView>
 </objectViews>
 <connectors>
@@ -46,35 +46,35 @@
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
 <lineWidth>1</lineWidth>
 <points>
-<point x="502" y="278"/>
-<point x="502" y="372"/>
+<point x="500" y="366"/>
+<point x="500" y="293"/>
 </points>
 </Connector>
 <Connector class="oracle.dbtools.crest.swingui.logical.TVRelation" oid="48712057-4273-7010-0360-9EF46ED761A0" otype="Relation" vid_source="C9CE64AE-B75E-3441-7B98-3621507C50FE" vid_target="2430FF4E-9F71-77AB-8886-EA3E5E65A1EC">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
 <lineWidth>1</lineWidth>
 <points>
-<point x="178" y="456"/>
-<point x="178" y="266"/>
+<point x="383" y="92"/>
+<point x="300" y="92"/>
 </points>
 </Connector>
 <Connector class="oracle.dbtools.crest.swingui.logical.TVRelation" oid="A121CE67-72F7-0436-4DAC-674DE6BF3B4D" otype="Relation" vid_source="C9CE64AE-B75E-3441-7B98-3621507C50FE" vid_target="F4A9D5D9-F5BC-DA9C-459F-0B4A46A540F1">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
 <lineWidth>1</lineWidth>
 <points>
-<point x="309" y="519"/>
-<point x="384" y="519"/>
+<point x="501" y="116"/>
+<point x="501" y="213"/>
 </points>
 </Connector>
 <Connector class="oracle.dbtools.crest.swingui.logical.TVRelation" oid="BA08F412-0D85-F3B4-CBC8-5D7E3A07B5BC" otype="Relation" vid_source="2430FF4E-9F71-77AB-8886-EA3E5E65A1EC" vid_target="2430FF4E-9F71-77AB-8886-EA3E5E65A1EC">
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
 <lineWidth>1</lineWidth>
 <points>
-<point x="300" y="214"/>
-<point x="329" y="214"/>
-<point x="329" y="300"/>
-<point x="193" y="300"/>
-<point x="193" y="266"/>
+<point x="300" y="169"/>
+<point x="326" y="169"/>
+<point x="326" y="249"/>
+<point x="190" y="249"/>
+<point x="190" y="199"/>
 </points>
 </Connector>
 </connectors>

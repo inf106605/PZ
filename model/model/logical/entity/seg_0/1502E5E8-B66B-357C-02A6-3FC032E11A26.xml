@@ -71,11 +71,27 @@
 <engineerTo>
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
 <referedAttribute>B37F79BD-5E02-2272-2B4B-B2493D44EEE4</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 </Attribute>
 </attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="2E04424D-8E8D-A3CE-FA1C-D60A4AE7AC7A" name="{entity} PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2016-03-22 13:43:15 UTC</createdTime>
+<ownerDesignName>model</ownerDesignName>
+<engineerTo>
+<item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>94A57EAF-97BB-F721-4867-5940BE7EFC56</attributeRef>
+<attributeRef>838EEC5A-3D9C-EFC3-BDE1-3BBAE30507A5</attributeRef>
+<attributeRef>94A57EAF-97BB-F721-4867-5940BE7EFC56</attributeRef>
+<attributeRef>838EEC5A-3D9C-EFC3-BDE1-3BBAE30507A5</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
 </Entity>
