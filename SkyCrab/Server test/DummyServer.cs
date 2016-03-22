@@ -15,6 +15,9 @@ namespace Server_test
         {
             try
             {
+                Console.WriteLine("Server");
+                ServerConnection.Inicjalize();
+
                 TcpListener tcpListener = new TcpListener(BasicConnection.PORT);
                 tcpListener.Start();
                 TcpClient tcpClient = tcpListener.AcceptTcpClient();

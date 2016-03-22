@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BasicConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerConnection.cs" />
   </ItemGroup>
 </Project>

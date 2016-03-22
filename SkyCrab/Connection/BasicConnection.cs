@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SkyCrab.connection
 {
-    abstract class BasicConnection
+    internal abstract class BasicConnection
     {
         public const int PORT = 8888;
 
@@ -21,13 +21,13 @@ namespace SkyCrab.connection
             tcpClient.ReceiveTimeout = readTimeout;
         }
 
-        protected void WriteBytes(byte[] bytes)
+        protected virtual void WriteBytes(byte[] bytes)
         {
             NetworkStream stream = tcpClient.GetStream();
             stream.Write(bytes, 0, bytes.Length);
         }
 
-        protected byte[] ReadBytes(UInt16 size)
+        protected virtual byte[] ReadBytes(UInt16 size)
         {
             NetworkStream stream = tcpClient.GetStream();
             byte[] bytes = new byte[size];

@@ -14,6 +14,9 @@ namespace Client_test
         {
             try
             {
+                Console.WriteLine("Client");
+                ClientConnection.Inicjalize();
+
                 DataConnection connection = new ClientConnection("localhost", 100);
                 connection.WriteString("Hello World!");
                 UInt32 aaa = connection.ReadUInt32();

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SkyCrab.connection
 {
-    abstract class DataConnection : BasicConnection
+    internal abstract class DataConnection : EncryptedConnection
     {
 
         protected DataConnection(TcpClient tcpClient, int readTimeout) :
