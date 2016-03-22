@@ -5,9 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkyCrab"
         mc:Ignorable="d"
-        Title="SkyCrab" Height="350" Width="525">
+        Title="SkyCrab" MinHeight="480" MinWidth="640" Height="480" Width="640" Background="#FF235CF5">
     <Grid>
-        <Button x:Name="button_test" Content="Kliknij mnie!" HorizontalAlignment="Left" Margin="205,190,0,0" VerticalAlignment="Top" Width="101" Height="27" Click="button_test_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
+        <Button x:Name="button1" Grid.Row="0" Grid.Column="0" Content="GRAJ JAKO GOŚĆ" Margin="5,15,33,335" Width="320" Height="80" Click="button1_Click" Background="#FF87B8FF" />
+        <Button x:Name="button2" Grid.Row="0" Content="ZALOGUJ" Width="150" Height="80" Background="#FF87B8FF" Margin="15,100,213,250"/>
+        <Button x:Name="button3" Content="ZAREJESTRUJ" Margin="186,100,43,0" VerticalAlignment="Top" Width="150" Height="80
+                " Background="#FF87B8FF"/>
+        <Button x:Name="button4" Content="OPCJE" HorizontalAlignment="Left" Margin="16,185,0,0" VerticalAlignment="Top" Width="320" Height="80" Background="#FF87B8FF"/>
+        <Button x:Name="button5" Content="POMOC" HorizontalAlignment="Left" Margin="16,270,0,0" VerticalAlignment="Top" Width="320" Height="80" Background="#FF87B8FF"/>
+        <Button x:Name="button6" Content="WYJDŹ" HorizontalAlignment="Left" Margin="16,355,0,0" VerticalAlignment="Top" Width="320" Height="80" Background="#FF87B8FF" Grid.RowSpan="3" Click="button6_Click"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="214" Margin="346,78,0,0" VerticalAlignment="Top" Width="267" Grid.ColumnSpan="3" Loaded="Image_Loaded"/>
+        <Button x:Name="button7" Content="O autorze" HorizontalAlignment="Left" Margin="346,15,0,0" VerticalAlignment="Top" Width="130" Height="58" Background="#FF87B8FF" Grid.ColumnSpan="3"/>
+        <Button x:Name="button8" Content="O projekcie" Grid.Column="2" HorizontalAlignment="Left" Margin="118,15,0,0" VerticalAlignment="Top" Width="116" Height="58" Background="#FF87B8FF"/>
     </Grid>
 </Window>
