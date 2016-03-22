@@ -5,6 +5,7 @@
    <object objectType="Entity" objectID="370B687C-A2F1-0519-F4A1-53BEDC504E05" name="player_data" seqName="seg_0"/>
    <object objectType="Entity" objectID="1502E5E8-B66B-357C-02A6-3FC032E11A26" name="score" seqName="seg_0"/>
    <object objectType="EntityView" objectID="49607E26-587B-339F-5A2A-2CCABB6219A6" name="view_game" seqName="seg_0"/>
+   <object objectType="EntityView" objectID="5371DEE2-69F3-4D50-B614-1DEB9EA20BD0" name="view_logged_player" seqName="seg_0"/>
    <object objectType="EntityView" objectID="37CE7835-F9CA-FECE-4B20-87AA4EB8E3CC" name="view_player" seqName="seg_0"/>
    <object objectType="Relation" objectID="2D0530AE-01A3-8A29-2477-38BBC70717A2" name="Relation_3" seqName="seg_0"/>
    <object objectType="Relation" objectID="BA08F412-0D85-F3B4-CBC8-5D7E3A07B5BC" name="friend" seqName="seg_0"/>
