@@ -17,6 +17,8 @@ namespace SkyCrab.connection
         public static void Inicjalize()
         {
             //Do nothing. Just let 'rsa_csp' to initialize.
+            if (rsa_csp == null)
+                throw new Exception();
         }
 
         public ClientConnection(string host, int readTimeout) :
@@ -27,14 +29,34 @@ namespace SkyCrab.connection
         protected override void Initialize()
         {
             GenerateSessionKey();
-            //TODO
+            SendSessionKeyToServer();
+            ReceiveIVFromServer();
         }
 
         private void GenerateSessionKey()
         {
-            rijndael = new RijndaelManaged();
-            rijndael.GenerateKey();
-            rijndael.GenerateIV();
+            inputRijndael = CreateRijndaelManaged();
+            inputRijndael.GenerateKey();
+            inputRijndael.GenerateIV();
+        }
+
+        private void SendSessionKeyToServer()
+        {
+            byte[] plainKey = new byte[inputRijndael.Key.Length + inputRijndael.IV.Length];
+            inputRijndael.Key.CopyTo(plainKey, 0);
+            inputRijndael.IV.CopyTo(plainKey, inputRijndael.Key.Length);
+            byte[] encryptedKey = rsa_csp.Encrypt(plainKey, false);
+            WriteUnencryptedBytes(encryptedKey);
+        }
+
+        private void ReceiveIVFromServer()
+        {
+            outputRijndael = CreateRijndaelManaged();
+            byte[] key = new byte[inputRijndael.Key.Length];
+            inputRijndael.Key.CopyTo(key, 0);
+            outputRijndael.Key = key;
+            byte[] iv = ReadBytes((UInt16)outputRijndael.IV.Length);
+            outputRijndael.IV = iv;
         }
 
         public static void Deinicjalize()

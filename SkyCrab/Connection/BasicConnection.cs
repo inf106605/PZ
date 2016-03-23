@@ -23,12 +23,21 @@ namespace SkyCrab.connection
 
         protected virtual void WriteBytes(byte[] bytes)
         {
+            #if DEBUG
+            Console.Write("<< " + bytes.Length + " bytes");
+            #endif
             NetworkStream stream = tcpClient.GetStream();
             stream.Write(bytes, 0, bytes.Length);
+            #if DEBUG
+            Console.WriteLine(" [DONE]");
+            #endif
         }
 
         protected virtual byte[] ReadBytes(UInt16 size)
         {
+            #if DEBUG
+            Console.Write(">> " + size + " bytes");
+            #endif
             NetworkStream stream = tcpClient.GetStream();
             byte[] bytes = new byte[size];
             UInt16 offset = 0;
@@ -39,6 +48,9 @@ namespace SkyCrab.connection
                     throw new Exception("Cannot read any more bytes from socket!");
                 offset += readedBytes;
             } while (offset != size);
+            #if DEBUG
+            Console.WriteLine(" [DONE]");
+            #endif
             return bytes;
         }
 

@@ -19,6 +19,8 @@ namespace SkyCrab.connection
         public static void Inicjalize()
         {
             //Do nothing. Just let 'rsa_csp' to initialize.
+            if (rsa_csp == null)
+                throw new Exception();
         }
 
         public ServerConnection(TcpClient tcpClient, int readTimeout) :
@@ -28,7 +30,36 @@ namespace SkyCrab.connection
 
         protected override void Initialize()
         {
-            //TODO
+            ReceiveSessionKeyFromServer();
+            GenerateIV();
+            SendIVToClient();
+        }
+
+        private void ReceiveSessionKeyFromServer()
+        {
+            outputRijndael = CreateRijndaelManaged();
+            byte[] encryptedKey = ReadUnencryptedBytes(rsaKeyBytes);
+            byte[] plainKey = rsa_csp.Decrypt(encryptedKey, false);
+            byte[] key = new byte[outputRijndael.Key.Length];
+            Array.Copy(plainKey, 0, key, 0, outputRijndael.Key.Length);
+            outputRijndael.Key = key;
+            byte[] iv = new byte[outputRijndael.IV.Length];
+            Array.Copy(plainKey, outputRijndael.Key.Length, iv, 0, outputRijndael.IV.Length);
+            outputRijndael.IV = iv;
+        }
+
+        private void GenerateIV()
+        {
+            inputRijndael = CreateRijndaelManaged();
+            byte[] key = new byte[outputRijndael.Key.Length];
+            outputRijndael.Key.CopyTo(key, 0);
+            inputRijndael.Key = key;
+        }
+
+        private void SendIVToClient()
+        {
+            inputRijndael.GenerateIV();
+            WriteBytes(inputRijndael.IV);
         }
 
         private static RSACryptoServiceProvider GetCSP()
@@ -44,7 +75,7 @@ namespace SkyCrab.connection
 
         private static RSACryptoServiceProvider GenerateCSP()
         {
-            var csp = new RSACryptoServiceProvider(2048);
+            var csp = new RSACryptoServiceProvider(rsaKeyBytes * 8);
             using (StreamWriter streamWriter = new StreamWriter(new FileStream(keysFilePath, FileMode.Create)))
             {
                 string xml = csp.ToXmlString(true);

@@ -13,8 +13,12 @@ namespace SkyCrab.connection
     internal abstract class EncryptedConnection : BasicConnection
     {
 
-        protected RijndaelManaged rijndael;
-        
+        protected const int rsaKeyBytes = 256;
+        protected const int maxRsaCryptogram = rsaKeyBytes - 11;
+
+        protected RijndaelManaged inputRijndael;
+        protected RijndaelManaged outputRijndael;
+
 
         protected EncryptedConnection(TcpClient tcpClient, int readTimeout) :
             base(tcpClient, readTimeout)
@@ -24,17 +28,78 @@ namespace SkyCrab.connection
 
         protected abstract void Initialize();
 
+        protected static RijndaelManaged CreateRijndaelManaged()
+        {
+            RijndaelManaged rijndaelManaged = new RijndaelManaged();
+            rijndaelManaged.Padding = PaddingMode.None;
+            return rijndaelManaged;
+        }
+
         protected override void WriteBytes(byte[] bytes)
         {
-            //TODO
-            base.WriteBytes(bytes);
+            #if DEBUG
+            WriteBytesToConsole("<", bytes);
+            #endif
+            byte[] unencryptedBytes = new byte[CalcCriptogramSize(bytes.Length)];
+            Array.Copy(bytes, unencryptedBytes, bytes.Length);
+            var encryptor = outputRijndael.CreateEncryptor();
+            byte[] encryptedBytes = Transform(unencryptedBytes, encryptor);
+            base.WriteBytes(encryptedBytes);
         }
 
         protected override byte[] ReadBytes(UInt16 size)
         {
-            //TODO
-            return base.ReadBytes(size);
+            UInt16 encryptedSize = (UInt16)((size + 15) & (~0x000F));
+            byte[] encryptedBytes = base.ReadBytes(encryptedSize);
+            var decryptor = inputRijndael.CreateDecryptor();
+            byte[] decryptedBytes = Transform(encryptedBytes, decryptor);
+            byte[] bytes = new byte[size];
+            Array.Copy(decryptedBytes, bytes, size);
+            #if DEBUG
+            WriteBytesToConsole(">", bytes);
+            #endif
+            return bytes;
         }
+
+        private static int CalcCriptogramSize(int dataSize)
+        {
+            int criptogramSize = (dataSize + 15) & (~0x000F);
+            return criptogramSize;
+        }
+
+        private static byte[] Transform(byte[] bytes, ICryptoTransform transform)
+        {
+            using (var stream = new MemoryStream())
+            {
+                using (var cryptoStream = new CryptoStream(stream, transform, CryptoStreamMode.Write))
+                {
+                    foreach (byte x in bytes)
+                        cryptoStream.WriteByte(x);
+                }
+
+                byte[] transformedBytes = stream.ToArray();
+                return transformedBytes;
+            }
+        }
+
+        #if DEBUG
+        protected void WriteBytesToConsole(String prefix, byte[] bytes)
+        {
+            Console.Write(prefix + " [");
+            bool first = true;
+            foreach (byte x in bytes)
+            {
+                if (first)
+                {
+                    first = false;
+                    Console.Write(x);
+                }
+                else
+                    Console.Write(", " + x);
+            }
+            Console.WriteLine("]");
+        }
+        #endif
 
         protected void WriteUnencryptedBytes(byte[] bytes)
         {
@@ -51,7 +116,7 @@ namespace SkyCrab.connection
             using (StreamReader streamReader = new StreamReader(new FileStream(filePath, FileMode.Open)))
             {
                 string xml = streamReader.ReadToEnd();
-                var csp = new RSACryptoServiceProvider(2048);
+                var csp = new RSACryptoServiceProvider();
                 csp.FromXmlString(xml);
                 return csp;
             }
@@ -59,9 +124,12 @@ namespace SkyCrab.connection
 
         public override void Dispose()
         {
-            if (rijndael != null)
-                rijndael.Dispose();
-            rijndael = null;
+            if (inputRijndael != null)
+                inputRijndael.Dispose();
+            inputRijndael = null;
+            if (outputRijndael != null)
+                outputRijndael.Dispose();
+            outputRijndael = null;
         }
 
     }
