@@ -2,7 +2,7 @@
 
 namespace Common_classes
 {
-    class SkyCrabException : Exception
+    public class SkyCrabException : Exception
     {
 
         public SkyCrabException() :

@@ -1,6 +1,16 @@
 ﻿namespace Common_classes.Game
 {
-    class Tile
+    public class AlterNonBlankTileException : SkyCrabException
+    {
+
+        public AlterNonBlankTileException() :
+            base()
+        {
+        }
+
+    }
+
+    public class Tile
     {
 
         private bool blank;
@@ -51,7 +61,7 @@
             this.letter = letter;
         }
 
-        public bool isLetterEmpty()
+        public bool IsLetterEmpty()
         {
             return letter == '\0';
         }

@@ -9,8 +9,9 @@
     <Import_RootNamespace>Common_classes</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Game\AlterNonBlankTileException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Rack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Tile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\TileOnRack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkyCrabException.cs" />
   </ItemGroup>
 </Project>
