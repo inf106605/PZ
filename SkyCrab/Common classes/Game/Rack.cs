@@ -51,6 +51,7 @@ namespace Common_classes.Game
             }
         }
 
+
         public Rack()
         {
         }
@@ -75,20 +76,20 @@ namespace Common_classes.Game
             throw new NoSuchTileOnRackException();
         }
 
-        public void Put(TileOnRack tile, float position = float.PositiveInfinity)
+        public TileOnRack PutTile(Tile tile, float position = float.PositiveInfinity)
         {
-            Put(new TileOnRack[] { tile }, position);
+            return PutTile(new Tile[] { tile }, position).First.Value;
         }
 
-        public void Put(IList<TileOnRack> tiles, float position = Size)
+        public LinkedList<TileOnRack> PutTile(IList<Tile> tiles, float position = Size)
         {
             if (tiles.Count == 0)
-                return;
+                return new LinkedList<TileOnRack>();
             if (this.tiles.Count + tiles.Count > IntendedTilesCount)
                 throw new ToManyTileOnRackException();
-            foreach (TileOnRack tileToPut in tiles)
+            foreach (Tile tileToPut in tiles)
                 foreach (TileOnRack tile in this.tiles)
-                    if (tileToPut == tile)
+                    if (tileToPut == tile.Tile)
                         throw new TileAlreadyOnRackException();
 
             if (TileOnRack.CenterToLeft(position) < 0.0f)
@@ -121,37 +122,39 @@ namespace Common_classes.Game
                 int rightestLeftIndex = tilesOnLeft - 1;
                 TileOnRack rightestLeftTile = this.tiles.ElementAt(rightestLeftIndex);
                 if (rightestLeftTile.RightPosition > left)
-                    Move(rightestLeftIndex, left - rightestLeftTile.RightPosition);
+                    MoveTile(rightestLeftIndex, left - rightestLeftTile.RightPosition);
             }
             if (tilesOnRight != 0)
             {
                 int leftestRightIndex = this.tiles.Count - tilesOnRight;
                 TileOnRack leftestRightTile = this.tiles.ElementAt(leftestRightIndex);
                 if (leftestRightTile.LeftPosition < right)
-                    Move(leftestRightIndex, right - leftestRightTile.LeftPosition);
+                    MoveTile(leftestRightIndex, right - leftestRightTile.LeftPosition);
             }
 
             var tileAfter = this.Tiles.First;
             for (int i = 0; i != tilesOnLeft; ++i)
                 tileAfter = tileAfter.Next;
             float currentLeft = left;
-            foreach (TileOnRack tile in tiles)
+            LinkedList<TileOnRack> tilesOnRack = new LinkedList<TileOnRack>();
+            foreach (Tile tile in tiles)
             {
-                tile.LeftPosition = currentLeft;
+                TileOnRack tileOnRack = new TileOnRack(tile, currentLeft);
                 if (tileAfter == null)
-                    this.tiles.AddLast(tile);
+                    this.tiles.AddLast(tileOnRack);
                 else
-                    this.tiles.AddBefore(tileAfter, tile);
+                    this.tiles.AddBefore(tileAfter, tileOnRack);
                 currentLeft += TileOnRack.Size;
             }
+            return tilesOnRack;
         }
 
-        public void Move(TileOnRack tile, float shift)
+        public void MoveTile(TileOnRack tile, float shift)
         {
-            Move(new TileOnRack[] { tile }, shift);
+            MoveTile(new TileOnRack[] { tile }, shift);
         }
 
-        public void Move(IList<TileOnRack> tiles, float shift)
+        public void MoveTile(IList<TileOnRack> tiles, float shift)
         {
             if (tiles.Count == 0)
                 return;
@@ -177,15 +180,15 @@ namespace Common_classes.Game
                 next_tile:;
             }
 
-            Move(firstTileIndex, lastTileIndex, shift);
+            MoveTile(firstTileIndex, lastTileIndex, shift);
         }
 
-        public void Move(int tileIndex, float shift)
+        public void MoveTile(int tileIndex, float shift)
         {
-            Move(tileIndex, tileIndex, shift);
+            MoveTile(tileIndex, tileIndex, shift);
         }
 
-        public void Move(int firstTileIndex, int lastTileIndex, float shift)
+        public void MoveTile(int firstTileIndex, int lastTileIndex, float shift)
         {
             if (firstTileIndex > lastTileIndex)
             {

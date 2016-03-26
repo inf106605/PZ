@@ -18,7 +18,7 @@ namespace Common_classes.Game
         public const float Size = 1.0f;
 
         private Tile tile;
-        private float position;
+        private float leftPosition;
 
 
         public Tile Tile
@@ -33,13 +33,13 @@ namespace Common_classes.Game
         {
             get
             {
-                return position;
+                return leftPosition;
             }
             set
             {
                 if (value < 0.0f || LeftToRight(value) > Rack.Size)
                     throw new TileOnRackPositionException();
-                position = value;
+                leftPosition = value;
             }
         }
 
@@ -47,13 +47,13 @@ namespace Common_classes.Game
         {
             get
             {
-                return LeftToRight(position);
+                return LeftToRight(leftPosition);
             }
             set
             {
                 if (RightToLeft(value) < 0.0f || value > Rack.Size)
                     throw new TileOnRackPositionException();
-                position = RightToLeft(value);
+                leftPosition = RightToLeft(value);
             }
         }
 
@@ -61,13 +61,13 @@ namespace Common_classes.Game
         {
             get
             {
-                return LeftToCenter(position);
+                return LeftToCenter(leftPosition);
             }
             set
             {
                 if (CenterToLeft(value) < 0.0f || CenterToRight(value) > Rack.Size)
                     throw new TileOnRackPositionException();
-                position = CenterToLeft(value);
+                leftPosition = CenterToLeft(value);
             }
         }
 
@@ -103,27 +103,27 @@ namespace Common_classes.Game
         }
 
 
-        public TileOnRack(Tile tile, float position = 0.0f)
+        public TileOnRack(Tile tile, float leftPosition = 0.0f)
         {
             this.tile = tile;
-            this.position = position;
+            this.leftPosition = leftPosition;
         }
 
-        public bool IsOnPosition(float position)
+        public bool IsOnPosition(float leftPosition)
         {
-            return (LeftPosition <= position) && (RightPosition >= position);
+            return (LeftPosition <= leftPosition) && (RightPosition >= leftPosition);
         }
 
         public void Move(float shift)
         {
             if (LeftPosition + shift < 0.0f || RightPosition + shift > Rack.Size)
                 throw new TileOnRackPositionException();
-            position += shift;
+            leftPosition += shift;
         }
 
         public bool IsMoreOnLeft(float position)
         {
-            return CenterPosition > position;
+            return CenterPosition < position;
         }
 
     }

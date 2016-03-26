@@ -61,7 +61,7 @@
             this.letter = letter;
         }
 
-        public bool IsLetterEmpty()
+        public bool IsBlankEmpty()
         {
             return letter == '\0';
         }
