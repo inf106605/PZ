@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using SkyCrab.Classess;
-using SkyCrab.Classess.Menu;
+using SkyCrab.Menu;
 
 namespace SkyCrab
 {
@@ -33,7 +32,6 @@ namespace SkyCrab
         {
             this.Content = nextPage;
             ISwitchable s = nextPage as ISwitchable;
-
             if (s != null)
             {
                 s.UtilizeState(state);

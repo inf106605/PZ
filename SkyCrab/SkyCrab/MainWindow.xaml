@@ -5,5 +5,5 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkyCrab"
         mc:Ignorable="d"
-        Title="SkyCrab" MinHeight="480" MinWidth="640" Height="480" Width="640" Background="#ccefff">
+        Title="SkyCrab">
 </Window>
