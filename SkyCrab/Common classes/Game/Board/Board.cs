@@ -2,28 +2,6 @@
 
 namespace Common_classes.Game
 {
-    public struct PositionOnBoard
-    {
-        public int x;
-        public int y;
-
-        public PositionOnBoard(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    public enum SquareType
-    {
-        normal = 0,
-        start = 1,
-        letter2 = 2,
-        letter3 = 3,
-        word2 = 4,
-        word3 = 5
-    }
-
     public class NoSuchSquareOnBoardException : SkyCrabException
     {
 

@@ -14,7 +14,7 @@
     {
 
         private bool blank;
-        private char letter;
+        private Letter letter;
 
 
         public bool Blank
@@ -25,7 +25,7 @@
             }
         }
 
-        public char Letter
+        public Letter Letter
         {
             get
             {
@@ -41,7 +41,7 @@
         
 
         /// <summary> Blanks and letters. </summary>
-        public Tile(bool blank, char letter)
+        public Tile(bool blank, Letter letter)
         {
             this.blank = blank;
             this.letter = letter;
@@ -51,11 +51,11 @@
         public Tile()
         {
             this.blank = true;
-            this.letter = '\0';
+            this.letter = LetterSet.BLANK;
         }
 
         /// <summary> Letters only. </summary>
-        public Tile(char letter)
+        public Tile(Letter letter)
         {
             this.blank = false;
             this.letter = letter;
@@ -63,7 +63,7 @@
 
         public bool IsBlankEmpty()
         {
-            return letter == '\0';
+            return ReferenceEquals(letter, LetterSet.BLANK);
         }
 
     }

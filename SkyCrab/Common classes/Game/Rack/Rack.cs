@@ -69,7 +69,7 @@ namespace Common_classes.Game
             int i = 0;
             foreach (TileOnRack tile in tiles)
             {
-                if (tile == tileToFind)
+                if (ReferenceEquals(tile, tileToFind))
                     return i;
                 ++i;
             }
@@ -89,7 +89,7 @@ namespace Common_classes.Game
                 throw new ToManyTileOnRackException();
             foreach (Tile tileToPut in tiles)
                 foreach (TileOnRack tile in this.tiles)
-                    if (tileToPut == tile.Tile)
+                    if (ReferenceEquals(tileToPut, tile.Tile))
                         throw new TileAlreadyOnRackException();
 
             if (TileOnRack.CenterToLeft(position) < 0.0f)
@@ -166,7 +166,7 @@ namespace Common_classes.Game
                 int i = 0;
                 foreach (TileOnRack tile in this.tiles)
                 {
-                    if (tileToMove == tile)
+                    if (ReferenceEquals(tileToMove, tile))
                     {
                         if (i < firstTileIndex)
                             firstTileIndex = i;
@@ -276,7 +276,7 @@ namespace Common_classes.Game
                 var i = this.tiles.First;
                 while (i != null)
                 {
-                    if (i.Value == tileToTakeOff)
+                    if (ReferenceEquals(i.Value, tileToTakeOff))
                     {
                         this.tiles.Remove(i);
                         goto next_tile;
