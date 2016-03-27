@@ -5,8 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkyCrab.Menu"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+             d:DesignHeight="480" d:DesignWidth="640">
+    
+        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <UniformGrid Columns="1" Grid.Column="1" Grid.Row="1">
+             <Button Name="button1" Margin="10" Content="GRAJ JAKO GOŚĆ"></Button>
+            <Button Name="button2"  Margin="10" Content="ZALOGUJ"></Button>
+            <Button Name="button3"  Margin="10" Content="ZAREJESTRUJ"></Button>
+            <Button Name="button4"  Margin="10" Content="POMOC"></Button>
+            <Button Name="button5"  Margin="10" Content="ZAKOŃCZ"></Button>
+        </UniformGrid>
     </Grid>
 </UserControl>
