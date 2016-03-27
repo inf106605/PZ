@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Game\Board.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Letter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\PolishLetterSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Rack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\StandardBoard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Tile.cs" />
