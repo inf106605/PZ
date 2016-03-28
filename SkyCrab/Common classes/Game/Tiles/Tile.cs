@@ -40,26 +40,19 @@ namespace Common_classes.Game.Tiles
                 letter = value;
             }
         }
-        
 
-        /// <summary> Blanks and letters. </summary>
-        public Tile(bool blank, Letter letter)
+
+        /// <summary> Letter or ampty blank. </summary>
+        public Tile(Letter letter)
         {
-            this.blank = blank;
+            this.blank = ReferenceEquals(letter, LetterSet.BLANK);
             this.letter = letter;
         }
 
-        /// <summary> Blanks only. </summary>
-        public Tile()
+        /// <summary> Letter or blank. </summary>
+        public Tile(bool blank, Letter letter)
         {
-            this.blank = true;
-            this.letter = LetterSet.BLANK;
-        }
-
-        /// <summary> Letters only. </summary>
-        public Tile(Letter letter)
-        {
-            this.blank = false;
+            this.blank = blank;
             this.letter = letter;
         }
 
