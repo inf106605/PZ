@@ -3,7 +3,6 @@ using Common_classes.Game.Tiles;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Common_classes.Game.Pouch
 {
