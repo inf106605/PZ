@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Common_classes.Game
+﻿namespace Common_classes.Game.Letters
 {
     public struct Letter
     {

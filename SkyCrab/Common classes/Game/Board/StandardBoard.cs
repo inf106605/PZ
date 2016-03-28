@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Common_classes.Game.Tiles;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Common_classes.Game
+namespace Common_classes.Game.Board
 {
     class StandardBoard : Board
     {

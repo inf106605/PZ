@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Common_classes.Game
+namespace Common_classes.Game.Tiles
 {
     public abstract class TileSet
     {

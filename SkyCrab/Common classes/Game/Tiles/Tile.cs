@@ -1,4 +1,6 @@
-﻿namespace Common_classes.Game
+﻿using Common_classes.Game.Letters;
+
+namespace Common_classes.Game.Tiles
 {
     public class AlterNonBlankTileException : SkyCrabException
     {

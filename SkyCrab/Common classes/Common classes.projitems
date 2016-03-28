@@ -16,8 +16,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\Letters\Letter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Letters\LetterSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Letters\PolishLetterSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Rack\Rack.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Rack\TileOnRack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Racks\Rack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Racks\TileOnRack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\LetterInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\PolishTileSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\Tile.cs" />

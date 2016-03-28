@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Common_classes.Game.Tiles;
 
-namespace Common_classes.Game
+namespace Common_classes.Game.Racks
 {
     public class TileOnRackPositionException : SkyCrabException
     {
