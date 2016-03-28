@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace Common_classes.Game.Pouch
+namespace Common_classes.Game.Pouches
 {
     class Pouch
     {

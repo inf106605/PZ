@@ -1,4 +1,4 @@
-﻿namespace Common_classes.Game.Board
+﻿namespace Common_classes.Game.Boards
 {
     public struct PositionOnBoard
     {

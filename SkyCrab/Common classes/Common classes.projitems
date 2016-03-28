@@ -9,15 +9,16 @@
     <Import_RootNamespace>Common_classes</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Board\Board.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Board\PositionOnBoard.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Board\SquareType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Board\StandardBoard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Boards\Board.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Boards\PositionOnBoard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Boards\SquareType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Boards\StandardBoard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Game.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Letters\Letter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Letters\LetterSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Letters\PolishLetterSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Players\PlayerInGame.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Pouch\Pouch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\Pouches\Pouch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Racks\Rack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Racks\TileOnRack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\LetterCount.cs" />
