@@ -1,14 +1,22 @@
 ﻿using Common_classes.Games.Racks;
+using Common_classes.Players;
 
 namespace Common_classes.Games.Players
 {
     class PlayerInGame
     {
 
-        //TODO when it will be class 'Player': private Player player
+        private Player player;
         private Rack rack = new Rack();
-        //TODO what else should be here?
 
+
+        public Player Player
+        {
+            get
+            {
+                return player;
+            }
+        }
 
         public Rack Rack
         {
@@ -16,6 +24,12 @@ namespace Common_classes.Games.Players
             {
                 return rack;
             }
+        }
+
+
+        public PlayerInGame(Player player)
+        {
+            this.player = player;
         }
 
     }

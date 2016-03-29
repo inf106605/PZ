@@ -1,18 +1,30 @@
 ﻿using Common_classes.Games.Boards;
 using Common_classes.Games.Players;
 using Common_classes.Games.Pouches;
+using Common_classes.Players;
+using Common_classes.Rooms.Rules;
+using System.Collections.Generic;
 
 namespace Common_classes.Games
 {
-    //This is practically a dummy at the moment.
     class Game
     {
 
+        private RuleSet rules;
         private Board board;
         private PlayerInGame[] players;
-        private uint currentPlayerNumber;
+        private uint currentPlayerNumber = 0;
         private Pouch[] pouches;
+        private bool isDummy;
 
+
+        public RuleSet Rules
+        {
+            get
+            {
+                return rules;
+            }
+        }
 
         public Board Board
         {
@@ -36,6 +48,10 @@ namespace Common_classes.Games
             {
                 return currentPlayerNumber;
             }
+            set
+            {
+                currentPlayerNumber = value;
+            }
         }
 
         public PlayerInGame CurrentPlayer
@@ -54,13 +70,25 @@ namespace Common_classes.Games
             }
         }
 
-
-        public Game(/*TODO Rules rules*/ /*TODO Player[] players*/)
+        public bool IsDummy
         {
-            this.board = new StandardBoard(); //TODO from rules
-            this.players = new PlayerInGame[0]; //TODO
-            this.currentPlayerNumber = 0; //TODO randomize
-            this.pouches = new Pouch[0]; //TODO
+            get
+            {
+                return isDummy;
+            }
+        }
+
+
+        public Game(RuleSet rules, IList<Player> players, bool isDummy)
+        {
+            this.rules = rules;
+            this.board = rules.CreateBoard();
+            this.players = new PlayerInGame[players.Count];
+            uint i = 0;
+            foreach (Player player in players)
+                this.players[i++] = new PlayerInGame(player);
+            this.pouches = rules.CreatePouches(isDummy);
+            this.isDummy = isDummy;
         }
 
     }

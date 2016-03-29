@@ -47,7 +47,9 @@ namespace Common_classes.Games.Tiles
                 {
                     new LetterCount(PolishLetterSet.BLANK,    2)
                 };
-        
+
+        public static readonly PolishTileSet instance = new PolishTileSet();
+
 
         public override LetterCount[] Vowels
         {
@@ -71,6 +73,11 @@ namespace Common_classes.Games.Tiles
             {
                 return blanks;
             }
+        }
+
+
+        private PolishTileSet()
+        {
         }
 
     }

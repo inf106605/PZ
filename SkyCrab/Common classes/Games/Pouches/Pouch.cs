@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace Common_classes.Games.Pouches
 {
-    class Pouch
+    public class Pouch
     {
 
         private readonly LetterCount[] tiles;
