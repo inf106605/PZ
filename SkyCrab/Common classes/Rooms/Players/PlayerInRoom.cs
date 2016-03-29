@@ -1,11 +1,21 @@
-﻿namespace Common_classes.Rooms.Players
+﻿using Common_classes.Players;
+
+namespace Common_classes.Rooms.Players
 {
     public class PlayerInRoom
     {
 
-        //TODO when class 'Player' will be created: private Player player;
+        private Player player;
         private bool isReady = false;
 
+
+        public Player Player
+        {
+            get
+            {
+                return player;
+            }
+        }
 
         public bool IsReady
         {
@@ -17,6 +27,12 @@
             {
                 isReady = value;
             }
+        }
+
+
+        public PlayerInRoom(Player player)
+        {
+            this.player = player;
         }
 
     }

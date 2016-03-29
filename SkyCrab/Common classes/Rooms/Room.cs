@@ -1,14 +1,47 @@
-﻿using Common_classes.Rooms.Players;
+﻿using Common_classes.Players;
+using Common_classes.Rooms.Players;
 using Common_classes.Rooms.Rules;
 using System.Collections.Generic;
 
 namespace Common_classes.Rooms
 {
+    public class TooManyPlayersInRoomException : SkyCrabException
+    {
+
+        public TooManyPlayersInRoomException() :
+            base()
+        {
+        }
+
+    }
+
+    public class PlayerAlreadyInRoomException : SkyCrabException
+    {
+
+        public PlayerAlreadyInRoomException() :
+            base()
+        {
+        }
+
+    }
+
+    public class NoSuchPlayerInRoomException : SkyCrabException
+    {
+
+        public NoSuchPlayerInRoomException() :
+            base()
+        {
+        }
+
+    }
+
     public class Room
     {
 
-        //TODO when class 'Player' will be created: private Player owner;
+        public uint MAX_PLAYERS = 4;
+
         private uint id;
+        private Player owner;
         private string name;
         private RoomType roomType;
         private RuleSet rules;
@@ -20,6 +53,14 @@ namespace Common_classes.Rooms
             get
             {
                 return id;
+            }
+        }
+
+        public Player Owner
+        {
+            get
+            {
+                return owner;
             }
         }
 
@@ -64,29 +105,53 @@ namespace Common_classes.Rooms
         }
 
 
-        public Room(uint id, string name, RoomType roomType, RuleSet rules)
+        public Room(uint id, Player owner, string name, RoomType roomType, RuleSet rules)
         {
             this.id = id;
+            this.owner = owner;
             this.name = name;
             this.roomType = roomType;
             this.rules = rules;
         }
 
-        /*TODO when class 'Player' will be created
         public void AddPlayer(Player player)
         {
-            //TODO
+            if (players.Count >= MAX_PLAYERS)
+                throw new TooManyPlayersInRoomException();
+            if (hasPlayer(player.Id))
+                throw new PlayerAlreadyInRoomException();
+            PlayerInRoom playerInRoom = new PlayerInRoom(player);
+            players.AddLast(playerInRoom);
         }
 
-        public void RemovePlayer(Player player)
+        public void RemovePlayer(uint playerId)
         {
-            //TODO
+            for (var i = players.First; i != null; i = i.Next)
+                if (i.Value.Player.Id == playerId)
+                {
+                    players.Remove(i);
+                    return;
+                }
+            throw new NoSuchPlayerInRoomException();
+        }
+
+        public bool hasPlayer(uint playerId)
+        {
+            foreach (PlayerInRoom playerInRoom in players)
+                if (playerInRoom.Player.Id == playerId)
+                    return true;
+            return false;
         }
         
-        public SetPlayerReady(Player player, bool ready)
+        public void SetPlayerReady(uint playerId, bool ready)
         {
-            //TODO
-        }*/
+            foreach (PlayerInRoom playerInRoom in players)
+                if (playerInRoom.Player.Id == playerId)
+                {
+                    playerInRoom.IsReady = ready;
+                    return;
+                }
+        }
 
     }
 }
