@@ -4,6 +4,7 @@
     {
 
         private uint id;
+        private bool isGuest;
         private string nick;
         private PlayerProfile profile;
 
@@ -13,6 +14,14 @@
             get
             {
                 return id;
+            }
+        }
+
+        public bool IsGuest
+        {
+            get
+            {
+                return isGuest;
             }
         }
 
@@ -41,9 +50,10 @@
         }
 
 
-        public Player(uint id, string nick)
+        public Player(uint id, bool isGuest, string nick)
         {
             this.id = id;
+            this.isGuest = isGuest;
             this.nick = nick;
         }
 
