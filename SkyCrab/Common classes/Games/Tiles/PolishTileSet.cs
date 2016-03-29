@@ -1,6 +1,6 @@
-﻿using Common_classes.Game.Letters;
+﻿using Common_classes.Games.Letters;
 
-namespace Common_classes.Game.Tiles
+namespace Common_classes.Games.Tiles
 {
     class PolishTileSet : TileSet
     {
@@ -47,7 +47,9 @@ namespace Common_classes.Game.Tiles
                 {
                     new LetterCount(PolishLetterSet.BLANK,    2)
                 };
-        
+
+        public static readonly PolishTileSet instance = new PolishTileSet();
+
 
         public override LetterCount[] Vowels
         {
@@ -71,6 +73,11 @@ namespace Common_classes.Game.Tiles
             {
                 return blanks;
             }
+        }
+
+
+        private PolishTileSet()
+        {
         }
 
     }

@@ -1,4 +1,4 @@
-﻿namespace Common_classes.Game.Letters
+﻿namespace Common_classes.Games.Letters
 {
     public struct Letter
     {

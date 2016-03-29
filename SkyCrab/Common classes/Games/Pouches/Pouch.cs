@@ -1,12 +1,12 @@
-﻿using Common_classes.Game.Letters;
-using Common_classes.Game.Tiles;
+﻿using Common_classes.Games.Letters;
+using Common_classes.Games.Tiles;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace Common_classes.Game.Pouches
+namespace Common_classes.Games.Pouches
 {
-    class Pouch
+    public class Pouch
     {
 
         private readonly LetterCount[] tiles;
