@@ -1,4 +1,4 @@
-﻿namespace Common_classes.Lobbies.Rules
+﻿namespace Common_classes.Rooms.Rules
 {
     public class TimeRule : Rule<uint>
     {

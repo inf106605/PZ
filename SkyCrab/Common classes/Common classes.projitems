@@ -25,10 +25,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\PolishTileSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\Tile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\TileSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Lobbies\Players\PlayerInLobby.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Lobbies\Rules\Rule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Lobbies\Rules\RuleSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Lobbies\Rules\TimeRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Room.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Players\PlayerInRoom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\RoomType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\Rule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\RuleSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\TimeRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkyCrabException.cs" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Common_classes.Lobbies.Rules
+﻿namespace Common_classes.Rooms.Rules
 {
 	//Options that are sure to exist for now.
     public struct RuleSet

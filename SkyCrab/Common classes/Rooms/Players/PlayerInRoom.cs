@@ -1,6 +1,6 @@
-﻿namespace Common_classes.Lobbies.Players
+﻿namespace Common_classes.Rooms.Players
 {
-    class PlayerInLobby
+    public class PlayerInRoom
     {
 
         //TODO when class 'Player' will be created: private Player player;
