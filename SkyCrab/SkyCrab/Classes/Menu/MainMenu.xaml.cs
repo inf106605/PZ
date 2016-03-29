@@ -24,5 +24,10 @@ namespace SkyCrab.Menu
         {
             InitializeComponent();
         }
+
+        private void button5_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
