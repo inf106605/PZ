@@ -68,7 +68,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button Name="button5"  Margin="10" Content="ZAKOŃCZ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFA8432C" Click="button5_Click">
+            <Button Name="button5"  Margin="10" Content="ZAKOŃCZ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFA8432C" Click="Shuttdown_Button_Click">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                         <GradientStop Color="#FFFF9191" Offset="0"/>
