@@ -10,8 +10,8 @@
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF41F7EF" Offset="0"/>
-                <GradientStop Color="#FFDDFFFD" Offset="1"/>
+                <GradientStop Color="#FF2CDAFF" Offset="0"/>
+                <GradientStop Color="#FFC2FFFF" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
@@ -28,56 +28,13 @@
             <Image Source="/Images/skycrab_logo.png" />
         </UniformGrid>
         <UniformGrid Columns="1" Grid.Column="1" Grid.Row="1">
-            <Button Name="button1" Margin="10" Content="GRAJ JAKO GOŚĆ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFA8432C">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                        <GradientStop Color="#FFFF9191" Offset="0"/>
-                        <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
-                        <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
-                        <GradientStop Color="#FFFF5C5C" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Name="button2"  Margin="10" Content="ZALOGUJ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFA8432C">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                        <GradientStop Color="#FFFF9191" Offset="0"/>
-                        <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
-                        <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
-                        <GradientStop Color="#FFFF5C5C" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Name="button3"  Margin="10" Content="ZAREJESTRUJ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFA8432C">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                        <GradientStop Color="#FFFF9191" Offset="0"/>
-                        <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
-                        <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
-                        <GradientStop Color="#FFFF5C5C" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Name="button4"  Margin="10" Content="POMOC" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFA8432C">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                        <GradientStop Color="#FFFF9191" Offset="0"/>
-                        <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
-                        <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
-                        <GradientStop Color="#FFFF5C5C" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Name="button5"  Margin="10" Content="ZAKOŃCZ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFA8432C" Click="Shuttdown_Button_Click">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                        <GradientStop Color="#FFFF9191" Offset="0"/>
-                        <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
-                        <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
-                        <GradientStop Color="#FFFF5C5C" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
+            <Button Name="PlayAsGuest_Button" Margin="10" Content="GRAJ JAKO GOŚĆ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Background="#FFFFD8D8" BorderThickness="2,5,5,5" Click="PlayAsGuest_Button_Click"/>
+            <Button Name="Login_Button"  Margin="10" Content="ZALOGUJ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Background="#FFFFD8D8" BorderThickness="2,5,5,5" Click="Login_Button_Click"/>
+            <Button Name="Registration_Button"  Margin="10" Content="ZAREJESTRUJ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Background="#FFFFD8D8" BorderThickness="2,5,5,5" Click="Registration_Button_Click"/>
+            <Button Name="Options_Button"  Margin="10" Content="OPCJE" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Background="#FFFFD8D8" BorderThickness="2,5,5,5" Click="Options_Button_Click"/>
+            <Button Name="Help_Button"  Margin="10" Content="POMOC" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Background="#FFFFD8D8" BorderThickness="2,5,5,5" Click="Help_Button_Click"/>
+            <Button Name="AboutProgram_Button"  Margin="10" Content="O PROGRAMIE" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Background="#FFFFD8D8" BorderThickness="2,5,5,5" Click="AboutProgram_Button_Click"/>
+            <Button Name="Shuttdown_Button"  Margin="10" Content="ZAKOŃCZ" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Click="Shuttdown_Button_Click" Background="#FFFFD8D8" BorderThickness="2,5,5,5"/>
         </UniformGrid>
     </Grid>
 </UserControl>

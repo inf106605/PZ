@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using SkyCrab.Classes.Menu;
 
 namespace SkyCrab.Menu
 {
@@ -24,6 +13,50 @@ namespace SkyCrab.Menu
         {
             InitializeComponent();
         }
+
+        // Akcja do przycisku - Graj jako gość
+
+        private void PlayAsGuest_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new PlayAsGuest());
+        }
+
+        // Akcja do przycisku - Zaloguj
+
+        private void Login_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new Login());
+        }
+
+        // Akcja do przycisku - Zarejestruj
+
+        private void Registration_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new Registration());
+        }
+
+        // Akcja do przycisku - Opcje
+
+        private void Options_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new Options());
+        }
+
+        // Akcja do przycisku - Pomoc
+
+        private void Help_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new Help());
+        }
+
+        // Akcja do przycisku - O programie
+
+        private void AboutProgram_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new About());
+        }
+
+        // Akcja do przycisku - Zakończ
 
         private void Shuttdown_Button_Click(object sender, RoutedEventArgs e)
         {
