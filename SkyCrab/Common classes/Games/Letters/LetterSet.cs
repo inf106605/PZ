@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common_classes.Game.Letters
+namespace Common_classes.Games.Letters
 {
     public abstract class LetterSet
     {

@@ -1,6 +1,6 @@
-﻿using Common_classes.Game.Racks;
+﻿using Common_classes.Games.Racks;
 
-namespace Common_classes.Game.Players
+namespace Common_classes.Games.Players
 {
     class PlayerInGame
     {

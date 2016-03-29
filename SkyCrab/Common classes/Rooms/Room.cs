@@ -8,11 +8,20 @@ namespace Common_classes.Rooms
     {
 
         //TODO when class 'Player' will be created: private Player owner;
+        private uint id;
         private string name;
         private RoomType roomType;
         private RuleSet rules;
         private LinkedList<PlayerInRoom> players = new LinkedList<PlayerInRoom>();
 
+
+        public uint Id
+        {
+            get
+            {
+                return id;
+            }
+        }
 
         public string Name
         {
@@ -55,8 +64,9 @@ namespace Common_classes.Rooms
         }
 
 
-        public Room(string name, RoomType roomType, RuleSet rules)
+        public Room(uint id, string name, RoomType roomType, RuleSet rules)
         {
+            this.id = id;
             this.name = name;
             this.roomType = roomType;
             this.rules = rules;

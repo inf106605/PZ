@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common_classes.Game.Boards
+namespace Common_classes.Games.Boards
 {
     public enum SquareType
     {

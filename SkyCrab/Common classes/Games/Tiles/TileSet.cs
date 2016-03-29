@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common_classes.Game.Tiles
+namespace Common_classes.Games.Tiles
 {
     public abstract class TileSet
     {

@@ -9,22 +9,24 @@
     <Import_RootNamespace>Common_classes</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Boards\Board.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Boards\PositionOnBoard.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Boards\SquareType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Boards\StandardBoard.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Game.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Letters\Letter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Letters\LetterSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Letters\PolishLetterSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Players\PlayerInGame.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Pouches\Pouch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Racks\Rack.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Racks\TileOnRack.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\LetterCount.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\PolishTileSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\Tile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game\Tiles\TileSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\Board.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\PositionOnBoard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\SquareType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\StandardBoard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Game.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Letters\Letter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Letters\LetterSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Letters\PolishLetterSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Players\PlayerInGame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Pouches\Pouch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\Rack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\TileOnRack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\LetterCount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\PolishTileSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\Tile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\TileSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Players\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Players\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rooms\Room.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rooms\Players\PlayerInRoom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rooms\RoomType.cs" />

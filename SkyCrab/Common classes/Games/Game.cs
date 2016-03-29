@@ -1,8 +1,8 @@
-﻿using Common_classes.Game.Boards;
-using Common_classes.Game.Players;
-using Common_classes.Game.Pouches;
+﻿using Common_classes.Games.Boards;
+using Common_classes.Games.Players;
+using Common_classes.Games.Pouches;
 
-namespace Common_classes.Game
+namespace Common_classes.Games
 {
     //This is practically a dummy at the moment.
     class Game
