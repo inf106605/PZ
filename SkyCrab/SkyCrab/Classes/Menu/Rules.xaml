@@ -42,7 +42,7 @@
         </Grid>
         <Grid Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <Viewbox>
-                <Button x:Name="ReturnMainMenu" Margin="20" Content="WRÓĆ DO REJESTRACJI" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Background="#FFFFD8D8" BorderThickness="2,5,5,5" Click="ReturnMainMenu_Click" ></Button>
+                <Button x:Name="ReturnRegistration" Margin="20" Content="WRÓĆ DO REJESTRACJI" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Background="#FFFFD8D8" BorderThickness="2,5,5,5" Click="ReturnRegistration_Click" ></Button>
             </Viewbox>
         </Grid>
     </Grid>

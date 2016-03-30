@@ -12,7 +12,7 @@ namespace SkyCrab.Classes.Menu
             InitializeComponent();
         }
 
-        private void ReturnMainMenu_Click(object sender, RoutedEventArgs e)
+        private void ReturnRegistration_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new Registration()); // zastanowić się w jaki sposób przywrócić stan formularza rejestracji po przejrzeniu regulaminu
         }
