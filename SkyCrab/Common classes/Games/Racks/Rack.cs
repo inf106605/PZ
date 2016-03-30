@@ -1,8 +1,8 @@
-﻿using Common_classes.Games.Tiles;
+﻿using SkyCrab.Common_classes.Games.Tiles;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Common_classes.Games.Racks
+namespace SkyCrab.Common_classes.Games.Racks
 {
     public class NoSuchTileOnRackException : SkyCrabException
     {

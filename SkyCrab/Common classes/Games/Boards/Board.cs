@@ -1,7 +1,7 @@
-﻿using Common_classes.Games.Tiles;
+﻿using SkyCrab.Common_classes.Games.Tiles;
 using System.Collections.Generic;
 
-namespace Common_classes.Games.Boards
+namespace SkyCrab.Common_classes.Games.Boards
 {
     public class NoSuchSquareOnBoardException : SkyCrabException
     {

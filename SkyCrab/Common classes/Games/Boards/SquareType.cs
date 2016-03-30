@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Common_classes.Games.Boards
+﻿namespace SkyCrab.Common_classes.Games.Boards
 {
     public enum SquareType
     {

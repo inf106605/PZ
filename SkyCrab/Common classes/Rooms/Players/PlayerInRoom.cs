@@ -1,6 +1,6 @@
-﻿using Common_classes.Players;
+﻿using SkyCrab.Common_classes.Players;
 
-namespace Common_classes.Rooms.Players
+namespace SkyCrab.Common_classes.Rooms.Players
 {
     public class PlayerInRoom
     {

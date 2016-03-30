@@ -1,10 +1,10 @@
-﻿using Common_classes.Games.Letters;
-using Common_classes.Games.Tiles;
+﻿using SkyCrab.Common_classes.Games.Letters;
+using SkyCrab.Common_classes.Games.Tiles;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace Common_classes.Games.Pouches
+namespace SkyCrab.Common_classes.Games.Pouches
 {
     public class Pouch
     {

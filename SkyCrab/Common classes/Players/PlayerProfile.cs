@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common_classes.Players
+namespace SkyCrab.Common_classes.Players
 {
     public struct PlayerProfile
     {

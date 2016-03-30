@@ -6,7 +6,7 @@
     <SharedGUID>1db02aca-bcb6-4082-9848-3b5cc330b91e</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Common_classes</Import_RootNamespace>
+    <Import_RootNamespace>SkyCrab.Common_classes</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\Board.cs" />

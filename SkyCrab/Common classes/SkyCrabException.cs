@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common_classes
+namespace SkyCrab.Common_classes
 {
     public class SkyCrabException : Exception
     {

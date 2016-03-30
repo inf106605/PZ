@@ -1,7 +1,7 @@
-﻿using Common_classes.Games.Racks;
-using Common_classes.Players;
+﻿using SkyCrab.Common_classes.Games.Racks;
+using SkyCrab.Common_classes.Players;
 
-namespace Common_classes.Games.Players
+namespace SkyCrab.Common_classes.Games.Players
 {
     class PlayerInGame
     {

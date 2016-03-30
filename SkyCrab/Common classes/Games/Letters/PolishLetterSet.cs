@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common_classes.Games.Letters
+namespace SkyCrab.Common_classes.Games.Letters
 {
     class PolishLetterSet : LetterSet
     {

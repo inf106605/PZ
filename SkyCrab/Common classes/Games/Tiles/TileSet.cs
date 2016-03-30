@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common_classes.Games.Tiles
+namespace SkyCrab.Common_classes.Games.Tiles
 {
     public abstract class TileSet
     {

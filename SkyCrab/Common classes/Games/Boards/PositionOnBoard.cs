@@ -1,4 +1,4 @@
-﻿namespace Common_classes.Games.Boards
+﻿namespace SkyCrab.Common_classes.Games.Boards
 {
     public struct PositionOnBoard
     {
