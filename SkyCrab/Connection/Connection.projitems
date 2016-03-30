@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BasicConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptedConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkyCrabConnectionException.cs" />
   </ItemGroup>
