@@ -14,7 +14,7 @@ namespace SkyCrab.Classes.Menu
 
         private void ReturnMainMenu_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new Registration());
+            Switcher.Switch(new Registration()); // zastanowić się w jaki sposób przywrócić stan formularza rejestracji po przejrzeniu regulaminu
         }
     }
 }
