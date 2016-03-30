@@ -14,17 +14,36 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.2*"></ColumnDefinition>
-            <ColumnDefinition Width="0.4*"></ColumnDefinition>
-            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
+            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
         </Grid.RowDefinitions>
         <UniformGrid Grid.Column="1" Grid.Row="0">
             <Image Source="/Images/skycrab_logo.png" />
         </UniformGrid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="1">
+                <TextBlock Text="POMOC"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
+            </Viewbox>
+            <Grid  Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Visible"></RichTextBox>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <Viewbox>
+                <Button x:Name="ReturnMenu" Margin="20" Content="WRÓĆ DO MENU" FontFamily="Gill Sans Ultra Bold" BorderBrush="#FFE06E6E" Foreground="#FFF95F5F" Background="#FFFFD8D8" BorderThickness="2,5,5,5" Click="ReturnMenu_Click" RenderTransformOrigin="0.385,0.385" ></Button>
+            </Viewbox>
+        </Grid>
     </Grid>
 </UserControl>

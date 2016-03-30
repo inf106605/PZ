@@ -67,9 +67,6 @@
     <Compile Include="Classes\Menu\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\Options.xaml.cs">
-      <DependentUpon>Options.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Classes\Menu\PlayAsGuest.xaml.cs">
       <DependentUpon>PlayAsGuest.xaml</DependentUpon>
     </Compile>
@@ -89,10 +86,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Classes\Menu\Login.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Classes\Menu\Options.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

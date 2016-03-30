@@ -35,13 +35,6 @@ namespace SkyCrab.Menu
             Switcher.Switch(new Registration());
         }
 
-        // Akcja do przycisku - Opcje
-
-        private void Options_Button_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new Options());
-        }
-
         // Akcja do przycisku - Pomoc
 
         private void Help_Button_Click(object sender, RoutedEventArgs e)
