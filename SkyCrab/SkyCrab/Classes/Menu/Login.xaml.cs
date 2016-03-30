@@ -24,5 +24,10 @@ namespace SkyCrab.Classes.Menu
         {
             InitializeComponent();
         }
+
+        private void ButtonLoginReturn_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new SkyCrab.Menu.MainMenu());
+        }
     }
 }

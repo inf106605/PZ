@@ -23,5 +23,8 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="0.1*"></RowDefinition>
         </Grid.RowDefinitions>
+        <UniformGrid Grid.Column="1" Grid.Row="0">
+            <Image Source="/Images/skycrab_logo.png" />
+        </UniformGrid>
     </Grid>
 </UserControl>
