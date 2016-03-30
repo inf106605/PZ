@@ -16,24 +16,13 @@ using System.Windows.Shapes;
 namespace SkyCrab.Classes.Menu
 {
     /// <summary>
-    /// Interaction logic for Registration.xaml
+    /// Interaction logic for Rules.xaml
     /// </summary>
-    public partial class Registration : UserControl
+    public partial class Rules : UserControl
     {
-        public Registration()
+        public Rules()
         {
             InitializeComponent();
         }
-
-        private void RegistrationButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void CancelRegistrationButton_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new SkyCrab.Menu.MainMenu());
-        }
-
     }
 }
