@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SkyCrab.connection
 {
@@ -37,9 +32,6 @@ namespace SkyCrab.connection
 
         protected override void WriteBytes(byte[] bytes)
         {
-            #if DEBUG
-            WriteBytesToConsole("<", bytes);
-            #endif
             byte[] unencryptedBytes = new byte[CalcCriptogramSize(bytes.Length)];
             Array.Copy(bytes, unencryptedBytes, bytes.Length);
             var encryptor = outputRijndael.CreateEncryptor();
@@ -55,9 +47,6 @@ namespace SkyCrab.connection
             byte[] decryptedBytes = Transform(encryptedBytes, decryptor);
             byte[] bytes = new byte[size];
             Array.Copy(decryptedBytes, bytes, size);
-            #if DEBUG
-            WriteBytesToConsole(">", bytes);
-            #endif
             return bytes;
         }
 
@@ -81,25 +70,6 @@ namespace SkyCrab.connection
                 return transformedBytes;
             }
         }
-
-        #if DEBUG
-        protected void WriteBytesToConsole(String prefix, byte[] bytes)
-        {
-            Console.Write(prefix + " [");
-            bool first = true;
-            foreach (byte x in bytes)
-            {
-                if (first)
-                {
-                    first = false;
-                    Console.Write(x);
-                }
-                else
-                    Console.Write(", " + x);
-            }
-            Console.WriteLine("]");
-        }
-        #endif
 
         protected void WriteUnencryptedBytes(byte[] bytes)
         {

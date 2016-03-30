@@ -1,12 +1,8 @@
 ﻿using SkyCrab.connection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace Client_test
+namespace DummyClient
 {
     class DummyClient
     {
