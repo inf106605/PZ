@@ -1,9 +1,9 @@
-﻿using Common_classes.Players;
-using Common_classes.Rooms.Players;
-using Common_classes.Rooms.Rules;
+﻿using SkyCrab.Common_classes.Players;
+using SkyCrab.Common_classes.Rooms.Players;
+using SkyCrab.Common_classes.Rooms.Rules;
 using System.Collections.Generic;
 
-namespace Common_classes.Rooms
+namespace SkyCrab.Common_classes.Rooms
 {
     public class TooManyPlayersInRoomException : SkyCrabException
     {

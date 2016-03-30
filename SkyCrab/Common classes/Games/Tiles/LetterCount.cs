@@ -1,6 +1,6 @@
-﻿using Common_classes.Games.Letters;
+﻿using SkyCrab.Common_classes.Games.Letters;
 
-namespace Common_classes.Games.Tiles
+namespace SkyCrab.Common_classes.Games.Tiles
 {
     public struct LetterCount
     {

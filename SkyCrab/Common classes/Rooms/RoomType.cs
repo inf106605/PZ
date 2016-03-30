@@ -1,4 +1,4 @@
-﻿namespace Common_classes.Rooms
+﻿namespace SkyCrab.Common_classes.Rooms
 {
     public enum RoomType
     {

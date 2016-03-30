@@ -1,4 +1,4 @@
-﻿namespace Common_classes.Rooms.Rules
+﻿namespace SkyCrab.Common_classes.Rooms.Rules
 {
     public class Rule<T>
     {

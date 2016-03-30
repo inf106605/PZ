@@ -1,4 +1,4 @@
-﻿namespace Common_classes.Players
+﻿namespace SkyCrab.Common_classes.Players
 {
     public class Player
     {

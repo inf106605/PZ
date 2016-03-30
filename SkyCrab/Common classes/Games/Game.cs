@@ -1,11 +1,11 @@
-﻿using Common_classes.Games.Boards;
-using Common_classes.Games.Players;
-using Common_classes.Games.Pouches;
-using Common_classes.Players;
-using Common_classes.Rooms.Rules;
+﻿using SkyCrab.Common_classes.Games.Boards;
+using SkyCrab.Common_classes.Games.Players;
+using SkyCrab.Common_classes.Games.Pouches;
+using SkyCrab.Common_classes.Players;
+using SkyCrab.Common_classes.Rooms.Rules;
 using System.Collections.Generic;
 
-namespace Common_classes.Games
+namespace SkyCrab.Common_classes.Games
 {
     class Game
     {

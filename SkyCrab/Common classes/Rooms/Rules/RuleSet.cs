@@ -1,8 +1,8 @@
-﻿using Common_classes.Games.Boards;
-using Common_classes.Games.Pouches;
-using Common_classes.Games.Tiles;
+﻿using SkyCrab.Common_classes.Games.Boards;
+using SkyCrab.Common_classes.Games.Pouches;
+using SkyCrab.Common_classes.Games.Tiles;
 
-namespace Common_classes.Rooms.Rules
+namespace SkyCrab.Common_classes.Rooms.Rules
 {
 	//Options that are sure to exist for now.
     public struct RuleSet
