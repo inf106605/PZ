@@ -16,10 +16,13 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common classes\Common classes.projitems*{1db02aca-bcb6-4082-9848-3b5cc330b91e}*SharedItemsImports = 13
-		Common classes\Common classes.projitems*{97775c9f-bccc-4303-b9be-3236be43e1cc}*SharedItemsImports = 4
 		Connection\Connection.projitems*{6879bdad-9ae3-4307-83c2-24ef92cf63a5}*SharedItemsImports = 13
 		Connection\Connection.projitems*{9e4218b6-2b06-470b-a22c-b6ef02b16c62}*SharedItemsImports = 4
+		Common classes\Common classes.projitems*{9e4218b6-2b06-470b-a22c-b6ef02b16c62}*SharedItemsImports = 4
 		Connection\Connection.projitems*{3880ba3e-3c23-46ad-815a-11b66d8feabf}*SharedItemsImports = 4
+		Common classes\Common classes.projitems*{3880ba3e-3c23-46ad-815a-11b66d8feabf}*SharedItemsImports = 4
+		Connection\Connection.projitems*{97775c9f-bccc-4303-b9be-3236be43e1cc}*SharedItemsImports = 4
+		Common classes\Common classes.projitems*{97775c9f-bccc-4303-b9be-3236be43e1cc}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

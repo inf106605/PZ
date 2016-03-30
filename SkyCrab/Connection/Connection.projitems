@@ -6,7 +6,7 @@
     <SharedGUID>6879bdad-9ae3-4307-83c2-24ef92cf63a5</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Connection</Import_RootNamespace>
+    <Import_RootNamespace>SkyCrab.Connection</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DataConnection.cs" />
@@ -14,5 +14,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClientConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkyCrabConnectionException.cs" />
   </ItemGroup>
 </Project>

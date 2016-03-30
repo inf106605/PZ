@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 
-namespace SkyCrab.connection
+namespace SkyCrab.Connection
 {
     class ServerConnection : DataConnection
     {

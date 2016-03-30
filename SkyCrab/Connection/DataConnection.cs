@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using System.Text;
 
-namespace SkyCrab.connection
+namespace SkyCrab.Connection
 {
     internal abstract class DataConnection : EncryptedConnection
     {

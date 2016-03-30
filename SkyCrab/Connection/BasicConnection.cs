@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Net.Sockets;
 
-namespace SkyCrab.connection
+namespace SkyCrab.Connection
 {
     internal abstract class BasicConnection : IDisposable
     {
+
         public const int PORT = 8888;
 
         private TcpClient tcpClient;
@@ -31,7 +32,7 @@ namespace SkyCrab.connection
             {
                 UInt16 readedBytes = (UInt16)stream.Read(bytes, offset, size - offset);
                 if (readedBytes == 0)
-                    throw new Exception("Cannot read any more bytes from socket!");
+                    throw new SkyCrabConnectionException("Cannot read any more bytes from socket!");
                 offset += readedBytes;
             } while (offset != size);
             return bytes;
