@@ -18,5 +18,10 @@ namespace SkyCrab.Classes.Menu
         {
             Switcher.Switch(new MainMenu());
         }
+
+        private void ButonLoginConfirm_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new MainMenuLoggedPlayer());
+        }
     }
 }
