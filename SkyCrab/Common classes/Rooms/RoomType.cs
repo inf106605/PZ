@@ -1,6 +1,6 @@
 ﻿namespace SkyCrab.Common_classes.Rooms
 {
-    public enum RoomType
+    public enum RoomType : byte
     {
         PUBLIC = 0,
         FRIENDS = 1,

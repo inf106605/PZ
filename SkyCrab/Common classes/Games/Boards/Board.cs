@@ -46,7 +46,7 @@ namespace SkyCrab.Common_classes.Games.Boards
 
         public abstract string getSquareID(PositionOnBoard position, bool horizontal);
 
-        protected static string getStandardSquareID(PositionOnBoard position, bool horizontal)
+        protected static string getSquareStandardID(PositionOnBoard position, bool horizontal)
         {
             string number = (position.x + 1) + "";
             char letter = (char) (((int) 'A') + position.y);

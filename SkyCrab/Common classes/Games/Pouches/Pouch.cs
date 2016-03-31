@@ -6,13 +6,73 @@ using System.Security.Cryptography;
 
 namespace SkyCrab.Common_classes.Games.Pouches
 {
+
+    public class NoSuchLetterEntryInPouchException : SkyCrabException
+    {
+
+        public NoSuchLetterEntryInPouchException() :
+            base()
+        {
+        }
+
+    }
+
+    public class NoSuchTileInPouchException : SkyCrabException
+    {
+
+        public NoSuchTileInPouchException() :
+            base()
+        {
+        }
+
+    }
+
+    public class PouchHasToNotBeDummyToUseThisMethodException : SkyCrabException
+    {
+
+        public PouchHasToNotBeDummyToUseThisMethodException() :
+            base()
+        {
+        }
+
+    }
+
+    public class PouchHasToBeDummyToUseThisMethodException : SkyCrabException
+    {
+
+        public PouchHasToBeDummyToUseThisMethodException() :
+            base()
+        {
+        }
+
+    }
+
+
     public class Pouch
     {
 
+        private byte id;
+        private bool dummy;
         private readonly LetterCount[] tiles;
         private uint count;
-        private RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();  //TODO Maybe this should be static. It would need thread synchronization but would be even more random. However, it would be bottleneck of the server. Anyway, that strong randomness is not needed. It could be standard random function, but prezentation says something else, so...
+        private RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();  //Maybe this should be static. It would need thread synchronization but would be even more random. However, it would be bottleneck of the server. Anyway, that strong randomness is not needed. It could be standard random function, but prezentation says something else, so...
 
+
+        public byte Id
+        {
+            get
+            {
+                return id;
+            }
+        }
+
+        public bool Dummy
+        {
+            get
+            {
+                return dummy;
+            }
+        }
 
         public uint Count
         {
@@ -23,30 +83,63 @@ namespace SkyCrab.Common_classes.Games.Pouches
         }
 
 
-        public Pouch(IList<LetterCount> letters)
+        public Pouch(byte id, IList<LetterCount> letters)
         {
-            tiles = new LetterCount[letters.Count];
-            count = 0;
+            this.id = id;
+            this.dummy = false;
+            this.tiles = new LetterCount[letters.Count];
+            this.count = 0;
             for (uint i = 0; i != letters.Count; ++i)
             {
                 LetterCount letterCount = letters[(int)i];
-                tiles[i] = letterCount.Clone();
-                count += letterCount.count;
+                this.tiles[i] = letterCount.Clone();
+                this.count += letterCount.count;
             }
         }
 
-        public Pouch(uint letterCount)
+        public Pouch(byte id, uint letterCount)
         {
-            tiles = new LetterCount[1] { new LetterCount(LetterSet.BLANK, letterCount) };
-            count = letterCount;
+            this.id = id;
+            this.dummy = true;
+            this.tiles = new LetterCount[1] { new LetterCount(LetterSet.BLANK, letterCount) };
+            this.count = letterCount;
         }
 
         public bool hasLetter(Letter letter)
         {
+            if (dummy)
+                throw new PouchHasToNotBeDummyToUseThisMethodException();
             foreach (LetterCount letterCount in tiles)
                 if (ReferenceEquals(letterCount.letter, letter))
                     return letterCount.count != 0;
             return false;
+        }
+
+        public void InsertTile(Letter letter)
+        {
+            if (dummy)
+            {
+                InsertAnyTile();
+                return;
+            }
+            for (uint i = 0; i != tiles.Length; ++i)
+            {
+                LetterCount letterCount = tiles[i];
+                if (ReferenceEquals(letterCount.letter, letter))
+                {
+                    ++letterCount.count;
+                    ++count;
+                }
+            }
+            throw new NoSuchLetterEntryInPouchException();
+        }
+
+        public void InsertAnyTile()
+        {
+            if (!dummy)
+                throw new PouchHasToBeDummyToUseThisMethodException();
+            ++tiles[0].count;
+            ++count;
         }
 
         public Tile DrawTileWithLetter(Letter letter)
@@ -56,13 +149,15 @@ namespace SkyCrab.Common_classes.Games.Pouches
                 LetterCount letterCount = tiles[i];
                 if (ReferenceEquals(letterCount.letter, letter))
                 {
+                    if (letterCount.count == 0)
+                        throw new NoSuchTileInPouchException();
                     Tile tile = new Tile(letterCount.letter);
                     --letterCount.count;
                     --count;
                     return tile;
                 }
             }
-            return null;
+            throw new NoSuchLetterEntryInPouchException();
         }
 
         public Tile DrawRandowmTile()
@@ -92,7 +187,7 @@ namespace SkyCrab.Common_classes.Games.Pouches
             for (uint i = 0; i != tiles.Length; ++i)
             {
                 LetterCount letterCount = tiles[i];
-                if (number <= letterCount.count)
+                if (number < letterCount.count)
                 {
                     Tile tile = new Tile(letterCount.letter);
                     --letterCount.count;
@@ -104,7 +199,7 @@ namespace SkyCrab.Common_classes.Games.Pouches
                     number -= letterCount.count;
                 }
             }
-            return null;
+            throw new NoSuchTileInPouchException();
         }
 
     }

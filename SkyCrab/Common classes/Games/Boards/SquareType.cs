@@ -1,6 +1,6 @@
 ﻿namespace SkyCrab.Common_classes.Games.Boards
 {
-    public enum SquareType
+    public enum SquareType : byte
     {
         normal = 0,
         start = 1,

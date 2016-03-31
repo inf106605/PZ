@@ -104,6 +104,17 @@ namespace SkyCrab.Common_classes.Rooms
             }
         }
 
+        public bool AllPlayersReady
+        {
+            get
+            {
+                foreach (PlayerInRoom player in players)
+                    if (!player.IsReady)
+                        return false;
+                return true;
+            }
+        }
+
 
         public Room(uint id, Player owner, string name, RoomType roomType, RuleSet rules)
         {
