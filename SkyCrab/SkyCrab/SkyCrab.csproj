@@ -76,6 +76,9 @@
     <Compile Include="Classes\Menu\PlayAsLoggedPlayer.xaml.cs">
       <DependentUpon>PlayAsLoggedPlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\Profile.xaml.cs">
+      <DependentUpon>Profile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Menu\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
@@ -104,6 +107,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Classes\Menu\PlayAsLoggedPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Profile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

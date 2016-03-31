@@ -32,7 +32,7 @@ namespace SkyCrab.Classes.Menu
 
         private void Profil_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Switcher.Switch(new Profile());
         }
 
         private void History_Game_Button_Click(object sender, RoutedEventArgs e)
