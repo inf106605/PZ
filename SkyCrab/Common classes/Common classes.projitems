@@ -27,6 +27,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\TileSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Players\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Players\PlayerProfile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Result\Result.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Result\Score.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rooms\Room.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rooms\Players\PlayerInRoom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rooms\RoomType.cs" />

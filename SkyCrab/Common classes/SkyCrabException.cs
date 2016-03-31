@@ -5,7 +5,7 @@ namespace SkyCrab.Common_classes
     public class SkyCrabException : Exception
     {
 
-        public SkyCrabException() :
+        protected SkyCrabException() :
             base()
         {
         }
