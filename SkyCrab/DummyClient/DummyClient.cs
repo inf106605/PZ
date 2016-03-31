@@ -1,4 +1,4 @@
-﻿using SkyCrab.Connection;
+﻿using SkyCrab.Connection.AplicationLayer;
 using System;
 using System.Threading;
 
@@ -13,7 +13,7 @@ namespace DummyClient
                 Console.WriteLine("Client");
                 ClientConnection.Inicjalize();
 
-                using (DataConnection connection = new ClientConnection("localhost", 100))
+                using (ClientConnection connection = new ClientConnection("localhost", 100))
                 {
                     connection.WriteString("Hello World!");
                     UInt32 aaa = connection.ReadUInt32();

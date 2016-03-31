@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SkyCrab.Connection.SessionLayer;
+using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 
-namespace SkyCrab.Connection
+namespace SkyCrab.Connection.PresentationLayer
 {
     internal abstract class EncryptedConnection : BasicConnection
     {

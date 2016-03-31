@@ -2,9 +2,9 @@
 using System.Net.Sockets;
 using System.Security.Cryptography;
 
-namespace SkyCrab.Connection
+namespace SkyCrab.Connection.PresentationLayer
 {
-    class ClientConnection : MessageConnection
+    class ClientEncryptedConnection : MessageConnection
     {
         
         private const String publicKeyFilePath = "./public_key.txt";
@@ -18,8 +18,8 @@ namespace SkyCrab.Connection
                 throw new Exception();
         }
 
-        public ClientConnection(string host, int readTimeout) :
-            base(new TcpClient(host, PORT), readTimeout)
+        public ClientEncryptedConnection(TcpClient tcpClient, int readTimeout) :
+            base(tcpClient, readTimeout)
         {
         }
 

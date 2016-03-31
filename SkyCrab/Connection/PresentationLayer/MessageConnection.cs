@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 
-namespace SkyCrab.Connection
+namespace SkyCrab.Connection.PresentationLayer
 {
     public class SkyCrabConnectionProtocolVersionException : SkyCrabConnectionException
     {

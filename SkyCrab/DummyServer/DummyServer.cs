@@ -1,4 +1,4 @@
-﻿using SkyCrab.Connection;
+﻿using SkyCrab.Connection.AplicationLayer;
 using System;
 using System.Net.Sockets;
 using System.Threading;
@@ -14,12 +14,12 @@ namespace DummyServer
                 Console.WriteLine("Server");
                 ServerConnection.Inicjalize();
 
-                TcpListener tcpListener = new TcpListener(BasicConnection.PORT);
+                TcpListener tcpListener = new TcpListener(ServerConnection.PORT);
                 tcpListener.Start();
                 TcpClient tcpClient = tcpListener.AcceptTcpClient();
                 tcpListener.Stop();
 
-                using (DataConnection connection = new ServerConnection(tcpClient, 100))
+                using (ServerConnection connection = new ServerConnection(tcpClient, 100))
                 {
                     connection.WriteUInt32(101011101);
                     string aaa = connection.ReadString();

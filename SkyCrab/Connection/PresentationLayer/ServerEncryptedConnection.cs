@@ -3,9 +3,9 @@ using System.IO;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 
-namespace SkyCrab.Connection
+namespace SkyCrab.Connection.PresentationLayer
 {
-    class ServerConnection : MessageConnection
+    class ServerEncryptedConnection : MessageConnection
     {
 
         private const String keysFilePath = "./keys_top_secret.txt";
@@ -20,7 +20,7 @@ namespace SkyCrab.Connection
                 throw new Exception();
         }
 
-        public ServerConnection(TcpClient tcpClient, int readTimeout) :
+        public ServerEncryptedConnection(TcpClient tcpClient, int readTimeout) :
             base(tcpClient, readTimeout)
         {
         }

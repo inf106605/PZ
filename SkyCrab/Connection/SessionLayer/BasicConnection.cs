@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 
-namespace SkyCrab.Connection
+namespace SkyCrab.Connection.SessionLayer
 {
     internal abstract class BasicConnection : IDisposable
     {
