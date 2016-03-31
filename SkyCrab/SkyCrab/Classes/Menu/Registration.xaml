@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkyCrab.Classes.Menu"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="480" d:DesignWidth="640">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -81,17 +81,27 @@
                 </Viewbox>
             </UniformGrid>
         </Grid>
-        <Button x:Name="RegistrationButton" Grid.Column="1" Grid.Row="2" Margin="60 20 60 20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="RegistrationButton_Click">
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" HorizontalAlignment="Stretch">
+                <Button x:Name="RegistrationButton" Margin="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="RegistrationButton_Click">
             <UniformGrid Rows="2">
                 <Image Source="/Images/confirm_small.png"/>
                     <TextBlock>REJESTRUJ</TextBlock>
             </UniformGrid>
         </Button>
-        <Button x:Name="CancelRegistrationButton" Grid.Column="2" Grid.Row="2" Margin="50 20 50 20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="CancelRegistrationButton_Click">
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button x:Name="CancelRegistrationButton" Margin="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="CancelRegistrationButton_Click">
             <UniformGrid Rows="2">
                 <Image Source="/Images/cancel_small.png"/>
                 <TextBlock>ANULUJ</TextBlock>
             </UniformGrid>
         </Button>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>
