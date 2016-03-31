@@ -26,8 +26,8 @@ namespace SkyCrab.Common_classes.Games.Boards
         static StandardBoard()
         {
             squares = new List<PositionOnBoard>(15 * 15);
-            for (int i = 0; i != 14; ++i)
-                for (int j = 0; j != 14; ++j)
+            for (int i = 0; i != 15; ++i)
+                for (int j = 0; j != 15; ++j)
                     squares.Add(new PositionOnBoard(i, j));
         }
 
@@ -74,24 +74,9 @@ namespace SkyCrab.Common_classes.Games.Boards
 
         public StandardBoard()
         {
-            tiles = new Tile[15][]
-                    {
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15],
-                        new Tile[15]
-                    };
+            tiles = new Tile[15][];
+            for (uint i = 0; i != 15; ++i)
+                tiles[i] = new Tile[15];
         }
 
         public override bool IsSquare(PositionOnBoard position)
@@ -127,7 +112,7 @@ namespace SkyCrab.Common_classes.Games.Boards
 
         public override string getSquareID(PositionOnBoard position, bool horizontal)
         {
-            return getStandardSquareID(position, horizontal);
+            return getSquareStandardID(position, horizontal);
         }
 
     }
