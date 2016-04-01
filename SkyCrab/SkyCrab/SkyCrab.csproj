@@ -55,70 +55,84 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\Menu\About.xaml.cs">
+    <Compile Include="Classes\Menu\Guest\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\Help.xaml.cs">
+    <Compile Include="Classes\Menu\Guest\Help.xaml.cs">
       <DependentUpon>Help.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\Login.xaml.cs">
+    <Compile Include="Classes\Menu\LoggedPlayer\AboutProgramLoggedPlayer.xaml.cs">
+      <DependentUpon>AboutProgramLoggedPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\HelpLoggedPlayer.xaml.cs">
+      <DependentUpon>HelpLoggedPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\MainMenu.xaml.cs">
+    <Compile Include="Classes\Menu\Guest\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\MainMenuLoggedPlayer.xaml.cs">
+    <Compile Include="Classes\Menu\LoggedPlayer\MainMenuLoggedPlayer.xaml.cs">
       <DependentUpon>MainMenuLoggedPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\PlayAsGuest.xaml.cs">
+    <Compile Include="Classes\Menu\Guest\PlayAsGuest.xaml.cs">
       <DependentUpon>PlayAsGuest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\PlayAsLoggedPlayer.xaml.cs">
+    <Compile Include="Classes\Menu\LoggedPlayer\PlayAsLoggedPlayer.xaml.cs">
       <DependentUpon>PlayAsLoggedPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\Profile.xaml.cs">
+    <Compile Include="Classes\Menu\LoggedPlayer\Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\Registration.xaml.cs">
+    <Compile Include="Classes\Menu\Guest\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Menu\Rules.xaml.cs">
+    <Compile Include="Classes\Menu\Guest\Rules.xaml.cs">
       <DependentUpon>Rules.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switcher.cs" />
-    <Page Include="Classes\Menu\About.xaml">
+    <Page Include="Classes\Menu\Guest\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Classes\Menu\Help.xaml">
+    <Page Include="Classes\Menu\Guest\Help.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Classes\Menu\Login.xaml">
+    <Page Include="Classes\Menu\LoggedPlayer\AboutProgramLoggedPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Classes\Menu\MainMenuLoggedPlayer.xaml">
+    <Page Include="Classes\Menu\LoggedPlayer\HelpLoggedPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Classes\Menu\PlayAsGuest.xaml">
+    <Page Include="Classes\Menu\Guest\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Classes\Menu\PlayAsLoggedPlayer.xaml">
+    <Page Include="Classes\Menu\LoggedPlayer\MainMenuLoggedPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Classes\Menu\Profile.xaml">
+    <Page Include="Classes\Menu\Guest\PlayAsGuest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Classes\Menu\Registration.xaml">
+    <Page Include="Classes\Menu\LoggedPlayer\PlayAsLoggedPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Classes\Menu\Rules.xaml">
+    <Page Include="Classes\Menu\LoggedPlayer\Profile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\Registration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\Rules.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,7 +148,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Classes\Menu\MainMenu.xaml">
+    <Page Include="Classes\Menu\Guest\MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SkyCrab.Classes.Menu.LoggedPlayer;
+using SkyCrab.Menu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,17 +44,17 @@ namespace SkyCrab.Classes.Menu
 
         private void Help_Button_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new Help());
+            Switcher.Switch(new HelpLoggedPlayer());
         }
 
         private void AboutProgram_Button_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new About());
+            Switcher.Switch(new AboutProgramLoggedPlayer());
         }
 
         private void Logout_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Switcher.Switch(new MainMenu());
         }
 
         private void Shuttdown_Button_Click(object sender, RoutedEventArgs e)
