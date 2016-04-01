@@ -23,7 +23,7 @@ namespace SkyCrab.Classes.Menu
         public PlayAsLoggedPlayer()
         {
             InitializeComponent();
-        }
+        } 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

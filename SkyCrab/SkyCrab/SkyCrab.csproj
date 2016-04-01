@@ -58,6 +58,9 @@
     <Compile Include="Classes\Menu\Guest\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\Guest\ForgottenPassword.xaml.cs">
+      <DependentUpon>ForgottenPassword.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Menu\Guest\Help.xaml.cs">
       <DependentUpon>Help.xaml</DependentUpon>
     </Compile>
@@ -93,6 +96,10 @@
     </Compile>
     <Compile Include="Switcher.cs" />
     <Page Include="Classes\Menu\Guest\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\ForgottenPassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

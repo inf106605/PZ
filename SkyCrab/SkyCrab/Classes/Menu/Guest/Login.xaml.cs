@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using SkyCrab.Menu;
+using SkyCrab.Classes.Menu.Guest;
 
 namespace SkyCrab.Classes.Menu
 {
@@ -22,6 +23,11 @@ namespace SkyCrab.Classes.Menu
         private void ButonLoginConfirm_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new MainMenuLoggedPlayer());
+        }
+
+        private void ButtonForgottenPassword_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new ForgottenPassword());
         }
     }
 }
