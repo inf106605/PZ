@@ -81,22 +81,20 @@
                 <Viewbox HorizontalAlignment="Left">
                     <TextBlock Name="moreOptionTextBlock" Margin="5"  Text="DODATKOWE OPCJE" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" ></TextBlock>
                 </Viewbox>
-                <UniformGrid Columns="2">
-                    <Viewbox>
-                        <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right"  Foreground="#FFF95F5F"></TextBlock>
-                    </Viewbox>
-                    <Viewbox>
-                        <ComboBox IsEditable="True" Text="15" IsReadOnly="False" Name="TimeLimit" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Width="46">
-                            <ComboBoxItem Tag="1">5</ComboBoxItem>
-                            <ComboBoxItem Tag="2">10</ComboBoxItem>
-                            <ComboBoxItem Tag="3">15</ComboBoxItem>
-                            <ComboBoxItem Tag="4">30</ComboBoxItem>
-                            <ComboBoxItem Tag="5">45</ComboBoxItem>
-                            <ComboBoxItem Tag="6">60</ComboBoxItem>
-                            <ComboBoxItem Tag="6">Brak limitu</ComboBoxItem>
-                        </ComboBox>
-                    </Viewbox>
+                <Viewbox HorizontalAlignment="Left">
+                    <UniformGrid Columns="2">
+                    <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
+                    <ComboBox IsEditable="True" Text="15" IsReadOnly="False" Name="TimeLimit" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <ComboBoxItem Tag="1">5</ComboBoxItem>
+                        <ComboBoxItem Tag="2">10</ComboBoxItem>
+                        <ComboBoxItem Tag="3">15</ComboBoxItem>
+                        <ComboBoxItem Tag="4">30</ComboBoxItem>
+                        <ComboBoxItem Tag="5">45</ComboBoxItem>
+                        <ComboBoxItem Tag="6">60</ComboBoxItem>
+                        <ComboBoxItem Tag="6">Brak limitu</ComboBoxItem>
+                    </ComboBox>
                 </UniformGrid>
+                </Viewbox>
             </UniformGrid>
 
         </Grid>
@@ -107,7 +105,7 @@
                 <ColumnDefinition Width="0.2*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <UniformGrid Columns="2" Grid.Column="1">
-                <Button Name="GameAreaButton" Content="GRAJ" Margin="20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" ></Button>
+                <Button Name="GameAreaButton" Content="STWÓRZ POKÓJ" Margin="20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" ></Button>
                 <Button Name="PlayAsLoggedPlayerReturn"   Content="POWRÓT" Margin="20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="PlayAsLoggedPlayerReturn_Click"></Button>
             </UniformGrid>
         </Grid>
