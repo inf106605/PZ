@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
     /// </summary>
     public partial class CreateRoomForLoggedPlayers : UserControl
     {
+        ObservableCollection<String> labels; //  values of selectbox ( count players )
+
         public CreateRoomForLoggedPlayers()
         {
             InitializeComponent();
@@ -28,6 +31,18 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         private void PlayAsLoggedPlayerReturn_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new PlayAsLoggedPlayer());
+        }
+
+        private void maxCountPlayersComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            labels = new ObservableCollection<String>();
+            for (int i = 1; i <= 4; i++)
+            {
+                labels.Add(i.ToString());
+            }
+
+            maxCountPlayersComboBox.ItemsSource = labels;
+            maxCountPlayersComboBox.SelectedIndex = 0;
         }
     }
 }

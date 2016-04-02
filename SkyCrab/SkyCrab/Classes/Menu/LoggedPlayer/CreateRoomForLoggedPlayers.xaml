@@ -76,12 +76,7 @@
                 </Viewbox>
                 <Viewbox HorizontalAlignment="Left" Margin="1">
                     <UniformGrid>
-                        <ComboBox  Name="maxCountPlayersComboBox"  Text="1" MinWidth="50" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                            <ComboBoxItem Tag="1">1</ComboBoxItem>
-                            <ComboBoxItem Tag="2">2</ComboBoxItem>
-                            <ComboBoxItem Tag="3">3</ComboBoxItem>
-                            <ComboBoxItem Tag="4">4</ComboBoxItem>
-                        </ComboBox>
+                        <ComboBox  Name="maxCountPlayersComboBox"  SelectedIndex="0" MinWidth="50" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="maxCountPlayersComboBox_Loaded" ></ComboBox>
                     </UniformGrid>
                 </Viewbox>
             </UniformGrid>

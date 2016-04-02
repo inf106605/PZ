@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace SkyCrab.Classes.Menu.Guest
     /// </summary>
     public partial class CreateRoomForGuest : UserControl
     {
+        ObservableCollection<String> labels;
+
         public CreateRoomForGuest()
         {
             InitializeComponent();
@@ -29,5 +32,18 @@ namespace SkyCrab.Classes.Menu.Guest
         {
             Switcher.Switch(new PlayAsGuest());
         }
+
+        private void maxCountPlayersComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            labels = new ObservableCollection<String>();
+            for (int i = 1; i <= 4; i++)
+            {
+                labels.Add(i.ToString());
+            }
+
+            maxCountPlayersComboBox.ItemsSource = labels;
+            maxCountPlayersComboBox.SelectedIndex = 0;
+        }
+
     }
 }
