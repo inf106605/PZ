@@ -91,7 +91,7 @@
                 <Button x:Name="RegistrationButton" Margin="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Confirm_Click">
                     <UniformGrid Rows="2">
                         <Image Source="/Images/confirm_small.png"/>
-                        <TextBlock>REJESTRUJ</TextBlock>
+                        <TextBlock>ZATWIERDŹ</TextBlock>
                     </UniformGrid>
                 </Button>
             </Grid>

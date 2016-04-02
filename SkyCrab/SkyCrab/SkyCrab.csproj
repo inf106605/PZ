@@ -58,6 +58,9 @@
     <Compile Include="Classes\Menu\Guest\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\Guest\CreateRoomForGuest.xaml.cs">
+      <DependentUpon>CreateRoomForGuest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Menu\Guest\ForgottenPassword.xaml.cs">
       <DependentUpon>ForgottenPassword.xaml</DependentUpon>
     </Compile>
@@ -66,6 +69,9 @@
     </Compile>
     <Compile Include="Classes\Menu\LoggedPlayer\AboutProgramLoggedPlayer.xaml.cs">
       <DependentUpon>AboutProgramLoggedPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\CreateRoomForLoggedPlayers.xaml.cs">
+      <DependentUpon>CreateRoomForLoggedPlayers.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Menu\LoggedPlayer\HelpLoggedPlayer.xaml.cs">
       <DependentUpon>HelpLoggedPlayer.xaml</DependentUpon>
@@ -99,6 +105,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Classes\Menu\Guest\CreateRoomForGuest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Classes\Menu\Guest\ForgottenPassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Classes\Menu\LoggedPlayer\AboutProgramLoggedPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\CreateRoomForLoggedPlayers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

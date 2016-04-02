@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyCrab.Classes.Menu.LoggedPlayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,11 @@ namespace SkyCrab.Classes.Menu
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new MainMenuLoggedPlayer());
+        }
+
+        private void RoomCreateButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new CreateRoomForLoggedPlayers());
         }
     }
 }

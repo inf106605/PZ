@@ -12,29 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SkyCrab.Menu;
-using SkyCrab.Classes.Menu.Guest;
 
-namespace SkyCrab.Classes.Menu
+namespace SkyCrab.Classes.Menu.LoggedPlayer
 {
     /// <summary>
-    /// Interaction logic for PlayAsGuest.xaml
+    /// Interaction logic for CreateRoomForLoggedPlayers.xaml
     /// </summary>
-    public partial class PlayAsGuest : UserControl
+    public partial class CreateRoomForLoggedPlayers : UserControl
     {
-        public PlayAsGuest()
+        public CreateRoomForLoggedPlayers()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void PlayAsLoggedPlayerReturn_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new MainMenu());
-        }
-
-        private void RoomCreateButton_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new CreateRoomForGuest());
+            Switcher.Switch(new PlayAsLoggedPlayer());
         }
     }
 }
