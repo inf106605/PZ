@@ -65,17 +65,19 @@
                 <Viewbox HorizontalAlignment="Left">
                     <TextBox x:Name="nameRommTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
                 </Viewbox>
-                <UniformGrid Columns="3">
-                    <Viewbox HorizontalAlignment="Left">
-                        <RadioButton x:Name="publicRoomRadioButton" Content="publiczny" Margin="5" MinWidth="150" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
-                    </Viewbox>
-                    <Viewbox HorizontalAlignment="Left">
-                        <RadioButton x:Name="friendsRoomRadioButton" Content="znajomi" Margin="5" MinWidth="150" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
-                    </Viewbox>
-                    <Viewbox HorizontalAlignment="Left">
-                        <RadioButton x:Name="privateRoomRadioButton" Content="prywatny" Margin="5" MinWidth="150" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
-                    </Viewbox>
+                <Viewbox HorizontalAlignment="Left">
+                    <UniformGrid Columns="3" >
+                    
+                        <RadioButton x:Name="publicRoomRadioButton" Margin="10" Content="publiczny"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
+
+
+                        <RadioButton x:Name="friendsRoomRadioButton" Margin="10" Content="znajomi"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
+
+
+                        <RadioButton x:Name="privateRoomRadioButton" Margin="10" Content="prywatny"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
+                    
                 </UniformGrid>
+                </Viewbox>
                 <Viewbox HorizontalAlignment="Left">
                     <TextBlock Name="moreOptionTextBlock" Margin="5"  Text="DODATKOWE OPCJE" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" ></TextBlock>
                 </Viewbox>
@@ -84,13 +86,14 @@
                         <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right"  Foreground="#FFF95F5F"></TextBlock>
                     </Viewbox>
                     <Viewbox>
-                        <ComboBox IsEditable="True" IsReadOnly="False" Name="TimeLimit" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Width="46">
+                        <ComboBox IsEditable="True" Text="15" IsReadOnly="False" Name="TimeLimit" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Width="46">
                             <ComboBoxItem Tag="1">5</ComboBoxItem>
                             <ComboBoxItem Tag="2">10</ComboBoxItem>
                             <ComboBoxItem Tag="3">15</ComboBoxItem>
                             <ComboBoxItem Tag="4">30</ComboBoxItem>
                             <ComboBoxItem Tag="5">45</ComboBoxItem>
                             <ComboBoxItem Tag="6">60</ComboBoxItem>
+                            <ComboBoxItem Tag="6">Brak limitu</ComboBoxItem>
                         </ComboBox>
                     </Viewbox>
                 </UniformGrid>
