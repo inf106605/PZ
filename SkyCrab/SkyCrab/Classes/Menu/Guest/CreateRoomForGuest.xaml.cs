@@ -25,7 +25,7 @@ namespace SkyCrab.Classes.Menu.Guest
             InitializeComponent();
         }
 
-        private void PlayAsGuestMenuReturn_Click(object sender, RoutedEventArgs e)
+        private void PlayAsGuestReturn_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new PlayAsGuest());
         }
