@@ -78,9 +78,7 @@
                     
                 </UniformGrid>
                 </Viewbox>
-                <Viewbox HorizontalAlignment="Left">
-                    <TextBlock Name="moreOptionTextBlock" Margin="5"  Text="DODATKOWE OPCJE" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" ></TextBlock>
-                </Viewbox>
+   
                 <Viewbox HorizontalAlignment="Left">
                     <UniformGrid Columns="2">
                     <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
@@ -94,6 +92,17 @@
                         <ComboBoxItem Tag="6">Brak limitu</ComboBoxItem>
                     </ComboBox>
                 </UniformGrid>
+                </Viewbox>
+                <Viewbox HorizontalAlignment="Left">
+                    <UniformGrid Columns="2">
+                        <TextBlock Name="maxCountPlayersTextBlock"  Text="Liczba graczy" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
+                        <ComboBox  Name="maxCountPlayersComboBox" Text="1" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <ComboBoxItem Tag="1">1</ComboBoxItem>
+                            <ComboBoxItem Tag="2">2</ComboBoxItem>
+                            <ComboBoxItem Tag="3">3</ComboBoxItem>
+                            <ComboBoxItem Tag="4">4</ComboBoxItem>
+                        </ComboBox>
+                    </UniformGrid>
                 </Viewbox>
             </UniformGrid>
 
