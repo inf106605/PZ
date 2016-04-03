@@ -35,7 +35,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.1*"></RowDefinition>
                 <RowDefinition Height="0.2*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="0.8*"></RowDefinition>
             </Grid.RowDefinitions>
             <UniformGrid Rows="1" Grid.Row="1" Grid.ColumnSpan="2">
                 <Viewbox>
@@ -43,13 +43,13 @@
                 </Viewbox>
             </UniformGrid>
             <Viewbox Grid.Row="4" Grid.Column="0">
-                <UniformGrid Rows="4">
+                <UniformGrid Rows="3">
                     <TextBlock Name="NameRoomLabel"  Text="NAZWA POKOJU" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5" Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="maxCountPlayersTextBlock" Text="Liczba graczy" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5" Foreground="#FFF95F5F"></TextBlock>
                 </UniformGrid>
             </Viewbox>
-            <UniformGrid Rows="4" Grid.Row="2" Grid.Column="1">
+            <UniformGrid Rows="3" Grid.Row="2" Grid.Column="1">
                 <Viewbox HorizontalAlignment="Left">
                     <TextBlock x:Name="nameRommTextBlock" Text="Nazwa_pokoju" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
                 </Viewbox>
@@ -65,5 +65,48 @@
                 </Viewbox>
             </UniformGrid>
         </Grid>
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.25*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="0.35*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="0">
+                <UniformGrid Rows="1">
+                <TextBlock x:Name="RulesNameTextBlock" Text="LISTA GRACZY" HorizontalAlignment="Center" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
+            </UniformGrid>
+            </Viewbox>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Viewbox Grid.Column="0">
+                    <UniformGrid Rows="4">
+                        <TextBlock x:Name="Player1TextBlock" Text="1. Gracz1" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock x:Name="Player2TextBlock" Text="2. Gracz2" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock x:Name="Player3TextBlock" Text="3. Gracz3" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock x:Name="Player4TextBlock" Text="4. Gracz4" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
+                    </UniformGrid>
+                </Viewbox>
+                <Viewbox Grid.Column="1" HorizontalAlignment="Left">
+                    <UniformGrid Rows="4">
+                        <TextBlock x:Name="StatusPlayer1TextBlock" Text="Status: Gotowy" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock x:Name="StatusPlayer2TextBlock" Text="Status: Oczekujący" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock x:Name="StatusPlayer3TextBlock" Text="Status: Gotowy" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock x:Name="StatusPlayer4TextBlock" Text="Status: Oczekujący" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
+                    </UniformGrid>
+                </Viewbox>
+            </Grid>
+            <Viewbox Grid.Row="2">
+                <UniformGrid Rows="1">
+                    <Button Name="RulesOfGameLobbyButton" Content="REGUŁY GRY"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
+                </UniformGrid>
+            </Viewbox>
+        </Grid>
+        <UniformGrid Columns="2" Grid.Column="1" Grid.Row="3">
+            <Button Name="GameAreaButton" Content="GRAJ" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" ></Button>
+            <Button Name="ReturnCreateRoomForGuest"   Content="POWRÓT" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ReturnCreateRoomForGuest_Click"></Button>
+        </UniformGrid>
     </Grid>
 </UserControl>

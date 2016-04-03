@@ -24,5 +24,10 @@ namespace SkyCrab.Classes.Menu.Guest
         {
             InitializeComponent();
         }
+
+        private void ReturnCreateRoomForGuest_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new CreateRoomForGuest());
+        }
     }
 }
