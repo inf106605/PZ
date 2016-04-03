@@ -45,5 +45,9 @@ namespace SkyCrab.Classes.Menu.Guest
             maxCountPlayersComboBox.SelectedIndex = 0;
         }
 
+        private void GameAreaButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new LobbyGameForGuest());
+        }
     }
 }

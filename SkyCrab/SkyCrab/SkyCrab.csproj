@@ -67,6 +67,9 @@
     <Compile Include="Classes\Menu\Guest\Help.xaml.cs">
       <DependentUpon>Help.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\Guest\LobbyGameForGuest.xaml.cs">
+      <DependentUpon>LobbyGameForGuest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Menu\LoggedPlayer\AboutProgramLoggedPlayer.xaml.cs">
       <DependentUpon>AboutProgramLoggedPlayer.xaml</DependentUpon>
     </Compile>
@@ -81,6 +84,9 @@
     </Compile>
     <Compile Include="Classes\Menu\Guest\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\LobbyGameForLoggedPlayer.xaml.cs">
+      <DependentUpon>LobbyGameForLoggedPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Menu\LoggedPlayer\MainMenuLoggedPlayer.xaml.cs">
       <DependentUpon>MainMenuLoggedPlayer.xaml</DependentUpon>
@@ -117,6 +123,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Classes\Menu\Guest\LobbyGameForGuest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Classes\Menu\LoggedPlayer\AboutProgramLoggedPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Classes\Menu\Guest\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\LobbyGameForLoggedPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

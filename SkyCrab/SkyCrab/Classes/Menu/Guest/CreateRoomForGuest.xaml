@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkyCrab.Classes.Menu.Guest"
              mc:Ignorable="d" 
-           d:DesignHeight="300" d:DesignWidth="300">
+           d:DesignHeight="480" d:DesignWidth="640">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -80,7 +80,7 @@
                 <ColumnDefinition Width="0.2*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <UniformGrid Columns="2" Grid.Column="1">
-                <Button Name="GameAreaButton" Content="STWÓRZ POKÓJ" Margin="20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" ></Button>
+                <Button Name="GameAreaButton" Content="STWÓRZ POKÓJ" Margin="20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="GameAreaButton_Click" ></Button>
                 <Button Name="PlayAsGuestReturn"   Content="POWRÓT" Margin="20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="PlayAsGuestReturn_Click"></Button>
             </UniformGrid>
         </Grid>

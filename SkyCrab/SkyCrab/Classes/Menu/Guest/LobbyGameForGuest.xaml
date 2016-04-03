@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="SkyCrab.Classes.Menu.Guest.LobbyGameForGuest"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkyCrab.Classes.Menu.Guest"
+             mc:Ignorable="d" 
+        d:DesignHeight="480" d:DesignWidth="640">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF2CDAFF" Offset="0"/>
+                <GradientStop Color="#FFC2FFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
+            <ColumnDefinition Width="0.8*"></ColumnDefinition>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <UniformGrid Grid.Column="1" Grid.Row="0">
+            <Image Source="/Images/skycrab_logo.png" />
+        </UniformGrid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="0.8*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.2*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <UniformGrid Rows="1" Grid.Row="1" Grid.ColumnSpan="2">
+                <Viewbox>
+                    <TextBlock x:Name="SettingsRoomTextBlock" Text="POCZEKALNIA"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
+                </Viewbox>
+            </UniformGrid>
+            <Viewbox Grid.Row="4" Grid.Column="0">
+                <UniformGrid Rows="4">
+                    <TextBlock Name="NameRoomLabel"  Text="NAZWA POKOJU" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
+                    <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5" Foreground="#FFF95F5F"></TextBlock>
+                    <TextBlock Name="maxCountPlayersTextBlock" Text="Liczba graczy" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5" Foreground="#FFF95F5F"></TextBlock>
+                </UniformGrid>
+            </Viewbox>
+            <UniformGrid Rows="4" Grid.Row="2" Grid.Column="1">
+                <Viewbox HorizontalAlignment="Left">
+                    <TextBlock x:Name="nameRommTextBlock" Text="Nazwa_pokoju" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                </Viewbox>
+                <Viewbox HorizontalAlignment="Left" Margin="1">
+                    <UniformGrid>
+                        <TextBlock x:Name="limitOfTimeTextBlock" Text="Brak limitu" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    </UniformGrid>
+                </Viewbox>
+                <Viewbox HorizontalAlignment="Left" Margin="1">
+                    <UniformGrid>
+                        <TextBlock x:Name="CountOfPlayersTextBlock" Text="4" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    </UniformGrid>
+                </Viewbox>
+            </UniformGrid>
+        </Grid>
+    </Grid>
+</UserControl>
