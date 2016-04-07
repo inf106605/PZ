@@ -24,5 +24,10 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             InitializeComponent();
         }
+
+        private void ReturnCreateRoomForLoggedPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new CreateRoomForLoggedPlayers());
+        }
     }
 }
