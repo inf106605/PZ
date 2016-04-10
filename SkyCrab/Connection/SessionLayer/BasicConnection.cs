@@ -3,6 +3,7 @@ using System.Net.Sockets;
 
 namespace SkyCrab.Connection.SessionLayer
 {
+    //TODO error handling
     internal abstract class BasicConnection : IDisposable
     {
 

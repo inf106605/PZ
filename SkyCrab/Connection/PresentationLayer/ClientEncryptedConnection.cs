@@ -43,7 +43,9 @@ namespace SkyCrab.Connection.PresentationLayer
             inputRijndael.Key.CopyTo(plainKey, 0);
             inputRijndael.IV.CopyTo(plainKey, inputRijndael.Key.Length);
             byte[] encryptedKey = rsa_csp.Encrypt(plainKey, false);
-            WriteUnencryptedBytes(encryptedKey);
+            object writingBlock = BeginWritingBlock();
+            WriteUnencryptedBytes(writingBlock, encryptedKey);
+            EndWritingBlock(writingBlock);
         }
 
         private void ReceiveIVFromServer()
@@ -52,7 +54,9 @@ namespace SkyCrab.Connection.PresentationLayer
             byte[] key = new byte[inputRijndael.Key.Length];
             inputRijndael.Key.CopyTo(key, 0);
             outputRijndael.Key = key;
-            byte[] iv = ReadBytes((UInt16)outputRijndael.IV.Length);
+            BeginReadingBlock();
+            byte[] iv = SyncReadBytes((UInt16)outputRijndael.IV.Length);
+            EndReadingBlock();
             outputRijndael.IV = iv;
         }
 

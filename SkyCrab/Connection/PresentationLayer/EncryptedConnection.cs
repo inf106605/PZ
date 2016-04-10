@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace SkyCrab.Connection.PresentationLayer
 {
-    internal abstract class EncryptedConnection : BasicConnection
+    internal abstract class EncryptedConnection : QueuedConnection
     {
 
         protected const int rsaKeyBytes = 256;
@@ -31,19 +31,47 @@ namespace SkyCrab.Connection.PresentationLayer
             return rijndaelManaged;
         }
 
-        protected override void WriteBytes(byte[] bytes)
+        protected override byte[] SyncReadBytes(UInt16 size)
         {
-            byte[] unencryptedBytes = new byte[CalcCriptogramSize(bytes.Length)];
-            Array.Copy(bytes, unencryptedBytes, bytes.Length);
-            var encryptor = outputRijndael.CreateEncryptor();
-            byte[] encryptedBytes = Transform(unencryptedBytes, encryptor);
-            base.WriteBytes(encryptedBytes);
+            UInt16 criptogramSize = CalculateCriptogramSize(size);
+            byte[] encryptedBytes = base.SyncReadBytes(criptogramSize);
+            byte[] decryptedBytes = DecryptBytes(encryptedBytes, size);
+            return decryptedBytes;
         }
 
-        protected override byte[] ReadBytes(UInt16 size)
+        protected override void SyncWriteBytes(object writingBlock, byte[] bytes)
         {
-            UInt16 encryptedSize = (UInt16)((size + 15) & (~0x000F));
-            byte[] encryptedBytes = base.ReadBytes(encryptedSize);
+            byte[] encryptedBytes = EncryptBytes(bytes);
+            base.SyncWriteBytes(writingBlock, encryptedBytes);
+        }
+
+        protected override void AsyncWriteBytes(object writingBlock, byte[] bytes, Callback callback = null, object state = null)
+        {
+            byte[] encryptedBytes = EncryptBytes(bytes);
+            base.AsyncWriteBytes(writingBlock, encryptedBytes, callback, state);
+        }
+
+        protected byte[] ReadUnencryptedBytes(UInt16 size)
+        {
+            return base.SyncReadBytes(size);
+        }
+
+        protected void WriteUnencryptedBytes(object writingBlock, byte[] bytes)
+        {
+            base.AsyncWriteBytes(writingBlock, bytes);
+        }
+
+        private byte[] EncryptBytes(byte[] unencryptedBytes)
+        {
+            byte[] bytes = new byte[CalculateCriptogramSize((UInt16) unencryptedBytes.Length)];
+            Array.Copy(unencryptedBytes, bytes, unencryptedBytes.Length);
+            var encryptor = outputRijndael.CreateEncryptor();
+            byte[] encryptedBytes = Transform(bytes, encryptor);
+            return encryptedBytes;
+        }
+
+        private byte[] DecryptBytes(byte[] encryptedBytes, UInt16 size)
+        {
             var decryptor = inputRijndael.CreateDecryptor();
             byte[] decryptedBytes = Transform(encryptedBytes, decryptor);
             byte[] bytes = new byte[size];
@@ -51,10 +79,10 @@ namespace SkyCrab.Connection.PresentationLayer
             return bytes;
         }
 
-        private static int CalcCriptogramSize(int dataSize)
+        private UInt16 CalculateCriptogramSize(uint size)
         {
-            int criptogramSize = (dataSize + 15) & (~0x000F);
-            return criptogramSize;
+            UInt16 encryptedSize = (UInt16)((size + 15) & (~0x000F));
+            return encryptedSize;
         }
 
         private static byte[] Transform(byte[] bytes, ICryptoTransform transform)
@@ -70,16 +98,6 @@ namespace SkyCrab.Connection.PresentationLayer
                 byte[] transformedBytes = stream.ToArray();
                 return transformedBytes;
             }
-        }
-
-        protected void WriteUnencryptedBytes(byte[] bytes)
-        {
-            base.WriteBytes(bytes);
-        }
-
-        protected byte[] ReadUnencryptedBytes(UInt16 size)
-        {
-            return base.ReadBytes(size);
         }
 
         protected static RSACryptoServiceProvider GetCSPFromFile(string filePath)

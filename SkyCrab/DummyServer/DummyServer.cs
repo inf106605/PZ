@@ -21,8 +21,17 @@ namespace DummyServer
 
                 using (ServerConnection connection = new ServerConnection(tcpClient, 100))
                 {
-                    connection.WriteUInt32(101011101);
-                    string aaa = connection.ReadString();
+                    {
+                        object writingBlock = connection.BeginWritingBlock();
+                        connection.AsyncWriteData(ServerConnection.uint32Transcoder, writingBlock, (UInt32)101011101);
+                        connection.EndWritingBlock(writingBlock);
+                    }
+                    string aaa;
+                    {
+                        connection.BeginReadingBlock();
+                        aaa = connection.SyncReadData(ServerConnection.stringTranscoder);
+                        connection.EndReadingBlock();
+                    }
                     Console.WriteLine(aaa);
                     Thread.Sleep(1000);
                 }

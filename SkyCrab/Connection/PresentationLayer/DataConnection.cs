@@ -4,77 +4,189 @@ using System.Text;
 
 namespace SkyCrab.Connection.PresentationLayer
 {
+    //TODO make methods not public
+    //TODO export classes to separate files?
     internal abstract class DataConnection : EncryptedConnection
     {
+
+        public abstract class Writer
+        {
+            protected object writingBlock;
+
+            protected Writer(object writingBlock)
+            {
+                this.writingBlock = writingBlock;
+            }
+
+            public abstract void Write(DataConnection dataConnection, byte[] bytes);
+        }
+
+        private sealed class SynchronicWriter : Writer
+        {
+            public SynchronicWriter(object writingBlock) :
+                base(writingBlock)
+            {
+            }
+
+            public override void Write(DataConnection dataConnection, byte[] bytes)
+            {
+                dataConnection.SyncWriteBytes(writingBlock, bytes);
+            }
+        }
+
+        private sealed class AsynchronicWriter : Writer
+        {
+            private Callback callback;
+            private object state;
+
+            public AsynchronicWriter(object writingBlock, Callback callback, object state) :
+                base(writingBlock)
+            {
+                this.callback = callback;
+                this.state = state;
+            }
+
+            public override void Write(DataConnection dataConnection, byte[] bytes)
+            {
+                dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
+            }
+        }
+
+        public interface Transcoder<T>
+        {
+            T Read(DataConnection dataConnection);
+            void Write(DataConnection dataConnection, Writer writer, T data);
+        }
+
+        private sealed class Int8Transcoder : Transcoder<sbyte>
+        {
+            public sbyte Read(DataConnection dataConnection)
+            {
+                byte[] bytes = dataConnection.SyncReadBytes(1);
+                sbyte result = (sbyte)bytes[0];
+                return result;
+            }
+
+            public void Write(DataConnection dataConnection, Writer writer, sbyte data)
+            {
+                byte[] bytes = new byte[1] { (byte)data };
+                writer.Write(dataConnection, bytes);
+            }
+        }
+
+        private sealed class UInt8Transcoder : Transcoder<byte>
+        {
+            public byte Read(DataConnection dataConnection)
+            {
+                byte[] bytes = dataConnection.SyncReadBytes(1);
+                byte data = bytes[0];
+                return data;
+            }
+
+            public void Write(DataConnection dataConnection, Writer writer, byte data)
+            {
+                byte[] bytes = new byte[1] { data };
+                writer.Write(dataConnection, bytes);
+            }
+        }
+
+        private sealed class UInt16Transcoder : Transcoder<UInt16>
+        {
+            public UInt16 Read(DataConnection dataConnection)
+            {
+                byte[] bytes = dataConnection.SyncReadBytes(2);
+                UInt16 data = (UInt16)(((UInt16)bytes[0]) << 8 |
+                                ((UInt16)bytes[1]) << 0);
+                return data;
+            }
+
+            public void Write(DataConnection dataConnection, Writer writer, UInt16 data)
+            {
+                byte[] bytes = new byte[2];
+                bytes[0] = (byte)(data >> 8);
+                bytes[1] = (byte)(data >> 0);
+                writer.Write(dataConnection, bytes);
+            }
+        }
+
+        private sealed class UInt32Transcoder : Transcoder<UInt32>
+        {
+            public UInt32 Read(DataConnection dataConnection)
+            {
+                byte[] bytes = dataConnection.SyncReadBytes(4);
+                UInt32 data = ((UInt32)bytes[0]) << 24 |
+                                ((UInt32)bytes[1]) << 16 |
+                                ((UInt32)bytes[2]) << 8 |
+                                ((UInt32)bytes[3]) << 0;
+                return data;
+            }
+
+            public void Write(DataConnection dataConnection, Writer writer, UInt32 data)
+            {
+                byte[] bytes = new byte[4];
+                bytes[0] = (byte)(data >> 24);
+                bytes[1] = (byte)(data >> 16);
+                bytes[2] = (byte)(data >> 8);
+                bytes[3] = (byte)(data >> 0);
+                writer.Write(dataConnection, bytes);
+            }
+        }
+
+        private sealed class StringTranscoder : Transcoder<String>
+        {
+            private readonly UInt16Transcoder uint16Transcoder;
+
+            public StringTranscoder(UInt16Transcoder uint16Transcoder)
+            {
+                this.uint16Transcoder = uint16Transcoder;
+            }
+
+            public String Read(DataConnection dataConnection)
+            {
+                UInt16 length = uint16Transcoder.Read(dataConnection);
+                byte[] bytes = dataConnection.SyncReadBytes(length);
+                string data = Encoding.UTF8.GetString(bytes);
+                return data;
+            }
+
+            public void Write(DataConnection dataConnection, Writer writer, String data)
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(data);
+                UInt16 lenght = (UInt16)bytes.Length;
+                uint16Transcoder.Write(dataConnection, writer, lenght);
+                writer.Write(dataConnection, bytes);
+            }
+        }
+
+
+        public static readonly Transcoder<sbyte> int8Transcoder = new Int8Transcoder();
+        public static readonly Transcoder<byte> uint8Transcoder = new UInt8Transcoder();
+        public static readonly Transcoder<UInt16> uint16Transcoder = new UInt16Transcoder();
+        public static readonly Transcoder<UInt32> uint32Transcoder = new UInt32Transcoder();
+        public static readonly Transcoder<String> stringTranscoder = new StringTranscoder((UInt16Transcoder) uint16Transcoder);
+
 
         protected DataConnection(TcpClient tcpClient, int readTimeout) :
             base(tcpClient, readTimeout)
         {
         }
 
-        public void WriteUInt8(byte number)
+        public T SyncReadData<T>(Transcoder<T> transcoder)
         {
-            byte[] bytes = new byte[1];
-            bytes[0] = number;
-            WriteBytes(bytes);
+            T data = transcoder.Read(this);
+            return data;
         }
 
-        public byte ReadUInt8()
+        public void SyncWriteData<T>(Transcoder<T> transcoder, object writingBlock, T data)
         {
-            byte[] bytes = ReadBytes(1);
-            byte number = bytes[0];
-            return number;
+            SynchronicWriter writer = new SynchronicWriter(writingBlock);
+            transcoder.Write(this, writer, data);
         }
 
-        public void WriteUInt16(UInt16 number)
+        public void AsyncWriteData<T>(Transcoder<T> transcoder, object writingBlock, T data, Callback callback = null, object state = null)
         {
-            byte[] bytes = new byte[2];
-            bytes[0] = (byte)(number >> 8);
-            bytes[1] = (byte)(number >> 0);
-            WriteBytes(bytes);
-        }
-
-        public UInt16 ReadUInt16()
-        {
-            byte[] bytes = ReadBytes(2);
-            UInt16 number = (UInt16)(((UInt16)bytes[0]) << 8 |
-                            ((UInt16)bytes[1]) << 0);
-            return number;
-        }
-
-        public void WriteUInt32(UInt32 number)
-        {
-            byte[] bytes = new byte[4];
-            bytes[0] = (byte)(number >> 24);
-            bytes[1] = (byte)(number >> 16);
-            bytes[2] = (byte)(number >> 8);
-            bytes[3] = (byte)(number >> 0);
-            WriteBytes(bytes);
-        }
-
-        public UInt32 ReadUInt32()
-        {
-            byte[] bytes = ReadBytes(4);
-            UInt32 number = ((UInt32)bytes[0]) << 24 |
-                            ((UInt32)bytes[1]) << 16 |
-                            ((UInt32)bytes[2]) << 8 |
-                            ((UInt32)bytes[3]) << 0;
-            return number;
-        }
-
-        public void WriteString(string text)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(text);
-            WriteUInt16((UInt16)bytes.Length);
-            WriteBytes(bytes);
-        }
-
-        public string ReadString()
-        {
-            UInt16 length = ReadUInt16();
-            byte[] bytes = ReadBytes(length);
-            string text = Encoding.UTF8.GetString(bytes);
-            return text;
+            AsynchronicWriter writer = new AsynchronicWriter(writingBlock, callback, state);
+            transcoder.Write(this, writer, data);
         }
 
     }

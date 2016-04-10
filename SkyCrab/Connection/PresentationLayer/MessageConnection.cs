@@ -27,8 +27,12 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private void CheckVersion()
         {
-            WriteBytes(version);
-            byte[] otherVersion = ReadBytes(3);
+            object writingBlock = BeginWritingBlock();
+            AsyncWriteBytes(writingBlock, version);
+            EndWritingBlock(writingBlock);
+            BeginReadingBlock();
+            byte[] otherVersion = SyncReadBytes(3);
+            EndReadingBlock();
             if (version[0] > otherVersion[0])
                 throw new SkyCrabConnectionProtocolVersionException("The other side of the connection has too old version of the protocol!");
             else if (version[0] < otherVersion[0])

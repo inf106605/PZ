@@ -27,15 +27,17 @@ namespace SkyCrab.Connection.PresentationLayer
 
         protected override void Initialize()
         {
-            ReceiveSessionKeyFromServer();
+            ReceiveSessionKeyFromClient();
             GenerateIV();
             SendIVToClient();
         }
 
-        private void ReceiveSessionKeyFromServer()
+        private void ReceiveSessionKeyFromClient()
         {
             outputRijndael = CreateRijndaelManaged();
+            BeginReadingBlock();
             byte[] encryptedKey = ReadUnencryptedBytes(rsaKeyBytes);
+            EndReadingBlock();
             byte[] plainKey = rsa_csp.Decrypt(encryptedKey, false);
             byte[] key = new byte[outputRijndael.Key.Length];
             Array.Copy(plainKey, 0, key, 0, outputRijndael.Key.Length);
@@ -56,7 +58,9 @@ namespace SkyCrab.Connection.PresentationLayer
         private void SendIVToClient()
         {
             inputRijndael.GenerateIV();
-            WriteBytes(inputRijndael.IV);
+            object writingBlock = BeginWritingBlock();
+            AsyncWriteBytes(writingBlock, inputRijndael.IV);
+            EndWritingBlock(writingBlock);
         }
 
         private static RSACryptoServiceProvider GetCSP()

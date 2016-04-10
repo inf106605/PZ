@@ -15,8 +15,17 @@ namespace DummyClient
 
                 using (ClientConnection connection = new ClientConnection("localhost", 100))
                 {
-                    connection.WriteString("Hello World!");
-                    UInt32 aaa = connection.ReadUInt32();
+                    {
+                        object writingBlock = connection.BeginWritingBlock();
+                        connection.AsyncWriteData(ClientConnection.stringTranscoder, writingBlock, "Hello World!");
+                        connection.EndWritingBlock(writingBlock);
+                    }
+                    UInt32 aaa;
+                    {
+                        connection.BeginReadingBlock();
+                        aaa = connection.SyncReadData(ClientConnection.uint32Transcoder);
+                        connection.EndReadingBlock();
+                    }
                     Console.WriteLine(aaa);
                     Thread.Sleep(1000);
                 }
