@@ -51,7 +51,7 @@
             </Viewbox>
             <UniformGrid Rows="4" Grid.Row="2" Grid.Column="1">
                 <Viewbox HorizontalAlignment="Left">
-                    <TextBox x:Name="nameRommTextbox" MinWidth="150" Margin="0 3 0 0" TextWrapping="Wrap" MaxLines="1"/>
+                    <TextBox x:Name="nameRommTextbox" MinWidth="150" Margin="0 3 0 0" TextWrapping="Wrap" MaxLines="1" TextChanged="nameRommTextbox_TextChanged"/>
                 </Viewbox>
                 <Viewbox HorizontalAlignment="Left" Margin="1">
                     <UniformGrid>
@@ -68,7 +68,7 @@
                 </Viewbox>
                 <Viewbox HorizontalAlignment="Left" Margin="1">
                     <UniformGrid>
-                        <ComboBox  Name="maxCountPlayersComboBox" MinWidth="50" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="maxCountPlayersComboBox_Loaded"></ComboBox>
+                        <ComboBox  x:Name="maxCountPlayersComboBox" MinWidth="50" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="maxCountPlayersComboBox_Loaded"></ComboBox>
                     </UniformGrid>
                 </Viewbox>
             </UniformGrid>

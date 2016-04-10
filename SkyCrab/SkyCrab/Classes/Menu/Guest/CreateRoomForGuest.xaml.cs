@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -47,7 +48,31 @@ namespace SkyCrab.Classes.Menu.Guest
 
         private void GameAreaButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LobbyGameForGuest());
+
+            // validation data - room name , time limit , max count players
+
+            var ifRoomNameCorrect = nameRommTextbox.Text;
+          //  var ifTimeLimitCorrect = Regex.IsMatch("^[0-9]+$", TimeLimit.Tag.ToString());
+            var ifMaxCountPlayersCorrect = maxCountPlayersComboBox.Text;
+
+            if (ifRoomNameCorrect.Length > 15)
+            {
+                MessageBox.Show("Nazwa pokoju za długa!");
+                nameRommTextbox.Text = "";
+            }
+           /* 
+            if(!ifTimeLimitCorrect)
+            {
+                MessageBox.Show("Nieprawidłowa wartość");
+            }
+            */
+
+               Switcher.Switch(new LobbyGameForGuest());
+        }
+
+        private void nameRommTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
