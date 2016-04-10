@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace SkyCrab.Connection.Utils
 {
@@ -6,7 +7,7 @@ namespace SkyCrab.Connection.Utils
     {
     }
 
-    internal sealed class SemaphoreForThread
+    internal sealed class SemaphoreForThread : IDisposable
     {
 
         private Semaphore semaphore = new Semaphore(1, 1);
@@ -30,6 +31,12 @@ namespace SkyCrab.Connection.Utils
         {
             if (thread != Thread.CurrentThread)
                 throw new SemaphoreIsNotLockedForCurrentThreadException();
+        }
+
+        public void Dispose()
+        {
+            semaphore.Dispose();
+            thread = null;
         }
 
     }

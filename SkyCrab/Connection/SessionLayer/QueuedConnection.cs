@@ -35,7 +35,7 @@ namespace SkyCrab.Connection.SessionLayer
 
 
         private SemaphoreForThread readSemaphore = new SemaphoreForThread();
-        private BlockingCollection<BlockingCollection<WriteInfo>> writeQueue = new BlockingCollection<BlockingCollection<WriteInfo>>();  //TODO dispose?
+        private BlockingCollection<BlockingCollection<WriteInfo>> writeQueue = new BlockingCollection<BlockingCollection<WriteInfo>>();
         private Task writeTask;
         private volatile bool writeTaskIsOk;
 
@@ -54,6 +54,7 @@ namespace SkyCrab.Connection.SessionLayer
         private void RunWriteTaskBody()
         {
             foreach (BlockingCollection<WriteInfo> queue in writeQueue.GetConsumingEnumerable())
+            {
                 foreach (WriteInfo writeInfo in queue.GetConsumingEnumerable())
                 {
                     writeTaskIsOk = true;
@@ -61,6 +62,8 @@ namespace SkyCrab.Connection.SessionLayer
                     if (writeInfo.callback != null)
                         writeInfo.callback.Invoke(writeInfo.state);
                 }
+                queue.Dispose();
+            }
         }
 
         #pragma warning disable 809
@@ -143,6 +146,8 @@ namespace SkyCrab.Connection.SessionLayer
         public override void Dispose()
         {
             CloseTasks();
+            readSemaphore.Dispose();
+            writeQueue.Dispose();
             base.Dispose();
         }
 
