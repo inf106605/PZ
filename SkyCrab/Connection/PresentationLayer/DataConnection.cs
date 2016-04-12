@@ -9,53 +9,10 @@ namespace SkyCrab.Connection.PresentationLayer
     internal abstract class DataConnection : EncryptedConnection
     {
 
-        public abstract class Writer
-        {
-            protected object writingBlock;
-
-            protected Writer(object writingBlock)
-            {
-                this.writingBlock = writingBlock;
-            }
-
-            public abstract void Write(DataConnection dataConnection, byte[] bytes);
-        }
-
-        private sealed class SynchronicWriter : Writer
-        {
-            public SynchronicWriter(object writingBlock) :
-                base(writingBlock)
-            {
-            }
-
-            public override void Write(DataConnection dataConnection, byte[] bytes)
-            {
-                dataConnection.SyncWriteBytes(writingBlock, bytes);
-            }
-        }
-
-        private sealed class AsynchronicWriter : Writer
-        {
-            private Callback callback;
-            private object state;
-
-            public AsynchronicWriter(object writingBlock, Callback callback, object state) :
-                base(writingBlock)
-            {
-                this.callback = callback;
-                this.state = state;
-            }
-
-            public override void Write(DataConnection dataConnection, byte[] bytes)
-            {
-                dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
-            }
-        }
-
         public interface Transcoder<T>
         {
             T Read(DataConnection dataConnection);
-            void Write(DataConnection dataConnection, Writer writer, T data);
+            void Write(DataConnection dataConnection, object writingBlock, T data, Callback callback, object state);
         }
 
         private sealed class Int8Transcoder : Transcoder<sbyte>
@@ -67,10 +24,10 @@ namespace SkyCrab.Connection.PresentationLayer
                 return result;
             }
 
-            public void Write(DataConnection dataConnection, Writer writer, sbyte data)
+            public void Write(DataConnection dataConnection, object writingBlock, sbyte data, Callback callback, object state)
             {
                 byte[] bytes = new byte[1] { (byte)data };
-                writer.Write(dataConnection, bytes);
+                dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
             }
         }
 
@@ -83,10 +40,10 @@ namespace SkyCrab.Connection.PresentationLayer
                 return data;
             }
 
-            public void Write(DataConnection dataConnection, Writer writer, byte data)
+            public void Write(DataConnection dataConnection, object writingBlock, byte data, Callback callback, object state)
             {
                 byte[] bytes = new byte[1] { data };
-                writer.Write(dataConnection, bytes);
+                dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
             }
         }
 
@@ -100,12 +57,12 @@ namespace SkyCrab.Connection.PresentationLayer
                 return data;
             }
 
-            public void Write(DataConnection dataConnection, Writer writer, UInt16 data)
+            public void Write(DataConnection dataConnection, object writingBlock, UInt16 data, Callback callback, object state)
             {
                 byte[] bytes = new byte[2];
                 bytes[0] = (byte)(data >> 8);
                 bytes[1] = (byte)(data >> 0);
-                writer.Write(dataConnection, bytes);
+                dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
             }
         }
 
@@ -121,14 +78,14 @@ namespace SkyCrab.Connection.PresentationLayer
                 return data;
             }
 
-            public void Write(DataConnection dataConnection, Writer writer, UInt32 data)
+            public void Write(DataConnection dataConnection, object writingBlock, UInt32 data, Callback callback, object state)
             {
                 byte[] bytes = new byte[4];
                 bytes[0] = (byte)(data >> 24);
                 bytes[1] = (byte)(data >> 16);
                 bytes[2] = (byte)(data >> 8);
                 bytes[3] = (byte)(data >> 0);
-                writer.Write(dataConnection, bytes);
+                dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
             }
         }
 
@@ -149,12 +106,12 @@ namespace SkyCrab.Connection.PresentationLayer
                 return data;
             }
 
-            public void Write(DataConnection dataConnection, Writer writer, String data)
+            public void Write(DataConnection dataConnection, object writingBlock, String data, Callback callback, object state)
             {
                 byte[] bytes = Encoding.UTF8.GetBytes(data);
                 UInt16 lenght = (UInt16)bytes.Length;
-                uint16Transcoder.Write(dataConnection, writer, lenght);
-                writer.Write(dataConnection, bytes);
+                uint16Transcoder.Write(dataConnection, writingBlock, lenght, null, null);
+                dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
             }
         }
 
@@ -177,16 +134,9 @@ namespace SkyCrab.Connection.PresentationLayer
             return data;
         }
 
-        public void SyncWriteData<T>(Transcoder<T> transcoder, object writingBlock, T data)
-        {
-            SynchronicWriter writer = new SynchronicWriter(writingBlock);
-            transcoder.Write(this, writer, data);
-        }
-
         public void AsyncWriteData<T>(Transcoder<T> transcoder, object writingBlock, T data, Callback callback = null, object state = null)
         {
-            AsynchronicWriter writer = new AsynchronicWriter(writingBlock, callback, state);
-            transcoder.Write(this, writer, data);
+            transcoder.Write(this, writingBlock, data, callback, state);
         }
 
     }

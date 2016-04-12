@@ -39,12 +39,6 @@ namespace SkyCrab.Connection.PresentationLayer
             return decryptedBytes;
         }
 
-        protected override void SyncWriteBytes(object writingBlock, byte[] bytes)
-        {
-            byte[] encryptedBytes = EncryptBytes(bytes);
-            base.SyncWriteBytes(writingBlock, encryptedBytes);
-        }
-
         protected override void AsyncWriteBytes(object writingBlock, byte[] bytes, Callback callback = null, object state = null)
         {
             byte[] encryptedBytes = EncryptBytes(bytes);

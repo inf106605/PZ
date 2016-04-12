@@ -116,21 +116,6 @@ namespace SkyCrab.Connection.SessionLayer
             return bytes;
         }
 
-        protected virtual void SyncWriteBytes(Object writingBlock, byte[] bytes)
-        {
-            using (Semaphore semaphore = new Semaphore(1, 1))
-            {
-                AsyncWriteBytes(writingBlock, bytes, RunSyncWriteCallbackBody, semaphore);
-                semaphore.WaitOne();
-            }
-        }
-
-        private static void RunSyncWriteCallbackBody(object state)
-        {
-            Semaphore semaphore = (Semaphore)state;
-            semaphore.Release();
-        }
-
         protected virtual void AsyncWriteBytes(Object writingBlock, byte[] bytes, Callback callback = null, object state = null)
         {
             BlockingCollection<WriteInfo> localWriteQueue = (BlockingCollection<WriteInfo>)writingBlock;
