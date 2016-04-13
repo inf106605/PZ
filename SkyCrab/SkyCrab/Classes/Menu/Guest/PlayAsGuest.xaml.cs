@@ -36,5 +36,6 @@ namespace SkyCrab.Classes.Menu
         {
             Switcher.Switch(new CreateRoomForGuest());
         }
+
     }
 }
