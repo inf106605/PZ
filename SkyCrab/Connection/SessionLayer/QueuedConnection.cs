@@ -109,14 +109,14 @@ namespace SkyCrab.Connection.SessionLayer
             localWriteQueue.CompleteAdding();
         }
 
-        protected virtual byte[] SyncReadBytes(UInt16 size)
+        internal virtual byte[] SyncReadBytes(UInt16 size)
         {
             readSemaphore.CheckThread();
             byte[] bytes = base.ReadBytes(size);
             return bytes;
         }
 
-        protected virtual void AsyncWriteBytes(Object writingBlock, byte[] bytes, Callback callback = null, object state = null)
+        internal virtual void AsyncWriteBytes(Object writingBlock, byte[] bytes, Callback callback = null, object state = null)
         {
             BlockingCollection<WriteInfo> localWriteQueue = (BlockingCollection<WriteInfo>)writingBlock;
             if (bytes == null || bytes.Length == 0)

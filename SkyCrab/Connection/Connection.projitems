@@ -13,6 +13,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)ApplicationLayer\ServerConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\ClientEncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\ITranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\Int8Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\StringTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\UInt16Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\UInt32Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\UInt8Transcoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\EncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\ServerEncryptedConnection.cs" />

@@ -31,7 +31,7 @@ namespace SkyCrab.Connection.PresentationLayer
             return rijndaelManaged;
         }
 
-        protected override byte[] SyncReadBytes(UInt16 size)
+        internal override byte[] SyncReadBytes(UInt16 size)
         {
             UInt16 criptogramSize = CalculateCriptogramSize(size);
             byte[] encryptedBytes = base.SyncReadBytes(criptogramSize);
@@ -39,7 +39,7 @@ namespace SkyCrab.Connection.PresentationLayer
             return decryptedBytes;
         }
 
-        protected override void AsyncWriteBytes(object writingBlock, byte[] bytes, Callback callback = null, object state = null)
+        internal override void AsyncWriteBytes(object writingBlock, byte[] bytes, Callback callback = null, object state = null)
         {
             byte[] encryptedBytes = EncryptBytes(bytes);
             base.AsyncWriteBytes(writingBlock, encryptedBytes, callback, state);
