@@ -105,7 +105,7 @@
             </Grid>
         </Grid>
         <UniformGrid Columns="2" Grid.Column="1" Grid.Row="4">
-            <Button Name="GameAreaButton" Content="GRAJ" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" ></Button>
+            <Button Name="GameAreaButton" Content="GRAJ" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="GameAreaButton_Click" ></Button>
             <Button Name="ReturnCreateRoomForLoggedPlayer"   Content="POWRÓT" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ReturnCreateRoomForLoggedPlayer_Click"></Button>
         </UniformGrid>
         <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" Margin="5" Background="Black">

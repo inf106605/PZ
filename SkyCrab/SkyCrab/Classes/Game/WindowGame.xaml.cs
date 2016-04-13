@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,11 @@ namespace SkyCrab.Classes.Game
     /// </summary>
     public partial class WindowGame : UserControl
     {
+
         public WindowGame()
         {
             InitializeComponent();
-        }
-    }
+        }   
+
+    } 
 }
