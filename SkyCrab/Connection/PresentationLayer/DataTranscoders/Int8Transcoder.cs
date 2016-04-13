@@ -2,6 +2,7 @@
 {
     internal sealed class Int8Transcoder : ITranscoder<sbyte>
     {
+
         public sbyte Read(DataConnection dataConnection)
         {
             byte[] bytes = dataConnection.SyncReadBytes(1);
@@ -14,5 +15,6 @@
             byte[] bytes = new byte[1] { (byte)data };
             dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
         }
+
     }
 }

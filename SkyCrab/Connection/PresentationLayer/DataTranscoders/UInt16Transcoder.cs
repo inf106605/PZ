@@ -4,6 +4,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
 {
     internal sealed class UInt16Transcoder : ITranscoder<UInt16>
     {
+
         public UInt16 Read(DataConnection dataConnection)
         {
             byte[] bytes = dataConnection.SyncReadBytes(2);
@@ -19,5 +20,6 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
             bytes[1] = (byte)(data >> 0);
             dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
         }
+
     }
 }

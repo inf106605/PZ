@@ -3,15 +3,10 @@ using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkyCrab.Connection.SessionLayer
 {
-    public class CannotReadOrWriteZeroBytesException : SkyCrabConnectionException
-    {
-    }
-
     public class TaskIsNotRespondingException : SkyCrabConnectionException
     {
     }
@@ -19,12 +14,11 @@ namespace SkyCrab.Connection.SessionLayer
     public class MethodIsNotThreadSafeException : SkyCrabConnectionException
     {
     }
-
-    //TODO make methods protected
+    
     internal class QueuedConnection : BasicConnection
     {
         
-        public delegate void Callback(Object state); //TODO make it protected
+        public delegate void Callback(Object state);
 
         private struct WriteInfo
         {
@@ -34,8 +28,8 @@ namespace SkyCrab.Connection.SessionLayer
         }
 
 
-        private SemaphoreForThread readSemaphore = new SemaphoreForThread();
-        private BlockingCollection<BlockingCollection<WriteInfo>> writeQueue = new BlockingCollection<BlockingCollection<WriteInfo>>();
+        private MutexForThread readMutex = new MutexForThread();
+        private BlockingCollection<BlockingCollection<WriteInfo>> writeQueue = new BlockingCollection<BlockingCollection<WriteInfo>>(new ConcurrentQueue<BlockingCollection<WriteInfo>>());
         private Task writeTask;
         private volatile bool writeTaskIsOk;
 
@@ -58,7 +52,8 @@ namespace SkyCrab.Connection.SessionLayer
                 foreach (WriteInfo writeInfo in queue.GetConsumingEnumerable())
                 {
                     writeTaskIsOk = true;
-                    base.WriteBytes(writeInfo.bytes);
+                    if (writeInfo.bytes != null)
+                        base.WriteBytes(writeInfo.bytes);
                     if (writeInfo.callback != null)
                         writeInfo.callback.Invoke(writeInfo.state);
                 }
@@ -88,19 +83,19 @@ namespace SkyCrab.Connection.SessionLayer
 
         public void BeginReadingBlock()
         {
-            readSemaphore.WaitOne();
+            readMutex.WaitOne();
         }
 
         public Object BeginWritingBlock()
         {
-            BlockingCollection<WriteInfo> localWriteQueue = new BlockingCollection<WriteInfo>();
+            BlockingCollection<WriteInfo> localWriteQueue = new BlockingCollection<WriteInfo>(new ConcurrentQueue<WriteInfo>());
             writeQueue.Add(localWriteQueue);
             return localWriteQueue;
         }
 
         public void EndReadingBlock()
         {
-            readSemaphore.Release();
+            readMutex.Release();
         }
 
         public void EndWritingBlock(Object writingBlock)
@@ -111,7 +106,7 @@ namespace SkyCrab.Connection.SessionLayer
 
         internal virtual byte[] SyncReadBytes(UInt16 size)
         {
-            readSemaphore.CheckThread();
+            readMutex.CheckThread();
             byte[] bytes = base.ReadBytes(size);
             return bytes;
         }
@@ -119,8 +114,6 @@ namespace SkyCrab.Connection.SessionLayer
         internal virtual void AsyncWriteBytes(Object writingBlock, byte[] bytes, Callback callback = null, object state = null)
         {
             BlockingCollection<WriteInfo> localWriteQueue = (BlockingCollection<WriteInfo>)writingBlock;
-            if (bytes == null || bytes.Length == 0)
-                throw new CannotReadOrWriteZeroBytesException();
             WriteInfo writeInfo = new WriteInfo();
             writeInfo.bytes = bytes;
             writeInfo.callback = callback;
@@ -130,13 +123,14 @@ namespace SkyCrab.Connection.SessionLayer
 
         public override void Dispose()
         {
-            CloseTasks();
-            readSemaphore.Dispose();
+            CloseWriteTask();
+            readMutex.Dispose();
             writeQueue.Dispose();
+            writeTask.Dispose();
             base.Dispose();
         }
 
-        private void CloseTasks()
+        private void CloseWriteTask()
         {
             writeQueue.CompleteAdding();
             while (true)

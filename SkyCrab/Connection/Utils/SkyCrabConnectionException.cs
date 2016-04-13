@@ -1,7 +1,7 @@
 ﻿using SkyCrab.Common_classes;
 using System;
 
-namespace SkyCrab.Connection
+namespace SkyCrab.Connection.Utils
 {
     public class SkyCrabConnectionException : SkyCrabException
     {

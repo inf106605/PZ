@@ -3,20 +3,20 @@ using System.Threading;
 
 namespace SkyCrab.Connection.Utils
 {
-    public class SemaphoreIsNotLockedForCurrentThreadException : SkyCrabConnectionException
+    public class MutexIsNotLockedForCurrentThreadException : SkyCrabConnectionException
     {
     }
 
-    internal sealed class SemaphoreForThread : IDisposable
+    internal sealed class MutexForThread : IDisposable
     {
 
-        private Semaphore semaphore = new Semaphore(1, 1);
+        private Mutex mutex = new Mutex();
         private Thread thread;
 
 
         public void WaitOne()
         {
-            semaphore.WaitOne();
+            mutex.WaitOne();
             thread = Thread.CurrentThread;
         }
 
@@ -24,18 +24,18 @@ namespace SkyCrab.Connection.Utils
         {
             CheckThread();
             thread = null;
-            semaphore.Release();
+            mutex.ReleaseMutex();
         }
 
         public void CheckThread()
         {
             if (thread != Thread.CurrentThread)
-                throw new SemaphoreIsNotLockedForCurrentThreadException();
+                throw new MutexIsNotLockedForCurrentThreadException();
         }
 
         public void Dispose()
         {
-            semaphore.Dispose();
+            mutex.Dispose();
             thread = null;
         }
 

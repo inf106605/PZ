@@ -5,12 +5,9 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
 {
     internal sealed class StringTranscoder : ITranscoder<String>
     {
-        private readonly UInt16Transcoder uint16Transcoder;
 
-        public StringTranscoder(UInt16Transcoder uint16Transcoder)
-        {
-            this.uint16Transcoder = uint16Transcoder;
-        }
+        private static readonly UInt16Transcoder uint16Transcoder = new UInt16Transcoder();
+
 
         public String Read(DataConnection dataConnection)
         {
@@ -27,5 +24,6 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
             uint16Transcoder.Write(dataConnection, writingBlock, lenght, null, null);
             dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
         }
+
     }
 }

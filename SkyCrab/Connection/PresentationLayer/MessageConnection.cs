@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyCrab.Connection.Utils;
+using System;
 using System.Net.Sockets;
 
 namespace SkyCrab.Connection.PresentationLayer

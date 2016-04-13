@@ -1,7 +1,6 @@
 ﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders;
 using System;
 using System.Net.Sockets;
-using System.Text;
 
 namespace SkyCrab.Connection.PresentationLayer
 {
@@ -12,7 +11,7 @@ namespace SkyCrab.Connection.PresentationLayer
         internal static readonly ITranscoder<byte> uint8Transcoder = new UInt8Transcoder();
         internal static readonly ITranscoder<UInt16> uint16Transcoder = new UInt16Transcoder();
         internal static readonly ITranscoder<UInt32> uint32Transcoder = new UInt32Transcoder();
-        internal static readonly ITranscoder<String> stringTranscoder = new StringTranscoder((UInt16Transcoder) uint16Transcoder);
+        internal static readonly ITranscoder<String> stringTranscoder = new StringTranscoder();
 
 
         protected DataConnection(TcpClient tcpClient, int readTimeout) :

@@ -1,8 +1,13 @@
-﻿using System;
+﻿using SkyCrab.Connection.Utils;
+using System;
 using System.Net.Sockets;
 
 namespace SkyCrab.Connection.SessionLayer
 {
+    public class ReadTimeoutException : SkyCrabConnectionException
+    {
+    }
+
     //TODO error handling
     internal abstract class BasicConnection : IDisposable
     {
@@ -33,7 +38,7 @@ namespace SkyCrab.Connection.SessionLayer
             {
                 UInt16 readedBytes = (UInt16)stream.Read(bytes, offset, size - offset);
                 if (readedBytes == 0)
-                    throw new SkyCrabConnectionException("Cannot read any more bytes from socket!");
+                    throw new ReadTimeoutException();
                 offset += readedBytes;
             } while (offset != size);
             return bytes;

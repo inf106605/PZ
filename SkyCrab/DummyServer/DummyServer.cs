@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Connection.AplicationLayer;
 using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
@@ -14,7 +15,8 @@ namespace DummyServer
                 Console.WriteLine("Server");
                 ServerConnection.Inicjalize();
 
-                TcpListener tcpListener = new TcpListener(ServerConnection.PORT);
+                IPAddress ipAddress = new IPAddress(new byte[4] { 127, 0, 0, 1 });
+                TcpListener tcpListener = new TcpListener(ipAddress, ServerConnection.PORT);
                 tcpListener.Start();
                 TcpClient tcpClient = tcpListener.AcceptTcpClient();
                 tcpListener.Stop();

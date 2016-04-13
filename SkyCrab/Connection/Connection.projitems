@@ -24,8 +24,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\ServerEncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SessionLayer\BasicConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SessionLayer\QueuedConnection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SkyCrabConnectionException.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\SemaphoreForThread.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\MutexForThread.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\SkyCrabConnectionException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Synchronizer.cs" />
   </ItemGroup>
 </Project>
