@@ -39,7 +39,7 @@ namespace SkyCrab.Classes.Menu
 
         private void History_Game_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Switcher.Switch(new HistoryGames());
         }
 
         private void Help_Button_Click(object sender, RoutedEventArgs e)
