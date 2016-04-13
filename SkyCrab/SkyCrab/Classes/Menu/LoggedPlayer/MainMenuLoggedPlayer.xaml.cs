@@ -66,5 +66,10 @@ namespace SkyCrab.Classes.Menu
         {
             Switcher.Switch(new Friends());
         }
+
+        private void Rank_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new RankLoggedPlayer());
+        }
     }
 }

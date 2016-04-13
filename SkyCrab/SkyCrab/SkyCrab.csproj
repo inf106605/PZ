@@ -70,6 +70,9 @@
     <Compile Include="Classes\Menu\Guest\LobbyGameForGuest.xaml.cs">
       <DependentUpon>LobbyGameForGuest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\Guest\RankGuest.xaml.cs">
+      <DependentUpon>RankGuest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Menu\LoggedPlayer\AboutProgramLoggedPlayer.xaml.cs">
       <DependentUpon>AboutProgramLoggedPlayer.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,9 @@
     <Compile Include="Classes\Menu\Guest\Rules.xaml.cs">
       <DependentUpon>Rules.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\RankLoggedPlayer.xaml.cs">
+      <DependentUpon>RankLoggedPlayer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switcher.cs" />
     <Page Include="Classes\Menu\Guest\About.xaml">
       <SubType>Designer</SubType>
@@ -130,6 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Classes\Menu\Guest\LobbyGameForGuest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\RankGuest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -182,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Classes\Menu\Guest\Rules.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\RankLoggedPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

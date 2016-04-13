@@ -31,7 +31,7 @@
             <Button Name="Profil_Button"  Margin="5" Content="PROFIL" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Profil_Button_Click"/>
             <Button Name="Friend_Button"  Margin="5" Content="ZNAJOMI" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Friend_Button_Click"/>
             <Button Name="Registration_Button"  Margin="5" Content="HISTORIA ROZGRYWEK" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="History_Game_Button_Click"/>
-            <Button Name="Rank_Button"  Margin="5" Content="RANKING" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"/>
+            <Button Name="Rank_Button"  Margin="5" Content="RANKING" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Rank_Button_Click"/>
             <Button Name="Help_Button"  Margin="5" Content="POMOC" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Help_Button_Click"/>
             <Button Name="AboutProgram_Button" Margin="5" Content="O PROGRAMIE" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="AboutProgram_Button_Click"/>
             <Button Name="Logout_Button" Margin="5" Content="WYLOGUJ" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Logout_Button_Click"/>

@@ -31,7 +31,7 @@
             <Button Name="PlayAsGuest_Button" Margin="5" Content="GRAJ JAKO GOŚĆ" FontFamily="Gill Sans Ultra Bold"  Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="PlayAsGuest_Button_Click"/>
             <Button Name="Login_Button"  Margin="5" Content="ZALOGUJ" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Login_Button_Click"/>
             <Button Name="Registration_Button"  Margin="5" Content="ZAREJESTRUJ" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Registration_Button_Click"/>
-            <Button Name="Rank_Button"  Margin="5" Content="RANKING" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"/>
+            <Button Name="Rank_Button"  Margin="5" Content="RANKING" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Rank_Button_Click"/>
             <Button Name="Help_Button"  Margin="5" Content="POMOC" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Help_Button_Click"/>
             <Button Name="AboutProgram_Button"  Margin="5" Content="O PROGRAMIE" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="AboutProgram_Button_Click"/>
             <Button Name="Shuttdown_Button"  Margin="5" Content="ZAKOŃCZ" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Click="Shuttdown_Button_Click" Background="#FFFFD8D8" />

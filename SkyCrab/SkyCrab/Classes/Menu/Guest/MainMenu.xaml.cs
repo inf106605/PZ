@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using SkyCrab.Classes.Menu;
+using SkyCrab.Classes.Menu.Guest;
 
 namespace SkyCrab.Menu
 {
@@ -54,6 +55,11 @@ namespace SkyCrab.Menu
         private void Shuttdown_Button_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void Rank_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new RankGuest());
         }
     }
 }
