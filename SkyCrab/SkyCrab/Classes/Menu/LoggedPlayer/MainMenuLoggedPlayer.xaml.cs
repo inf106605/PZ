@@ -61,5 +61,10 @@ namespace SkyCrab.Classes.Menu
         {
             Application.Current.Shutdown();
         }
+
+        private void Friend_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new Friends());
+        }
     }
 }
