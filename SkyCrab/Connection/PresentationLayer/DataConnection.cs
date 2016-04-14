@@ -18,6 +18,7 @@ namespace SkyCrab.Connection.PresentationLayer
         internal static readonly ITranscoder<DateTime> dateTimeTranscoder = new DateTimeTranscoder();
 
         internal static readonly ITranscoder<MessageId> messageIdTranscoder = new MessageIdTranscoder();
+        internal static readonly ITranscoder<ErrorCode> errorCodeTranscoder = new ErrorCodeTranscoder();
 
 
         protected DataConnection(TcpClient tcpClient, int readTimeout) :
