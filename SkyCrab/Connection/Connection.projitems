@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\EncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\AbstractMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\ErrorCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\EditProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Error.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Login.cs" />
