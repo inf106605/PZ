@@ -1,4 +1,4 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
+﻿namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 {
     internal sealed class Int8Transcoder : ITranscoder<sbyte>
     {

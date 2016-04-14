@@ -20,62 +20,38 @@ namespace SkyCrab.Common_classes.Games
 
         public RuleSet Rules
         {
-            get
-            {
-                return rules;
-            }
+            get { return rules; }
         }
 
         public Board Board
         {
-            get
-            {
-                return board;
-            }
+            get { return board; }
         }
 
         public PlayerInGame[] Players
         {
-            get
-            {
-                return players;
-            }
+            get { return players; }
         }
 
         public uint CurrentPlayerNumber
         {
-            get
-            {
-                return currentPlayerNumber;
-            }
-            set
-            {
-                currentPlayerNumber = value;
-            }
+            get { return currentPlayerNumber; }
+            set { currentPlayerNumber = value; }
         }
 
         public PlayerInGame CurrentPlayer
         {
-            get
-            {
-                return players[currentPlayerNumber];
-            }
+            get { return players[currentPlayerNumber]; }
         }
 
         public Pouch[] Puoches
         {
-            get
-            {
-                return pouches;
-            }
+            get { return pouches; }
         }
 
         public bool IsDummy
         {
-            get
-            {
-                return isDummy;
-            }
+            get { return isDummy; }
         }
 
 

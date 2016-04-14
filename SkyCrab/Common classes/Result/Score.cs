@@ -13,34 +13,22 @@ namespace SkyCrab.Common_classes.Result
         
         public Player Player
         {
-            get
-            {
-                return player;
-            }
+            get { return player; }
         }
 
         public bool Walkover
         {
-            get
-            {
-                return walkover;
-            }
+            get { return walkover; }
         }
 
         public uint Place
         {
-            get
-            {
-                return place;
-            }
+            get { return place; }
         }
 
         public uint Points
         {
-            get
-            {
-                return points;
-            }
+            get { return points; }
         }
 
 

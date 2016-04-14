@@ -1,24 +1,16 @@
-﻿using System;
-
-namespace SkyCrab.Connection.PresentationLayer.Messages
+﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
     public sealed class Logout : AbstractMessage
     {
 
         public override MessageId Id
         {
-            get
-            {
-                return MessageId.LOGOUT;
-            }
+            get { return MessageId.LOGOUT; }
         }
 
         internal override bool Answer
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         internal override object Read(MessageConnection connection)

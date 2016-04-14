@@ -50,58 +50,34 @@ namespace SkyCrab.Common_classes.Rooms
 
         public uint Id
         {
-            get
-            {
-                return id;
-            }
+            get { return id; }
         }
 
         public Player Owner
         {
-            get
-            {
-                return owner;
-            }
+            get { return owner; }
         }
 
         public string Name
         {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                name = value;
-            }
+            get { return name; }
+            set { name = value; }
         }
 
         public RoomType RoomType
         {
-            get
-            {
-                return roomType;
-            }
-            set
-            {
-                roomType = value;
-            }
+            get { return roomType; }
+            set { roomType = value; }
         }
 
         public RuleSet Rules
         {
-            get
-            {
-                return rules;
-            }
+            get { return rules; }
         }
 
         public LinkedList<PlayerInRoom> Players
         {
-            get
-            {
-                return players;
-            }
+            get { return players; }
         }
 
         public bool AllPlayersReady

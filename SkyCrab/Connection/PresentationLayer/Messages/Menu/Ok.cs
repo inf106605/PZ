@@ -1,22 +1,16 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.Messages
+﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
     public sealed class Ok : AbstractMessage
     {
 
         public override MessageId Id
         {
-            get
-            {
-                return MessageId.OK;
-            }
+            get { return MessageId.OK; }
         }
 
         internal override bool Answer
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
 

@@ -1,12 +1,13 @@
-﻿using SkyCrab.Connection.Utils;
-using SkyCrab.Connection.PresentationLayer.Messages;
+﻿using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using SkyCrab.Connection.SessionLayer;
+using SkyCrab.Connection.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SkyCrab.Connection.PresentationLayer
 {
@@ -126,7 +127,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly byte[] version = new byte[3] { 1, 1, 0 };
+        private static readonly byte[] version = new byte[3] { 1, 2, 1 };
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;

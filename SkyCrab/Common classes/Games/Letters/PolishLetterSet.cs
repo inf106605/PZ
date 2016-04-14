@@ -43,10 +43,7 @@ namespace SkyCrab.Common_classes.Games.Letters
 		
         public override IList<Letter> Letters
         {
-            get
-            {
-                return letters;
-            }
+            get { return letters; }
         }
 
     }

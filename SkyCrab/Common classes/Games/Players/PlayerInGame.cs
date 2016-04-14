@@ -12,18 +12,12 @@ namespace SkyCrab.Common_classes.Games.Players
 
         public Player Player
         {
-            get
-            {
-                return player;
-            }
+            get { return player; }
         }
 
         public Rack Rack
         {
-            get
-            {
-                return rack;
-            }
+            get { return rack;}
         }
 
 

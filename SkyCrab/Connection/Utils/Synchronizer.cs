@@ -12,10 +12,7 @@ namespace SkyCrab.Connection.Utils
         
         public static QueuedConnection.Callback Callback
         {
-            get
-            {
-                return RunSyncWriteCallbackBody;
-            }
+            get { return RunSyncWriteCallbackBody; }
         }
 
 

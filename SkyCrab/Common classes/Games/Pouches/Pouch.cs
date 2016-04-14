@@ -60,26 +60,17 @@ namespace SkyCrab.Common_classes.Games.Pouches
 
         public byte Id
         {
-            get
-            {
-                return id;
-            }
+            get { return id; }
         }
 
         public bool Dummy
         {
-            get
-            {
-                return dummy;
-            }
+            get { return dummy; }
         }
 
         public uint Count
         {
-            get
-            {
-                return count;
-            }
+            get { return count; }
         }
 
 
