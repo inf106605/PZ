@@ -5,18 +5,12 @@
 
         public override MessageId Id
         {
-            get
-            {
-                return MessageId.OK;
-            }
+            get { return MessageId.OK; }
         }
 
         internal override bool Answer
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
 

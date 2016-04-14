@@ -14,19 +14,13 @@ namespace SkyCrab.Connection.Utils
 
         public MessageConnection.MessageInfo? Answer
         {
-            get
-            {
-                return answer;
-            }
+            get { return answer; }
         }
 
 
         public static MessageConnection.AnswerCallback Callback
         {
-            get
-            {
-                return RunSyncWriteCallbackBody;
-            }
+            get { return RunSyncWriteCallbackBody; }
         }
 
 

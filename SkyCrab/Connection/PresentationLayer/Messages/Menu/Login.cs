@@ -7,18 +7,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         public override MessageId Id
         {
-            get
-            {
-                return MessageId.LOGIN;
-            }
+            get { return MessageId.LOGIN; }
         }
 
         internal override bool Answer
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
 

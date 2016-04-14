@@ -1,13 +1,13 @@
-﻿using SkyCrab.Connection.Utils;
-using SkyCrab.Connection.PresentationLayer.Messages;
+﻿using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using SkyCrab.Connection.SessionLayer;
+using SkyCrab.Connection.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using System.Threading;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
+using System.Threading.Tasks;
 
 namespace SkyCrab.Connection.PresentationLayer
 {

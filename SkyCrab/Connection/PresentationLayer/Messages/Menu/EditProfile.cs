@@ -7,18 +7,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         public override MessageId Id
         {
-            get
-            {
-                return MessageId.EDIT_PROFILE;
-            }
+            get { return MessageId.EDIT_PROFILE; }
         }
 
         internal override bool Answer
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         internal override object Read(MessageConnection connection)
