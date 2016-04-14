@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Common_classes.Players;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages
+namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
     public sealed class Login : AbstractMessage
     {

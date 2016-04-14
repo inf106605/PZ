@@ -1,4 +1,4 @@
-﻿using SkyCrab.Connection.PresentationLayer.Messages;
+﻿using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using System;
 
 namespace DummyClient

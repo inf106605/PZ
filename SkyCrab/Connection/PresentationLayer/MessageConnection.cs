@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Threading;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 
 namespace SkyCrab.Connection.PresentationLayer
 {

@@ -1,15 +1,13 @@
-﻿using System;
-
-namespace SkyCrab.Connection.PresentationLayer.Messages
+﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
-    public sealed class Logout : AbstractMessage
+    public sealed class Ok : AbstractMessage
     {
 
         public override MessageId Id
         {
             get
             {
-                return MessageId.LOGOUT;
+                return MessageId.OK;
             }
         }
 
@@ -17,22 +15,23 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         {
             get
             {
-                return false;
+                return true;
             }
         }
+
 
         internal override object Read(MessageConnection connection)
         {
             return null;
         }
 
-        public static void PostLogout(MessageConnection connection, MessageConnection.AnswerCallback callback, object state = null)
+        public static void PostOk(MessageConnection connection)
         {
             MessageConnection.MessageProcedure messageProcedure = (object writingBlock) =>
             {
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.LOGOUT, messageProcedure);
+            connection.PostMessage(MessageId.OK, messageProcedure);
         }
+
     }
 }
