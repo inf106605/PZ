@@ -11,22 +11,13 @@ namespace SkyCrab.Common_classes.Rooms.Players
 
         public Player Player
         {
-            get
-            {
-                return player;
-            }
+            get { return player; }
         }
 
         public bool IsReady
         {
-            get
-            {
-                return isReady;
-            }
-            set
-            {
-                isReady = value;
-            }
+            get { return isReady; }
+            set { isReady = value; }
         }
 
 

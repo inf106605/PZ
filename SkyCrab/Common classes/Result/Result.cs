@@ -14,42 +14,27 @@ namespace SkyCrab.Common_classes.Result
 
         public uint GameId
         {
-            get
-            {
-                return gameId;
-            }
+            get { return gameId; }
         }
 
         public string RoomId
         {
-            get
-            {
-                return roomName;
-            }
+            get { return roomName; }
         }
 
         public DateTime BeginTime
         {
-            get
-            {
-                return beginTime;
-            }
+            get { return beginTime; }
         }
 
         public DateTime EndTime
         {
-            get
-            {
-                return endTime;
-            }
+            get { return endTime; }
         }
 
         public Score[] Scores
         {
-            get
-            {
-                return scores;
-            }
+            get { return scores; }
         }
 
 

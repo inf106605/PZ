@@ -21,18 +21,12 @@ namespace SkyCrab.Common_classes.Games.Tiles
 
         public bool Blank
         {
-            get
-            {
-                return blank;
-            }
+            get { return blank; }
         }
 
         public Letter Letter
         {
-            get
-            {
-                return letter;
-            }
+            get { return letter; }
             set
             {
                 if (blank == false)
