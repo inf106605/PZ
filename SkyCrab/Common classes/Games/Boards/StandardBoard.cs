@@ -85,7 +85,7 @@ namespace SkyCrab.Common_classes.Games.Boards
                     position.y >= 0 && position.y < 15;
         }
 
-        public override SquareType GetQuareType(PositionOnBoard position)
+        public override SquareType GetSquareType(PositionOnBoard position)
         {
             if (!IsSquare(position))
                 throw new NoSuchSquareOnBoardException();
