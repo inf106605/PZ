@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>1db02aca-bcb6-4082-9848-3b5cc330b91e</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SkyCrab.Common_classes</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\Board.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\PositionOnBoard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\SquareType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\StandardBoard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Game.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Letters\Letter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Letters\LetterSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Letters\PolishLetterSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Players\PlayerInGame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Pouches\Pouch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\Rack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\TileOnRack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\LetterCount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\PolishTileSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\Tile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\TileSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Players\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Players\PlayerProfile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Result\Result.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Result\Score.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Room.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Players\PlayerInRoom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\RoomType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\Rule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\RuleSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\TimeRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkyCrabException.cs" />
+  </ItemGroup>
+</Project>
