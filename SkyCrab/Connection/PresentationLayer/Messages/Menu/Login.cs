@@ -1,24 +1,18 @@
 ﻿using SkyCrab.Common_classes.Players;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages
+namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
     public sealed class Login : AbstractMessage
     {
 
         public override MessageId Id
         {
-            get
-            {
-                return MessageId.LOGIN;
-            }
+            get { return MessageId.LOGIN; }
         }
 
         internal override bool Answer
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
 

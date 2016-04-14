@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
+namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 {
     internal sealed class StringTranscoder : ITranscoder<String>
     {

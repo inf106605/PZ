@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
+namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 {
     internal sealed class UInt16Transcoder : ITranscoder<UInt16>
     {

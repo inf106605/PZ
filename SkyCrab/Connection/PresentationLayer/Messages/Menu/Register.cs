@@ -1,49 +1,42 @@
 ﻿using SkyCrab.Common_classes.Players;
-using System;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages
+namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
-    public sealed class EditProfile : AbstractMessage
+    public sealed class Register : AbstractMessage
     {
 
         public override MessageId Id
         {
-            get
-            {
-                return MessageId.EDIT_PROFILE;
-            }
+            get { return MessageId.REGISTER; }
         }
 
         internal override bool Answer
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         internal override object Read(MessageConnection connection)
         {
+            string login = connection.SyncReadData(MessageConnection.stringTranscoder);
             string password = connection.SyncReadData(MessageConnection.stringTranscoder);
-            string nick = connection.SyncReadData(MessageConnection.stringTranscoder);
             string eMail = connection.SyncReadData(MessageConnection.stringTranscoder);
             PlayerProfile playerProfile = new PlayerProfile();
+            playerProfile.login = login;
             playerProfile.password = password;
-            playerProfile.nick = nick;
             playerProfile.eMail = eMail;
             return playerProfile;
         }
 
-        public static void PostEditProfile(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        public static void PostRegister(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {
+                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.login);
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.nick);
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.eMail);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.EDIT_PROFILE, messageProc);
+            connection.PostMessage(MessageId.REGISTER, messageProc);
         }
 
     }

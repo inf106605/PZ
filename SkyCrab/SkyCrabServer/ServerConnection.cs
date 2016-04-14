@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using System;
 using System.Net.Sockets;
 
@@ -69,7 +70,7 @@ namespace SkyCrabServer
                 LoginOk.PostLoginOk(this, player);
             } else
             {
-                Error.PostError(this, (ushort)random.Next(ushort.MaxValue));
+                Error.PostError(this, (ErrorCode)random.Next(ushort.MaxValue)); //TODO just wrong
             }
         }
 
@@ -79,7 +80,7 @@ namespace SkyCrabServer
             if (RandBool)
                 Ok.PostOk(this);
             else
-                Error.PostError(this, (ushort)random.Next(ushort.MaxValue));
+                Error.PostError(this, (ErrorCode)random.Next(ushort.MaxValue)); //TODO just wrong
         }
 
         private void Register(PlayerProfile playerProfile)
@@ -96,7 +97,7 @@ namespace SkyCrabServer
             }
             else
             {
-                Error.PostError(this, (ushort)random.Next(ushort.MaxValue));
+                Error.PostError(this, (ErrorCode)random.Next(ushort.MaxValue)); //TODO just wrong
             }
         }
 
@@ -106,7 +107,7 @@ namespace SkyCrabServer
             if (RandBool)
                 Ok.PostOk(this);
             else
-                Error.PostError(this, (ushort)random.Next(ushort.MaxValue));
+                Error.PostError(this, (ErrorCode)random.Next(ushort.MaxValue)); //TODO just wrong
         }
 
         private bool RandBool //TODO remove when will be not used
