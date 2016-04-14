@@ -23,10 +23,7 @@ namespace SkyCrab.Common_classes.Games.Racks
 
         public Tile Tile
         {
-            get
-            {
-                return tile;
-            }
+            get { return tile; }
         }
 
         public float LeftPosition

@@ -5,7 +5,7 @@ using System.Net.Sockets;
 
 namespace SkyCrabServer
 {
-    class Program
+    class SkyCrabServer
     {
 
         private static List<ServerConnection> connections = new List<ServerConnection>();
@@ -59,6 +59,7 @@ namespace SkyCrabServer
                 return -1;
             }
 
+            ShowBanner();
             if (MainLoop(ipAddress, port))
                 return 0;
             else
@@ -73,6 +74,11 @@ namespace SkyCrabServer
             Console.WriteLine("\tADDRESS\tAn address or a domain to which the server will listen\n\t\tfor new connections.\n\t\tIf it is not given, the server will listen to all adresses.");
             Console.WriteLine("\tPORT\tA port to which the server will listen for new connections.\n\t\tIf it is not given, the server will use default port.\n\t\t(Using the default port is recomended.)");
             Console.WriteLine();
+        }
+
+        private static void ShowBanner()
+        {
+            Console.Write(Properties.Resources.banner);
         }
 
         private static bool MainLoop(IPAddress ipAddress, int port)
