@@ -14,7 +14,6 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.01*"></ColumnDefinition>
             <ColumnDefinition Width="0.3*"></ColumnDefinition>
             <ColumnDefinition Width="0.15*"></ColumnDefinition>
             <ColumnDefinition Width="0.01*"></ColumnDefinition>
@@ -24,25 +23,25 @@
             <RowDefinition Height="0.8*"></RowDefinition>
             <RowDefinition Height="0.1*"></RowDefinition>
         </Grid.RowDefinitions>
-        <UniformGrid Grid.Column="1" Grid.Row="0">
+        <UniformGrid Grid.Column="0" Grid.Row="0" Margin="5">
             <Image Source="/Images/skycrab_logo.png" />
         </UniformGrid>
-        <Grid Grid.Column="1" Grid.Row="1">
+        <Grid Grid.Column="0" Grid.Row="1">
             <UniformGrid x:Name="NameListData" Columns="15" Rows="15">
                 <Rectangle Fill="Red"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
                 <Rectangle Fill="#FF88FFFF"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
                 <Rectangle Fill="Red"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
                 <Rectangle Fill="#FF88FFFF"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
-                <Rectangle Fill="#FF57D3A6"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
+                <Rectangle Fill="White"></Rectangle>
                 <Rectangle Fill="Red"></Rectangle>
             </UniformGrid>
         </Grid>
