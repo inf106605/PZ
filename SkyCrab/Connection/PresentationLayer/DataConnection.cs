@@ -1,4 +1,6 @@
 ﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using System;
 using System.Net.Sockets;

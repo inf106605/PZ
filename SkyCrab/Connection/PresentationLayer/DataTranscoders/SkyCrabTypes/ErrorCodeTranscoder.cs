@@ -1,7 +1,8 @@
-﻿using SkyCrab.Connection.PresentationLayer.Messages;
+﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+using SkyCrab.Connection.PresentationLayer.Messages;
 using System;
 
-namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
+namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
 {
     internal sealed class ErrorCodeTranscoder : ITranscoder<ErrorCode>
     {
