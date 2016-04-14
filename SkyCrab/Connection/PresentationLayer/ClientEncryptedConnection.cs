@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace SkyCrab.Connection.PresentationLayer
 {
-    class ClientEncryptedConnection : MessageConnection
+    internal abstract class ClientEncryptedConnection : MessageConnection
     {
         
         private const String publicKeyFilePath = "./public_key.txt";

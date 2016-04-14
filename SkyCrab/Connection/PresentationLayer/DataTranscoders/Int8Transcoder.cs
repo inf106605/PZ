@@ -10,10 +10,10 @@
             return result;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, sbyte data, DataConnection.Callback callback, object state)
+        public void Write(DataConnection dataConnection, object writingBlock, sbyte data)
         {
             byte[] bytes = new byte[1] { (byte)data };
-            dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
+            dataConnection.AsyncWriteBytes(writingBlock, bytes);
         }
 
     }

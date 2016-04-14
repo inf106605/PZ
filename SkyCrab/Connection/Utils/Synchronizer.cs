@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.Utils
     internal sealed class Synchronizer : IDisposable
     {
 
-        Semaphore semaphore = new Semaphore(0, 1);
+        private Semaphore semaphore = new Semaphore(0, 1);
 
         
         public static QueuedConnection.Callback Callback
@@ -19,7 +19,7 @@ namespace SkyCrab.Connection.Utils
         }
 
 
-        public void wait()
+        public void Wait()
         {
             semaphore.WaitOne();
         }

@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Connection.Utils;
 using System;
+using System.IO;
 using System.Net.Sockets;
 
 namespace SkyCrab.Connection.SessionLayer
@@ -31,12 +32,26 @@ namespace SkyCrab.Connection.SessionLayer
 
         protected virtual byte[] ReadBytes(UInt16 size)
         {
-            NetworkStream stream = tcpClient.GetStream();
+            NetworkStream stream;
+            try
+            {
+                stream = tcpClient.GetStream();
+            }catch (InvalidOperationException)
+            {
+                throw new ReadTimeoutException(); //TODO EVEN WRONGER THAT BELOW! Repair this
+            }
             byte[] bytes = new byte[size];
             UInt16 offset = 0;
             do
             {
-                UInt16 readedBytes = (UInt16)stream.Read(bytes, offset, size - offset);
+                UInt16 readedBytes;
+                try
+                {
+                    readedBytes = (UInt16)stream.Read(bytes, offset, size - offset);
+                }catch (IOException)
+                {
+                    throw new ReadTimeoutException(); //TODO WRONG! Repair this
+                }
                 if (readedBytes == 0)
                     throw new ReadTimeoutException();
                 offset += readedBytes;

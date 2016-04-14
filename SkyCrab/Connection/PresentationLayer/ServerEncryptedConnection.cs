@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace SkyCrab.Connection.PresentationLayer
 {
-    class ServerEncryptedConnection : MessageConnection
+    internal abstract class ServerEncryptedConnection : MessageConnection
     {
 
         private const String keysFilePath = "./keys_top_secret.txt";

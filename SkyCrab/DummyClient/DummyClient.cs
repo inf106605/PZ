@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Connection.AplicationLayer;
+using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.Utils;
 using System;
-using System.Threading;
 
 namespace DummyClient
 {
@@ -15,19 +16,17 @@ namespace DummyClient
 
                 using (ClientConnection connection = new ClientConnection("localhost", 100))
                 {
+                    using (AnswerSynchronizer synchronizer = new AnswerSynchronizer())
                     {
-                        object writingBlock = connection.BeginWritingBlock();
-                        connection.AsyncWriteData(ClientConnection.stringTranscoder, writingBlock, "Hello World!");
-                        connection.EndWritingBlock(writingBlock);
+                        Ping.PostPing(connection, 21, AnswerSynchronizer.Callback, synchronizer);
+                        Console.WriteLine("Ping");
+                        synchronizer.Wait();
+                        if (synchronizer.Answer.HasValue)
+                        {
+                            ClientConnection.MessageInfo answer = synchronizer.Answer.Value;
+                            Console.WriteLine("Pong: "+(byte)answer.message);
+                        }
                     }
-                    UInt32 aaa;
-                    {
-                        connection.BeginReadingBlock();
-                        aaa = connection.SyncReadData(ClientConnection.uint32Transcoder);
-                        connection.EndReadingBlock();
-                    }
-                    Console.WriteLine(aaa);
-                    Thread.Sleep(1000);
                 }
 
                 ClientConnection.Deinicjalize();

@@ -57,6 +57,8 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private byte[] EncryptBytes(byte[] unencryptedBytes)
         {
+            if (unencryptedBytes == null)
+                return null;
             byte[] bytes = new byte[CalculateCriptogramSize((UInt16) unencryptedBytes.Length)];
             Array.Copy(unencryptedBytes, bytes, unencryptedBytes.Length);
             var encryptor = outputRijndael.CreateEncryptor();

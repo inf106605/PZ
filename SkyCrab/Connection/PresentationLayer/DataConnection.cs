@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders;
+using SkyCrab.Connection.PresentationLayer.Messages;
 using System;
 using System.Net.Sockets;
 
@@ -13,6 +14,8 @@ namespace SkyCrab.Connection.PresentationLayer
         internal static readonly ITranscoder<UInt32> uint32Transcoder = new UInt32Transcoder();
         internal static readonly ITranscoder<String> stringTranscoder = new StringTranscoder();
 
+        internal static readonly ITranscoder<MessageId> messageIdTranscoder = new MessageIdTranscoder();
+
 
         protected DataConnection(TcpClient tcpClient, int readTimeout) :
             base(tcpClient, readTimeout)
@@ -25,9 +28,9 @@ namespace SkyCrab.Connection.PresentationLayer
             return data;
         }
 
-        internal void AsyncWriteData<T>(ITranscoder<T> transcoder, object writingBlock, T data, Callback callback = null, object state = null)
+        internal void AsyncWriteData<T>(ITranscoder<T> transcoder, object writingBlock, T data)
         {
-            transcoder.Write(this, writingBlock, data, callback, state);
+            transcoder.Write(this, writingBlock, data);
         }
 
     }

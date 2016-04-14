@@ -7,10 +7,6 @@ using System.Threading.Tasks;
 
 namespace SkyCrab.Connection.SessionLayer
 {
-    public class TaskIsNotRespondingException : SkyCrabConnectionException
-    {
-    }
-
     public class MethodIsNotThreadSafeException : SkyCrabConnectionException
     {
     }
@@ -81,24 +77,24 @@ namespace SkyCrab.Connection.SessionLayer
         }
         #pragma warning restore 809
 
-        public void BeginReadingBlock()
+        protected void BeginReadingBlock()
         {
             readMutex.WaitOne();
         }
 
-        public Object BeginWritingBlock()
+        protected Object BeginWritingBlock()
         {
             BlockingCollection<WriteInfo> localWriteQueue = new BlockingCollection<WriteInfo>(new ConcurrentQueue<WriteInfo>());
             writeQueue.Add(localWriteQueue);
             return localWriteQueue;
         }
 
-        public void EndReadingBlock()
+        protected void EndReadingBlock()
         {
             readMutex.Release();
         }
 
-        public void EndWritingBlock(Object writingBlock)
+        protected void EndWritingBlock(Object writingBlock)
         {
             BlockingCollection<WriteInfo> localWriteQueue = (BlockingCollection<WriteInfo>)writingBlock;
             localWriteQueue.CompleteAdding();

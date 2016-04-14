@@ -17,12 +17,12 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
             return data;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, String data, DataConnection.Callback callback, object state)
+        public void Write(DataConnection dataConnection, object writingBlock, String data)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(data);
             UInt16 lenght = (UInt16)bytes.Length;
-            uint16Transcoder.Write(dataConnection, writingBlock, lenght, null, null);
-            dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
+            uint16Transcoder.Write(dataConnection, writingBlock, lenght);
+            dataConnection.AsyncWriteBytes(writingBlock, bytes);
         }
 
     }

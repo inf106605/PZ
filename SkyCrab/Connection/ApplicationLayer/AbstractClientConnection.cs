@@ -3,10 +3,10 @@ using System.Net.Sockets;
 
 namespace SkyCrab.Connection.AplicationLayer
 {
-    class ClientConnection : ClientEncryptedConnection
+    abstract class AbstractClientConnection : ClientEncryptedConnection
     {
 
-        public ClientConnection(string host, int readTimeout) :
+        public AbstractClientConnection(string host, int readTimeout) :
             base(new TcpClient(host, PORT), readTimeout)
         {
         }

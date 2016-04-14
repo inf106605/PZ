@@ -13,12 +13,12 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders
             return data;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, UInt16 data, DataConnection.Callback callback, object state)
+        public void Write(DataConnection dataConnection, object writingBlock, UInt16 data)
         {
             byte[] bytes = new byte[2];
             bytes[0] = (byte)(data >> 8);
             bytes[1] = (byte)(data >> 0);
-            dataConnection.AsyncWriteBytes(writingBlock, bytes, callback, state);
+            dataConnection.AsyncWriteBytes(writingBlock, bytes);
         }
 
     }
