@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace SkyCrab.Connection.PresentationLayer
 {
-    internal abstract class EncryptedConnection : QueuedConnection
+    public abstract class EncryptedConnection : QueuedConnection
     {
 
         protected const int rsaKeyBytes = 256;

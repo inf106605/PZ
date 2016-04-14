@@ -24,7 +24,7 @@ namespace SkyCrab.Connection.PresentationLayer
     {
     }
 
-    internal abstract class MessageConnection : DataConnection
+    public abstract class MessageConnection : DataConnection
     {
 
         public struct MessageInfo
@@ -126,7 +126,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly byte[] version = new byte[3] { 1, 0, 0 };
+        private static readonly byte[] version = new byte[3] { 1, 1, 0 };
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -138,8 +138,13 @@ namespace SkyCrab.Connection.PresentationLayer
 
         static MessageConnection()
         {
-            addMessage(new Ping());
-            addMessage(new Pong());
+            addMessage(new Ok());
+            addMessage(new Error());
+            addMessage(new Login());
+            addMessage(new LoginOk());
+            addMessage(new Logout());
+            addMessage(new Register());
+            addMessage(new EditProfile());
         }
 
         private static void addMessage(AbstractMessage message)

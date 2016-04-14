@@ -1,6 +1,4 @@
-﻿using SkyCrab.Connection.AplicationLayer;
-using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.Utils;
+﻿using SkyCrab.Connection.PresentationLayer.Messages;
 using System;
 
 namespace DummyClient
@@ -16,17 +14,7 @@ namespace DummyClient
 
                 using (ClientConnection connection = new ClientConnection("localhost", 100))
                 {
-                    using (AnswerSynchronizer synchronizer = new AnswerSynchronizer())
-                    {
-                        Ping.PostPing(connection, 21, AnswerSynchronizer.Callback, synchronizer);
-                        Console.WriteLine("Ping");
-                        synchronizer.Wait();
-                        if (synchronizer.Answer.HasValue)
-                        {
-                            ClientConnection.MessageInfo answer = synchronizer.Answer.Value;
-                            Console.WriteLine("Pong: "+(byte)answer.message);
-                        }
-                    }
+                    Ok.PostOk(connection);
                 }
 
                 ClientConnection.Deinicjalize();

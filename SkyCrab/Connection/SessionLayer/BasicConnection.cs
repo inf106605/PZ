@@ -10,7 +10,7 @@ namespace SkyCrab.Connection.SessionLayer
     }
 
     //TODO error handling
-    internal abstract class BasicConnection : IDisposable
+    public abstract class BasicConnection : IDisposable
     {
 
         public const int PORT = 8888;
