@@ -5,8 +5,10 @@ using System.Net.Sockets;
 
 namespace SkyCrabServer
 {
-    class Program
+    class SkyCrab_Server
     {
+
+        private static readonly Version version = new Version(0, 1, 1);
 
         private static List<ServerConnection> connections = new List<ServerConnection>();
 
@@ -54,11 +56,12 @@ namespace SkyCrabServer
                 }
             }catch (Exception)
             {
-                Console.Error.WriteLine("Write 'SkyCrabServer --help' for more informations.");
+                Console.Error.WriteLine("Write 'SkyCrab_Server --help' for more informations.");
                 Console.Error.WriteLine();
                 return -1;
             }
 
+            Banners.Banner.PrintBanner(version);
             if (MainLoop(ipAddress, port))
                 return 0;
             else
@@ -69,7 +72,7 @@ namespace SkyCrabServer
         {
             Console.WriteLine("This application is a server for online game 'SkyCrab'.");
             Console.WriteLine();
-            Console.WriteLine("Usage: SkyCrabServer [ADDRESS] [PORT]");
+            Console.WriteLine("Usage: SkyCrab_Server [ADDRESS] [PORT]");
             Console.WriteLine("\tADDRESS\tAn address or a domain to which the server will listen\n\t\tfor new connections.\n\t\tIf it is not given, the server will listen to all adresses.");
             Console.WriteLine("\tPORT\tA port to which the server will listen for new connections.\n\t\tIf it is not given, the server will use default port.\n\t\t(Using the default port is recomended.)");
             Console.WriteLine();
@@ -99,9 +102,8 @@ namespace SkyCrabServer
                     }catch (Exception e)
                     {
                         Console.Error.WriteLine(e);
-                        Console.Error.WriteLine("Cannot initialize connection with client!");
+                        Console.Error.WriteLine("Cannot initialize connection with client!\n");
                     }
-                    Console.WriteLine();
                 }
                 tcpListener.Stop();
 
