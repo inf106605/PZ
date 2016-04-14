@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="SkyCrab" Height="350" Width="525">
     <Grid>
-        
+        <Button x:Name="button_test" Content="Kliknij mnie!" HorizontalAlignment="Left" Margin="205,190,0,0" VerticalAlignment="Top" Width="101" Height="27" Click="button_test_Click"/>
+
     </Grid>
 </Window>

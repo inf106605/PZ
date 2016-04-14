@@ -24,5 +24,10 @@ namespace SkyCrab
         {
             InitializeComponent();
         }
+
+        private void button_test_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Test application");
+        }
     }
 }
