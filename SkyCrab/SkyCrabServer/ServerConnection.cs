@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Connection.AplicationLayer;
+using System;
 using System.Net.Sockets;
 
 namespace SkyCrabServer
@@ -27,6 +28,7 @@ namespace SkyCrabServer
                         throw new UnsuportedMessageException();
                 }
             }
+            Console.WriteLine("Client disconnected.\n"); //TODO more info
         }
 
     }
