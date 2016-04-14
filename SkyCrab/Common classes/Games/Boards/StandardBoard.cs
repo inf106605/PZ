@@ -34,41 +34,26 @@ namespace SkyCrab.Common_classes.Games.Boards
 
         public override bool Rectangle
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
         public override PositionOnBoard LeftTop
         {
-            get
-            {
-                return new PositionOnBoard(0, 0);
-            }
+            get { return new PositionOnBoard(0, 0); }
         }
         public override PositionOnBoard RightBottom
         {
-            get
-            {
-                return new PositionOnBoard(14, 14);
-            }
+            get { return new PositionOnBoard(14, 14); }
         }
 
         public override IList<PositionOnBoard> Squares
         {
-            get
-            {
-                return squares;
-            }
+            get { return squares; }
         }
 
         public override PositionOnBoard StartSquare
         {
-            get
-            {
-                return new PositionOnBoard(7, 7);
-            }
+            get { return new PositionOnBoard(7, 7); }
         }
         
 
