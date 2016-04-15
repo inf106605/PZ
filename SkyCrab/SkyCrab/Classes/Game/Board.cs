@@ -47,7 +47,7 @@ namespace SkyCrab.Classes.Game
         {
             this.Row = Row;
             this.Column = Column;
-            this.squareType = board.GetQuareType(new PositionOnBoard(Row, Column));
+            this.squareType = board.GetSquareType(new PositionOnBoard(Row, Column));
         }
 
 

@@ -39,5 +39,10 @@ namespace SkyCrab
             else
                 throw new ArgumentException("NextPage is not ISwitchable!" + nextPage.Name.ToString());
         }
+
+        private void button_test_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Test application");
+        }
     }
 }

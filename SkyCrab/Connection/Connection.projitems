@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6879bdad-9ae3-4307-83c2-24ef92cf63a5</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SkyCrab.Connection</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ApplicationLayer\AbstractClientConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApplicationLayer\AbstractServerConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\ClientEncryptedConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\ITranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\DateTimeTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\Int64Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\Int8Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\StringTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\UInt16Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\UInt32Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\UInt64Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\UInt8Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\ErrorCodeTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\MessageIdTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\ValueIsNotInEnumException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\EncryptedConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\AbstractMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\ErrorCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\EditProfile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Error.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Login.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\LoginOk.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Logout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Ok.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Register.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\MessageId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\ServerEncryptedConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SessionLayer\BasicConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SessionLayer\QueuedConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\MutexForThread.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\SkyCrabConnectionException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\AnswerSynchronizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Synchronizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\TaskIsNotRespondingException.cs" />
+  </ItemGroup>
+</Project>

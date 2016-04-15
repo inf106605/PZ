@@ -11,42 +11,24 @@
 
         public uint Id
         {
-            get
-            {
-                return id;
-            }
+            get { return id; }
         }
 
         public bool IsGuest
         {
-            get
-            {
-                return isGuest;
-            }
+            get { return isGuest; }
         }
 
         public string Nick
         {
-            get
-            {
-                return nick;
-            }
-            set
-            {
-                nick = value;
-            }
+            get { return nick; }
+            set { nick = value; }
         }
 
         public PlayerProfile Profile
         {
-            get
-            {
-                return profile;
-            }
-            set
-            {
-                profile = value;
-            }
+            get { return profile; }
+            set { profile = value; }
         }
 
 

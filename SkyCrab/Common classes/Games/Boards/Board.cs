@@ -38,7 +38,7 @@ namespace SkyCrab.Common_classes.Games.Boards
 
         public abstract bool IsSquare(PositionOnBoard position);
 
-        public abstract SquareType GetQuareType(PositionOnBoard position);
+        public abstract SquareType GetSquareType(PositionOnBoard position);
 
         public abstract void PutTile(Tile tile, PositionOnBoard position);
 

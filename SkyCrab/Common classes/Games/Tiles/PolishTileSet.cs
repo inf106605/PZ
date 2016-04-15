@@ -53,26 +53,17 @@ namespace SkyCrab.Common_classes.Games.Tiles
 
         public override LetterCount[] Vowels
         {
-            get
-            {
-                return vovels;
-            }
+            get { return vovels; }
         }
 
         public override LetterCount[] Consonants
         {
-            get
-            {
-                return consonants;
-            }
+            get { return consonants; }
         }
 
         public override LetterCount[] Blanks
         {
-            get
-            {
-                return blanks;
-            }
+            get { return blanks; }
         }
 
 

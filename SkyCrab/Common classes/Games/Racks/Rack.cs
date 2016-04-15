@@ -46,10 +46,7 @@ namespace SkyCrab.Common_classes.Games.Racks
         
         public LinkedList<TileOnRack> Tiles
         {
-            get
-            {
-                return tiles;
-            }
+            get { return tiles; }
         }
 
 
