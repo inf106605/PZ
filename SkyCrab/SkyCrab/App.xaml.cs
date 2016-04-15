@@ -14,7 +14,7 @@ namespace SkyCrab
     /// </summary>
     public partial class App : Application
     {
-        private ClientConnection clientConn;
+        internal static ClientConnection clientConn;
 
         protected override void OnExit(ExitEventArgs e)
         {
