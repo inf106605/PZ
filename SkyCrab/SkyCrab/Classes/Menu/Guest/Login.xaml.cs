@@ -26,7 +26,7 @@ namespace SkyCrab.Classes.Menu
 
         private void ButonLoginConfirm_Click(object sender, RoutedEventArgs e)
         {
-            // walidacja 
+            // walidacja
             
             PlayerProfile playerProfile = new PlayerProfile();
             playerProfile.login = loginTextbox.Text;
@@ -36,7 +36,7 @@ namespace SkyCrab.Classes.Menu
             {
                 Connection.PresentationLayer.Messages.Menu.Login.PostLogin(App.clientConn, playerProfile, AnswerSynchronizer.Callback, answerSynchronizer);
                 answerSynchronizer.Wait();
-                if (answerSynchronizer.Answer.HasValue)
+                if (!answerSynchronizer.Answer.HasValue)
                 {
                     MessageBox.Show("Brak odpowiedzi od serwera!");
                     return;
