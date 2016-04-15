@@ -26,6 +26,7 @@ namespace SkyCrab.Classes.Game
         public WindowGame()
         {
             InitializeComponent();
+            DataContext = new ChessBoard();
         }   
 
     } 

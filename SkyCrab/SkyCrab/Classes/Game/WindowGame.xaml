@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkyCrab.Classes.Game"
              mc:Ignorable="d" 
-                      d:DesignHeight="480" d:DesignWidth="640">
+  d:DesignHeight="480" d:DesignWidth="640">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -19,31 +19,51 @@
             <ColumnDefinition Width="0.01*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*"></RowDefinition>
-            <RowDefinition Height="0.8*"></RowDefinition>
-            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="89*"></RowDefinition>
+            <RowDefinition Height="347*"></RowDefinition>
+            <RowDefinition Height="44*"></RowDefinition>
         </Grid.RowDefinitions>
         <UniformGrid Grid.Column="0" Grid.Row="0" Margin="5">
             <Image Source="/Images/skycrab_logo.png" />
         </UniformGrid>
-        <Grid Grid.Column="0" Grid.Row="1">
-            <UniformGrid x:Name="NameListData" Columns="15" Rows="15">
-                <Rectangle Fill="Red"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="#FF88FFFF"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="Red"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="#FF88FFFF"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="White"></Rectangle>
-                <Rectangle Fill="Red"></Rectangle>
-            </UniformGrid>
-        </Grid>
+        <ItemsControl ItemsSource="{Binding Squares}" Grid.Column="0" Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="15" Columns="15"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button x:Name="Square"
+                        Command="{Binding DataContext.SquareClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        CommandParameter="{Binding}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Background="{TemplateBinding Background}"/>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsDarkBlue}" Value="True">
+                            <Setter TargetName="Square" Property="Background" Value="#04bef1"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsRed}" Value="True">
+                            <Setter TargetName="Square" Property="Background" Value="#db3920"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsOrange}" Value="True">
+                            <Setter TargetName="Square" Property="Background" Value="#fed9a5"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsBlue}" Value="True">
+                            <Setter TargetName="Square" Property="Background" Value="#AEECF9"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsGreen}" Value="True">
+                            <Setter TargetName="Square" Property="Background" Value="#07b5ac"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

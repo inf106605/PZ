@@ -55,11 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\Game\NameList.cs" />
-    <Compile Include="Classes\Game\test.cs" />
-    <Compile Include="Classes\Game\test.xaml.cs">
-      <DependentUpon>test.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Classes\Game\Board.cs" />
     <Compile Include="Classes\Game\WindowGame.xaml.cs">
       <DependentUpon>WindowGame.xaml</DependentUpon>
     </Compile>
@@ -127,10 +123,6 @@
       <DependentUpon>RankLoggedPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switcher.cs" />
-    <Page Include="Classes\Game\test.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Classes\Game\WindowGame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -259,7 +251,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-<ItemGroup>
+  <ItemGroup>
     <Resource Include="Images\skycrab_logo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -268,7 +260,7 @@
   <ItemGroup>
     <Resource Include="Images\confirm_small.png" />
   </ItemGroup>
-<ItemGroup>
+  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="..\Common classes\Common classes.projitems" Label="Shared" />

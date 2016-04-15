@@ -33,7 +33,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
         private void GameAreaButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new test());
+            Switcher.Switch(new WindowGame());
         }
     }
 }

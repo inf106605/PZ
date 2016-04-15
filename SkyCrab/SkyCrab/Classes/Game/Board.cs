@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyCrab.Common_classes.Games.Boards;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,15 +14,16 @@ namespace SkyCrab.Classes.Game
 
         public Command<ChessSquare> SquareClickCommand { get; private set; }
 
+        
         public ChessBoard()
         {
             Squares = new List<ChessSquare>();
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 15; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < 15; j++)
                 {
-                    Squares.Add(new ChessSquare() { Row = i, Column = j });
+                    Squares.Add(new ChessSquare(i,j));
                 }
             }
 
@@ -31,16 +33,69 @@ namespace SkyCrab.Classes.Game
         private void OnSquareClick(ChessSquare square)
         {
             System.Windows.MessageBox.Show("You clicked on Row: " + square.Row + " - Column: " + square.Column);
+            
         }
     }
 
     public class ChessSquare
     {
+
+        static StandardBoard board = new StandardBoard();
+        private SquareType squareType;
+
+        public ChessSquare(int Row, int Column)
+        {
+            this.Row = Row;
+            this.Column = Column;
+            this.squareType = board.GetQuareType(new PositionOnBoard(Row, Column));
+        }
+
+
         public int Row { get; set; }
 
         public int Column { get; set; }
 
-        public bool IsBlack { get { return (Row + Column) % 2 == 1; } }
+        public bool IsDarkBlue
+        {
+            get
+            {
+                return squareType == SquareType.letter3;
+            }
+        }
+
+        public bool IsRed
+        {
+            get
+            {
+                return squareType == SquareType.word3;
+            }
+        }
+
+        public bool IsOrange
+        {
+            get
+            {
+                return squareType == SquareType.word2 || squareType == SquareType.start;
+            }
+        }
+
+        public bool IsBlue { get {
+
+                return squareType == SquareType.letter2;
+
+            } }
+
+        public bool IsStart { get {
+
+                return squareType == SquareType.word3;
+
+            } }
+
+        public bool IsGreen { get {
+
+                return squareType == SquareType.normal;
+            } }
+
     }
 
     public class Command<T> : ICommand
