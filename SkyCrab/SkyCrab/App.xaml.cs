@@ -23,7 +23,7 @@ namespace SkyCrab
                 clientConn.Dispose();
                 ClientConnection.Deinicjalize();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
