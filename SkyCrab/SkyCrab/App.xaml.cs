@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -15,16 +16,39 @@ namespace SkyCrab
     {
         private ClientConnection clientConn;
 
-        App()
+        protected override void OnExit(ExitEventArgs e)
         {
-            ClientConnection.Inicjalize();
-            clientConn = new ClientConnection("127.0.0.1",100);
+            try
+            {
+                clientConn.Dispose();
+                ClientConnection.Deinicjalize();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            base.OnExit(e);
         }
 
-        ~App()
+        protected override void OnStartup(StartupEventArgs e)
         {
-            clientConn.Dispose();
-            ClientConnection.Deinicjalize();
+            base.OnStartup(e);
+    
+            try {
+                ClientConnection.Inicjalize();
+                clientConn = new ClientConnection("127.0.0.1", 100);
+            } catch(Exception ex)
+            {
+                MessageBox.Show("Nie udało się połączyć: " + ex.Message);
+                try
+                {
+                    clientConn.Dispose();
+                }
+                catch
+                {
+                }
+            }
+
         }
     }
 }
