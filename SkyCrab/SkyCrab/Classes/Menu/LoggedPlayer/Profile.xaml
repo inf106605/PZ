@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="SkyCrab.Classes.Menu.Profile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkyCrab.Classes.Menu"
+             mc:Ignorable="d" 
+   d:DesignHeight="480" d:DesignWidth="640">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF2CDAFF" Offset="0"/>
+                <GradientStop Color="#FFC2FFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25*"></ColumnDefinition>
+            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+            <ColumnDefinition Width="0.25*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="109*"></RowDefinition>
+            <RowDefinition Height="144*"></RowDefinition>
+            <RowDefinition Height="47*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <UniformGrid Grid.Column="1" Grid.Row="0">
+            <Image Source="/Images/skycrab_logo.png" />
+        </UniformGrid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.6*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <UniformGrid Columns="1" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                <Viewbox>
+                    <TextBlock Name="TitleLabel" Text="PROFIL" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                </Viewbox>
+            </UniformGrid>
+            <UniformGrid Rows="6" Grid.Row="1" Grid.Column="0">
+                <Viewbox>
+                    <TextBlock Name="loginLabel"  Text="LOGIN" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right"  Foreground="#FFF95F5F"></TextBlock>
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Name="passLabel"  Text="HASŁO" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right"  Foreground="#FFF95F5F"></TextBlock>
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Name="passConLabel"  Text="POTW. HASŁO" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right"  Foreground="#FFF95F5F"></TextBlock>
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Name="emailLabel"  Text="E-MAIL" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right"  Foreground="#FFF95F5F"></TextBlock>
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Name="emailConLabel"  Text="POTW. EMAIL" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right"  Foreground="#FFF95F5F"></TextBlock>
+                </Viewbox>
+                <Viewbox>
+                    <TextBlock Name="nickLabel"  Text="NICK" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right"  Foreground="#FFF95F5F"></TextBlock>
+                </Viewbox>
+            </UniformGrid>
+            <UniformGrid Grid.Column="1" Grid.Row="1" Rows="6">
+                <Viewbox Stretch="Uniform">
+                    <TextBox x:Name="loginTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
+                </Viewbox>
+                <Viewbox Stretch="Uniform">
+                    <TextBox x:Name="passTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
+                </Viewbox>
+                <Viewbox Stretch="Uniform">
+                    <TextBox x:Name="passConTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
+                </Viewbox>
+                <Viewbox Stretch="Uniform">
+                    <TextBox x:Name="emailTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
+                </Viewbox>
+                <Viewbox Stretch="Uniform">
+                    <TextBox x:Name="emailConTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
+                </Viewbox>
+                <Viewbox Stretch="Uniform">
+                    <TextBox x:Name="nickTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
+                </Viewbox>
+            </UniformGrid>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" HorizontalAlignment="Stretch">
+                <Button x:Name="RegistrationButton" Margin="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Confirm_Click">
+                    <UniformGrid Rows="2">
+                        <Image Source="/Images/confirm_small.png"/>
+                        <TextBlock>ZATWIERDŹ</TextBlock>
+                    </UniformGrid>
+                </Button>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button x:Name="CancelRegistrationButton" Margin="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="CancelRegistrationButton_Click">
+                    <UniformGrid Rows="2">
+                        <Image Source="/Images/cancel_small.png"/>
+                        <TextBlock>ANULUJ</TextBlock>
+                    </UniformGrid>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

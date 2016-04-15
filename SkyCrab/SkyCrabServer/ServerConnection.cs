@@ -67,6 +67,7 @@ namespace SkyCrabServer
                 playerProfile.registration = DateTime.Now.AddDays(-16);
                 playerProfile.lastActivity = DateTime.Now;
                 Player player = new Player((uint)random.Next(), false, playerProfile.nick);
+                player.Profile = playerProfile;
                 LoginOk.PostLoginOk(this, player);
             }
             else
@@ -94,6 +95,7 @@ namespace SkyCrabServer
                 playerProfile.registration = DateTime.Now;
                 playerProfile.lastActivity = DateTime.Now;
                 Player player = new Player((uint)random.Next(), false, playerProfile.nick);
+                player.Profile = playerProfile;
                 LoginOk.PostLoginOk(this, player);
             }
             else

@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="SkyCrab.Menu.MainMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkyCrab.Menu"
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="640">
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF2CDAFF" Offset="0"/>
+                <GradientStop Color="#FFC2FFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <UniformGrid Grid.Column="1" Grid.Row="0">
+            <Image Source="/Images/skycrab_logo.png" />
+        </UniformGrid>
+        <UniformGrid Columns="1" Grid.Column="1" Grid.Row="1">
+            <Button Name="PlayAsGuest_Button" Margin="5" Content="GRAJ JAKO GOŚĆ" FontFamily="Gill Sans Ultra Bold"  Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="PlayAsGuest_Button_Click"/>
+            <Button Name="Login_Button"  Margin="5" Content="ZALOGUJ" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Login_Button_Click"/>
+            <Button Name="Registration_Button"  Margin="5" Content="ZAREJESTRUJ" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Registration_Button_Click"/>
+            <Button Name="Rank_Button"  Margin="5" Content="RANKING" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Rank_Button_Click"/>
+            <Button Name="Help_Button"  Margin="5" Content="POMOC" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Help_Button_Click"/>
+            <Button Name="AboutProgram_Button"  Margin="5" Content="O PROGRAMIE" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="AboutProgram_Button_Click"/>
+            <Button Name="Shuttdown_Button"  Margin="5" Content="ZAKOŃCZ" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Click="Shuttdown_Button_Click" Background="#FFFFD8D8" />
+        </UniformGrid>
+    </Grid>
+</UserControl>
