@@ -63,22 +63,25 @@ namespace SkyCrab.Connection.PresentationLayer
 
             private void RunTaskBody()
             {
-                requestSemaphore.WaitOne();
-                AnswerCallbackWithState? request;
-                lock (requests)
-                    request = requests.Dequeue();
-                if (!request.HasValue)
-                    return;
-                answerSemaphore.WaitOne();
-                MessageInfo? answer;
-                lock (answers)
-                    answer = answers.Dequeue();
-                if (!answer.HasValue)
+                while (true)
                 {
-                    SendDummyAnswer(request.Value);
-                    return;
+                    requestSemaphore.WaitOne();
+                    AnswerCallbackWithState? request;
+                    lock (requests)
+                        request = requests.Dequeue();
+                    if (!request.HasValue)
+                        return;
+                    answerSemaphore.WaitOne();
+                    MessageInfo? answer;
+                    lock (answers)
+                        answer = answers.Dequeue();
+                    if (!answer.HasValue)
+                    {
+                        SendDummyAnswer(request.Value);
+                        return;
+                    }
+                    Task.Factory.StartNew(() => request.Value.answerCallback.Invoke(answer.Value, request.Value.state)); //TODO detach
                 }
-                Task.Factory.StartNew(() => request.Value.answerCallback.Invoke(answer.Value, request.Value.state)); //TODO detach
             }
 
             public void addRequest(AnswerCallbackWithState request)
