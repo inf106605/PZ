@@ -122,6 +122,7 @@
     <Compile Include="Classes\Menu\LoggedPlayer\RankLoggedPlayer.xaml.cs">
       <DependentUpon>RankLoggedPlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ClientConnection.cs" />
     <Compile Include="Switcher.cs" />
     <Page Include="Classes\Game\WindowGame.xaml">
       <SubType>Designer</SubType>

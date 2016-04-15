@@ -13,5 +13,18 @@ namespace SkyCrab
     /// </summary>
     public partial class App : Application
     {
+        private ClientConnection clientConn;
+
+        App()
+        {
+            ClientConnection.Inicjalize();
+            clientConn = new ClientConnection("127.0.0.1",100);
+        }
+
+        ~App()
+        {
+            clientConn.Dispose();
+            ClientConnection.Deinicjalize();
+        }
     }
 }
