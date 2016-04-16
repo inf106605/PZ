@@ -4,6 +4,7 @@ using System.Threading;
 
 namespace SkyCrab.Connection.Utils
 {
+    //TODO remove this class?
     internal sealed class Synchronizer : IDisposable
     {
 

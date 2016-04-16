@@ -9,6 +9,7 @@ namespace SkyCrab.Connection.Utils
 
         private Semaphore semaphore = new Semaphore(0, 1);
         private MessageConnection.MessageInfo? answer;
+        private object _lock = new object();
 
 
 
@@ -24,9 +25,9 @@ namespace SkyCrab.Connection.Utils
         }
 
 
-        public void Wait()
+        public void Wait(int timeout)
         {
-            semaphore.WaitOne();
+            semaphore.WaitOne(timeout);
         }
 
         private static void RunSyncWriteCallbackBody(MessageConnection.MessageInfo? answer, object state)
@@ -34,12 +35,20 @@ namespace SkyCrab.Connection.Utils
             AnswerSynchronizer synchronizer = (AnswerSynchronizer)state;
             synchronizer.answer = answer;
             Semaphore semaphore = synchronizer.semaphore;
-            semaphore.Release();
+            lock (synchronizer._lock)
+            {
+                if (semaphore != null)
+                    semaphore.Release();
+            }
         }
 
         public void Dispose()
         {
-            semaphore.Dispose();
+            lock (_lock)
+            {
+                semaphore.Dispose();
+                semaphore = null;
+            }
         }
 
     }

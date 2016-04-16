@@ -21,9 +21,9 @@ namespace SkyCrab
             try
             {
                 clientConn.Dispose();
-                ClientConnection.Deinicjalize();
+                ClientConnection.DisposeStaticMembers();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -35,7 +35,7 @@ namespace SkyCrab
             base.OnStartup(e);
     
             try {
-                ClientConnection.Inicjalize();
+                ClientConnection.PreLoadStaticMembers();
                 clientConn = new ClientConnection("127.0.0.1", 100);
             } catch(Exception ex)
             {
