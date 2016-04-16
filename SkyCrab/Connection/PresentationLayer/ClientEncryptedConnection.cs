@@ -11,7 +11,13 @@ namespace SkyCrab.Connection.PresentationLayer
         private static readonly RSACryptoServiceProvider rsa_csp = GetCSPFromFile(publicKeyFilePath);
 
 
-        public static void Inicjalize()
+        /// <summary>
+        /// <para>This function force all static members to load now.</para>
+        /// <para>Why they can't be loaded when class is used first time?
+        /// Well, they can. However, it may take a lot of time (e.g. generating RSA keys),
+        /// so loading them can cause timeout of a connection with a server.</para>
+        /// </summary>
+        public static void PreLoadStaticMembers()
         {
             //Do nothing. Just let 'rsa_csp' to initialize.
             if (rsa_csp == null)
@@ -60,7 +66,7 @@ namespace SkyCrab.Connection.PresentationLayer
             outputRijndael.IV = iv;
         }
 
-        public static void Deinicjalize()
+        public static void DisposeStaticMembers()
         {
             if (rsa_csp != null)
                 rsa_csp.Dispose();
