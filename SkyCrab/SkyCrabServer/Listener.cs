@@ -28,8 +28,8 @@ namespace SkyCrabServer
                 asyncResult = tcpListener.BeginAcceptTcpClient(ClientAccepter, null);
                 Console.WriteLine("Accepting clients is begun.\n");
 
-                Console.WriteLine("Press Enter to close a sever...\n");
-                Console.ReadLine();
+                ServerConsole serverConsole = new ServerConsole();
+                serverConsole.Start();
 
                 lock (tcpListener)
                     asyncResult = null;
@@ -44,9 +44,8 @@ namespace SkyCrabServer
                     foreach (ServerConnection serverConnection in connections)
                         serverConnection.Dispose();
                 }
-                Console.WriteLine("Stoping the server...");
+                Console.WriteLine("Clearing memory...\n");
                 ServerConnection.DisposeStaticMembers();
-                Console.WriteLine("\tDONE!\n");
             }
             catch (Exception e)
             {
