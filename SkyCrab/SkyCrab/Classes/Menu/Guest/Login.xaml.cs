@@ -35,7 +35,7 @@ namespace SkyCrab.Classes.Menu
             using (AnswerSynchronizer answerSynchronizer = new AnswerSynchronizer())
             {
                 Connection.PresentationLayer.Messages.Menu.Login.AsyncPostLogin(App.clientConn, playerProfile, AnswerSynchronizer.Callback, answerSynchronizer);
-                answerSynchronizer.Wait();
+                answerSynchronizer.Wait(1000);
                 if (!answerSynchronizer.Answer.HasValue)
                 {
                     MessageBox.Show("Brak odpowiedzi od serwera!");

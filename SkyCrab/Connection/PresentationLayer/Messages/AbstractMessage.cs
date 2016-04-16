@@ -14,12 +14,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         
         protected delegate void AsyncPost(MessageConnection.AnswerCallback callback, object state);
 
-        protected static MessageConnection.MessageInfo? SyncPost(AsyncPost asyncPost)
+        protected static MessageConnection.MessageInfo? SyncPost(AsyncPost asyncPost, int timeout)
         {
             using (AnswerSynchronizer synchronizer = new AnswerSynchronizer())
             {
                 asyncPost.Invoke(AnswerSynchronizer.Callback, synchronizer);
-                synchronizer.Wait();
+                synchronizer.Wait(timeout);
                 return synchronizer.Answer;
             }
         }

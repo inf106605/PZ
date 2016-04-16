@@ -27,9 +27,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             return playerProfile;
         }
 
-        public static MessageConnection.MessageInfo? SyncPostEditProfile(MessageConnection connection, PlayerProfile playerProfile)
+        public static MessageConnection.MessageInfo? SyncPostEditProfile(MessageConnection connection, PlayerProfile playerProfile, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostEditProfile(connection, playerProfile, callback, state));
+            return SyncPost((callback, state) => AsyncPostEditProfile(connection, playerProfile, callback, state), timeout);
         }
 
         public static void AsyncPostEditProfile(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)

@@ -18,9 +18,9 @@
             return null;
         }
         
-        public static MessageConnection.MessageInfo? SyncPostLogout(MessageConnection connection)
+        public static MessageConnection.MessageInfo? SyncPostLogout(MessageConnection connection, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostLogout(connection, callback, state));
+            return SyncPost((callback, state) => AsyncPostLogout(connection, callback, state), timeout);
         }
 
         public static void AsyncPostLogout(MessageConnection connection, MessageConnection.AnswerCallback callback, object state = null)
