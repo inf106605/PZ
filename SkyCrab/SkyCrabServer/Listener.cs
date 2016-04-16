@@ -14,7 +14,7 @@ namespace SkyCrabServer
         public static bool Listen(IPAddress ipAddress, int port)
         {
             Console.WriteLine("Initializing the server...\n\tAddress: " + ipAddress + "\n\tPort: " + port);
-            InitializeServer();
+            ServerConnection.PreLoadStaticMembers();
             Console.WriteLine("\tDONE!\n");
 
             try
@@ -39,6 +39,8 @@ namespace SkyCrabServer
                         Console.Error.WriteLine("Cannot initialize connection with client!\n");
                     }
                 }
+                Console.Out.WriteLine("Press Enter to close a sever");
+                Console.In.ReadLine();
                 tcpListener.Stop();
 
                 Console.WriteLine("Closing connections with clients...\n");
@@ -52,20 +54,10 @@ namespace SkyCrabServer
             }
 
             Console.WriteLine("Stoping the server...");
-            StopServer();
+            ServerConnection.DisposeStaticMembers();
             Console.WriteLine("\tDONE!\n");
 
             return true;
-        }
-
-        private static void InitializeServer()
-        {
-            ServerConnection.Inicjalize();
-        }
-
-        private static void StopServer()
-        {
-            ServerConnection.Deinicjalize();
         }
 
     }

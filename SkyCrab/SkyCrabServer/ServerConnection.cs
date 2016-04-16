@@ -67,11 +67,12 @@ namespace SkyCrabServer
                 playerProfile.registration = DateTime.Now.AddDays(-16);
                 playerProfile.lastActivity = DateTime.Now;
                 Player player = new Player((uint)random.Next(), false, playerProfile.nick);
-                LoginOk.PostLoginOk(this, player);
+                player.Profile = playerProfile;
+                LoginOkMsg.AsyncPostLoginOk(this, player);
             }
             else
             {
-                Error.PostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED));
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED));
             }
         }
 
@@ -79,9 +80,9 @@ namespace SkyCrabServer
         {
             //TODO undummy this method
             if (RandBool)
-                Ok.PostOk(this);
+                OkMsg.AsyncPostOk(this);
             else
-                Error.PostError(this, ErrorCode.NOT_LOGGED);
+                ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED);
         }
 
         private void Register(PlayerProfile playerProfile)
@@ -94,11 +95,12 @@ namespace SkyCrabServer
                 playerProfile.registration = DateTime.Now;
                 playerProfile.lastActivity = DateTime.Now;
                 Player player = new Player((uint)random.Next(), false, playerProfile.nick);
-                LoginOk.PostLoginOk(this, player);
+                player.Profile = playerProfile;
+                LoginOkMsg.AsyncPostLoginOk(this, player);
             }
             else
             {
-                Error.PostError(this, RandErrorCode(ErrorCode.LOGIN_OCCUPIED, ErrorCode.PASSWORD_TOO_SHORT, ErrorCode.EMAIL_OCCUPIED));
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.LOGIN_OCCUPIED, ErrorCode.PASSWORD_TOO_SHORT, ErrorCode.EMAIL_OCCUPIED));
             }
         }
 
@@ -106,9 +108,9 @@ namespace SkyCrabServer
         {
             //TODO undummy this method
             if (RandBool)
-                Ok.PostOk(this);
+                OkMsg.AsyncPostOk(this);
             else
-                Error.PostError(this, RandErrorCode(ErrorCode.NICK_IS_TOO_SHITTY, ErrorCode.PASSWORD_TOO_SHORT2, ErrorCode.EMAIL_OCCUPIED2));
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.NICK_IS_TOO_SHITTY, ErrorCode.PASSWORD_TOO_SHORT2, ErrorCode.EMAIL_OCCUPIED2));
         }
 
         private ErrorCode RandErrorCode(params ErrorCode[] errorCodes) //TODO remove when will be not used

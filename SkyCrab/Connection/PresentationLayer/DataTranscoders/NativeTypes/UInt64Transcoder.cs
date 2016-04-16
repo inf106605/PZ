@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 
         public ulong Read(DataConnection dataConnection)
         {
-            byte[] bytes = dataConnection.SyncReadBytes(4);
+            byte[] bytes = dataConnection.SyncReadBytes(8);
             UInt64 data = ((UInt64)bytes[0]) << 56 |
                             ((UInt64)bytes[1]) << 48 |
                             ((UInt64)bytes[2]) << 40 |

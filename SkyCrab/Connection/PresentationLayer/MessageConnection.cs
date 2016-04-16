@@ -63,22 +63,25 @@ namespace SkyCrab.Connection.PresentationLayer
 
             private void RunTaskBody()
             {
-                requestSemaphore.WaitOne();
-                AnswerCallbackWithState? request;
-                lock (requests)
-                    request = requests.Dequeue();
-                if (!request.HasValue)
-                    return;
-                answerSemaphore.WaitOne();
-                MessageInfo? answer;
-                lock (answers)
-                    answer = answers.Dequeue();
-                if (!answer.HasValue)
+                while (true)
                 {
-                    SendDummyAnswer(request.Value);
-                    return;
+                    requestSemaphore.WaitOne();
+                    AnswerCallbackWithState? request;
+                    lock (requests)
+                        request = requests.Dequeue();
+                    if (!request.HasValue)
+                        return;
+                    answerSemaphore.WaitOne();
+                    MessageInfo? answer;
+                    lock (answers)
+                        answer = answers.Dequeue();
+                    if (!answer.HasValue)
+                    {
+                        SendDummyAnswer(request.Value);
+                        return;
+                    }
+                    Task.Factory.StartNew(() => request.Value.answerCallback.Invoke(answer.Value, request.Value.state)); //TODO detach
                 }
-                Task.Factory.StartNew(() => request.Value.answerCallback.Invoke(answer.Value, request.Value.state)); //TODO detach
             }
 
             public void addRequest(AnswerCallbackWithState request)
@@ -127,7 +130,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly byte[] version = new byte[3] { 1, 2, 1 };
+        private static readonly Version version = new Version(1, 2, 2);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -139,13 +142,13 @@ namespace SkyCrab.Connection.PresentationLayer
 
         static MessageConnection()
         {
-            addMessage(new Ok());
-            addMessage(new Error());
-            addMessage(new Login());
-            addMessage(new LoginOk());
-            addMessage(new Logout());
-            addMessage(new Register());
-            addMessage(new EditProfile());
+            addMessage(new OkMsg());
+            addMessage(new ErrorMsg());
+            addMessage(new LoginMsg());
+            addMessage(new LoginOkMsg());
+            addMessage(new LogoutMsg());
+            addMessage(new RegisterMsg());
+            addMessage(new EditProfileMsg());
         }
 
         private static void addMessage(AbstractMessage message)
@@ -224,20 +227,20 @@ namespace SkyCrab.Connection.PresentationLayer
         private void CheckVersion()
         {
             object writingBlock = BeginWritingBlock();
-            AsyncWriteBytes(writingBlock, version);
+            AsyncWriteData(versionTranscoder, writingBlock, version);
             EndWritingBlock(writingBlock);
             BeginReadingBlock();
-            byte[] otherVersion = SyncReadBytes(3);
+            Version otherVersion = SyncReadData(versionTranscoder);
             EndReadingBlock();
-            if (version[0] > otherVersion[0])
+            if (version.Major > otherVersion.Major)
                 throw new SkyCrabConnectionProtocolVersionException("The other side of the connection has too old version of the protocol!");
-            else if (version[0] < otherVersion[0])
+            else if (version.Major < otherVersion.Major)
                 throw new SkyCrabConnectionProtocolVersionException("The other side of the connection has too new version of the protocol!");
-            else if (version[1] > otherVersion[1])
+            else if (version.Minor > otherVersion.Minor)
                 Console.WriteLine("The other side of the connection has an older version of the protocol. It should be updated.");
-            else if (version[1] < otherVersion[1])
+            else if (version.Minor < otherVersion.Minor)
                 Console.WriteLine("The other side of the connection has a newer version of the protocol. Update is recomended.");
-            else if (version[2] != otherVersion[2])
+            else if (version.Build != otherVersion.Build)
                 Console.WriteLine("The other side of the connection has another version of the protocol but it should work.");
         }
 

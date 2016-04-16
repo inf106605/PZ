@@ -55,6 +55,159 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\Game\Board.cs" />
+    <Compile Include="Classes\Game\WindowGame.xaml.cs">
+      <DependentUpon>WindowGame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\CreateRoomForGuest.xaml.cs">
+      <DependentUpon>CreateRoomForGuest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\ForgottenPassword.xaml.cs">
+      <DependentUpon>ForgottenPassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\Help.xaml.cs">
+      <DependentUpon>Help.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\LobbyGameForGuest.xaml.cs">
+      <DependentUpon>LobbyGameForGuest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\RankGuest.xaml.cs">
+      <DependentUpon>RankGuest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\AboutProgramLoggedPlayer.xaml.cs">
+      <DependentUpon>AboutProgramLoggedPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\CreateRoomForLoggedPlayers.xaml.cs">
+      <DependentUpon>CreateRoomForLoggedPlayers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\Friends.xaml.cs">
+      <DependentUpon>Friends.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\HelpLoggedPlayer.xaml.cs">
+      <DependentUpon>HelpLoggedPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\HistoryGames.xaml.cs">
+      <DependentUpon>HistoryGames.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\LobbyGameForLoggedPlayer.xaml.cs">
+      <DependentUpon>LobbyGameForLoggedPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\MainMenuLoggedPlayer.xaml.cs">
+      <DependentUpon>MainMenuLoggedPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\PlayAsGuest.xaml.cs">
+      <DependentUpon>PlayAsGuest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\PlayAsLoggedPlayer.xaml.cs">
+      <DependentUpon>PlayAsLoggedPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\Profile.xaml.cs">
+      <DependentUpon>Profile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\Registration.xaml.cs">
+      <DependentUpon>Registration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\Guest\Rules.xaml.cs">
+      <DependentUpon>Rules.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\RankLoggedPlayer.xaml.cs">
+      <DependentUpon>RankLoggedPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClientConnection.cs" />
+    <Compile Include="Switcher.cs" />
+    <Page Include="Classes\Game\WindowGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\CreateRoomForGuest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\ForgottenPassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\Help.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\LobbyGameForGuest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\RankGuest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\AboutProgramLoggedPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\CreateRoomForLoggedPlayers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\Friends.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\HelpLoggedPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\HistoryGames.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\LobbyGameForLoggedPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\MainMenuLoggedPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\PlayAsGuest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\PlayAsLoggedPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\Profile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\Registration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\Guest\Rules.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Menu\LoggedPlayer\RankLoggedPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,6 +220,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Classes\Menu\Guest\MainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -94,6 +251,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\skycrab_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cancel_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\confirm_small.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
