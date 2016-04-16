@@ -1,5 +1,11 @@
 ﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
+    /// <summary>
+    /// <para>Sender: Server</para>
+    /// <para>ID: <see cref="MessageId.OK"/></para>
+    /// <para>Data type: [none]</para>
+    /// <para>Passible answers: [none]</para>
+    /// </summary>
     public sealed class Ok : AbstractMessage
     {
 

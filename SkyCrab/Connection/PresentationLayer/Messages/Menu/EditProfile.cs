@@ -2,6 +2,13 @@
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
+    /// <summary>
+    /// <para>Sender: Client</para>
+    /// <para>ID: <see cref="MessageId.EDIT_PROFILE"/></para>
+    /// <para>Data type: <see cref="PlayerProfile"/> (without login, registration and lastActivity)</para>
+    /// <para>Passible answers: <see cref="Ok"/>, <see cref="Error"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.NICK_IS_TOO_SHITTY"/>, <see cref="ErrorCode.PASSWORD_TOO_SHORT2"/>, <see cref="ErrorCode.EMAIL_OCCUPIED2"/></para>
+    /// </summary>
     public sealed class EditProfile : AbstractMessage
     {
 

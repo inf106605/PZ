@@ -1,8 +1,14 @@
 ﻿using SkyCrab.Common_classes.Players;
-using SkyCrab.Connection.Utils;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
+    /// <summary>
+    /// <para>Sender: Client</para>
+    /// <para>ID: <see cref="MessageId.LOGIN"/></para>
+    /// <para>Data type: <see cref="PlayerProfile"/> (login and password only)</para>
+    /// <para>Passible answers: <see cref="LoginOk"/>, <see cref="Error"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.WRONG_LOGIN_OR_PASSWORD"/>, <see cref="ErrorCode.USER_ALREADY_LOGGED"/></para>
+    /// </summary>
     public sealed class Login : AbstractMessage
     {
 

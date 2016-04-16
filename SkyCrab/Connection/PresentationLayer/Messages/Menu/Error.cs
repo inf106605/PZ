@@ -2,6 +2,12 @@
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
+    /// <summary>
+    /// <para>Sender: Server</para>
+    /// <para>ID: <see cref="MessageId.ERROR"/></para>
+    /// <para>Data type: <see cref="ErrorCode"/></para>
+    /// <para>Passible answers: [none]</para>
+    /// </summary>
     public sealed class Error : AbstractMessage
     {
 

@@ -1,5 +1,12 @@
 ﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
+    /// <summary>
+    /// <para>Sender: Client</para>
+    /// <para>ID: <see cref="MessageId.LOGOUT"/></para>
+    /// <para>Data type: [none]</para>
+    /// <para>Passible answers: <see cref="Ok"/>, <see cref="Error"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED"/></para>
+    /// </summary>
     public sealed class Logout : AbstractMessage
     {
 

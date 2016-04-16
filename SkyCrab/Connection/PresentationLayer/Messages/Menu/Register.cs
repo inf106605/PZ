@@ -2,6 +2,13 @@
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
+    /// <summary>
+    /// <para>Sender: Client</para>
+    /// <para>ID: <see cref="MessageId.REGISTER"/></para>
+    /// <para>Data type: <see cref="PlayerProfile"/> (without nick, registration and lastActivity)</para>
+    /// <para>Passible answers: <see cref="LoginOk"/>, <see cref="Error"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.LOGIN_OCCUPIED"/>, <see cref="ErrorCode.PASSWORD_TOO_SHORT"/>, <see cref="ErrorCode.EMAIL_OCCUPIED"/></para>
+    /// </summary>
     public sealed class Register : AbstractMessage
     {
 
