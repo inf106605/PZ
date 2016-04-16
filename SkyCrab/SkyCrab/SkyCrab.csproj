@@ -55,7 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\Game\Board.cs" />
+    <Compile Include="Classes\Game\ScrabbleBoard.cs" />
+    <Compile Include="Classes\Game\ScrabbleSquare.cs" />
     <Compile Include="Classes\Game\WindowGame.xaml.cs">
       <DependentUpon>WindowGame.xaml</DependentUpon>
     </Compile>

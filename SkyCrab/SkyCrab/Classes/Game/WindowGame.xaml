@@ -16,21 +16,21 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.01*"></ColumnDefinition>
             <ColumnDefinition Width="0.3*"></ColumnDefinition>
-            <ColumnDefinition Width="0.15*"></ColumnDefinition>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
             <ColumnDefinition Width="0.01*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="89*"></RowDefinition>
-            <RowDefinition Height="347*"></RowDefinition>
-            <RowDefinition Height="44*"></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <UniformGrid Grid.Column="1" Grid.Row="0" Margin="5">
+        <UniformGrid x:Name="BoardGame" Grid.Column="1" Grid.Row="0" Margin="5">
             <Image Source="/Images/skycrab_logo.png" />
         </UniformGrid>
         <ItemsControl ItemsSource="{Binding Squares}" Grid.Column="1" Grid.Row="1">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="15" Columns="15"/>
+                    <UniformGrid x:Name="BoardGame" Rows="15" Columns="15"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
@@ -66,6 +66,9 @@
                     </DataTemplate.Triggers>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding Tiles}" Grid.Column="1" Grid.Row="1">
+            
         </ItemsControl>
     </Grid>
 </UserControl>
