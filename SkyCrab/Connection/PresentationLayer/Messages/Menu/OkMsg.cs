@@ -6,7 +6,7 @@
     /// <para>Data type: [none]</para>
     /// <para>Passible answers: [none]</para>
     /// </summary>
-    public sealed class Ok : AbstractMessage
+    public sealed class OkMsg : AbstractMessage
     {
 
         public override MessageId Id

@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
     /// <para>Data type: <see cref="ErrorCode"/></para>
     /// <para>Passible answers: [none]</para>
     /// </summary>
-    public sealed class Error : AbstractMessage
+    public sealed class ErrorMsg : AbstractMessage
     {
 
         public override MessageId Id

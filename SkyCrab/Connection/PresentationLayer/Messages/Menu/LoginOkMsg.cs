@@ -9,7 +9,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
     /// <para>Data type: <see cref="Player"/> (without password)</para>
     /// <para>Passible answers: [none]</para>
     /// </summary>
-    public sealed class LoginOk : AbstractMessage
+    public sealed class LoginOkMsg : AbstractMessage
     {
 
         public override MessageId Id

@@ -142,13 +142,13 @@ namespace SkyCrab.Connection.PresentationLayer
 
         static MessageConnection()
         {
-            addMessage(new Ok());
-            addMessage(new Error());
-            addMessage(new Login());
-            addMessage(new LoginOk());
-            addMessage(new Logout());
-            addMessage(new Register());
-            addMessage(new EditProfile());
+            addMessage(new OkMsg());
+            addMessage(new ErrorMsg());
+            addMessage(new LoginMsg());
+            addMessage(new LoginOkMsg());
+            addMessage(new LogoutMsg());
+            addMessage(new RegisterMsg());
+            addMessage(new EditProfileMsg());
         }
 
         private static void addMessage(AbstractMessage message)
