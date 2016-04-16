@@ -26,10 +26,15 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             playerProfile.eMail = eMail;
             return playerProfile;
         }
-
-        public static void PostRegister(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        
+        public static MessageConnection.MessageInfo? SyncPostRegister(MessageConnection connection, PlayerProfile playerProfile)
         {
-            MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
+            return SyncPost((callback, state) => AsyncPostRegister(connection, playerProfile, callback, state));
+        }
+
+        public static void AsyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        {
+            MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.login);
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);

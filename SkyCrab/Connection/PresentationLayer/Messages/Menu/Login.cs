@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Players;
+using SkyCrab.Connection.Utils;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
@@ -26,9 +27,14 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             return playerProfile;
         }
 
-        public static void PostLogin(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        public static MessageConnection.MessageInfo? SyncPostLogin(MessageConnection connection, PlayerProfile playerProfile)
         {
-            MessageConnection.MessageProcedure messageProcedure = (object writingBlock) =>
+            return SyncPost((callback, state) => AsyncPostLogin(connection, playerProfile, callback, state));
+        }
+
+        public static void AsyncPostLogin(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        {
+            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.login);
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);

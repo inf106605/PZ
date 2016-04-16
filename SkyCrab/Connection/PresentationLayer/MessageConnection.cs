@@ -130,7 +130,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly byte[] version = new byte[3] { 1, 2, 1 };
+        private static readonly byte[] version = new byte[3] { 1, 2, 2 };
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;

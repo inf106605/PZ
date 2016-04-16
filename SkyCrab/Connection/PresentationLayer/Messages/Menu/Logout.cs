@@ -17,10 +17,15 @@
         {
             return null;
         }
-
-        public static void PostLogout(MessageConnection connection, MessageConnection.AnswerCallback callback, object state = null)
+        
+        public static MessageConnection.MessageInfo? SyncPostLogout(MessageConnection connection)
         {
-            MessageConnection.MessageProcedure messageProcedure = (object writingBlock) =>
+            return SyncPost((callback, state) => AsyncPostLogout(connection, callback, state));
+        }
+
+        public static void AsyncPostLogout(MessageConnection connection, MessageConnection.AnswerCallback callback, object state = null)
+        {
+            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };

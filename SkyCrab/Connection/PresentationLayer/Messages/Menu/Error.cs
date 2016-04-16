@@ -21,9 +21,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             return errorCode;
         }
 
-        public static void PostError(MessageConnection connection, ErrorCode errorCode)
+        public static void AsyncPostError(MessageConnection connection, ErrorCode errorCode)
         {
-            MessageConnection.MessageProcedure messageProcedure = (object writingBlock) =>
+            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
                 connection.AsyncWriteData(MessageConnection.errorCodeTranscoder, writingBlock, errorCode);
             };

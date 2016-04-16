@@ -27,9 +27,14 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             return playerProfile;
         }
 
-        public static void PostEditProfile(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        public static MessageConnection.MessageInfo? SyncPostEditProfile(MessageConnection connection, PlayerProfile playerProfile)
         {
-            MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
+            return SyncPost((callback, state) => AsyncPostEditProfile(connection, playerProfile, callback, state));
+        }
+
+        public static void AsyncPostEditProfile(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        {
+            MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.nick);

@@ -34,7 +34,7 @@ namespace SkyCrab.Classes.Menu
 
             using (AnswerSynchronizer answerSynchronizer = new AnswerSynchronizer())
             {
-                Connection.PresentationLayer.Messages.Menu.Login.PostLogin(App.clientConn, playerProfile, AnswerSynchronizer.Callback, answerSynchronizer);
+                Connection.PresentationLayer.Messages.Menu.Login.AsyncPostLogin(App.clientConn, playerProfile, AnswerSynchronizer.Callback, answerSynchronizer);
                 answerSynchronizer.Wait();
                 if (!answerSynchronizer.Answer.HasValue)
                 {

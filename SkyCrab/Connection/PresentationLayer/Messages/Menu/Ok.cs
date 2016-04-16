@@ -19,9 +19,9 @@
             return null;
         }
 
-        public static void PostOk(MessageConnection connection)
+        public static void AsyncPostOk(MessageConnection connection)
         {
-            MessageConnection.MessageProcedure messageProcedure = (object writingBlock) =>
+            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
             };
             connection.PostMessage(MessageId.OK, messageProcedure);

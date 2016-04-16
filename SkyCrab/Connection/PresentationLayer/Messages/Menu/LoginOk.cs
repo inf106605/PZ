@@ -41,9 +41,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             return playerProfile;
         }
 
-        public static void PostLoginOk(MessageConnection connection, Player player)
+        public static void AsyncPostLoginOk(MessageConnection connection, Player player)
         {
-            MessageConnection.MessageProcedure messageProcedure = (object writingBlock) =>
+            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
                 connection.AsyncWriteData(MessageConnection.uint32Transcoder, writingBlock, player.Id);
                 PostPlayerProfile(connection, writingBlock, player.Profile);
