@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\ITranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\DateTimeTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\Int32Transcoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\Int64Transcoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\Int8Transcoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\StringTranscoder.cs" />
@@ -22,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\UInt32Transcoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\UInt64Transcoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\UInt8Transcoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\VersionTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\ErrorCodeTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\MessageIdTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\ValueIsNotInEnumException.cs" />

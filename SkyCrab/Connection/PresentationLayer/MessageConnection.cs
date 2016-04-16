@@ -130,7 +130,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly byte[] version = new byte[3] { 1, 2, 2 };
+        private static readonly Version version = new Version(1, 2, 2);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -227,20 +227,20 @@ namespace SkyCrab.Connection.PresentationLayer
         private void CheckVersion()
         {
             object writingBlock = BeginWritingBlock();
-            AsyncWriteBytes(writingBlock, version);
+            AsyncWriteData(versionTranscoder, writingBlock, version);
             EndWritingBlock(writingBlock);
             BeginReadingBlock();
-            byte[] otherVersion = SyncReadBytes(3);
+            Version otherVersion = SyncReadData(versionTranscoder);
             EndReadingBlock();
-            if (version[0] > otherVersion[0])
+            if (version.Major > otherVersion.Major)
                 throw new SkyCrabConnectionProtocolVersionException("The other side of the connection has too old version of the protocol!");
-            else if (version[0] < otherVersion[0])
+            else if (version.Major < otherVersion.Major)
                 throw new SkyCrabConnectionProtocolVersionException("The other side of the connection has too new version of the protocol!");
-            else if (version[1] > otherVersion[1])
+            else if (version.Minor > otherVersion.Minor)
                 Console.WriteLine("The other side of the connection has an older version of the protocol. It should be updated.");
-            else if (version[1] < otherVersion[1])
+            else if (version.Minor < otherVersion.Minor)
                 Console.WriteLine("The other side of the connection has a newer version of the protocol. Update is recomended.");
-            else if (version[2] != otherVersion[2])
+            else if (version.Build != otherVersion.Build)
                 Console.WriteLine("The other side of the connection has another version of the protocol but it should work.");
         }
 
