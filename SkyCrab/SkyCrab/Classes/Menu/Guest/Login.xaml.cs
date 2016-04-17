@@ -6,6 +6,7 @@ using SkyCrab.Connection.PresentationLayer;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.Utils;
 using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 
 namespace SkyCrab.Classes.Menu
 {
@@ -34,8 +35,8 @@ namespace SkyCrab.Classes.Menu
 
             using (AnswerSynchronizer answerSynchronizer = new AnswerSynchronizer())
             {
-                Connection.PresentationLayer.Messages.Menu.Login.PostLogin(App.clientConn, playerProfile, AnswerSynchronizer.Callback, answerSynchronizer);
-                answerSynchronizer.Wait();
+                LoginMsg.AsyncPostLogin(App.clientConn, playerProfile, AnswerSynchronizer.Callback, answerSynchronizer);
+                answerSynchronizer.Wait(1000);
                 if (!answerSynchronizer.Answer.HasValue)
                 {
                     MessageBox.Show("Brak odpowiedzi od serwera!");

@@ -2,7 +2,14 @@
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
-    public sealed class Login : AbstractMessage
+    /// <summary>
+    /// <para>Sender: Client</para>
+    /// <para>ID: <see cref="MessageId.LOGIN"/></para>
+    /// <para>Data type: <see cref="PlayerProfile"/> (login and password only)</para>
+    /// <para>Passible answers: <see cref="LoginOkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.WRONG_LOGIN_OR_PASSWORD"/>, <see cref="ErrorCode.USER_ALREADY_LOGGED"/></para>
+    /// </summary>
+    public sealed class LoginMsg : AbstractMessage
     {
 
         public override MessageId Id
@@ -26,9 +33,14 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             return playerProfile;
         }
 
-        public static void PostLogin(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        public static MessageConnection.MessageInfo? SyncPostLogin(MessageConnection connection, PlayerProfile playerProfile, int timeout)
         {
-            MessageConnection.MessageProcedure messageProcedure = (object writingBlock) =>
+            return SyncPost((callback, state) => AsyncPostLogin(connection, playerProfile, callback, state), timeout);
+        }
+
+        public static void AsyncPostLogin(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        {
+            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.login);
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);

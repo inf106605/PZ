@@ -2,7 +2,14 @@
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
-    public sealed class Register : AbstractMessage
+    /// <summary>
+    /// <para>Sender: Client</para>
+    /// <para>ID: <see cref="MessageId.REGISTER"/></para>
+    /// <para>Data type: <see cref="PlayerProfile"/> (without nick, registration and lastActivity)</para>
+    /// <para>Passible answers: <see cref="LoginOkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.LOGIN_OCCUPIED"/>, <see cref="ErrorCode.PASSWORD_TOO_SHORT"/>, <see cref="ErrorCode.EMAIL_OCCUPIED"/></para>
+    /// </summary>
+    public sealed class RegisterMsg : AbstractMessage
     {
 
         public override MessageId Id
@@ -26,10 +33,15 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             playerProfile.eMail = eMail;
             return playerProfile;
         }
-
-        public static void PostRegister(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        
+        public static MessageConnection.MessageInfo? SyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, int timeout)
         {
-            MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
+            return SyncPost((callback, state) => AsyncPostRegister(connection, playerProfile, callback, state), timeout);
+        }
+
+        public static void AsyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        {
+            MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.login);
                 connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);

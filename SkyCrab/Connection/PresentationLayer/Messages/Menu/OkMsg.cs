@@ -1,6 +1,12 @@
 ﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
-    public sealed class Ok : AbstractMessage
+    /// <summary>
+    /// <para>Sender: Server</para>
+    /// <para>ID: <see cref="MessageId.OK"/></para>
+    /// <para>Data type: [none]</para>
+    /// <para>Passible answers: [none]</para>
+    /// </summary>
+    public sealed class OkMsg : AbstractMessage
     {
 
         public override MessageId Id
@@ -19,9 +25,9 @@
             return null;
         }
 
-        public static void PostOk(MessageConnection connection)
+        public static void AsyncPostOk(MessageConnection connection)
         {
-            MessageConnection.MessageProcedure messageProcedure = (object writingBlock) =>
+            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
             };
             connection.PostMessage(MessageId.OK, messageProcedure);
