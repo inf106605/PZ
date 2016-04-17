@@ -26,7 +26,7 @@ namespace SkyCrab.Classes.Game
         public WindowGame()
         {
             InitializeComponent();
-            DataContext = new ScrabbleBoard();
+            DataContext = new ScrabbleGame();
         }   
 
     } 

@@ -57,6 +57,8 @@
     </ApplicationDefinition>
     <Compile Include="Classes\Game\Command.cs" />
     <Compile Include="Classes\Game\ScrabbleBoard.cs" />
+    <Compile Include="Classes\Game\ScrabbleGame.cs" />
+    <Compile Include="Classes\Game\ScrabbleRack.cs" />
     <Compile Include="Classes\Game\ScrabbleSquare.cs" />
     <Compile Include="Classes\Game\WindowGame.xaml.cs">
       <DependentUpon>WindowGame.xaml</DependentUpon>
@@ -265,6 +267,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Game\blank.png" />
   </ItemGroup>
   <Import Project="..\Common classes\Common classes.projitems" Label="Shared" />
   <Import Project="..\Connection\Connection.projitems" Label="Shared" />

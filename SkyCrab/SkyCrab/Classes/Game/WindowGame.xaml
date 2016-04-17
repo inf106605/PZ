@@ -20,55 +20,108 @@
             <ColumnDefinition Width="0.01*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*"></RowDefinition>
-            <RowDefinition Height="0.5*"></RowDefinition>
-            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition Height="0.9*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="0.025*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="0.025*"></RowDefinition>
         </Grid.RowDefinitions>
-        <UniformGrid x:Name="BoardGame" Grid.Column="1" Grid.Row="0" Margin="5">
-            <Image Source="/Images/skycrab_logo.png" />
-        </UniformGrid>
-        <ItemsControl ItemsSource="{Binding Squares}" Grid.Column="1" Grid.Row="1">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid x:Name="BoardGame" Rows="15" Columns="15"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="1">
-                        <Button x:Name="Square"
+        <Grid Grid.Column="2" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <UniformGrid Margin="5">
+                <Image Source="/Images/skycrab_logo.png" />
+            </UniformGrid>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.05*"></ColumnDefinition>
+                <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                <ColumnDefinition Width="0.05*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.025*"></RowDefinition>
+                <RowDefinition Height="0.8*"></RowDefinition>
+                <RowDefinition Height="0.025*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ItemsControl ItemsSource="{Binding Squares}" Grid.Row="1" Grid.Column="1">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid x:Name="BoardGame" Rows="15" Columns="15"  />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black" BorderThickness="1">
+                            <Button x:Name="Square"
                         Command="{Binding DataContext.SquareClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         CommandParameter="{Binding}">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Grid Background="{TemplateBinding Background}"/>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                    </Border>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsDarkBlue}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#04bef1"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsRed}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#db3920"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsOrange}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#fed9a5"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsBlue}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#AEECF9"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsGreen}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#07b5ac"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <ItemsControl ItemsSource="{Binding Tiles}" Grid.Column="1" Grid.Row="1">
-            
-        </ItemsControl>
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid Background="{TemplateBinding Background}"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsDarkBlue}" Value="True">
+                                <Setter TargetName="Square" Property="Background" Value="#04bef1"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsRed}" Value="True">
+                                <Setter TargetName="Square" Property="Background" Value="#db3920"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsOrange}" Value="True">
+                                <Setter TargetName="Square" Property="Background" Value="#fed9a5"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsBlue}" Value="True">
+                                <Setter TargetName="Square" Property="Background" Value="#AEECF9"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsGreen}" Value="True">
+                                <Setter TargetName="Square" Property="Background" Value="#07b5ac"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <UniformGrid x:Name="ActionPlayerButton" Columns="3" Grid.Column="1" Margin="5">
+                <Button x:Name="Play" Content="Graj" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
+                <Button x:Name="Exchange" Content="Wymiana" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
+                <Button x:Name="Pass" Content="Pas" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
+            </UniformGrid>
+        </Grid>
+        <UniformGrid Background="Green" MaxWidth="400" MaxHeight="50" Grid.Column="1" Grid.Row="3" Columns="8">
+            <Button x:Name="tile1" Background="Green">
+                <Image Source="/Images/Game/blank.png" Width="{Binding ActualWidth, ElementName=tile1}" Height="{Binding ActualHeight, ElementName=tile1}" ></Image>
+            </Button>
+            <Button x:Name="tile2" Background="Green">
+                <Image Source="/Images/Game/blank.png" Width="{Binding ActualWidth, ElementName=tile1}" Height="{Binding ActualHeight, ElementName=tile1}" ></Image>
+            </Button>
+            <Button x:Name="tile3" Background="Green">
+                <Image Source="/Images/Game/blank.png" Width="{Binding ActualWidth, ElementName=tile1}" Height="{Binding ActualHeight, ElementName=tile1}" ></Image>
+            </Button>
+            <Button x:Name="tile4" Background="Green">
+                <Image Source="/Images/Game/blank.png" Width="{Binding ActualWidth, ElementName=tile1}" Height="{Binding ActualHeight, ElementName=tile1}" ></Image>
+            </Button>
+            <Button x:Name="tile5" Background="Green">
+                <Image Source="/Images/Game/blank.png" Width="{Binding ActualWidth, ElementName=tile1}" Height="{Binding ActualHeight, ElementName=tile1}" ></Image>
+            </Button>
+            <Button x:Name="tile6" Background="Green">
+                <Image Source="/Images/Game/blank.png" Width="{Binding ActualWidth, ElementName=tile1}" Height="{Binding ActualHeight, ElementName=tile1}" ></Image>
+            </Button>
+            <Button x:Name="tile7" Background="Green">
+                <Image Source="/Images/Game/blank.png" Width="{Binding ActualWidth, ElementName=tile1}" Height="{Binding ActualHeight, ElementName=tile1}" ></Image>
+            </Button>
+        </UniformGrid>
     </Grid>
 </UserControl>

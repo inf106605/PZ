@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Games.Boards;
+using SkyCrab.Common_classes.Games.Racks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,6 @@ namespace SkyCrab.Classes.Game
     {
         public List<ScrabbleSquare> Squares { get; private set; }
 
-        public Command<ScrabbleSquare> SquareClickCommand { get; private set; }
-
         public ScrabbleBoard()
         {
             Squares = new List<ScrabbleSquare>();
@@ -25,14 +24,6 @@ namespace SkyCrab.Classes.Game
                     Squares.Add(new ScrabbleSquare(i,j));
                 }
             }
-
-            SquareClickCommand = new Command<ScrabbleSquare>(OnSquareClick);
-        }
-
-        private void OnSquareClick(ScrabbleSquare square)
-        {
-            System.Windows.MessageBox.Show("You clicked on Row: " + square.Row + " - Column: " + square.Column);
-            
         }
     }
 }
