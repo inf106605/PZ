@@ -14,8 +14,7 @@ namespace SkyCrab.Classes.Game
 
         public ScrabbleGame()
         {
-            scrabbleBoard = new ScrabbleBoard();
-
+            scrabbleBoard = new ScrabbleBoard(); 
             SquareClickCommand = new Command<ScrabbleSquare>(OnSquareClick);
         }
 

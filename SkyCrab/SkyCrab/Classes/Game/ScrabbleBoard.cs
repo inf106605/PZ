@@ -17,12 +17,11 @@ namespace SkyCrab.Classes.Game
         {
             Squares = new List<ScrabbleSquare>();
 
-            for (int i = 0; i < 15; i++)
+            StandardBoard standardBoard = new StandardBoard();
+
+            foreach(var square in standardBoard.Squares)
             {
-                for (int j = 0; j < 15; j++)
-                {
-                    Squares.Add(new ScrabbleSquare(i,j));
-                }
+                Squares.Add(new ScrabbleSquare(square.x, square.y));
             }
         }
     }

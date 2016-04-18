@@ -6,6 +6,25 @@
              xmlns:local="clr-namespace:SkyCrab.Classes.Game"
              mc:Ignorable="d" 
   d:DesignHeight="480" d:DesignWidth="640">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="ShowIfTrue" />
+
+        <Style x:Key="RightAlignCellStyle" TargetType="DataGridCell">
+            <Setter Property="TextBlock.TextAlignment" Value="Right" />
+        </Style>
+        <Style x:Key="HeaderStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="2" />
+        </Style>
+        <DataTemplate x:Key="PlayerName">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -28,14 +47,22 @@
         </Grid.RowDefinitions>
         <Grid Grid.Column="2" Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="0.3*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
             </Grid.RowDefinitions>
-            <UniformGrid Margin="5">
+            <UniformGrid Grid.Row="0" Margin="5">
                 <Image Source="/Images/skycrab_logo.png" />
             </UniformGrid>
+            <Grid Grid.Row="1">
+                <TextBlock Text="Lista graczy" HorizontalAlignment="Center" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+            </Grid>
+            <DataGrid Grid.Row="2">
+                <DataGrid.Columns>
+                    
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -45,10 +72,25 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.025*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.025*"></RowDefinition>
                 <RowDefinition Height="0.8*"></RowDefinition>
                 <RowDefinition Height="0.025*"></RowDefinition>
             </Grid.RowDefinitions>
-            <ItemsControl ItemsSource="{Binding Squares}" Grid.Row="1" Grid.Column="1">
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <TextBlock TextAlignment="Left" Text="Pozostało 79 płytek"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                </Grid>
+                <Grid Grid.Column="2">
+                    <TextBlock TextAlignment="Right" Text="Czas: 0:57:16"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                </Grid>
+            </Grid>
+            <ItemsControl ItemsSource="{Binding Squares}" Grid.Row="3" Grid.Column="1">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid x:Name="BoardGame" Rows="15" Columns="15"  />
