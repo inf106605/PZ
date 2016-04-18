@@ -33,17 +33,16 @@ namespace SkyCrab.Classes.Menu
             playerProfile.login = loginTextbox.Text;
             playerProfile.password = passTextbox.Text;
 
-            using (AnswerSynchronizer answerSynchronizer = new AnswerSynchronizer())
-            {
-                LoginMsg.AsyncPostLogin(App.clientConn, playerProfile, AnswerSynchronizer.Callback, answerSynchronizer);
-                answerSynchronizer.Wait(1000);
-                if (!answerSynchronizer.Answer.HasValue)
-                {
-                    MessageBox.Show("Brak odpowiedzi od serwera!");
-                    return;
-                }
+            var answer = LoginMsg.SyncPostLogin(App.clientConn, playerProfile, 1000);
 
-                var answerValue = answerSynchronizer.Answer.Value;
+               
+            if (!answer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+                var answerValue = answer.Value;
 
                 if (answerValue.messageId == MessageId.ERROR)
                 {
@@ -71,8 +70,8 @@ namespace SkyCrab.Classes.Menu
                     Player player = (Player)answerValue.message;
                     Switcher.Switch(new MainMenuLoggedPlayer());
                 }
-            }
         }
+        
 
         private void ButtonForgottenPassword_Click(object sender, RoutedEventArgs e)
         {
