@@ -58,6 +58,7 @@
     <Compile Include="Classes\Game\Command.cs" />
     <Compile Include="Classes\Game\ScrabbleBoard.cs" />
     <Compile Include="Classes\Game\ScrabbleGame.cs" />
+    <Compile Include="Classes\Game\ScrabblePlayers.cs" />
     <Compile Include="Classes\Game\ScrabbleRack.cs" />
     <Compile Include="Classes\Game\ScrabbleSquare.cs" />
     <Compile Include="Classes\Game\WindowGame.xaml.cs">

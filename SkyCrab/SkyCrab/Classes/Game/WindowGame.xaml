@@ -6,25 +6,6 @@
              xmlns:local="clr-namespace:SkyCrab.Classes.Game"
              mc:Ignorable="d" 
   d:DesignHeight="480" d:DesignWidth="640">
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="ShowIfTrue" />
-
-        <Style x:Key="RightAlignCellStyle" TargetType="DataGridCell">
-            <Setter Property="TextBlock.TextAlignment" Value="Right" />
-        </Style>
-        <Style x:Key="HeaderStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="WhiteSmoke" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Padding" Value="2" />
-        </Style>
-        <DataTemplate x:Key="PlayerName">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20" />
-                </Grid.ColumnDefinitions>
-            </Grid>
-        </DataTemplate>
-    </UserControl.Resources>
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -58,11 +39,23 @@
             <Grid Grid.Row="1">
                 <TextBlock Text="Lista graczy" HorizontalAlignment="Center" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
             </Grid>
-            <DataGrid Grid.Row="2">
-                <DataGrid.Columns>
-                    
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid Grid.Row="2" Margin="10">
+                <ListView x:Name="ListPlayers">
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="True">
+                            <GridView.Columns>
+                                <GridViewColumn Header="Gracz"  DisplayMemberBinding="{Binding PlayerName}" />
+                                <GridViewColumn Header="Punkty"  DisplayMemberBinding="{Binding PlayerPoints}" />
+                                <GridViewColumn Header="Czas" DisplayMemberBinding="{Binding PlayerTime}" />
+                                <GridViewColumn Header="Ilość płytek" DisplayMemberBinding="{Binding PlayerTiles}" />
+                            </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            </Grid>
+            <Grid Grid.Row="3" Background="Black" Margin="10,10,10,-50">
+                <TextBox Background="Black" Foreground="Red" Text="CHAT" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -165,5 +158,15 @@
                 <Image Source="/Images/Game/blank.png" Width="{Binding ActualWidth, ElementName=tile1}" Height="{Binding ActualHeight, ElementName=tile1}" ></Image>
             </Button>
         </UniformGrid>
+        <Grid Grid.Column="2" Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <UniformGrid Grid.Column="1" Columns="1">
+                <Button x:Name="ExitGame" Content="Zakończ grę" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ExitGame_Click"></Button>
+            </UniformGrid>
+        </Grid>
     </Grid>
 </UserControl>
