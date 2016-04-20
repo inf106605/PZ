@@ -30,7 +30,7 @@ namespace SkyCrab.Classes.Menu
 
             PlayerProfile playerProfile = new PlayerProfile();
             playerProfile.login = loginTextbox.Text;
-            playerProfile.password = passTextbox.Text;
+            playerProfile.password = passTextbox.Password;
 
             var answer = LoginMsg.SyncPostLogin(App.clientConn, playerProfile, 1000);
 
@@ -67,6 +67,7 @@ namespace SkyCrab.Classes.Menu
                 {
                     Player player = (Player)answerValue.message;
                     Switcher.Switch(new MainMenuLoggedPlayer());
+                    return;
                 }
         }
         

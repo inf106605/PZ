@@ -74,8 +74,8 @@ namespace SkyCrab.Classes.Menu
 
             if (answerValue.messageId == MessageId.OK)
             {
-
                 Switcher.Switch(new MainMenu());
+                return;
             }
         }
 
