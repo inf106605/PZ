@@ -12,6 +12,7 @@ namespace SkyCrabServer
         private static TcpListener tcpListener;
         private static volatile IAsyncResult asyncResult;
         private static volatile bool stoping = false;
+        public static ServerConsole serverConsole;
 
 
         public static bool Listen(IPAddress ipAddress, int port)
@@ -28,8 +29,9 @@ namespace SkyCrabServer
                 asyncResult = tcpListener.BeginAcceptTcpClient(ClientAccepter, null);
                 Console.WriteLine("Accepting clients is begun.\n");
 
-                ServerConsole serverConsole = new ServerConsole();
+                serverConsole = new ServerConsole();
                 serverConsole.Start();
+                serverConsole = null;
 
                 lock (tcpListener)
                     asyncResult = null;
@@ -76,7 +78,7 @@ namespace SkyCrabServer
                 try
                 {
                     ServerConnection serverConnection = new ServerConnection(tcpClient, 100); //TODO remove constant
-                    Console.WriteLine("New client connected. (" + serverConnection.ServerEndPoint.Address + ")\n\tAddress: " + serverConnection.ClientEndPoint.Address + "\n\tport: " + serverConnection.ClientEndPoint.Port + "\n");
+                    serverConsole.Write("New client connected. (" + serverConnection.ServerEndPoint.Address + ")\n\tAddress: " + serverConnection.ClientEndPoint.Address + "\n\tport: " + serverConnection.ClientEndPoint.Port + "\n");
                     connections.Add(serverConnection);
                 }
                 catch (Exception e)
