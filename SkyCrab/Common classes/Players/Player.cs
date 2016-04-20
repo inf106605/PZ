@@ -6,7 +6,7 @@
         private uint id;
         private bool isGuest;
         private string nick;
-        private PlayerProfile profile;
+        private PlayerProfile? profile;
 
 
         public uint Id
@@ -25,7 +25,7 @@
             set { nick = value; }
         }
 
-        public PlayerProfile Profile
+        public PlayerProfile? Profile
         {
             get { return profile; }
             set { profile = value; }
@@ -37,6 +37,15 @@
             this.id = id;
             this.isGuest = isGuest;
             this.nick = nick;
+            this.profile = null;
+        }
+
+        public Player(uint id, PlayerProfile profile)
+        {
+            this.id = id;
+            this.isGuest = false;
+            this.nick = profile.nick;
+            this.profile = profile;
         }
 
     }
