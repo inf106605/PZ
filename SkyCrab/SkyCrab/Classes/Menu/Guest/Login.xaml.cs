@@ -27,15 +27,13 @@ namespace SkyCrab.Classes.Menu
 
         private void ButonLoginConfirm_Click(object sender, RoutedEventArgs e)
         {
-            // walidacja
-            
+
             PlayerProfile playerProfile = new PlayerProfile();
             playerProfile.login = loginTextbox.Text;
             playerProfile.password = passTextbox.Text;
 
             var answer = LoginMsg.SyncPostLogin(App.clientConn, playerProfile, 1000);
 
-               
             if (!answer.HasValue)
             {
                 MessageBox.Show("Brak odpowiedzi od serwera!");
