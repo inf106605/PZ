@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,12 +32,57 @@ namespace SkyCrab.Classes.Menu
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
+            // walidacja hasła
+
+            if(passTextbox.Password != "" && passTextbox.Password.Length < 5)
+            {
+                MessageBox.Show("Podane hasło jest za krótkie (Min. 5 znaków) !");
+                return;
+            }
+
+            if (passTextbox.Password != "" && passTextbox.Password.Length > 20)
+            {
+                MessageBox.Show("Podane hasło jest za długie (Max. 20 znaków) !");
+                return;
+            }
+
+            if(passTextbox.Password !=  passConTextbox.Password)
+            {
+                MessageBox.Show("Podane hasła różnią się od siebie!");
+                return;
+            }
+
+            // walidacja e-mail'a
+
+            bool isEmail = Regex.IsMatch(emailTextbox.Text, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+
+            if (!isEmail)
+            {
+                MessageBox.Show("Podany format e-mail'a jest nieprawidłowy!");
+                return;
+            }
+
+            if (emailTextbox.Text != emailConTextbox.Text)
+            {
+                MessageBox.Show("Podane adresy e-mail się różnią!");
+                return;
+            }
+
+            // walidacja nicku
+
+            if(nickTextbox.Text.Length > 50)
+            {
+                MessageBox.Show("Podany nick jest za długi ( Max. 50 znaków) !");
+                return;
+            }
+
             PlayerProfile playerProfile = new PlayerProfile();
 
             playerProfile.login = SkyCrabGlobalVariables.player.Profile.login;
             playerProfile.eMail = SkyCrabGlobalVariables.player.Profile.eMail;
             playerProfile.nick = SkyCrabGlobalVariables.player.Nick;
 
+        
             var answer = EditProfileMsg.SyncPostEditProfile(App.clientConn, playerProfile, 1000);
 
             if (!answer.HasValue)
