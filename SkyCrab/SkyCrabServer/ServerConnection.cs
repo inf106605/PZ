@@ -4,6 +4,7 @@ using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using System;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace SkyCrabServer
 {
@@ -46,11 +47,19 @@ namespace SkyCrabServer
                         EditProfile((PlayerProfile)messageInfo.message);
                         break;
 
+                    case MessageId.DISCONNECT:
+                        Task.Factory.StartNew(CloseThreadBody);
+                        break;
+
                     default:
                         throw new UnsuportedMessageException();
                 }
             }
-            Console.WriteLine("Client disconnected.\n"); //TODO more info
+            string info = "Client disconnected. (" + ClientEndPoint.Port + ")\n";
+            if (Listener.serverConsole == null)
+                Console.WriteLine(info);
+            else
+                Listener.serverConsole.Write(info);
         }
 
         private void Login(PlayerProfile playerProfile)
@@ -71,7 +80,7 @@ namespace SkyCrabServer
             }
             else
             {
-                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED));
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED, ErrorCode.SESSION_ALREADY_LOGGED));
             }
         }
 
@@ -120,6 +129,11 @@ namespace SkyCrabServer
         private bool RandBool //TODO remove when will be not used
         {
             get { return random.NextDouble() > 0.5; }
+        }
+
+        private void CloseThreadBody()
+        {
+            ConnectionManager.Close(this);
         }
 
     }
