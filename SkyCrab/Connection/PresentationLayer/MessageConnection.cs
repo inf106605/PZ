@@ -130,7 +130,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(1, 2, 2);
+        private static readonly Version version = new Version(1, 3, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -149,6 +149,8 @@ namespace SkyCrab.Connection.PresentationLayer
             addMessage(new LogoutMsg());
             addMessage(new RegisterMsg());
             addMessage(new EditProfileMsg());
+            //TODO more MORE!!!
+            addMessage(new DisconnectMsg());
         }
 
         private static void addMessage(AbstractMessage message)
