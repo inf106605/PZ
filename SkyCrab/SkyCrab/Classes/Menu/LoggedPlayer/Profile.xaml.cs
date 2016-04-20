@@ -81,6 +81,7 @@ namespace SkyCrab.Classes.Menu
             playerProfile.login = SkyCrabGlobalVariables.player.Profile.login;
             playerProfile.eMail = SkyCrabGlobalVariables.player.Profile.eMail;
             playerProfile.nick = SkyCrabGlobalVariables.player.Nick;
+            playerProfile.password = SkyCrabGlobalVariables.player.Profile.password;
 
         
             var answer = EditProfileMsg.SyncPostEditProfile(App.clientConn, playerProfile, 1000);
