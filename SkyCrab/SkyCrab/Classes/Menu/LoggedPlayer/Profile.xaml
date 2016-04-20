@@ -66,10 +66,10 @@
                     <TextBox x:Name="loginTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
                 </Viewbox>
                 <Viewbox Stretch="Uniform">
-                    <TextBox x:Name="passTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
+                    <PasswordBox x:Name="passTextbox" Margin="5" MinWidth="150" />
                 </Viewbox>
                 <Viewbox Stretch="Uniform">
-                    <TextBox x:Name="passConTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
+                    <PasswordBox x:Name="passConTextbox" Margin="5" MinWidth="150" />
                 </Viewbox>
                 <Viewbox Stretch="Uniform">
                     <TextBox x:Name="emailTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>

@@ -128,6 +128,7 @@
       <DependentUpon>RankLoggedPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientConnection.cs" />
+    <Compile Include="SkyCrabGlobalVariables.cs" />
     <Compile Include="Switcher.cs" />
     <Page Include="Classes\Game\WindowGame.xaml">
       <SubType>Designer</SubType>

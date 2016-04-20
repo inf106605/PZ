@@ -65,7 +65,7 @@ namespace SkyCrab.Classes.Menu
 
                 if (answerValue.messageId == MessageId.LOGIN_OK)
                 {
-                    Player player = (Player)answerValue.message;
+                    SkyCrabGlobalVariables.player = (Player)answerValue.message;
                     Switcher.Switch(new MainMenuLoggedPlayer());
                     return;
                 }

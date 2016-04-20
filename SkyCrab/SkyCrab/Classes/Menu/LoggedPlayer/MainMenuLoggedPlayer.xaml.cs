@@ -74,6 +74,7 @@ namespace SkyCrab.Classes.Menu
 
             if (answerValue.messageId == MessageId.OK)
             {
+                SkyCrabGlobalVariables.player = null;
                 Switcher.Switch(new MainMenu());
                 return;
             }
