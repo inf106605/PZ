@@ -77,6 +77,8 @@
 
         public void checkAndThrow(string text)
         {
+            if (text == null)
+                return;
             int length = text.Length;
             if (length < min)
                 throw new TextTooShortException();
