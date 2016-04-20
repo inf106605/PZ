@@ -1,4 +1,5 @@
-﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders;
+﻿using SkyCrab.Common_classes;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
 using SkyCrab.Connection.PresentationLayer.Messages;
@@ -23,6 +24,10 @@ namespace SkyCrab.Connection.PresentationLayer
 
         internal static readonly ITranscoder<MessageId> messageIdTranscoder = new MessageIdTranscoder();
         internal static readonly ITranscoder<ErrorCode> errorCodeTranscoder = new ErrorCodeTranscoder();
+        internal static readonly ITranscoder<String> loginTranscoder = new LimitedStringTranscoder(LengthLimit.Login);
+        internal static readonly ITranscoder<String> passwordTranscoder = new LimitedStringTranscoder(LengthLimit.Password);
+        internal static readonly ITranscoder<String> eMailTranscoder = new LimitedStringTranscoder(LengthLimit.EMail);
+        internal static readonly ITranscoder<String> nickTranscoder = new LimitedStringTranscoder(LengthLimit.Nick);
 
 
         protected DataConnection(TcpClient tcpClient, int readTimeout) :

@@ -32,9 +32,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         private static PlayerProfile ReadPlayerProfile(MessageConnection connection)
         {
-            string login = connection.SyncReadData(MessageConnection.stringTranscoder);
-            string nick = connection.SyncReadData(MessageConnection.stringTranscoder);
-            string eMail = connection.SyncReadData(MessageConnection.stringTranscoder);
+            string login = connection.SyncReadData(MessageConnection.loginTranscoder);
+            string nick = connection.SyncReadData(MessageConnection.nickTranscoder);
+            string eMail = connection.SyncReadData(MessageConnection.eMailTranscoder);
             DateTime registration = connection.SyncReadData(MessageConnection.dateTimeTranscoder);
             DateTime lastActivity = connection.SyncReadData(MessageConnection.dateTimeTranscoder);
             PlayerProfile playerProfile = new PlayerProfile();
@@ -58,9 +58,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         private static void PostPlayerProfile(MessageConnection connection, object writingBlock, PlayerProfile playerProfile)
         {
-            connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Login);
-            connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Nick);
-            connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.EMail);
+            connection.AsyncWriteData(MessageConnection.loginTranscoder, writingBlock, playerProfile.Login);
+            connection.AsyncWriteData(MessageConnection.nickTranscoder, writingBlock, playerProfile.Nick);
+            connection.AsyncWriteData(MessageConnection.eMailTranscoder, writingBlock, playerProfile.EMail);
             connection.AsyncWriteData(MessageConnection.dateTimeTranscoder, writingBlock, playerProfile.Registration);
             connection.AsyncWriteData(MessageConnection.dateTimeTranscoder, writingBlock, playerProfile.LastActivity);
         }

@@ -67,6 +67,11 @@
         public Result check(string text)
         {
             int length = text.Length;
+            return check(length);
+        }
+
+        public Result check(int length)
+        {
             if (length < min)
                 return Result.TOO_SHORT;
             else if (length > max)
@@ -80,6 +85,11 @@
             if (text == null)
                 return;
             int length = text.Length;
+            checkAndThrow(length);
+        }
+
+        public void checkAndThrow(int length)
+        {
             if (length < min)
                 throw new TextTooShortException();
             if (length > max)

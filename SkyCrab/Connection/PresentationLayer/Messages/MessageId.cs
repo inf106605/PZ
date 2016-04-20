@@ -8,7 +8,7 @@
         LOGIN_OK            = 3,
         LOGOUT              = 4,
         REGISTER            = 5,
-        EDIT_PROFILE        = 6/*,
+        EDIT_PROFILE        = 6,/*
         GET_FRIENDS         = 7,
         FIND_PLAYER         = 8,
         PLAYER_LIST         = 9,
@@ -23,5 +23,6 @@
         PLAYER_JOINED       = 18,
         PLAYER_LEVED        = 19,
         CHAT                = 20*/
+        DISCONNECT          = 21
     }
 }
