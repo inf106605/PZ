@@ -35,10 +35,10 @@ namespace SkyCrab.Classes.Game
         private void InitBinding()
         {
             ScrabblePlayers = new List<ScrabblePlayers>();
-            ScrabblePlayers.Add(new ScrabblePlayers("( Ty ) pleban325", 60, "0:05:59", 4));
-            ScrabblePlayers.Add(new ScrabblePlayers("paterak195", 45, "0:05:59", 5));
-            ScrabblePlayers.Add(new ScrabblePlayers("sebaalex", 120, "0:05:59", 7));
-            ScrabblePlayers.Add(new ScrabblePlayers("ziomeczek", 15, "0:05:59", 2));
+            ScrabblePlayers.Add(new ScrabblePlayers("pleban325", 60, "0:06:14", 4));
+            ScrabblePlayers.Add(new ScrabblePlayers("paterak195", 45, "0:05:32", 5));
+            ScrabblePlayers.Add(new ScrabblePlayers("sebaalex", 120, "0:06:47", 7));
+            ScrabblePlayers.Add(new ScrabblePlayers("ziomeczek", 15, "0:07:31", 2));
             ListPlayers.ItemsSource = ScrabblePlayers;
         }
 
