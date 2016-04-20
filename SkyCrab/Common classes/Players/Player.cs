@@ -6,7 +6,7 @@
         private uint id;
         private bool isGuest;
         private string nick;
-        private PlayerProfile? profile;
+        private PlayerProfile profile;
 
 
         public uint Id
@@ -23,29 +23,27 @@
         {
             get { return nick; }
             set {
+                LengthLimit.Nick.checkAndThrow(value);
                 nick = value;
-                if (profile.HasValue)
-                {
-                    PlayerProfile playerProfile = profile.Value;
-                    playerProfile.nick = nick;
-                    profile = playerProfile;
-                }
+                if (profile != null)
+                    profile.Nick = nick;
             }
         }
 
-        public PlayerProfile? Profile
+        public PlayerProfile Profile
         {
             get { return profile; }
             set {
                 profile = value;
-                if (profile.HasValue)
-                    nick = profile.Value.nick;
+                if (profile != null)
+                    nick = profile.Nick;
             }
         }
 
 
         public Player(uint id, bool isGuest, string nick)
         {
+            LengthLimit.Nick.checkAndThrow(nick);
             this.id = id;
             this.isGuest = isGuest;
             this.nick = nick;
@@ -56,7 +54,7 @@
         {
             this.id = id;
             this.isGuest = false;
-            this.nick = profile.nick;
+            this.nick = profile.Nick;
             this.profile = profile;
         }
 
