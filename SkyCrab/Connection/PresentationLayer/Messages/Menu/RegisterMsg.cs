@@ -24,9 +24,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            string login = connection.SyncReadData(MessageConnection.stringTranscoder);
-            string password = connection.SyncReadData(MessageConnection.stringTranscoder);
-            string eMail = connection.SyncReadData(MessageConnection.stringTranscoder);
+            string login = connection.SyncReadData(MessageConnection.loginTranscoder);
+            string password = connection.SyncReadData(MessageConnection.passwordTranscoder);
+            string eMail = connection.SyncReadData(MessageConnection.eMailTranscoder);
             PlayerProfile playerProfile = new PlayerProfile();
             playerProfile.Login = login;
             playerProfile.Password = password;
@@ -43,9 +43,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Login);
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Password);
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.EMail);
+                connection.AsyncWriteData(MessageConnection.loginTranscoder, writingBlock, playerProfile.Login);
+                connection.AsyncWriteData(MessageConnection.passwordTranscoder, writingBlock, playerProfile.Password);
+                connection.AsyncWriteData(MessageConnection.eMailTranscoder, writingBlock, playerProfile.EMail);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.REGISTER, messageProc);
