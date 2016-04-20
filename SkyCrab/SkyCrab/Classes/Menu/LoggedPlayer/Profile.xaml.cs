@@ -34,7 +34,7 @@ namespace SkyCrab.Classes.Menu
         {
             // walidacja hasła
 
-            if(passTextbox.Password != "" && passTextbox.Password.Length < 5)
+            if (passTextbox.Password != "" && passTextbox.Password.Length < 5)
             {
                 MessageBox.Show("Podane hasło jest za krótkie (Min. 5 znaków) !");
                 return;
@@ -78,12 +78,10 @@ namespace SkyCrab.Classes.Menu
 
             PlayerProfile playerProfile = new PlayerProfile();
 
-            playerProfile.login = SkyCrabGlobalVariables.player.Profile.login;
-            playerProfile.eMail = SkyCrabGlobalVariables.player.Profile.eMail;
-            playerProfile.nick = SkyCrabGlobalVariables.player.Nick;
-            playerProfile.password = SkyCrabGlobalVariables.player.Profile.password;
+            playerProfile.eMail = emailTextbox.Text;
+            playerProfile.nick = nickTextbox.Text;
+            playerProfile.password = passTextbox.Password;
 
-        
             var answer = EditProfileMsg.SyncPostEditProfile(App.clientConn, playerProfile, 1000);
 
             if (!answer.HasValue)
