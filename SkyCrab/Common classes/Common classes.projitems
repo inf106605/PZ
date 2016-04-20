@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\PolishTileSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\Tile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\TileSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LenghtLimit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Players\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Players\PlayerProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Result\Result.cs" />
