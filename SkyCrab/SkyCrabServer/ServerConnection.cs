@@ -4,6 +4,7 @@ using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using System;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace SkyCrabServer
 {
@@ -44,6 +45,10 @@ namespace SkyCrabServer
 
                     case MessageId.EDIT_PROFILE:
                         EditProfile((PlayerProfile)messageInfo.message);
+                        break;
+
+                    case MessageId.DISCONNECT:
+                        Task.Factory.StartNew(CloseThreadBody);
                         break;
 
                     default:
@@ -124,6 +129,11 @@ namespace SkyCrabServer
         private bool RandBool //TODO remove when will be not used
         {
             get { return random.NextDouble() > 0.5; }
+        }
+
+        private void CloseThreadBody()
+        {
+            ConnectionManager.Close(this);
         }
 
     }

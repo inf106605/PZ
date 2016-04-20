@@ -4,6 +4,7 @@ using System.Threading;
 
 namespace SkyCrabServer
 {
+    //TODO use this all the time?
     class ServerConsole
     {
 

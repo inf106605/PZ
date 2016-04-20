@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
@@ -8,11 +7,11 @@ namespace SkyCrabServer
     class Listener
     {
 
-        private static List<ServerConnection> connections = new List<ServerConnection>();
         private static TcpListener tcpListener;
         private static volatile IAsyncResult asyncResult;
         private static volatile bool stoping = false;
         public static ServerConsole serverConsole;
+        private static object _lock = new object();
 
 
         public static bool Listen(IPAddress ipAddress, int port)
@@ -39,13 +38,12 @@ namespace SkyCrabServer
                 tcpListener.Stop();
                 Console.WriteLine("Accepting clients is stopped.\n");
 
-                Console.WriteLine("Closing connections with clients...\n");
-                lock (connections)
+                lock (_lock)
                 {
                     stoping = true;
-                    foreach (ServerConnection serverConnection in connections)
-                        serverConnection.Dispose();
+                    ConnectionManager.CloseAll();
                 }
+
                 Console.WriteLine("Clearing memory...\n");
                 ServerConnection.DisposeStaticMembers();
             }
@@ -68,24 +66,14 @@ namespace SkyCrabServer
                 tcpClient = tcpListener.EndAcceptTcpClient(asyncResult);
                 asyncResult = tcpListener.BeginAcceptTcpClient(ClientAccepter, null);
             }
-            lock (connections)
+            lock (_lock)
             {
                 if (stoping)
                 {
                     tcpClient.Close();
                     return;
                 }
-                try
-                {
-                    ServerConnection serverConnection = new ServerConnection(tcpClient, 100); //TODO remove constant
-                    serverConsole.Write("New client connected. (" + serverConnection.ServerEndPoint.Address + ")\n\tAddress: " + serverConnection.ClientEndPoint.Address + "\n\tport: " + serverConnection.ClientEndPoint.Port + "\n");
-                    connections.Add(serverConnection);
-                }
-                catch (Exception e)
-                {
-                    Console.Error.WriteLine(e);
-                    Console.Error.WriteLine("Cannot initialize connection with client!\n");
-                }
+                ConnectionManager.Open(tcpClient);
             }
         }
 
