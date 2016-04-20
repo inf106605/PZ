@@ -4,6 +4,7 @@ using SkyCrab.Menu;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.Messages;
+using System.Text.RegularExpressions;
 
 namespace SkyCrab.Classes.Menu
 {
@@ -21,7 +22,61 @@ namespace SkyCrab.Classes.Menu
         {
             PlayerProfile playerProfile = new PlayerProfile();
 
-            // walidacja
+            // walidacja loginu
+
+            if(loginTextbox.Text.Length < 3)
+            {
+                MessageBox.Show("Podany login jest zbyt krótki (Min 3 znaki) !");
+                return;
+            }
+
+            if(loginTextbox.Text.Length > 20)
+            {
+                MessageBox.Show("Podany login jest zbyt długi (Max 20 znaków) !");
+                return;
+            }
+
+            // walidacja hasła
+
+            if(passTextbox.Password.Length < 5)
+            {
+                MessageBox.Show("Podane hasło jest za krótkie (Min 5 znaków) !");
+                return;
+            }
+
+            if(passTextbox.Password.Length > 20)
+            {
+                MessageBox.Show("Podane hasło jest za długie (Max 20 znaków) !");
+                return;
+            }
+
+            if (passTextbox.Password != passConTextbox.Password)
+            {
+                MessageBox.Show("Podane hasła się różnią!");
+                return;
+            }
+
+            // walidacja e-mail'a
+
+            bool isEmail = Regex.IsMatch(emailTextbox.Text, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+
+            if(!isEmail)
+            {
+                MessageBox.Show("Podany format e-mail'a jest nieprawidłowy!");
+                return;
+            }
+
+            if(emailTextbox.Text != emailConTextbox.Text)
+            {
+                MessageBox.Show("Podane adresy e-mail się różnią!");
+                return;
+            }
+
+            if(!termsCheckBox.IsChecked.Value)
+            {
+                MessageBox.Show("Zatwierdź regulamin!");
+                return;
+            }
 
             playerProfile.login = loginTextbox.Text;
             playerProfile.password = passTextbox.Password;

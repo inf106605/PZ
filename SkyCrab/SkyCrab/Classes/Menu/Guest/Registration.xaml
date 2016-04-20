@@ -65,7 +65,7 @@
             </UniformGrid>
             <UniformGrid Grid.Column="1" Grid.Row="0" Rows="5">
                 <Viewbox Stretch="Uniform">
-                    <TextBox x:Name="loginTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1"/>
+                    <TextBox x:Name="loginTextbox" Margin="5" MinWidth="150" TextWrapping="Wrap" MaxLines="1" MaxLength="25"/>
                 </Viewbox>
                 <Viewbox Stretch="Uniform">
                     <PasswordBox x:Name="passTextbox"  Margin="5" MinWidth="150" />
