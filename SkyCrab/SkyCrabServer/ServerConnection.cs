@@ -75,7 +75,7 @@ namespace SkyCrabServer
             }
             else
             {
-                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED));
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED, ErrorCode.SESSION_ALREADY_LOGGED));
             }
         }
 
