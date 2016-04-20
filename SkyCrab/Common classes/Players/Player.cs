@@ -22,13 +22,25 @@
         public string Nick
         {
             get { return nick; }
-            set { nick = value; }
+            set {
+                nick = value;
+                if (profile.HasValue)
+                {
+                    PlayerProfile playerProfile = profile.Value;
+                    playerProfile.nick = nick;
+                    profile = playerProfile;
+                }
+            }
         }
 
         public PlayerProfile? Profile
         {
             get { return profile; }
-            set { profile = value; }
+            set {
+                profile = value;
+                if (profile.HasValue)
+                    nick = profile.Value.nick;
+            }
         }
 
 
