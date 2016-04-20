@@ -28,8 +28,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             string login = connection.SyncReadData(MessageConnection.stringTranscoder);
             string password = connection.SyncReadData(MessageConnection.stringTranscoder);
             PlayerProfile playerProfile = new PlayerProfile();
-            playerProfile.login = login;
-            playerProfile.password = password;
+            playerProfile.Login = login;
+            playerProfile.Password = password;
             return playerProfile;
         }
 
@@ -42,8 +42,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.login);
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);
+                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Login);
+                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Password);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.LOGIN, messageProcedure);

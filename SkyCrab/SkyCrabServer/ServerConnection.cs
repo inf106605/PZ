@@ -58,16 +58,15 @@ namespace SkyCrabServer
             //TODO undummy this method
             if (RandBool)
             {
-                playerProfile.password = null;
+                playerProfile.Password = null;
                 if (RandBool)
-                    playerProfile.nick = "SPEJS0N";
+                    playerProfile.Nick = "SPEJS0N";
                 else
-                    playerProfile.nick = "._//Seba14\\\\_.";
-                playerProfile.eMail = "lol.omg@naszeosiedle.pl";
-                playerProfile.registration = DateTime.Now.AddDays(-16);
-                playerProfile.lastActivity = DateTime.Now;
-                Player player = new Player((uint)random.Next(), false, playerProfile.nick);
-                player.Profile = playerProfile;
+                    playerProfile.Nick = "._//Seba14\\\\_.";
+                playerProfile.EMail = "lol.omg@naszeosiedle.pl";
+                playerProfile.Registration = DateTime.Now.AddDays(-16);
+                playerProfile.LastActivity = DateTime.Now;
+                Player player = new Player((uint)random.Next(), playerProfile);
                 LoginOkMsg.AsyncPostLoginOk(this, player);
             }
             else
@@ -90,12 +89,11 @@ namespace SkyCrabServer
             //TODO undummy this method
             if (RandBool)
             {
-                playerProfile.password = null;
-                playerProfile.nick = playerProfile.login;
-                playerProfile.registration = DateTime.Now;
-                playerProfile.lastActivity = DateTime.Now;
-                Player player = new Player((uint)random.Next(), false, playerProfile.nick);
-                player.Profile = playerProfile;
+                playerProfile.Password = null;
+                playerProfile.Nick = playerProfile.Login;
+                playerProfile.Registration = DateTime.Now;
+                playerProfile.LastActivity = DateTime.Now;
+                Player player = new Player((uint)random.Next(), playerProfile);
                 LoginOkMsg.AsyncPostLoginOk(this, player);
             }
             else

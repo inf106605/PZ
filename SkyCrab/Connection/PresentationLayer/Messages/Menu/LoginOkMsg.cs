@@ -26,8 +26,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             uint id = connection.SyncReadData(MessageConnection.uint32Transcoder);
             PlayerProfile playerProfile = ReadPlayerProfile(connection);
-            Player player = new Player(id, false, playerProfile.nick);
-            player.Profile = playerProfile;
+            Player player = new Player(id, playerProfile);
             return player;
         }
 
@@ -39,11 +38,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             DateTime registration = connection.SyncReadData(MessageConnection.dateTimeTranscoder);
             DateTime lastActivity = connection.SyncReadData(MessageConnection.dateTimeTranscoder);
             PlayerProfile playerProfile = new PlayerProfile();
-            playerProfile.login = login;
-            playerProfile.nick = nick;
-            playerProfile.eMail = eMail;
-            playerProfile.registration = registration;
-            playerProfile.lastActivity = lastActivity;
+            playerProfile.Login = login;
+            playerProfile.Nick = nick;
+            playerProfile.EMail = eMail;
+            playerProfile.Registration = registration;
+            playerProfile.LastActivity = lastActivity;
             return playerProfile;
         }
 
@@ -59,11 +58,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         private static void PostPlayerProfile(MessageConnection connection, object writingBlock, PlayerProfile playerProfile)
         {
-            connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.login);
-            connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.nick);
-            connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.eMail);
-            connection.AsyncWriteData(MessageConnection.dateTimeTranscoder, writingBlock, playerProfile.registration);
-            connection.AsyncWriteData(MessageConnection.dateTimeTranscoder, writingBlock, playerProfile.lastActivity);
+            connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Login);
+            connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Nick);
+            connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.EMail);
+            connection.AsyncWriteData(MessageConnection.dateTimeTranscoder, writingBlock, playerProfile.Registration);
+            connection.AsyncWriteData(MessageConnection.dateTimeTranscoder, writingBlock, playerProfile.LastActivity);
         }
 
     }

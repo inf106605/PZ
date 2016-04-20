@@ -30,8 +30,8 @@ namespace SkyCrab.Classes.Menu
             // walidacja
             
             PlayerProfile playerProfile = new PlayerProfile();
-            playerProfile.login = loginTextbox.Text;
-            playerProfile.password = passTextbox.Text;
+            playerProfile.Login = loginTextbox.Text;
+            playerProfile.Password = passTextbox.Text;
 
             using (AnswerSynchronizer answerSynchronizer = new AnswerSynchronizer())
             {

@@ -28,9 +28,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             string nick = connection.SyncReadData(MessageConnection.stringTranscoder);
             string eMail = connection.SyncReadData(MessageConnection.stringTranscoder);
             PlayerProfile playerProfile = new PlayerProfile();
-            playerProfile.password = password;
-            playerProfile.nick = nick;
-            playerProfile.eMail = eMail;
+            playerProfile.Password = password;
+            playerProfile.Nick = nick;
+            playerProfile.EMail = eMail;
             return playerProfile;
         }
 
@@ -43,9 +43,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.nick);
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.eMail);
+                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Password);
+                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.Nick);
+                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.EMail);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.EDIT_PROFILE, messageProc);
