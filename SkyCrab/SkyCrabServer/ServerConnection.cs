@@ -50,7 +50,7 @@ namespace SkyCrabServer
                         throw new UnsuportedMessageException();
                 }
             }
-            Console.WriteLine("Client disconnected.\n"); //TODO more info
+            Console.WriteLine("Client disconnected. (" + ClientEndPoint.Port + ")\n"); //TODO more info
         }
 
         private void Login(PlayerProfile playerProfile)

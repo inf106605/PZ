@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Connection.Utils;
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
 
 namespace SkyCrab.Connection.SessionLayer
@@ -16,6 +17,17 @@ namespace SkyCrab.Connection.SessionLayer
         public const int PORT = 8888;
 
         private TcpClient tcpClient;
+
+
+        public IPEndPoint LocalEndPoint
+        {
+            get { return (IPEndPoint)tcpClient.Client.LocalEndPoint; }
+        }
+
+        public IPEndPoint RemoteEndPoint
+        {
+            get { return (IPEndPoint)tcpClient.Client.RemoteEndPoint; }
+        }
 
 
         protected BasicConnection(TcpClient tcpClient, int readTimeout)
@@ -36,7 +48,8 @@ namespace SkyCrab.Connection.SessionLayer
             try
             {
                 stream = tcpClient.GetStream();
-            }catch (InvalidOperationException)
+            }
+            catch (InvalidOperationException)
             {
                 throw new ReadTimeoutException(); //TODO EVEN WRONGER THAT BELOW! Repair this
             }
@@ -48,7 +61,8 @@ namespace SkyCrab.Connection.SessionLayer
                 try
                 {
                     readedBytes = (UInt16)stream.Read(bytes, offset, size - offset);
-                }catch (IOException)
+                }
+                catch (IOException)
                 {
                     throw new ReadTimeoutException(); //TODO WRONG! Repair this
                 }

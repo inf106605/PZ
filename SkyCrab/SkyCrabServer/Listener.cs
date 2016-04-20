@@ -73,13 +73,10 @@ namespace SkyCrabServer
                     tcpClient.Close();
                     return;
                 }
-                {
-                    IPEndPoint clientEndPoint = (IPEndPoint)tcpClient.Client.RemoteEndPoint;
-                    Console.WriteLine("New client connected.\n\tAddress: " + clientEndPoint.Address + "\n\tport: " + clientEndPoint.Port + "\n");
-                }
                 try
                 {
                     ServerConnection serverConnection = new ServerConnection(tcpClient, 100); //TODO remove constant
+                    Console.WriteLine("New client connected. (" + serverConnection.ServerEndPoint.Address + ")\n\tAddress: " + serverConnection.ClientEndPoint.Address + "\n\tport: " + serverConnection.ClientEndPoint.Port + "\n");
                     connections.Add(serverConnection);
                 }
                 catch (Exception e)
