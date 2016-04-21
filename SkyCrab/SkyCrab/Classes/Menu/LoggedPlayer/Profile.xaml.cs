@@ -78,9 +78,9 @@ namespace SkyCrab.Classes.Menu
 
             PlayerProfile playerProfile = new PlayerProfile();
 
-            playerProfile.eMail = emailTextbox.Text;
-            playerProfile.nick = nickTextbox.Text;
-            playerProfile.password = passTextbox.Password;
+            playerProfile.EMail = emailTextbox.Text;
+            playerProfile.Nick = nickTextbox.Text;
+            playerProfile.Password = passTextbox.Password;
 
             var answer = EditProfileMsg.SyncPostEditProfile(App.clientConn, playerProfile, 1000);
 
@@ -125,12 +125,12 @@ namespace SkyCrab.Classes.Menu
 
                 if(emailTextbox.Text != "")
                 {
-                    playerProfile1.eMail = emailTextbox.Text;
+                    playerProfile1.EMail = emailTextbox.Text;
                 }
 
                 if(nickTextbox.Text != "")
                 {
-                    playerProfile1.nick = nickTextbox.Text;
+                    playerProfile1.Nick = nickTextbox.Text;
                 }
 
                 SkyCrabGlobalVariables.player.Profile = playerProfile1;
@@ -143,11 +143,11 @@ namespace SkyCrab.Classes.Menu
 
         private void SetDataToControls()
         {
-            loginTextbox.Text = SkyCrabGlobalVariables.player.Profile.login;
+            loginTextbox.Text = SkyCrabGlobalVariables.player.Profile.Login;
             passTextbox.Password = "";
             passConTextbox.Password = "";
-            emailTextbox.Text = SkyCrabGlobalVariables.player.Profile.eMail;
-            emailConTextbox.Text = SkyCrabGlobalVariables.player.Profile.eMail;
+            emailTextbox.Text = SkyCrabGlobalVariables.player.Profile.EMail;
+            emailConTextbox.Text = SkyCrabGlobalVariables.player.Profile.EMail;
             nickTextbox.Text = SkyCrabGlobalVariables.player.Nick;
         }
 

@@ -29,8 +29,9 @@ namespace SkyCrab.Classes.Menu
         {
 
             PlayerProfile playerProfile = new PlayerProfile();
-            playerProfile.login = loginTextbox.Text;
-            playerProfile.password = passTextbox.Password;
+
+            playerProfile.Login = loginTextbox.Text;
+            playerProfile.Password = passTextbox.Password;
 
             var answer = LoginMsg.SyncPostLogin(App.clientConn, playerProfile, 1000);
 

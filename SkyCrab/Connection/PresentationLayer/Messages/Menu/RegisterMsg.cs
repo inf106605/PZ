@@ -24,13 +24,13 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            string login = connection.SyncReadData(MessageConnection.stringTranscoder);
-            string password = connection.SyncReadData(MessageConnection.stringTranscoder);
-            string eMail = connection.SyncReadData(MessageConnection.stringTranscoder);
+            string login = connection.SyncReadData(MessageConnection.loginTranscoder);
+            string password = connection.SyncReadData(MessageConnection.passwordTranscoder);
+            string eMail = connection.SyncReadData(MessageConnection.eMailTranscoder);
             PlayerProfile playerProfile = new PlayerProfile();
-            playerProfile.login = login;
-            playerProfile.password = password;
-            playerProfile.eMail = eMail;
+            playerProfile.Login = login;
+            playerProfile.Password = password;
+            playerProfile.EMail = eMail;
             return playerProfile;
         }
         
@@ -43,9 +43,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.login);
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.eMail);
+                connection.AsyncWriteData(MessageConnection.loginTranscoder, writingBlock, playerProfile.Login);
+                connection.AsyncWriteData(MessageConnection.passwordTranscoder, writingBlock, playerProfile.Password);
+                connection.AsyncWriteData(MessageConnection.eMailTranscoder, writingBlock, playerProfile.EMail);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.REGISTER, messageProc);

@@ -78,9 +78,9 @@ namespace SkyCrab.Classes.Menu
                 return;
             }
 
-            playerProfile.login = loginTextbox.Text;
-            playerProfile.password = passTextbox.Password;
-            playerProfile.eMail = emailTextbox.Text;
+            playerProfile.Login = loginTextbox.Text;
+            playerProfile.Password = passTextbox.Password;
+            playerProfile.EMail = emailTextbox.Text;
 
             var answer = RegisterMsg.SyncPostRegister(App.clientConn, playerProfile, 1000);
 

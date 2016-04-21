@@ -4,6 +4,7 @@ using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using System;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace SkyCrabServer
 {
@@ -46,11 +47,19 @@ namespace SkyCrabServer
                         EditProfile((PlayerProfile)messageInfo.message);
                         break;
 
+                    case MessageId.DISCONNECT:
+                        Task.Factory.StartNew(CloseThreadBody);
+                        break;
+
                     default:
                         throw new UnsuportedMessageException();
                 }
             }
-            Console.WriteLine("Client disconnected.\n"); //TODO more info
+            string info = "Client disconnected. (" + ClientEndPoint.Port + ")\n";
+            if (Listener.serverConsole == null)
+                Console.WriteLine(info);
+            else
+                Listener.serverConsole.Write(info);
         }
 
         private void Login(PlayerProfile playerProfile)
@@ -58,21 +67,20 @@ namespace SkyCrabServer
             //TODO undummy this method
             if (RandBool)
             {
-                playerProfile.password = null;
+                playerProfile.Password = null;
                 if (RandBool)
-                    playerProfile.nick = "SPEJS0N";
+                    playerProfile.Nick = "SPEJS0N";
                 else
-                    playerProfile.nick = "._//Seba14\\\\_.";
-                playerProfile.eMail = "lol.omg@naszeosiedle.pl";
-                playerProfile.registration = DateTime.Now.AddDays(-16);
-                playerProfile.lastActivity = DateTime.Now;
-                Player player = new Player((uint)random.Next(), false, playerProfile.nick);
-                player.Profile = playerProfile;
+                    playerProfile.Nick = "._//Seba14\\\\_.";
+                playerProfile.EMail = "lol.omg@naszeosiedle.pl";
+                playerProfile.Registration = DateTime.Now.AddDays(-16);
+                playerProfile.LastActivity = DateTime.Now;
+                Player player = new Player((uint)random.Next(), playerProfile);
                 LoginOkMsg.AsyncPostLoginOk(this, player);
             }
             else
             {
-                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED));
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED, ErrorCode.SESSION_ALREADY_LOGGED));
             }
         }
 
@@ -90,12 +98,11 @@ namespace SkyCrabServer
             //TODO undummy this method
             if (RandBool)
             {
-                playerProfile.password = null;
-                playerProfile.nick = playerProfile.login;
-                playerProfile.registration = DateTime.Now;
-                playerProfile.lastActivity = DateTime.Now;
-                Player player = new Player((uint)random.Next(), false, playerProfile.nick);
-                player.Profile = playerProfile;
+                playerProfile.Password = null;
+                playerProfile.Nick = playerProfile.Login;
+                playerProfile.Registration = DateTime.Now;
+                playerProfile.LastActivity = DateTime.Now;
+                Player player = new Player((uint)random.Next(), playerProfile);
                 LoginOkMsg.AsyncPostLoginOk(this, player);
             }
             else
@@ -122,6 +129,11 @@ namespace SkyCrabServer
         private bool RandBool //TODO remove when will be not used
         {
             get { return random.NextDouble() > 0.5; }
+        }
+
+        private void CloseThreadBody()
+        {
+            ConnectionManager.Close(this);
         }
 
     }

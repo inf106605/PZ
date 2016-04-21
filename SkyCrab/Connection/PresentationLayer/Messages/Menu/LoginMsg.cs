@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
     /// <para>ID: <see cref="MessageId.LOGIN"/></para>
     /// <para>Data type: <see cref="PlayerProfile"/> (login and password only)</para>
     /// <para>Passible answers: <see cref="LoginOkMsg"/>, <see cref="ErrorMsg"/></para>
-    /// <para>Error codes: <see cref="ErrorCode.WRONG_LOGIN_OR_PASSWORD"/>, <see cref="ErrorCode.USER_ALREADY_LOGGED"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.WRONG_LOGIN_OR_PASSWORD"/>, <see cref="ErrorCode.USER_ALREADY_LOGGED", <see cref="ErrorCode.SESSION_ALREADY_LOGGED"/></para>
     /// </summary>
     public sealed class LoginMsg : AbstractMessage
     {
@@ -25,11 +25,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            string login = connection.SyncReadData(MessageConnection.stringTranscoder);
-            string password = connection.SyncReadData(MessageConnection.stringTranscoder);
+            string login = connection.SyncReadData(MessageConnection.loginTranscoder);
+            string password = connection.SyncReadData(MessageConnection.passwordTranscoder);
             PlayerProfile playerProfile = new PlayerProfile();
-            playerProfile.login = login;
-            playerProfile.password = password;
+            playerProfile.Login = login;
+            playerProfile.Password = password;
             return playerProfile;
         }
 
@@ -42,8 +42,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.login);
-                connection.AsyncWriteData(MessageConnection.stringTranscoder, writingBlock, playerProfile.password);
+                connection.AsyncWriteData(MessageConnection.loginTranscoder, writingBlock, playerProfile.Login);
+                connection.AsyncWriteData(MessageConnection.passwordTranscoder, writingBlock, playerProfile.Password);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.LOGIN, messageProcedure);
