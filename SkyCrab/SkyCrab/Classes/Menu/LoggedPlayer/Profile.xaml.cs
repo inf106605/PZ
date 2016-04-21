@@ -78,9 +78,9 @@ namespace SkyCrab.Classes.Menu
 
             PlayerProfile playerProfile = new PlayerProfile();
 
-            playerProfile.EMail = emailTextbox.Text;
-            playerProfile.Nick = nickTextbox.Text;
-            playerProfile.Password = passTextbox.Password;
+            playerProfile.EMail = emailTextbox.Text == "" ? null : emailTextbox.Text;
+            playerProfile.Nick = nickTextbox.Text == "" ? null : nickTextbox.Text;
+            playerProfile.Password = passTextbox.Password == "" ? null : passTextbox.Password;
 
             var answer = EditProfileMsg.SyncPostEditProfile(App.clientConn, playerProfile, 1000);
 
