@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Connection.AplicationLayer;
+using SkyCrab.Connection.PresentationLayer.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,15 @@ namespace SkyCrab
             foreach (MessageInfo messageInfo in messages.GetConsumingEnumerable())
             {
                 processingMessagesOk = true;
+
+                switch(messageInfo.messageId)
+                {
+                    case MessageId.DISCONNECT:
+                        {
+                            System.Windows.MessageBox.Show("Serwer zakończył pracę!");
+                            break;
+                        }
+                }
             }
         }
     }

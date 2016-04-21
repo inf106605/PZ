@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyCrab.Connection.PresentationLayer.Messages;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -20,6 +21,7 @@ namespace SkyCrab
         {
             try
             {
+                DisconnectMsg.AsyncPostDisconnect(clientConn);
                 clientConn.Dispose();
                 ClientConnection.DisposeStaticMembers();
             }
@@ -50,5 +52,6 @@ namespace SkyCrab
             }
 
         }
+
     }
 }
