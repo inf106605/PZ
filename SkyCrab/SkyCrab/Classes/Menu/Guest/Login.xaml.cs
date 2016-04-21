@@ -59,6 +59,11 @@ namespace SkyCrab.Classes.Menu
                                 MessageBox.Show("Błąd logowania");
                                 break;
                             }
+                       case ErrorCode.SESSION_ALREADY_LOGGED:
+                            {
+                                MessageBox.Show("Twój program jest już zalogowany na innego użytkownika");
+                                break;
+                            }
                     }
 
                     return;
