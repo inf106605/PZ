@@ -11,6 +11,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class DataConnection : EncryptedConnection
     {
 
+        internal static readonly ITranscoder<bool> boolTranscoder = new BoolTranscoder();
         internal static readonly ITranscoder<sbyte> int8Transcoder = new Int8Transcoder();
         internal static readonly ITranscoder<byte> uint8Transcoder = new UInt8Transcoder();
         internal static readonly ITranscoder<UInt16> uint16Transcoder = new UInt16Transcoder();
