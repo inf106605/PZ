@@ -141,8 +141,7 @@
                      Background="Green"
                      ItemsSource="{Binding RackTiles}"
                      SelectionMode="Extended"
-                     dd:DragDrop.IsDragSource="True"
-                     dd:DragDrop.IsDropTarget="True"
+                     dd:DragDrop.IsDragSource="True"  dd:DragDrop.IsDropTarget="True"
                      >
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -150,13 +149,15 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock MinWidth="20" MinHeight="20" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
-                        <TextBlock.Background>
-                            <ImageBrush ImageSource="/Images/Game/blank.png"></ImageBrush>
-                        </TextBlock.Background>
-                    </TextBlock>
-                </DataTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.Background>
+                                <ImageBrush ImageSource="/Images/Game/blank.png"></ImageBrush>
+                            </StackPanel.Background>
+                            <TextBlock MinHeight="10" MinWidth="15" TextAlignment="Center" HorizontalAlignment="Right" Text="{Binding Name}"></TextBlock>
+                            <TextBlock FontSize="5" MinWidth="5" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Text="{Binding Value}"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
         </Viewbox>
