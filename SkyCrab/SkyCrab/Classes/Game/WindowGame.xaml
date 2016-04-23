@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkyCrab.Classes.Game"
+              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              mc:Ignorable="d" 
   d:DesignHeight="480" d:DesignWidth="640">
     <Grid>
@@ -135,77 +136,29 @@
                 <Button x:Name="Pass" Content="Pas" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
             </UniformGrid>
         </Grid>
-        <Viewbox Grid.Column="1" Grid.Row="3">
-            <ListBox Background="Green">
+        <Viewbox  Grid.Column="1" Grid.Row="3">
+            <ListBox x:Name="listViewRack" 
+                     Background="Green"
+                     ItemsSource="{Binding RackTiles}"
+                     SelectionMode="Extended"
+                     dd:DragDrop.IsDragSource="True"
+                     dd:DragDrop.IsDropTarget="True"
+                     >
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid IsItemsHost="True" Columns="8" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
-            <ListBoxItem>
-                <ListBoxItem.Background>
-                    <ImageBrush ImageSource="/Images/Game/blank.png"/>
-                </ListBoxItem.Background>
-                <Grid>
-                    <TextBlock Text="A" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                </Grid>
-            </ListBoxItem>
-                <ListBoxItem>
-                    <ListBoxItem.Background>
-                        <ImageBrush ImageSource="/Images/Game/blank.png"/>
-                    </ListBoxItem.Background>
-                    <Grid>
-                        <TextBlock Text="G" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <ListBoxItem.Background>
-                        <ImageBrush ImageSource="/Images/Game/blank.png"/>
-                    </ListBoxItem.Background>
-                    <Grid>
-                        <TextBlock Text="Y" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <ListBoxItem.Background>
-                        <ImageBrush ImageSource="/Images/Game/blank.png"/>
-                    </ListBoxItem.Background>
-                    <Grid>
-                        <TextBlock Text="H" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <ListBoxItem.Background>
-                        <ImageBrush ImageSource="/Images/Game/blank.png"/>
-                    </ListBoxItem.Background>
-                    <Grid>
-                        <TextBlock Text="C" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <ListBoxItem.Background>
-                        <ImageBrush ImageSource="/Images/Game/blank.png"/>
-                    </ListBoxItem.Background>
-                    <Grid>
-                        <TextBlock Text="Ź" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <ListBoxItem.Background>
-                        <ImageBrush ImageSource="/Images/Game/blank.png"/>
-                    </ListBoxItem.Background>
-                    <Grid>
-                        <TextBlock Text="B" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </ListBoxItem>
-            </ListBox>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock MinWidth="20" MinHeight="20" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                        <TextBlock.Background>
+                            <ImageBrush ImageSource="/Images/Game/blank.png"></ImageBrush>
+                        </TextBlock.Background>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         </Viewbox>
         <Grid Grid.Column="2" Grid.Row="3">
             <Grid.ColumnDefinitions>

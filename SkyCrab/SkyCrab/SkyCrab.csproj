@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\GongSolutions.Wpf.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -60,6 +64,7 @@
     <Compile Include="Classes\Game\ScrabbleGame.cs" />
     <Compile Include="Classes\Game\ScrabblePlayers.cs" />
     <Compile Include="Classes\Game\ScrabbleRack.cs" />
+    <Compile Include="Classes\Game\ScrabbleRackTiles.cs" />
     <Compile Include="Classes\Game\ScrabbleSquare.cs" />
     <Compile Include="Classes\Game\WindowGame.xaml.cs">
       <DependentUpon>WindowGame.xaml</DependentUpon>
