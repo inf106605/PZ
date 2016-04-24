@@ -20,7 +20,6 @@ namespace SkyCrab.Classes.Game
             this.squareType = board.GetSquareType(new PositionOnBoard(Row, Column));
         }
 
-
         public int Row { get; set; }
 
         public int Column { get; set; }

@@ -80,6 +80,8 @@ namespace SkyCrab.Classes.Game
 
             for (int i = 0; i < listTiles.Count; i++)
                 ScrabbleRack.RackTiles.Remove(ScrabbleRack.RackTiles.Where(temp => temp.Id == listTiles[i]).Single());
+            
+
         }
     } 
 }
