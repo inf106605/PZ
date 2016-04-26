@@ -32,28 +32,49 @@ namespace SkyCrab.Common_classes.Games.Boards
         }
 
 
-        public override bool Rectangle
+        public static bool Rectangle_
         {
             get { return true; }
         }
+        public override bool Rectangle
+        {
+            get { return Rectangle_; }
+        }
 
-        public override PositionOnBoard LeftTop
+        public static PositionOnBoard LeftTop_
         {
             get { return new PositionOnBoard(0, 0); }
         }
-        public override PositionOnBoard RightBottom
+        public override PositionOnBoard LeftTop
+        {
+            get { return LeftTop_; }
+        }
+
+        public static PositionOnBoard RightBottom_
         {
             get { return new PositionOnBoard(14, 14); }
         }
+        public override PositionOnBoard RightBottom
+        {
+            get { return RightBottom_; }
+        }
 
-        public override IList<PositionOnBoard> Squares
+        public static IList<PositionOnBoard> Squares_
         {
             get { return squares; }
         }
+        public override IList<PositionOnBoard> Squares
+        {
+            get { return Squares_; }
+        }
 
-        public override PositionOnBoard StartSquare
+        public static PositionOnBoard StartSquare_
         {
             get { return new PositionOnBoard(7, 7); }
+        }
+        public override PositionOnBoard StartSquare
+        {
+            get { return StartSquare_; }
         }
         
 
@@ -64,20 +85,28 @@ namespace SkyCrab.Common_classes.Games.Boards
                 tiles[i] = new Tile[15];
         }
 
-        public override bool IsSquare(PositionOnBoard position)
+        public static bool IsSquare_(PositionOnBoard position)
         {
             return position.x >= 0 && position.x < 15 &&
                     position.y >= 0 && position.y < 15;
         }
-
-        public override SquareType GetSquareType(PositionOnBoard position)
+        public override bool IsSquare(PositionOnBoard position)
         {
-            if (!IsSquare(position))
+            return IsSquare_(position);
+        }
+
+        public static SquareType GetSquareType_(PositionOnBoard position)
+        {
+            if (!IsSquare_(position))
                 throw new NoSuchSquareOnBoardException();
             int x = (position.x <= 7) ? position.x : (14 - position.x);
             int y = (position.y <= 7) ? position.y : (14 - position.y);
             SquareType squareType = squareTypes[x][y];
             return squareType;
+        }
+        public override SquareType GetSquareType(PositionOnBoard position)
+        {
+            return GetSquareType_(position);
         }
 
         public override void PutTile(Tile tile, PositionOnBoard position)
@@ -95,9 +124,13 @@ namespace SkyCrab.Common_classes.Games.Boards
             return tile;
         }
 
-        public override string getSquareID(PositionOnBoard position, bool horizontal)
+        public static string getSquareID_(PositionOnBoard position, bool horizontal)
         {
             return getSquareStandardID(position, horizontal);
+        }
+        public override string getSquareID(PositionOnBoard position, bool horizontal)
+        {
+            return getSquareID_(position, horizontal);
         }
 
     }

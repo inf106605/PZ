@@ -4,6 +4,7 @@ using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using System;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace SkyCrabServer
 {
@@ -30,6 +31,20 @@ namespace SkyCrabServer
                 processingMessagesOk = true;
                 switch (messageInfo.messageId)
                 {
+                    case MessageId.DISCONNECT:
+                        CloseConnection();
+                        break;
+
+                    case MessageId.PING:
+                        AnswerPing(messageInfo.message);
+                        break;
+
+                    case MessageId.NO_PONG:
+                        WriteToConsole("No answer to PING! (" + ClientEndPoint.Port + ")\n");
+                        DisconnectMsg.AsyncPostDisconnect(this);
+                        CloseConnection();
+                        break;
+
                     case MessageId.LOGIN:
                         Login((PlayerProfile)messageInfo.message);
                         break;
@@ -50,7 +65,16 @@ namespace SkyCrabServer
                         throw new UnsuportedMessageException();
                 }
             }
-            Console.WriteLine("Client disconnected.\n"); //TODO more info
+            string info = "Client disconnected. (" + ClientEndPoint.Port + ")\n";
+            WriteToConsole(info);
+        }
+
+        private void WriteToConsole(string text)
+        {
+            if (Listener.serverConsole == null)
+                Console.WriteLine(text);
+            else
+                Listener.serverConsole.Write(text);
         }
 
         private void Login(PlayerProfile playerProfile)
@@ -71,7 +95,7 @@ namespace SkyCrabServer
             }
             else
             {
-                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED));
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.WRONG_LOGIN_OR_PASSWORD, ErrorCode.USER_ALREADY_LOGGED, ErrorCode.SESSION_ALREADY_LOGGED));
             }
         }
 
@@ -120,6 +144,16 @@ namespace SkyCrabServer
         private bool RandBool //TODO remove when will be not used
         {
             get { return random.NextDouble() > 0.5; }
+        }
+
+        private void CloseConnection()
+        {
+            Task.Factory.StartNew(CloseThreadBody);
+        }
+
+        private void CloseThreadBody()
+        {
+            ConnectionManager.Close(this);
         }
 
     }

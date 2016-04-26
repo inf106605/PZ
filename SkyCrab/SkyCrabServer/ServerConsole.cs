@@ -1,43 +1,116 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace SkyCrabServer
 {
+    //TODO use this all the time?
     class ServerConsole
     {
 
         private delegate bool CommandAction();
 
 
+        private const string COMMAND_PROMPT = "> ";
         private static readonly Dictionary<string, CommandAction> commands = new Dictionary<string, CommandAction>();
+
+        private object _writeLock = new object();
+        private object _inputLock = new object();
+        private volatile string inputString = "";
 
 
         static ServerConsole()
         {
-            commands.Add("help", Help);
-            commands.Add("exit", Exit);
-            commands.Add("close", Exit);
-            commands.Add("stop", Exit);
+            commands.Add("HELP", Help);
+            commands.Add("EXIT", Exit);
+            commands.Add("CLOSE", Exit);
+            commands.Add("STOP", Exit);
         }
 
 
         public void Start()
         {
+            Console.Write(COMMAND_PROMPT);
             while (true)
             {
-                string commandName = Console.ReadLine();
-                commandName = commandName.ToLower();
+                GetCommand();
+                if (!InterpretCommand())
+                    break;
+            }
+        }
+
+        private void GetCommand()
+        {
+            while (true)
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                if (keyInfo.Key == ConsoleKey.Enter)
+                    break;
+                if (keyInfo.Key == ConsoleKey.Backspace)
+                {
+                    lock (_inputLock)
+                    {
+                        if (Monitor.TryEnter(_writeLock))
+                        {
+                            Console.Write("\b \b");
+                            Monitor.Exit(_writeLock);
+                        }
+                        inputString = inputString.Substring(0, inputString.Length - 1);
+                    }
+                }
+                else if (IsAllowerChar(keyInfo.KeyChar))
+                {
+                    lock (_inputLock)
+                    {
+                        if (Monitor.TryEnter(_writeLock))
+                        {
+                            Console.Write(keyInfo.KeyChar);
+                            Monitor.Exit(_writeLock);
+                        }
+                        inputString += keyInfo.KeyChar;
+                    }
+                }
+            }
+        }
+
+        private bool IsAllowerChar(char character)
+        {
+            return (character >= 'A' && character <= 'Z') ||
+                (character >= 'a' && character <= 'z');
+        }
+
+        private bool InterpretCommand()
+        {
+            lock (_writeLock)
+            {
+                Console.WriteLine('\r' + COMMAND_PROMPT + inputString);
+                string upperInputString = inputString.ToUpper();
+                inputString = "";
                 CommandAction commandAction;
-                if (commands.TryGetValue(commandName, out commandAction))
+                if (commands.TryGetValue(upperInputString, out commandAction))
                 {
                     if (commandAction.Invoke())
-                        break;
+                        return false;
                 }
                 else
                 {
                     Console.WriteLine("Unknown command!");
-                    Console.WriteLine("Type 'help' for more info.\n");
+                    Console.WriteLine("Type 'HELP' for more info.\n");
                 }
+                Console.Write(COMMAND_PROMPT);
+            }
+            return true;
+        }
+
+        public void Write(string text)
+        {
+            lock (_writeLock)
+            {
+                Console.Write('\r' + new string(' ', COMMAND_PROMPT.Length) + '\r');
+                Console.WriteLine(text);
+                Console.Write(COMMAND_PROMPT);
+                lock (_inputLock)
+                    Console.Write(inputString);
             }
         }
 
