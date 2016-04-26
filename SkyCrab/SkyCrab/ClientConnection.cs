@@ -26,11 +26,42 @@ namespace SkyCrab
                 {
                     case MessageId.DISCONNECT:
                         {
-                            System.Windows.MessageBox.Show("Serwer zakończył pracę!");
+                            DisplayMessageBox("Serwer zakończył pracę!");
+                            Disconnect();
+                            break;
+                        }
+
+                    case MessageId.PING:
+                        {
+                            AnswerPing(messageInfo.message);
+                            break;
+                        }
+                    case MessageId.NO_PONG:
+                        {
+                            DisplayMessageBox("Serwer nie odpowiada!");
+                            DisconnectMsg.AsyncPostDisconnect(this);
+                            Disconnect();
                             break;
                         }
                 }
             }
         }
+
+        private void DisconnectTask()
+        {
+            App.clientConn = null;
+            Dispose();
+        }
+
+        private void DisplayMessageBox(string message)
+        {
+            Task.Factory.StartNew(()=>System.Windows.MessageBox.Show(message));
+        }
+
+        private void Disconnect()
+        {
+            Task.Factory.StartNew(DisconnectTask);
+        }
+
     }
 }
