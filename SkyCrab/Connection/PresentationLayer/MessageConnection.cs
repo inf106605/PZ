@@ -84,14 +84,14 @@ namespace SkyCrab.Connection.PresentationLayer
                 }
             }
 
-            public void addRequest(AnswerCallbackWithState request)
+            public void AddRequest(AnswerCallbackWithState request)
             {
                 lock (requests)
                     requests.Enqueue(request);
                 requestSemaphore.Release();
             }
 
-            public void addAnswer(MessageInfo answer)
+            public void AddAnswer(MessageInfo answer)
             {
                 lock (answers)
                     answers.Enqueue(answer);
@@ -130,10 +130,11 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(1, 4, 0);
+        private static readonly Version version = new Version(2, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
+        private Timer pingTimer;
         protected BlockingCollection<MessageInfo> messages = new BlockingCollection<MessageInfo>(new ConcurrentQueue<MessageInfo>());
         private AnswerQueue answerQueue = new AnswerQueue();
         private volatile bool stoping = false;
@@ -142,6 +143,9 @@ namespace SkyCrab.Connection.PresentationLayer
 
         static MessageConnection()
         {
+            addMessage(new DisconnectMsg());
+            addMessage(new PingMsg());
+            addMessage(new PongMsg());
             addMessage(new OkMsg());
             addMessage(new ErrorMsg());
             addMessage(new LoginMsg());
@@ -150,7 +154,6 @@ namespace SkyCrab.Connection.PresentationLayer
             addMessage(new RegisterMsg());
             addMessage(new EditProfileMsg());
             //TODO more MORE!!!
-            addMessage(new DisconnectMsg());
         }
 
         private static void addMessage(AbstractMessage message)
@@ -169,6 +172,7 @@ namespace SkyCrab.Connection.PresentationLayer
         {
             listeningTask = Task.Factory.StartNew(RunListeningTaskBody, TaskCreationOptions.LongRunning);
             processingTask = Task.Factory.StartNew(ProcessMessages, TaskCreationOptions.LongRunning);
+            pingTimer = new Timer(PingTaskBody, null, 5000, 5000);
         }
 
         private void RunListeningTaskBody()
@@ -205,12 +209,29 @@ namespace SkyCrab.Connection.PresentationLayer
             messageInfo.messageId = message.Id;
             messageInfo.message = messageData;
             if (message.Answer)
-                answerQueue.addAnswer(messageInfo);
+                answerQueue.AddAnswer(messageInfo);
             else
                 messages.Add(messageInfo);
         }
 
         protected abstract void ProcessMessages();
+
+        private void PingTaskBody(object state)
+        {
+            MessageInfo? messageInfo = PingMsg.SyncPostPing(this, 1000);
+            if (!messageInfo.HasValue)
+            {
+                NoPongMsg noPongMsg = new NoPongMsg();
+                MessageInfo noPongMessageInfo = new MessageInfo();
+                noPongMessageInfo.messageId = noPongMsg.Id;
+                messages.Add(noPongMessageInfo);
+            }
+        }
+
+        protected void AnswerPing(object message)
+        {
+            PongMsg.AsyncPostPong(this);
+        }
 
         internal void SetAnswerCallback(object writingBlock, AnswerCallback answerCallback, object state)
         {
@@ -223,7 +244,7 @@ namespace SkyCrab.Connection.PresentationLayer
         private void AddAnswerCallbackToQueue(object state)
         {
             AnswerCallbackWithState answerCallbackWithState = (AnswerCallbackWithState)state;
-            answerQueue.addRequest(answerCallbackWithState);
+            answerQueue.AddRequest(answerCallbackWithState);
         }
 
         private void CheckVersion()
@@ -258,6 +279,7 @@ namespace SkyCrab.Connection.PresentationLayer
 
         public override void Dispose()
         {
+            pingTimer.Dispose();
             CloseListeningTask();
             CloseProcessingTask();
             listeningTask.Dispose();
