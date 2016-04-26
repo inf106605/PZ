@@ -2,6 +2,7 @@
 using SkyCrab.Common_classes.Games.Racks;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,11 +12,11 @@ namespace SkyCrab.Classes.Game
 {
     public class ScrabbleBoard
     {
-        public List<ScrabbleSquare> Squares { get; private set; }
+        static public ObservableCollection<ScrabbleSquare> Squares { get; private set; }
 
         public ScrabbleBoard()
         {
-            Squares = new List<ScrabbleSquare>();
+            Squares = new ObservableCollection<ScrabbleSquare>();
 
             StandardBoard standardBoard = new StandardBoard();
 

@@ -54,32 +54,63 @@ namespace SkyCrab.Classes.Game
         {
             // symulacja wyłożenia płytek
 
-            List<int> listTiles = new List<int>();
+            Dictionary<int,string> idAndLetter = new Dictionary<int, string>();
 
             foreach (var item in listViewRack.SelectedItems)
             {
-                var x = item.GetType().GetProperty("Id").GetValue(item, null).ToString();
-                listTiles.Add(int.Parse(x));
-                MessageBox.Show(x);
+                var key = int.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString());
+                var value = item.GetType().GetProperty("Name").GetValue(item, null).ToString();
+                idAndLetter.Add(key, value);
+                MessageBox.Show(key + " " + value);
             }
 
-            // sortowanie listy z id elementów 
+            // sortowanie słownika po kluczu - id elementu 
 
-            listTiles.Sort();
+            var list_keys = idAndLetter.Keys.ToList();
+            // list_keys.Sort();
+            List<string> list_tiles = new List<string>();
+            //MessageBox.Show("Lista zaznaczonych na stojaku");
 
-            // wyświetlenie id usuwanych elementów
+            foreach (var key in list_keys)
+            {
+                //MessageBox.Show(key + " : " + idAndLetter[key]);
+                list_tiles.Add(idAndLetter[key]);
+            }
 
-            string a = "";
+            //MessageBox.Show("Koniec zaznaczonych na stojaku");
+            
+            List<int> Columns = new List<int>();
+            List<int> Rows = new List<int>();
+            List<int> PositionsListBox = new List<int>();
 
-            for (int i = 0; i < listTiles.Count; i++)
-                a += listTiles[0] + " ";
+            foreach (var item in scrabbleBoard.SelectedItems)
+            {
+                var Column = int.Parse(item.GetType().GetProperty("Row").GetValue(item, null).ToString()); // pobieranie współrzędnej x
+                var Row = int.Parse(item.GetType().GetProperty("Column").GetValue(item, null).ToString()); // pobieranie współrzędnej y
+                var listBoxPosition = int.Parse(item.GetType().GetProperty("PositionInListBox").GetValue(item, null).ToString()); // współrzędna pozycji w listbox'ie
 
-            MessageBox.Show("Lista zaznaczonych: " + a);
+                Columns.Add(Column);
+                Rows.Add(Row);
+                PositionsListBox.Add(listBoxPosition);
+                MessageBox.Show(Column + " " + Row); // wyświetlenie pozycji x , y
+            }
 
-            // usunięcie z kolekcji Rack zaznaczonych płytek 
+            // sortowanie
 
-            for (int i = 0; i < listTiles.Count; i++)
-                ScrabbleRack.RackTiles.Remove(ScrabbleRack.RackTiles.Where(temp => temp.Id == listTiles[i]).Single());
+            Columns.Sort();
+            Rows.Sort();
+            PositionsListBox.Sort();
+
+            for(int i = 0; i < list_tiles.Count; i++)
+            {
+                ScrabbleBoard.Squares[PositionsListBox[i]] = new ScrabbleSquare(Columns[i], Rows[i], list_tiles[i], 1);
+            }
+
+            //ScrabbleBoard.Squares[112] = new ScrabbleSquare(int.Parse("7"), int.Parse("7"), "A", 1); // wpisywanie współrzędnych na planszy oraz literki i wartości którą chcemy wyświetlić                                         
+            //usunięcie z kolekcji Rack zaznaczonych płytek 
+
+            for (int i = 0; i < list_keys.Count; i++)
+                ScrabbleRack.RackTiles.Remove(ScrabbleRack.RackTiles.Where(temp => temp.Id == list_keys[i]).Single());
             
 
         }

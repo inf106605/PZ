@@ -18,10 +18,10 @@ namespace SkyCrab.Classes.Game
             scrabbleRack = new ScrabbleRack();
         }
 
-        public List<ScrabbleSquare> Squares {
+        static public ObservableCollection<ScrabbleSquare> Squares {
             get
             {
-                return scrabbleBoard.Squares;   
+                return ScrabbleBoard.Squares;   
             }
         }
 

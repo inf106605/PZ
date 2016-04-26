@@ -18,11 +18,28 @@ namespace SkyCrab.Classes.Game
             this.Row = Row;
             this.Column = Column;
             this.squareType = board.GetSquareType(new PositionOnBoard(Row, Column));
+            this.PositionInListBox = (Row) * 15 + Column;
+        }
+
+        public ScrabbleSquare(int Row, int Column, string Tile, int Value)
+        {
+            this.Row = Row;
+            this.Column = Column;
+            this.squareType = board.GetSquareType(new PositionOnBoard(Row, Column));
+            this.PositionInListBox = (Row) * 15 + Column;
+            this.Tile = Tile;
+            this.Value = Value;
         }
 
         public int Row { get; set; }
 
         public int Column { get; set; }
+
+        public int PositionInListBox { get; set; }
+
+        public string Tile { get; set; }
+
+        public int Value { get; set; }
 
         public bool IsDarkBlue
         {

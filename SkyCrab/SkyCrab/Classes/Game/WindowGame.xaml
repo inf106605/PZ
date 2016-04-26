@@ -113,8 +113,9 @@
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
+                        <TextBlock Text="{Binding Tile}" />
                         <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsDarkBlue}" Value="True">
+                            <DataTrigger Binding="{Binding IsDarkBlue}" Value="True">
                                 <Setter Property="ListBoxItem.Background" Value="#04bef1"/>
                             </DataTrigger>
                                 <DataTrigger Binding="{Binding IsRed}" Value="True">
@@ -152,7 +153,8 @@
                      ItemsSource="{Binding RackTiles}"
                      SelectionMode="Extended"
                      dd:DragDrop.IsDragSource="True"
-                     dd:DragDrop.IsDropTarget="True">
+                     dd:DragDrop.IsDropTarget="True"
+                     >
                 <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid IsItemsHost="True" Columns="8" />
