@@ -32,8 +32,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\EncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\AbstractMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\DisconnectMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\NoPongMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\PongMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\PingMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\ErrorCode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\DisconnectMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\EditProfileMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\ErrorMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\LoginMsg.cs" />

@@ -31,6 +31,20 @@ namespace SkyCrabServer
                 processingMessagesOk = true;
                 switch (messageInfo.messageId)
                 {
+                    case MessageId.DISCONNECT:
+                        CloseConnection();
+                        break;
+
+                    case MessageId.PING:
+                        AnswerPing(messageInfo.message);
+                        break;
+
+                    case MessageId.NO_PONG:
+                        WriteToConsole("No answer to PING! (" + ClientEndPoint.Port + ")\n");
+                        DisconnectMsg.AsyncPostDisconnect(this);
+                        CloseConnection();
+                        break;
+
                     case MessageId.LOGIN:
                         Login((PlayerProfile)messageInfo.message);
                         break;
@@ -47,19 +61,20 @@ namespace SkyCrabServer
                         EditProfile((PlayerProfile)messageInfo.message);
                         break;
 
-                    case MessageId.DISCONNECT:
-                        Task.Factory.StartNew(CloseThreadBody);
-                        break;
-
                     default:
                         throw new UnsuportedMessageException();
                 }
             }
             string info = "Client disconnected. (" + ClientEndPoint.Port + ")\n";
+            WriteToConsole(info);
+        }
+
+        private void WriteToConsole(string text)
+        {
             if (Listener.serverConsole == null)
-                Console.WriteLine(info);
+                Console.WriteLine(text);
             else
-                Listener.serverConsole.Write(info);
+                Listener.serverConsole.Write(text);
         }
 
         private void Login(PlayerProfile playerProfile)
@@ -129,6 +144,11 @@ namespace SkyCrabServer
         private bool RandBool //TODO remove when will be not used
         {
             get { return random.NextDouble() > 0.5; }
+        }
+
+        private void CloseConnection()
+        {
+            Task.Factory.StartNew(CloseThreadBody);
         }
 
         private void CloseThreadBody()
