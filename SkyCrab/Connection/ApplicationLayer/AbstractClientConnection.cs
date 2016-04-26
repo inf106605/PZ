@@ -5,7 +5,7 @@ using System.Net.Sockets;
 namespace SkyCrab.Connection.AplicationLayer
 {
     /// <summary>
-    /// Messages to handle: <see cref="MessageId.DISCONNECT"/>, <see cref="MessageId.NO_PONG"/>
+    /// Messages to handle: <see cref="MessageId.DISCONNECT"/>, <see cref="MessageId.PING"/>, <see cref="MessageId.NO_PONG"/>
     /// </summary>
     abstract class AbstractClientConnection : ClientEncryptedConnection
     {
