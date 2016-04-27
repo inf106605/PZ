@@ -3,6 +3,17 @@
     internal sealed class Int8Transcoder : ITranscoder<sbyte>
     {
 
+        private static readonly Int8Transcoder instance = new Int8Transcoder();
+        public static Int8Transcoder Get
+        {
+            get { return instance; }
+        }
+
+
+        private Int8Transcoder()
+        {
+        }
+
         public sbyte Read(DataConnection dataConnection)
         {
             byte[] bytes = dataConnection.SyncReadBytes(1);

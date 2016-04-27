@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
+using System;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
@@ -23,7 +24,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            ErrorCode errorCode = connection.SyncReadData(MessageConnection.errorCodeTranscoder);
+            ErrorCode errorCode = connection.SyncReadData(ErrorCodeTranscoder.Get);
             return errorCode;
         }
 
@@ -31,7 +32,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                connection.AsyncWriteData(MessageConnection.errorCodeTranscoder, writingBlock, errorCode);
+                connection.AsyncWriteData(ErrorCodeTranscoder.Get, writingBlock, errorCode);
             };
             connection.PostMessage(MessageId.ERROR, messageProcedure);
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyCrab.Classes.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,11 @@ namespace SkyCrab.Classes.Menu.Guest
         private void ReturnCreateRoomForGuest_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new CreateRoomForGuest());
+        }
+
+        private void GameAreaButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new WindowGame());
         }
     }
 }

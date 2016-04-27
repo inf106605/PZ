@@ -5,12 +5,20 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
     internal sealed class Int32Transcoder : ITranscoder<Int32>
     {
 
-        private static readonly UInt32Transcoder uint32Transcoder = new UInt32Transcoder();
+        private static readonly Int32Transcoder instance = new Int32Transcoder();
+        public static Int32Transcoder Get
+        {
+            get { return instance; }
+        }
 
+
+        private Int32Transcoder()
+        {
+        }
 
         public int Read(DataConnection dataConnection)
         {
-            UInt32 udata = uint32Transcoder.Read(dataConnection);
+            UInt32 udata = UInt32Transcoder.Get.Read(dataConnection);
             Int32 data = (Int32)udata;
             return data;
         }
@@ -18,7 +26,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         public void Write(DataConnection dataConnection, object writingBlock, int data)
         {
             UInt32 udata = (UInt32)data;
-            uint32Transcoder.Write(dataConnection, writingBlock, udata);
+            UInt32Transcoder.Get.Write(dataConnection, writingBlock, udata);
         }
 
     }

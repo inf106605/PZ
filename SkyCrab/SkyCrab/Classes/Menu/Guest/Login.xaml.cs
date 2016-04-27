@@ -27,23 +27,21 @@ namespace SkyCrab.Classes.Menu
 
         private void ButonLoginConfirm_Click(object sender, RoutedEventArgs e)
         {
-            // walidacja
-            
+
             PlayerProfile playerProfile = new PlayerProfile();
+
             playerProfile.Login = loginTextbox.Text;
-            playerProfile.Password = passTextbox.Text;
+            playerProfile.Password = passTextbox.Password;
 
-            using (AnswerSynchronizer answerSynchronizer = new AnswerSynchronizer())
+            var answer = LoginMsg.SyncPostLogin(App.clientConn, playerProfile, 1000);
+
+            if (!answer.HasValue)
             {
-                LoginMsg.AsyncPostLogin(App.clientConn, playerProfile, AnswerSynchronizer.Callback, answerSynchronizer);
-                answerSynchronizer.Wait(1000);
-                if (!answerSynchronizer.Answer.HasValue)
-                {
-                    MessageBox.Show("Brak odpowiedzi od serwera!");
-                    return;
-                }
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
 
-                var answerValue = answerSynchronizer.Answer.Value;
+                var answerValue = answer.Value;
 
                 if (answerValue.messageId == MessageId.ERROR)
                 {
@@ -61,6 +59,11 @@ namespace SkyCrab.Classes.Menu
                                 MessageBox.Show("Błąd logowania");
                                 break;
                             }
+                       case ErrorCode.SESSION_ALREADY_LOGGED:
+                            {
+                                MessageBox.Show("Twój program jest już zalogowany na innego użytkownika");
+                                break;
+                            }
                     }
 
                     return;
@@ -68,11 +71,12 @@ namespace SkyCrab.Classes.Menu
 
                 if (answerValue.messageId == MessageId.LOGIN_OK)
                 {
-                    Player player = (Player)answerValue.message;
+                    SkyCrabGlobalVariables.player = (Player)answerValue.message;
                     Switcher.Switch(new MainMenuLoggedPlayer());
+                    return;
                 }
-            }
         }
+        
 
         private void ButtonForgottenPassword_Click(object sender, RoutedEventArgs e)
         {
