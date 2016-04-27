@@ -1,4 +1,6 @@
 ﻿using SkyCrab.Classes.Menu.LoggedPlayer;
+using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using SkyCrab.Menu;
 using System;
 using System.Collections.Generic;
@@ -54,7 +56,28 @@ namespace SkyCrab.Classes.Menu
 
         private void Logout_Button_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new MainMenu());
+            var answer = LogoutMsg.SyncPostLogout(App.clientConn, 1000);
+
+            if(!answer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = answer.Value;
+
+            if(answerValue.messageId == MessageId.ERROR)
+            {
+                MessageBox.Show("Użytkownik nie jest zalogowany!");
+                return;
+            }
+
+            if (answerValue.messageId == MessageId.OK)
+            {
+                SkyCrabGlobalVariables.player = null;
+                Switcher.Switch(new MainMenu());
+                return;
+            }
         }
 
         private void Shuttdown_Button_Click(object sender, RoutedEventArgs e)

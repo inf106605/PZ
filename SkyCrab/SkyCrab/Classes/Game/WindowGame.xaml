@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkyCrab.Classes.Game"
+              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              mc:Ignorable="d" 
   d:DesignHeight="480" d:DesignWidth="640">
     <Grid>
@@ -14,56 +15,173 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.01*"></ColumnDefinition>
             <ColumnDefinition Width="0.3*"></ColumnDefinition>
-            <ColumnDefinition Width="0.15*"></ColumnDefinition>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
             <ColumnDefinition Width="0.01*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="89*"></RowDefinition>
-            <RowDefinition Height="347*"></RowDefinition>
-            <RowDefinition Height="44*"></RowDefinition>
+            <RowDefinition Height="0.9*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="0.025*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="0.025*"></RowDefinition>
         </Grid.RowDefinitions>
-        <UniformGrid Grid.Column="0" Grid.Row="0" Margin="5">
-            <Image Source="/Images/skycrab_logo.png" />
-        </UniformGrid>
-        <ItemsControl ItemsSource="{Binding Squares}" Grid.Column="0" Grid.Row="1">
-            <ItemsControl.ItemsPanel>
+        <Grid Grid.Column="2" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.3*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <UniformGrid Grid.Row="0" Margin="5">
+                <Image Source="/Images/skycrab_logo.png" />
+            </UniformGrid>
+            <Grid Grid.Row="1">
+                <TextBlock Text="Lista graczy" HorizontalAlignment="Center" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="2" Margin="10">
+                <ListView x:Name="ListPlayers">
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="True">
+                            <GridView.Columns>
+                                <GridViewColumn Header="Gracz"  DisplayMemberBinding="{Binding PlayerName}" />
+                                <GridViewColumn Header="Punkty"  DisplayMemberBinding="{Binding PlayerPoints}" />
+                                <GridViewColumn Header="Czas" DisplayMemberBinding="{Binding PlayerTime}" />
+                                <GridViewColumn Header="Ilość płytek" DisplayMemberBinding="{Binding PlayerTiles}" />
+                            </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            </Grid>
+            <Grid Grid.Row="3" Background="Black" Margin="10,10,10,-50">
+                <TextBox Background="Black" Foreground="Red" Text="CHAT" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.05*"></ColumnDefinition>
+                <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                <ColumnDefinition Width="0.05*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.025*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.025*"></RowDefinition>
+                <RowDefinition Height="0.8*"></RowDefinition>
+                <RowDefinition Height="0.025*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <TextBlock TextAlignment="Left" Text="Pozostało 79 płytek"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                </Grid>
+                <Grid Grid.Column="2">
+                    <TextBlock TextAlignment="Right" Text="Czas: 0:57:16"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                </Grid>
+            </Grid>
+            <ListBox Background="Black" x:Name="scrabbleBoard" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Squares}" SelectionMode="Extended">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid IsItemsHost="True" Rows="15" Columns="15" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsDarkBlue}" Value="True">
+                                <Setter Property="ListBoxItem.Background"  Value="#04bef1" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsRed}" Value="True">
+                                <Setter Property="ListBoxItem.Background" Value="#db3920"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsOrange}" Value="True">
+                                <Setter Property="ListBoxItem.Background" Value="#fed9a5"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsBlue}" Value="True">
+                                <Setter Property="ListBoxItem.Background" Value="#AEECF9"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsGreen}" Value="True">
+                                <Setter Property="ListBoxItem.Background" Value="#07b5ac"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Tile}" />
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsDarkBlue}" Value="True">
+                                <Setter Property="ListBoxItem.Background" Value="#04bef1"/>
+                            </DataTrigger>
+                                <DataTrigger Binding="{Binding IsRed}" Value="True">
+                                <Setter Property="ListBoxItem.Background" Value="#db3920"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsOrange}" Value="True">
+                                <Setter Property="ListBoxItem.Background" Value="#fed9a5"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsBlue}" Value="True">
+                                <Setter Property="ListBoxItem.Background" Value="#AEECF9"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsGreen}" Value="True">
+                                <Setter Property="ListBoxItem.Background" Value="#07b5ac"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <UniformGrid x:Name="ActionPlayerButton" Columns="3" Grid.Column="1" Margin="5">
+                <Button x:Name="Play" Content="Graj" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Play_Click"></Button>
+                <Button x:Name="Exchange" Content="Wymiana" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
+                <Button x:Name="Pass" Content="Pas" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
+            </UniformGrid>
+        </Grid>
+        <Viewbox  Grid.Column="1" Grid.Row="3">
+            <ListBox x:Name="listViewRack" 
+                     Background="Green"
+                     ItemsSource="{Binding RackTiles}"
+                     SelectionMode="Extended"
+                     dd:DragDrop.IsDragSource="True"
+                     dd:DragDrop.IsDropTarget="True"
+                     >
+                <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="15" Columns="15"/>
+                    <UniformGrid IsItemsHost="True" Columns="8" />
                 </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button x:Name="Square"
-                        Command="{Binding DataContext.SquareClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                        CommandParameter="{Binding}">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Grid Background="{TemplateBinding Background}"/>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsDarkBlue}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#04bef1"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsRed}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#db3920"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsOrange}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#fed9a5"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsBlue}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#AEECF9"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsGreen}" Value="True">
-                            <Setter TargetName="Square" Property="Background" Value="#07b5ac"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.Background>
+                                <ImageBrush ImageSource="/Images/Game/blank.png"></ImageBrush>
+                            </StackPanel.Background>
+                            <TextBlock MinHeight="10" MinWidth="15" TextAlignment="Center" HorizontalAlignment="Right" Text="{Binding Name}"></TextBlock>
+                            <TextBlock FontSize="5" MinWidth="5" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Text="{Binding Value}"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        </Viewbox>
+        <Grid Grid.Column="2" Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <UniformGrid Grid.Column="1" Columns="1">
+                <Button x:Name="ExitGame" Content="Zakończ grę" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ExitGame_Click"></Button>
+            </UniformGrid>
+        </Grid>
     </Grid>
 </UserControl>

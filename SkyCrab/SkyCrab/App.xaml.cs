@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyCrab.Connection.PresentationLayer.Messages;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -20,12 +21,13 @@ namespace SkyCrab
         {
             try
             {
+                DisconnectMsg.AsyncPostDisconnect(clientConn);
                 clientConn.Dispose();
                 ClientConnection.DisposeStaticMembers();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                //MessageBox.Show("Wystąpił błąd o podanej treści: " + ex.Message);
             }
             base.OnExit(e);
         }
@@ -50,5 +52,6 @@ namespace SkyCrab
             }
 
         }
+
     }
 }
