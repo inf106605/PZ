@@ -16,17 +16,17 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         {
         }
 
-        public Version Read(DataConnection dataConnection)
+        public Version Read(EncryptedConnection connection)
         {
-            Int32 major = Int32Transcoder.Get.Read(dataConnection);
-            Int32 minor = Int32Transcoder.Get.Read(dataConnection);
-            Int32 build = Int32Transcoder.Get.Read(dataConnection);
+            Int32 major = Int32Transcoder.Get.Read(connection);
+            Int32 minor = Int32Transcoder.Get.Read(connection);
+            Int32 build = Int32Transcoder.Get.Read(connection);
             if (build == -1)
             {
                 Version data = new Version(major, minor);
                 return data;
             }
-            Int32 revision = Int32Transcoder.Get.Read(dataConnection);
+            Int32 revision = Int32Transcoder.Get.Read(connection);
             if (revision == -1)
             {
                 Version data = new Version(major, minor, build);
@@ -39,12 +39,12 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             }
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, Version data)
+        public void Write(EncryptedConnection connection, object writingBlock, Version data)
         {
-            Int32Transcoder.Get.Write(dataConnection, writingBlock, data.Major);
-            Int32Transcoder.Get.Write(dataConnection, writingBlock, data.Minor);
-            Int32Transcoder.Get.Write(dataConnection, writingBlock, data.Build);
-            Int32Transcoder.Get.Write(dataConnection, writingBlock, data.Revision);
+            Int32Transcoder.Get.Write(connection, writingBlock, data.Major);
+            Int32Transcoder.Get.Write(connection, writingBlock, data.Minor);
+            Int32Transcoder.Get.Write(connection, writingBlock, data.Build);
+            Int32Transcoder.Get.Write(connection, writingBlock, data.Revision);
         }
 
     }

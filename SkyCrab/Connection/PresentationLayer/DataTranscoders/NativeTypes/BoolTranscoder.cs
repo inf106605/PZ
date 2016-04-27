@@ -24,9 +24,9 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         }
 
 
-        public bool Read(DataConnection dataConnection)
+        public bool Read(EncryptedConnection connection)
         {
-            byte value = UInt8Transcoder.Get.Read(dataConnection);
+            byte value = UInt8Transcoder.Get.Read(connection);
             switch (value)
             {
                 case (byte)Value.TRUE:
@@ -40,12 +40,12 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             }
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, bool data)
+        public void Write(EncryptedConnection connection, object writingBlock, bool data)
         {
             if (data)
-                UInt8Transcoder.Get.Write(dataConnection, writingBlock, (byte)Value.TRUE);
+                UInt8Transcoder.Get.Write(connection, writingBlock, (byte)Value.TRUE);
             else
-                UInt8Transcoder.Get.Write(dataConnection, writingBlock, (byte)Value.FALSE);
+                UInt8Transcoder.Get.Write(connection, writingBlock, (byte)Value.FALSE);
         }
 
     }

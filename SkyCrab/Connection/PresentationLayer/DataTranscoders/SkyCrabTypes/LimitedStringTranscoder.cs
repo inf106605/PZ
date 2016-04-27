@@ -28,12 +28,12 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
             this.limit = limit;
         }
 
-        public String Read(DataConnection dataConnection)
+        public String Read(EncryptedConnection connection)
         {
-            bool isNull = BoolTranscoder.Get.Read(dataConnection);
+            bool isNull = BoolTranscoder.Get.Read(connection);
             if (isNull)
                 return null;
-            UInt16 length = UInt16Transcoder.Get.Read(dataConnection);
+            UInt16 length = UInt16Transcoder.Get.Read(connection);
             if (length == 0)
             {
                 if (limit.Min == 0)
@@ -42,22 +42,22 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
                     return null;
             }
             limit.checkAndThrow(length);
-            byte[] bytes = dataConnection.SyncReadBytes(length);
+            byte[] bytes = connection.SyncReadBytes(length);
             string data = Encoding.UTF8.GetString(bytes);
             return data;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, String data)
+        public void Write(EncryptedConnection connection, object writingBlock, String data)
         {
-            BoolTranscoder.Get.Write(dataConnection, writingBlock, data == null);
+            BoolTranscoder.Get.Write(connection, writingBlock, data == null);
             if (data == null)
                 return;
             byte[] bytes = Encoding.UTF8.GetBytes(data);
             UInt16 lenght = (UInt16)bytes.Length;
             limit.checkAndThrow(lenght);
-            UInt16Transcoder.Get.Write(dataConnection, writingBlock, lenght);
+            UInt16Transcoder.Get.Write(connection, writingBlock, lenght);
             if (lenght != 0)
-                dataConnection.AsyncWriteBytes(writingBlock, bytes);
+                connection.AsyncWriteBytes(writingBlock, bytes);
         }
 
     }

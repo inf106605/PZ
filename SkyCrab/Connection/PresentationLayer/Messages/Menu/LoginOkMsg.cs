@@ -1,7 +1,5 @@
 ﻿using SkyCrab.Common_classes.Players;
-using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
-using System;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
@@ -26,7 +24,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            Player player = connection.SyncReadData(PlayerTranscoder.Get);
+            Player player = PlayerTranscoder.Get.Read(connection);
             return player;
         }
 
@@ -34,8 +32,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                connection.AsyncWriteData(UInt32Transcoder.Get, writingBlock, player.Id);
-                connection.AsyncWriteData(PlayerProfileTranscoder.Get, writingBlock, player.Profile);
+                PlayerTranscoder.Get.Write(connection, writingBlock, player);
             };
             connection.PostMessage(MessageId.LOGIN_OK, messageProcedure);
         }

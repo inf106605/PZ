@@ -18,19 +18,19 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
         {
         }
 
-        public ErrorCode Read(DataConnection dataConnection)
+        public ErrorCode Read(EncryptedConnection connection)
         {
-            UInt16 code = UInt16Transcoder.Get.Read(dataConnection);
+            UInt16 code = UInt16Transcoder.Get.Read(connection);
             if (!Enum.IsDefined(typeof(ErrorCode), code))
                 throw new ValueIsNotInEnumException();
             ErrorCode data = (ErrorCode)code;
             return data;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, ErrorCode data)
+        public void Write(EncryptedConnection connection, object writingBlock, ErrorCode data)
         {
             UInt16 code = (UInt16)data;
-            UInt16Transcoder.Get.Write(dataConnection, writingBlock, code);
+            UInt16Transcoder.Get.Write(connection, writingBlock, code);
         }
 
     }

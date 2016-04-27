@@ -2,7 +2,7 @@
 {
     internal interface ITranscoder<T>
     {
-        T Read(DataConnection dataConnection);
-        void Write(DataConnection dataConnection, object writingBlock, T data);
+        T Read(EncryptedConnection connection);
+        void Write(EncryptedConnection connection, object writingBlock, T data);
     }
 }

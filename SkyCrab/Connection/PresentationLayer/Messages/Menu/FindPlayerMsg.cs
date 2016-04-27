@@ -25,7 +25,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            string searchPhrase = connection.SyncReadData(LimitedStringTranscoder.Get(LengthLimit.SearchPhraze));
+            string searchPhrase = LimitedStringTranscoder.Get(LengthLimit.SearchPhraze).Read(connection);
             return searchPhrase;
         }
 
@@ -38,7 +38,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {
-                connection.AsyncWriteData(LimitedStringTranscoder.Get(LengthLimit.SearchPhraze), writingBlock, searchPhrase);
+                LimitedStringTranscoder.Get(LengthLimit.SearchPhraze).Write(connection, writingBlock, searchPhrase);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.FIND_PLAYER, messageProc);

@@ -28,7 +28,7 @@ namespace SkyCrab.Connection.PresentationLayer
     }
 
     //TODO proper disconnecting
-    public abstract class MessageConnection : DataConnection
+    public abstract class MessageConnection : EncryptedConnection
     {
 
         public struct MessageInfo
@@ -200,7 +200,7 @@ namespace SkyCrab.Connection.PresentationLayer
         {
             try
             {
-                MessageId messageId = SyncReadData(MessageIdTranscoder.Get);
+                MessageId messageId = MessageIdTranscoder.Get.Read(this);
                 AbstractMessage message;
                 if (!messageTypes.TryGetValue(messageId, out message))
                     throw new UnknownMessageException();
@@ -259,10 +259,10 @@ namespace SkyCrab.Connection.PresentationLayer
         private void CheckVersion()
         {
             object writingBlock = BeginWritingBlock();
-            AsyncWriteData(VersionTranscoder.Get, writingBlock, version);
+            VersionTranscoder.Get.Write(this, writingBlock, version);
             EndWritingBlock(writingBlock);
             BeginReadingBlock();
-            Version otherVersion = SyncReadData(VersionTranscoder.Get);
+            Version otherVersion = VersionTranscoder.Get.Read(this);
             EndReadingBlock();
             if (version.Major > otherVersion.Major)
                 throw new SkyCrabConnectionProtocolVersionException("The other side of the connection has too old version of the protocol!");
@@ -281,7 +281,7 @@ namespace SkyCrab.Connection.PresentationLayer
         internal void PostMessage(MessageId messageId, MessageProcedure messageProcedure)
         {
             object writingBlock = BeginWritingBlock();
-            AsyncWriteData(MessageIdTranscoder.Get, writingBlock, messageId);
+            MessageIdTranscoder.Get.Write(this, writingBlock, messageId);
             messageProcedure.Invoke(writingBlock);
             EndWritingBlock(writingBlock);
         }

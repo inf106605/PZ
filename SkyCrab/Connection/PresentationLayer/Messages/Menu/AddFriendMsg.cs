@@ -25,7 +25,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            UInt32 playerId = connection.SyncReadData(UInt32Transcoder.Get);
+            UInt32 playerId = UInt32Transcoder.Get.Read(connection);
             return playerId;
         }
         
@@ -38,7 +38,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                connection.AsyncWriteData(UInt32Transcoder.Get, writingBlock, playerId);
+                UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.ADD_FRIEND, messageProcedure);

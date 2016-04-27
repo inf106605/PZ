@@ -25,7 +25,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            PlayerProfile playerProfile = connection.SyncReadData(PlayerProfileTranscoder.Get);
+            PlayerProfile playerProfile = PlayerProfileTranscoder.Get.Read(connection);
             return playerProfile;
         }
 
@@ -38,7 +38,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
-                connection.AsyncWriteData(PlayerProfileTranscoder.Get, writingBlock, playerProfile);
+                PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.EDIT_PROFILE, messageProc);
