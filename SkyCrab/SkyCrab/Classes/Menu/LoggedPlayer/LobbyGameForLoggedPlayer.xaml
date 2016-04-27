@@ -82,26 +82,16 @@
                 </UniformGrid>
             </Viewbox>
             <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Viewbox Grid.Column="0" HorizontalAlignment="Left">
-                    <UniformGrid Rows="5">
-                        <TextBlock x:Name="Player1TextBlock" Text="1. Gracz1" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
-                        <TextBlock x:Name="Player2TextBlock" Text="2. Gracz2" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
-                        <TextBlock x:Name="Player3TextBlock" Text="3. Gracz3" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
-                        <TextBlock x:Name="Player4TextBlock" Text="4. Gracz4" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
-                    </UniformGrid>
-                </Viewbox>
-                <Viewbox Grid.Column="1" HorizontalAlignment="Left">
-                    <UniformGrid Rows="5">
-                        <TextBlock x:Name="StatusPlayer1TextBlock" Text="Status: Gotowy" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
-                        <TextBlock x:Name="StatusPlayer2TextBlock" Text="Status: Oczekujący" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
-                        <TextBlock x:Name="StatusPlayer3TextBlock" Text="Status: Gotowy" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
-                        <TextBlock x:Name="StatusPlayer4TextBlock" Text="Status: Oczekujący" FontFamily="Gill Sans Ultra Bold" TextWrapping="Wrap"></TextBlock>
-                    </UniformGrid>
-                </Viewbox>
+                <ListView x:Name="ListPlayers">
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="True">
+                            <GridView.Columns>
+                                <GridViewColumn Header="Gracz"  DisplayMemberBinding="{Binding PlayerName}" />
+                                <GridViewColumn Header="Status"  DisplayMemberBinding="{Binding PlayerPoints}" />
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </Grid>
         </Grid>
         <UniformGrid Columns="2" Grid.Column="1" Grid.Row="4">

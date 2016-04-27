@@ -37,7 +37,7 @@
                 <TextBlock Text="O PROGRAMIE"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
             </Viewbox>
             <Grid  Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Visible" IsReadOnly="True"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >

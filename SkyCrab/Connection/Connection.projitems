@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\ClientEncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\ITranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\BoolTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\DateTimeTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\Int32Transcoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\Int64Transcoder.cs" />
