@@ -1,4 +1,9 @@
-﻿using SkyCrab.Connection.SessionLayer;
+﻿//#define DO_NOT_ENCRYPT
+#if DO_NOT_ENCRYPT
+#warning "Connection is not encrypted!"
+#endif
+
+using SkyCrab.Connection.SessionLayer;
 using System;
 using System.IO;
 using System.Net.Sockets;
@@ -8,7 +13,7 @@ namespace SkyCrab.Connection.PresentationLayer
 {
     public abstract class EncryptedConnection : QueuedConnection
     {
-
+        
         protected const int rsaKeyBytes = 256;
         protected const int maxRsaCryptogram = rsaKeyBytes - 11;
 
@@ -19,7 +24,9 @@ namespace SkyCrab.Connection.PresentationLayer
         protected EncryptedConnection(TcpClient tcpClient, int readTimeout) :
             base(tcpClient, readTimeout)
         {
+            #if !DO_NOT_ENCRYPT
             Initialize();
+            #endif
         }
 
         protected abstract void Initialize();
@@ -33,16 +40,25 @@ namespace SkyCrab.Connection.PresentationLayer
 
         internal override byte[] SyncReadBytes(UInt16 size)
         {
+            #if DO_NOT_ENCRYPT
+            byte[] bytes = base.SyncReadBytes(size);
+            return bytes;
+            #else
             UInt16 criptogramSize = CalculateCriptogramSize(size);
             byte[] encryptedBytes = base.SyncReadBytes(criptogramSize);
             byte[] decryptedBytes = DecryptBytes(encryptedBytes, size);
             return decryptedBytes;
+            #endif
         }
 
         internal override void AsyncWriteBytes(object writingBlock, byte[] bytes, Callback callback = null, object state = null)
         {
+            #if DO_NOT_ENCRYPT
+            base.AsyncWriteBytes(writingBlock, bytes, callback, state);
+            #else
             byte[] encryptedBytes = EncryptBytes(bytes);
             base.AsyncWriteBytes(writingBlock, encryptedBytes, callback, state);
+            #endif
         }
 
         protected byte[] ReadUnencryptedBytes(UInt16 size)

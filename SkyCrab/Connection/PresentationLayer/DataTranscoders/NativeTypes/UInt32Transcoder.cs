@@ -5,6 +5,17 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
     internal sealed class UInt32Transcoder : ITranscoder<UInt32>
     {
 
+        private static readonly UInt32Transcoder instance = new UInt32Transcoder();
+        public static UInt32Transcoder Get
+        {
+            get { return instance; }
+        }
+
+
+        private UInt32Transcoder()
+        {
+        }
+
         public UInt32 Read(DataConnection dataConnection)
         {
             byte[] bytes = dataConnection.SyncReadBytes(4);

@@ -23,6 +23,7 @@
         private static readonly LengthLimit password = new LengthLimit(5, 100);
         private static readonly LengthLimit nick = new LengthLimit(1, 50);
         private static readonly LengthLimit eMail = new LengthLimit(0, 100);
+        private static readonly LengthLimit searchPhraze = new LengthLimit(0, 100);
 
         public static LengthLimit Login {
             get { return login; }
@@ -41,6 +42,11 @@
         public static LengthLimit EMail
         {
             get { return eMail; }
+        }
+
+        public static LengthLimit SearchPhraze
+        {
+            get { return searchPhraze; }
         }
 
 

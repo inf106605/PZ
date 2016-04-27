@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Players;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
@@ -24,14 +25,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            string login = connection.SyncReadData(MessageConnection.loginTranscoder);
-            string password = connection.SyncReadData(MessageConnection.passwordTranscoder);
-            string eMail = connection.SyncReadData(MessageConnection.eMailTranscoder);
-            PlayerProfile playerProfile = new PlayerProfile();
-            playerProfile.Login = login;
-            playerProfile.Password = password;
-            playerProfile.EMail = eMail;
-            return playerProfile;
+            PlayerProfile profile = PlayerProfileTranscoder.Get.Read(connection);
+            return profile;
         }
         
         public static MessageConnection.MessageInfo? SyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, int timeout)
@@ -43,9 +38,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
-                connection.AsyncWriteData(MessageConnection.loginTranscoder, writingBlock, playerProfile.Login);
-                connection.AsyncWriteData(MessageConnection.passwordTranscoder, writingBlock, playerProfile.Password);
-                connection.AsyncWriteData(MessageConnection.eMailTranscoder, writingBlock, playerProfile.EMail);
+                PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.REGISTER, messageProc);
