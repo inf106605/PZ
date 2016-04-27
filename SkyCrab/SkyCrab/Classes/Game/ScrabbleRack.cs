@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using SkyCrab.Common_classes.Games.Tiles;
 
 namespace SkyCrab.Classes.Game
 {
@@ -13,20 +14,24 @@ namespace SkyCrab.Classes.Game
     class ScrabbleRack : IDropTarget
     {
 
-       static public ObservableCollection<ScrabbleRackTiles> RackTiles { get; set; }
+       private ObservableCollection<ScrabbleRackTiles> rackTiles;
+       
+       public ObservableCollection<ScrabbleRackTiles> RackTiles
+       {
+           get
+           {
+               return rackTiles;
+           }
+       }
+
+        public void RemoveTile(int id)
+        {
+            rackTiles.Remove(rackTiles.Where(temp => temp.Id == id).Single());
+        }
         
         public ScrabbleRack()
         {
-            RackTiles = new ObservableCollection<ScrabbleRackTiles>();
-
-            RackTiles.Add(new ScrabbleRackTiles(1, "A", 1));
-            RackTiles.Add(new ScrabbleRackTiles(2, "Ź", 9));
-            RackTiles.Add(new ScrabbleRackTiles(3, "D", 2));
-            RackTiles.Add(new ScrabbleRackTiles(4, "H", 3));
-            RackTiles.Add(new ScrabbleRackTiles(5, "I", 2));
-            RackTiles.Add(new ScrabbleRackTiles(6, "G", 4));
-            RackTiles.Add(new ScrabbleRackTiles(7, "M", 5));
-
+            rackTiles = new ObservableCollection<ScrabbleRackTiles>();
         }
 
 

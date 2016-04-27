@@ -27,11 +27,14 @@ namespace SkyCrab.Classes.Game
     {
         private List<ScrabblePlayers> ScrabblePlayers = null;
 
+        private ScrabbleGame scrabbleGame = null;
+
         public WindowGame()
         {
             InitializeComponent();
             InitBinding();
-            DataContext = new ScrabbleGame();
+            scrabbleGame = new ScrabbleGame();
+            DataContext = scrabbleGame;
         }
 
         private void InitBinding()
@@ -103,15 +106,14 @@ namespace SkyCrab.Classes.Game
 
             for(int i = 0; i < list_tiles.Count; i++)
             {
-                ScrabbleBoard.Squares[PositionsListBox[i]] = new ScrabbleSquare(Columns[i], Rows[i], list_tiles[i], 1);
+                scrabbleGame.scrabbleBoard.SetScrabbleSquare(PositionsListBox[i], Columns[i], Rows[i], list_tiles[i], 1);
             }
 
             //ScrabbleBoard.Squares[112] = new ScrabbleSquare(int.Parse("7"), int.Parse("7"), "A", 1); // wpisywanie współrzędnych na planszy oraz literki i wartości którą chcemy wyświetlić                                         
             //usunięcie z kolekcji Rack zaznaczonych płytek 
 
             for (int i = 0; i < list_keys.Count; i++)
-                ScrabbleRack.RackTiles.Remove(ScrabbleRack.RackTiles.Where(temp => temp.Id == list_keys[i]).Single());
-            
+                 scrabbleGame.scrabbleRack.RemoveTile(list_keys[i]);
 
         }
     } 

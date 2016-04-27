@@ -10,14 +10,13 @@ namespace SkyCrab.Classes.Game
     public class ScrabbleSquare
     {
 
-        static StandardBoard board = new StandardBoard();
         private SquareType squareType;
 
         public ScrabbleSquare(int Row, int Column)
         {
             this.Row = Row;
             this.Column = Column;
-            this.squareType = board.GetSquareType(new PositionOnBoard(Row, Column));
+            this.squareType = StandardBoard.GetSquareType_(new PositionOnBoard(Row, Column));
             this.PositionInListBox = (Row) * 15 + Column;
         }
 
@@ -25,7 +24,7 @@ namespace SkyCrab.Classes.Game
         {
             this.Row = Row;
             this.Column = Column;
-            this.squareType = board.GetSquareType(new PositionOnBoard(Row, Column));
+            this.squareType = StandardBoard.GetSquareType_(new PositionOnBoard(Row, Column));
             this.PositionInListBox = (Row) * 15 + Column;
             this.Tile = Tile;
             this.Value = Value;
