@@ -1,4 +1,6 @@
-﻿using SkyCrab.Connection.PresentationLayer.Messages;
+﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
+using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using SkyCrab.Connection.SessionLayer;
 using SkyCrab.Connection.Utils;
@@ -25,6 +27,7 @@ namespace SkyCrab.Connection.PresentationLayer
     {
     }
 
+    //TODO proper disconnecting
     public abstract class MessageConnection : DataConnection
     {
 
@@ -130,7 +133,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(2, 0, 0);
+        private static readonly Version version = new Version(3, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -191,7 +194,7 @@ namespace SkyCrab.Connection.PresentationLayer
         {
             try
             {
-                MessageId messageId = SyncReadData(messageIdTranscoder);
+                MessageId messageId = SyncReadData(MessageIdTranscoder.Get);
                 AbstractMessage message;
                 if (!messageTypes.TryGetValue(messageId, out message))
                     throw new UnknownMessageException();
@@ -250,10 +253,10 @@ namespace SkyCrab.Connection.PresentationLayer
         private void CheckVersion()
         {
             object writingBlock = BeginWritingBlock();
-            AsyncWriteData(versionTranscoder, writingBlock, version);
+            AsyncWriteData(VersionTranscoder.Get, writingBlock, version);
             EndWritingBlock(writingBlock);
             BeginReadingBlock();
-            Version otherVersion = SyncReadData(versionTranscoder);
+            Version otherVersion = SyncReadData(VersionTranscoder.Get);
             EndReadingBlock();
             if (version.Major > otherVersion.Major)
                 throw new SkyCrabConnectionProtocolVersionException("The other side of the connection has too old version of the protocol!");
@@ -272,7 +275,7 @@ namespace SkyCrab.Connection.PresentationLayer
         internal void PostMessage(MessageId messageId, MessageProcedure messageProcedure)
         {
             object writingBlock = BeginWritingBlock();
-            AsyncWriteData(messageIdTranscoder, writingBlock, messageId);
+            AsyncWriteData(MessageIdTranscoder.Get, writingBlock, messageId);
             messageProcedure.Invoke(writingBlock);
             EndWritingBlock(writingBlock);
         }

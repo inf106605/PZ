@@ -5,20 +5,28 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
     internal sealed class VersionTranscoder : ITranscoder<Version>
     {
 
-        private static readonly Int32Transcoder int32Transcoder = new Int32Transcoder();
+        private static readonly VersionTranscoder instance = new VersionTranscoder();
+        public static VersionTranscoder Get
+        {
+            get { return instance; }
+        }
 
+
+        private VersionTranscoder()
+        {
+        }
 
         public Version Read(DataConnection dataConnection)
         {
-            Int32 major = int32Transcoder.Read(dataConnection);
-            Int32 minor = int32Transcoder.Read(dataConnection);
-            Int32 build = int32Transcoder.Read(dataConnection);
+            Int32 major = Int32Transcoder.Get.Read(dataConnection);
+            Int32 minor = Int32Transcoder.Get.Read(dataConnection);
+            Int32 build = Int32Transcoder.Get.Read(dataConnection);
             if (build == -1)
             {
                 Version data = new Version(major, minor);
                 return data;
             }
-            Int32 revision = int32Transcoder.Read(dataConnection);
+            Int32 revision = Int32Transcoder.Get.Read(dataConnection);
             if (revision == -1)
             {
                 Version data = new Version(major, minor, build);
@@ -33,10 +41,10 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 
         public void Write(DataConnection dataConnection, object writingBlock, Version data)
         {
-            int32Transcoder.Write(dataConnection, writingBlock, data.Major);
-            int32Transcoder.Write(dataConnection, writingBlock, data.Minor);
-            int32Transcoder.Write(dataConnection, writingBlock, data.Build);
-            int32Transcoder.Write(dataConnection, writingBlock, data.Revision);
+            Int32Transcoder.Get.Write(dataConnection, writingBlock, data.Major);
+            Int32Transcoder.Get.Write(dataConnection, writingBlock, data.Minor);
+            Int32Transcoder.Get.Write(dataConnection, writingBlock, data.Build);
+            Int32Transcoder.Get.Write(dataConnection, writingBlock, data.Revision);
         }
 
     }

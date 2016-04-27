@@ -5,6 +5,17 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
     internal sealed class UInt64Transcoder : ITranscoder<UInt64>
     {
 
+        private static readonly UInt64Transcoder instance = new UInt64Transcoder();
+        public static UInt64Transcoder Get
+        {
+            get { return instance; }
+        }
+
+
+        private UInt64Transcoder()
+        {
+        }
+
         public ulong Read(DataConnection dataConnection)
         {
             byte[] bytes = dataConnection.SyncReadBytes(8);

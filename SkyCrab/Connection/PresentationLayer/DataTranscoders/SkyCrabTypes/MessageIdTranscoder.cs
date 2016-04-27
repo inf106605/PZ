@@ -7,12 +7,20 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
     internal sealed class MessageIdTranscoder : ITranscoder<MessageId>
     {
 
-        private static readonly UInt8Transcoder uint8Transcoder = new UInt8Transcoder();
+        private static readonly MessageIdTranscoder instance = new MessageIdTranscoder();
+        public static MessageIdTranscoder Get
+        {
+            get { return instance; }
+        }
 
+
+        private MessageIdTranscoder()
+        {
+        }
 
         public MessageId Read(DataConnection dataConnection)
         {
-            byte id = uint8Transcoder.Read(dataConnection);
+            byte id = UInt8Transcoder.Get.Read(dataConnection);
             if (!Enum.IsDefined(typeof(MessageId), id))
                 throw new ValueIsNotInEnumException();
             MessageId data = (MessageId)id;
@@ -22,7 +30,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
         public void Write(DataConnection dataConnection, object writingBlock, MessageId data)
         {
             byte id = (byte)data;
-            uint8Transcoder.Write(dataConnection, writingBlock, id);
+            UInt8Transcoder.Get.Write(dataConnection, writingBlock, id);
         }
 
     }

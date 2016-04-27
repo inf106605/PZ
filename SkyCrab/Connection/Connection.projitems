@@ -28,6 +28,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\ErrorCodeTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\LimitedStringTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\MessageIdTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\PlayerProfileTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\PlayerTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\ValueIsNotInEnumException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\EncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnection.cs" />

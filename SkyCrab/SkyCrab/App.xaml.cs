@@ -25,7 +25,7 @@ namespace SkyCrab
                 clientConn.Dispose();
                 ClientConnection.DisposeStaticMembers();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show("Wystąpił błąd o podanej treści: " + ex.Message);
             }
