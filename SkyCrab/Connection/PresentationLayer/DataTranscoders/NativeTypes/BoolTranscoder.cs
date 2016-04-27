@@ -1,6 +1,4 @@
-﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
-using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
-using System;
+﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 {
@@ -14,12 +12,21 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         }
 
 
-        private static readonly UInt8Transcoder uint8Transcoder = new UInt8Transcoder();
+        private static readonly BoolTranscoder instance = new BoolTranscoder();
+        public static BoolTranscoder Get
+        {
+            get { return instance; }
+        }
+
+
+        private BoolTranscoder()
+        {
+        }
 
 
         public bool Read(DataConnection dataConnection)
         {
-            byte value = uint8Transcoder.Read(dataConnection);
+            byte value = UInt8Transcoder.Get.Read(dataConnection);
             switch (value)
             {
                 case (byte)Value.TRUE:
@@ -36,9 +43,9 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         public void Write(DataConnection dataConnection, object writingBlock, bool data)
         {
             if (data)
-                uint8Transcoder.Write(dataConnection, writingBlock, (byte)Value.TRUE);
+                UInt8Transcoder.Get.Write(dataConnection, writingBlock, (byte)Value.TRUE);
             else
-                uint8Transcoder.Write(dataConnection, writingBlock, (byte)Value.FALSE);
+                UInt8Transcoder.Get.Write(dataConnection, writingBlock, (byte)Value.FALSE);
         }
 
     }

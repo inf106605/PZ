@@ -17,6 +17,15 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         //EDIT_PROFILE
         NICK_IS_TOO_SHITTY      = 7,
         PASSWORD_TOO_SHORT2     = 5,
-        EMAIL_OCCUPIED2         = 6
+        EMAIL_OCCUPIED2         = 6,
+        //GET_FRIENDS
+        NOT_LOGGED2             = 3,
+        //ADD_FRIEND
+        NOT_LOGGED3             = 3,
+        FRIEND_ALREADY_ADDED    = 8,
+        FOREVER_ALONE           = 9,
+        //REMOVE_FRIEND
+        NOT_LOGGED4             = 3,
+        NO_SUCH_FRIEND          = 10
     }
 }
