@@ -1,15 +1,17 @@
-﻿namespace SkyCrab.Common_classes.Players
+﻿using System;
+
+namespace SkyCrab.Common_classes.Players
 {
     public class Player
     {
 
-        private uint id;
+        private UInt32 id;
         private bool isGuest;
         private string nick;
         private PlayerProfile profile;
 
 
-        public uint Id
+        public UInt32 Id
         {
             get { return id; }
         }
@@ -41,7 +43,7 @@
         }
 
 
-        public Player(uint id, bool isGuest, string nick)
+        public Player(UInt32 id, bool isGuest, string nick)
         {
             LengthLimit.Nick.checkAndThrow(nick);
             this.id = id;
@@ -50,7 +52,7 @@
             this.profile = null;
         }
 
-        public Player(uint id, PlayerProfile profile)
+        public Player(UInt32 id, PlayerProfile profile)
         {
             this.id = id;
             this.isGuest = false;

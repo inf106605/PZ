@@ -133,7 +133,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(3, 0, 0);
+        private static readonly Version version = new Version(3, 1, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -149,6 +149,7 @@ namespace SkyCrab.Connection.PresentationLayer
             addMessage(new DisconnectMsg());
             addMessage(new PingMsg());
             addMessage(new PongMsg());
+
             addMessage(new OkMsg());
             addMessage(new ErrorMsg());
             addMessage(new LoginMsg());
@@ -156,6 +157,11 @@ namespace SkyCrab.Connection.PresentationLayer
             addMessage(new LogoutMsg());
             addMessage(new RegisterMsg());
             addMessage(new EditProfileMsg());
+            addMessage(new GetFriendsMsg());
+            addMessage(new FindPlayerMsg());
+            addMessage(new PlayerListMsg());
+            addMessage(new AddFriendMsg());
+            addMessage(new RemoveFriendMsg());
             //TODO more MORE!!!
         }
 
