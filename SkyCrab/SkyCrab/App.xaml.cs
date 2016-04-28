@@ -21,7 +21,6 @@ namespace SkyCrab
         {
             try
             {
-                DisconnectMsg.AsyncPostDisconnect(clientConn);
                 clientConn.Dispose();
                 ClientConnection.DisposeStaticMembers();
             }
@@ -39,6 +38,7 @@ namespace SkyCrab
             try {
                 ClientConnection.PreLoadStaticMembers();
                 clientConn = new ClientConnection("127.0.0.1", 100);
+                clientConn.addConnectionCloseListener((connection) => clientConn = null);
             } catch(Exception ex)
             {
                 MessageBox.Show("Nie udało się połączyć: " + ex.Message);

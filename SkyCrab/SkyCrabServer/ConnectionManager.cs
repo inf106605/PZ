@@ -20,6 +20,10 @@ namespace SkyCrabServer
                     ServerConnection connection = new ServerConnection(tcpClient, 100); //TODO remove constant
                     Listener.serverConsole.Write("New client connected. (" + connection.ServerEndPoint.Address + ")\n\tAddress: " + connection.ClientEndPoint.Address + "\n\tport: " + connection.ClientEndPoint.Port + "\n");
                     connections.Add(connection);
+                    connection.addConnectionCloseListener((disconectedConnection) => {
+                                lock (connections)
+                                    connections.Remove((ServerConnection) disconectedConnection);
+                            });
                 }
                 catch (Exception e)
                 {
@@ -31,25 +35,17 @@ namespace SkyCrabServer
 
         public static void Close(ServerConnection connection)
         {
-            lock (connections)
-            {
-                if (connections.Remove(connection))
-                    connection.Dispose();
-            }
+            connection.Dispose();
         }
 
         public static void CloseAll()
         {
+            Console.WriteLine("Closing connections with clients...\n");
+            List<ServerConnection> connectionsCopy;
             lock (connections)
-            {
-
-                Console.WriteLine("Closing connections with clients...\n");
-                foreach (ServerConnection connection in connections)
-                {
-                    DisconnectMsg.AsyncPostDisconnect(connection);
-                    connection.Dispose();
-                }
-            }
+                connectionsCopy = new List<ServerConnection>(connections);
+            foreach (ServerConnection connection in connectionsCopy)
+                connection.Dispose();
         }
 
     }

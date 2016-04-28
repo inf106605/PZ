@@ -24,7 +24,7 @@ namespace SkyCrab
                     case MessageId.DISCONNECT:
                         {
                             DisplayMessageBox("Serwer zakończył pracę!");
-                            Disconnect();
+                            AnswerDisconnect(messageInfo.message);
                             break;
                         }
 
@@ -36,28 +36,16 @@ namespace SkyCrab
                     case MessageId.NO_PONG:
                         {
                             DisplayMessageBox("Serwer nie odpowiada!");
-                            DisconnectMsg.AsyncPostDisconnect(this);
-                            Disconnect();
+                            AsyncDispose();
                             break;
                         }
                 }
             }
         }
 
-        private void DisconnectTask()
-        {
-            App.clientConn = null;
-            Dispose();
-        }
-
         private void DisplayMessageBox(string message)
         {
             Task.Factory.StartNew(()=>System.Windows.MessageBox.Show(message));
-        }
-
-        private void Disconnect()
-        {
-            Task.Factory.StartNew(DisconnectTask);
         }
 
     }

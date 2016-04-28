@@ -27,8 +27,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public class UnknownMessageException : SkyCrabConnectionException
     {
     }
-
-    //TODO proper disconnecting
+    
     public abstract class MessageConnection : EncryptedConnection
     {
 
@@ -88,7 +87,7 @@ namespace SkyCrab.Connection.PresentationLayer
             BeginReadingBlock();
             while (true)
             {
-                if (isDisposing)
+                if (isDisposed)
                     break;
                 TryReadMessage();
             }
@@ -149,6 +148,23 @@ namespace SkyCrab.Connection.PresentationLayer
             PongMsg.AsyncPostPong(this);
         }
 
+        protected void AnswerDisconnect(object message)
+        {
+            Task.Factory.StartNew(() => AnswerDisconnectTaskBody(message));
+        }
+
+        private void AnswerDisconnectTaskBody(object message)
+        {
+            PrepareForDispose(true);
+            OkDisconnectMsg.AsyncPostOkDisconnect(this);
+            AsyncDispose();
+        }
+
+        protected void AsyncDispose()
+        {
+            Task.Factory.StartNew(Dispose);
+        }
+
         internal void SetAnswerCallback(object writingBlock, AnswerCallback answerCallback, object state)
         {
             AnswerCallbackWithState answerCallbackWithState = new AnswerCallbackWithState();
@@ -195,10 +211,17 @@ namespace SkyCrab.Connection.PresentationLayer
             EndWritingBlock(writingBlock);
         }
 
-        protected override void DoDispose()
+        protected override void DoPrepareForDispose(bool answeringToDisposeMsg)
         {
             pingTimer.Dispose();
-            lock (pingTimer) {}
+            lock (pingTimer) { }
+            base.DoPrepareForDispose(answeringToDisposeMsg);
+            if (!answeringToDisposeMsg)
+                DisconnectMsg.SyncPostDisconnect(this, 1000);
+        }
+
+        protected override void DoDispose()
+        {
             CloseListeningTask();
             CloseProcessingTask();
             listeningTask.Dispose();

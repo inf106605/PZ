@@ -1,4 +1,6 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.Messages
+﻿using SkyCrab.Connection.PresentationLayer.MessageConnections;
+
+namespace SkyCrab.Connection.PresentationLayer.Messages
 {
     /// <summary>
     /// <para>Sender: Server &amp; Client</para>
@@ -24,10 +26,16 @@
             return null;
         }
 
-        public static void AsyncPostDisconnect(MessageConnection connection)
+        public static MessageInfo? SyncPostDisconnect(MessageConnection connection, int timeout)
+        {
+            return SyncPost((callback, state) => AsyncPostDisconnect(connection, callback, state), timeout);
+        }
+
+        public static void AsyncPostDisconnect(MessageConnection connection, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
+                connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.DISCONNECT, messageProcedure);
         }

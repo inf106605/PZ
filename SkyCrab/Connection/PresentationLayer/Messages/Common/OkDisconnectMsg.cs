@@ -24,7 +24,7 @@
             return null;
         }
 
-        public static void AsyncPostDisconnect(MessageConnection connection)
+        public static void AsyncPostOkDisconnect(MessageConnection connection)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

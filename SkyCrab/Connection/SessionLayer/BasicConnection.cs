@@ -1,8 +1,10 @@
 ﻿using SkyCrab.Connection.Utils;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace SkyCrab.Connection.SessionLayer
 {
@@ -19,6 +21,13 @@ namespace SkyCrab.Connection.SessionLayer
         private TcpClient tcpClient;
         protected volatile bool isDisposing = false;
         protected volatile bool isDisposed = false;
+        private volatile bool preparedForDispose = false;
+        private object _prepareForDisposeLock = new object();
+        private object _connectionCloseListenerLock = new object();
+        private object _disposeLock = new object();
+
+        public delegate void ConnectionCloseListener(BasicConnection connection);
+        public List<ConnectionCloseListener> connectionCloseListeners = new List<ConnectionCloseListener>();
 
 
         public IPEndPoint LocalEndPoint
@@ -36,6 +45,21 @@ namespace SkyCrab.Connection.SessionLayer
         {
             this.tcpClient = tcpClient;
             tcpClient.ReceiveTimeout = readTimeout;
+        }
+
+        public void addConnectionCloseListener(ConnectionCloseListener listener)
+        {
+            connectionCloseListeners.Add(listener);
+            lock (_connectionCloseListenerLock)
+            {
+                if (preparedForDispose)
+                    listener.Invoke(this);
+            }
+        }
+
+        public void removeConnectionCloseListener(ConnectionCloseListener listener)
+        {
+            connectionCloseListeners.Remove(listener);
         }
 
         protected virtual void WriteBytes(byte[] bytes)
@@ -71,13 +95,51 @@ namespace SkyCrab.Connection.SessionLayer
             return bytes;
         }
 
+        protected void PrepareForDispose(bool answeringToDisposeMsg)
+        {
+            if (!answeringToDisposeMsg)
+            {
+                Monitor.Enter(_prepareForDisposeLock);
+            }
+            else
+            {
+                if (!Monitor.TryEnter(_prepareForDisposeLock))
+                    return;
+            }
+            try
+            {
+                if (preparedForDispose)
+                    return;
+                preparedForDispose = true;
+                lock (_connectionCloseListenerLock)
+                    CallConnectionCloseListeners();
+                DoPrepareForDispose(answeringToDisposeMsg);
+            }
+            finally
+            {
+                Monitor.Exit(_prepareForDisposeLock);
+            }
+        }
+
+        private void CallConnectionCloseListeners()
+        {
+            foreach (ConnectionCloseListener listener in connectionCloseListeners)
+                listener.Invoke(this);
+        }
+
+        protected abstract void DoPrepareForDispose(bool answeringToDisposeMsg);
+
         public void Dispose()
         {
-            if (isDisposing)
-                return;
-            isDisposing = true;
-            DoDispose();
+            lock (_disposeLock)
+            {
+                if (isDisposing)
+                    return;
+                isDisposing = true;
+            }
+            PrepareForDispose(false);
             isDisposed = true;
+            DoDispose();
         }
 
         protected virtual void DoDispose()
