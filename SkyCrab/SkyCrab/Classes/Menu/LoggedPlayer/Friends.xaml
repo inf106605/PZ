@@ -40,9 +40,9 @@
             </Viewbox>
             <Grid Grid.Row="3">
                 <UniformGrid Columns="3">
-                    <Button x:Name="addFriendButton" Content="DODAJ" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
-                    <Button x:Name="deleteFriendButton" Content="USUŃ" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
-                    <Button x:Name="beginChatWithFriendButton" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8">
+                    <Button x:Name="addFriendButton" Content="DODAJ" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="addFriendButton_Click"></Button>
+                    <Button x:Name="deleteFriendButton" Content="USUŃ" Margin="5,0,5,5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Height="31" VerticalAlignment="Bottom" Click="deleteFriendButton_Click"></Button>
+                    <Button x:Name="beginChatWithFriendButton" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="beginChatWithFriendButton_Click">
                         <TextBlock TextWrapping="Wrap" TextAlignment="Center">WYŚLIJ WIADOMOŚĆ</TextBlock>
                     </Button>
                 </UniformGrid>
@@ -53,15 +53,21 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Viewbox Grid.Column="0" Margin="10">
-                    <TextBlock Text="Szukaj" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
-                </Viewbox>
-                
-                <TextBox Grid.Column="1" MaxLines="1" Margin="5"></TextBox>
-               
+
+                <TextBlock Grid.Column="0" FontSize="15" VerticalAlignment="Center" Text="TWOI ZNAJOMI" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
+                <TextBlock Text="Szukaj" FontSize="15" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
+
+
+                <TextBox x:Name="searchTextBox" Grid.Column="2" MaxLines="1" Margin="5" MaxLength="50" TextChanged="TextBox_TextChanged"></TextBox>
+
             </Grid>
             <Grid Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible"></ListBox>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ListBox x:Name="FriendsListBox" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListPlayers}" SelectionChanged="ListBox_SelectionChanged"></ListBox>
+                <ListBox x:Name="FriendSearchListBox" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListBoxSearchingPlayers}" ></ListBox>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >

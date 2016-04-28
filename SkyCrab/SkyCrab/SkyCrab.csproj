@@ -92,6 +92,7 @@
     <Compile Include="Classes\Menu\LoggedPlayer\CreateRoomForLoggedPlayers.xaml.cs">
       <DependentUpon>CreateRoomForLoggedPlayers.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\FriendPlayer.cs" />
     <Compile Include="Classes\Menu\LoggedPlayer\Friends.xaml.cs">
       <DependentUpon>Friends.xaml</DependentUpon>
     </Compile>
