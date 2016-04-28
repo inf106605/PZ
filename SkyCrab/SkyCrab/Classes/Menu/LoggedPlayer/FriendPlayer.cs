@@ -13,18 +13,20 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 {
     class FriendPlayer
     {
-        ObservableCollection<string> ListOfPlayers = null;
-        ObservableCollection<string> ListSearchingPlayers = null;
+        public ObservableCollection<string> ListOfFriends = null; // lista znajomych
+        public List<Player> ListFriendFromServer = null;
+        public ObservableCollection<string> ListSearchingPlayers = null; // lista wszystkich graczy , których można dodać do znajomych
+        public List<Player> listSearchngPlayers = null;
 
-        public ObservableCollection<string> ListPlayers
+        public ObservableCollection<string> ListPlayers // lista znajomych ( bindowanie )
         {
                 get
                 {
-                     return ListOfPlayers;
+                     return ListOfFriends;
                 }
         }
 
-        public ObservableCollection<string> ListBoxSearchingPlayers
+        public ObservableCollection<string> ListBoxSearchingPlayers // lista wyszukiwanych graczy na podstawie wpisanego tekstu ( bindowanie ) 
         {
             get
             {
@@ -32,9 +34,29 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
         }
 
+        public List<Player> ListPlayer // lista znajomych z serwera 
+        {
+            get
+            {
+                return ListFriendFromServer;
+            }
+        }
+
+        public uint GetIdPlayerFromList(string nick)
+        {
+            var zmienna = listSearchngPlayers.Where(x => x.Nick == nick).Single().Id;
+            MessageBox.Show(zmienna.ToString());
+            return zmienna;
+        }
+
         public void GetPlayersFromServerToList(string nick)
         {
             ListSearchingPlayers.Add(nick);
+        }
+
+        public void AddPlayerToFriend(string nick)
+        {
+            ListOfFriends.Add(nick);
         }
 
         public void ClearListBoxSearchingPlayers()
@@ -45,6 +67,8 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         public FriendPlayer()
         {
             ListSearchingPlayers = new ObservableCollection<string>();
+
+            ListFriendFromServer = new List<Player>();
 
             var getFriendMsgAnswer = GetFriendsMsg.SyncPostGetFriends(App.clientConn, 1000);
 
@@ -74,12 +98,12 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             if (answerValue.messageId == MessageId.PLAYER_LIST)
             {
-                List<Player> listPlayerTemp = (List<Player>)answerValue.message;
-                ListOfPlayers = new ObservableCollection<string>();
+                ListFriendFromServer = (List<Player>)answerValue.message; // lista znajomych 
+                ListOfFriends = new ObservableCollection<string>(); // nicki na liście znajomych
 
-                for(int i = 0; i < listPlayerTemp.Count; i++)
+                for(int i = 0; i < ListFriendFromServer.Count; i++)
                 {
-                    ListOfPlayers.Add(listPlayerTemp[i].Nick);
+                    ListOfFriends.Add(ListFriendFromServer[i].Nick);
                 }
 
                 return;

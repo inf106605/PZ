@@ -48,14 +48,103 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         private void addFriendButton_Click(object sender, RoutedEventArgs e)
         {
 
+
+            foreach ( var item in FriendSearchListBox.SelectedItems)
+            {
+                MessageBox.Show(item.ToString());
+                if(!friendPlayer.ListPlayers.Contains(item.ToString()))
+                {
+                    var addFriendMsgAnswer = AddFriendMsg.SyncPostAddFriend(App.clientConn, friendPlayer.GetIdPlayerFromList(item.ToString()), 1000);
+
+                    if (!addFriendMsgAnswer.HasValue)
+                    {
+                        MessageBox.Show("Brak odpowiedzi od serwera!");
+                        return;
+                    }
+
+                    var answerValue = addFriendMsgAnswer.Value;
+
+                    if (answerValue.messageId == MessageId.ERROR)
+                    {
+                        ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                        switch (errorCode)
+                        {
+                            case ErrorCode.NOT_LOGGED3:
+                                {
+                                    MessageBox.Show("Nie jesteś zalogowany!");
+                                    break;
+                                }
+                            case ErrorCode.FRIEND_ALREADY_ADDED:
+                                {
+                                    MessageBox.Show("Już dodałeś tego znajomego!");
+                                    break;
+                                }
+                            case ErrorCode.FOREVER_ALONE:
+                                {
+                                    MessageBox.Show("Próbujesz dodać do znajomych samego siebie!");
+                                    break;
+                                }
+                        }
+
+                        return;
+                    }
+
+                    if (answerValue.messageId == MessageId.OK)
+                    {
+                        friendPlayer.AddPlayerToFriend(item.ToString());
+
+                        var getFriendMsgAnswer = GetFriendsMsg.SyncPostGetFriends(App.clientConn, 1000);
+                        if (!getFriendMsgAnswer.HasValue)
+                        {
+                            MessageBox.Show("Brak odpowiedzi od serwera!");
+                            return;
+                        }
+                        var answerValue1 = getFriendMsgAnswer.Value;
+
+                        if (answerValue.messageId == MessageId.ERROR)
+                        {
+                            ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                            switch (errorCode)
+                            {
+                                case ErrorCode.NOT_LOGGED2:
+                                    {
+                                        MessageBox.Show("Nie jesteś zalogowany!");
+                                        break;
+                                    }
+                            }
+
+                            return;
+                        }
+
+                        if (answerValue.messageId == MessageId.PLAYER_LIST)
+                        {
+                            friendPlayer.ListFriendFromServer = (List<Player>)answerValue.message; // lista znajomych 
+                            friendPlayer.ListOfFriends = new ObservableCollection<string>(); // nicki na liście znajomych
+
+                            for (int i = 0; i < friendPlayer.ListFriendFromServer.Count; i++)
+                            {
+                                friendPlayer.ListOfFriends.Add(friendPlayer.ListFriendFromServer[i].Nick);
+                            }
+
+                            return;
+                        }
+
+
+                        MessageBox.Show("Dodano nowego znajomego");
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Masz już takiego znajomego");
+                    return;
+                }
+            }
         }
 
         private void deleteFriendButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void beginChatWithFriendButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -76,11 +165,10 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             if (answerValue.messageId == MessageId.PLAYER_LIST)
             {
-                List<Player> listPlayerTemp = (List<Player>)answerValue.message;
-
-                for (int i = 0; i < listPlayerTemp.Count; i++)
+                friendPlayer.listSearchngPlayers = (List<Player>)answerValue.message;
+                for (int i = 0; i < friendPlayer.listSearchngPlayers.Count; i++)
                 {
-                    friendPlayer.GetPlayersFromServerToList(listPlayerTemp[i].Nick);
+                    friendPlayer.GetPlayersFromServerToList(friendPlayer.listSearchngPlayers[i].Nick);
                 }
 
                 return;
