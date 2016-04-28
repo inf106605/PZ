@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using System;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
@@ -29,12 +30,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             return playerId;
         }
         
-        public static MessageConnection.MessageInfo? SyncPostRemoveFriend(MessageConnection connection, UInt32 playerId, int timeout)
+        public static MessageInfo? SyncPostRemoveFriend(MessageConnection connection, UInt32 playerId, int timeout)
         {
             return SyncPost((callback, state) => AsyncPostRemoveFriend(connection, playerId, callback, state), timeout);
         }
 
-        public static void AsyncPostRemoveFriend(MessageConnection connection, UInt32 playerId, MessageConnection.AnswerCallback callback, object state = null)
+        public static void AsyncPostRemoveFriend(MessageConnection connection, UInt32 playerId, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

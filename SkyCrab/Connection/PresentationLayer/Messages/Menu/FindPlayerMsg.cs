@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Common_classes;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
+using SkyCrab.Connection.PresentationLayer.MessageConnections;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
@@ -29,12 +30,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             return searchPhrase;
         }
 
-        public static MessageConnection.MessageInfo? SyncPostGetFriends(MessageConnection connection, string searchPhrase, int timeout)
+        public static MessageInfo? SyncPostGetFriends(MessageConnection connection, string searchPhrase, int timeout)
         {
             return SyncPost((callback, state) => AsyncPostFindPlayer(connection, searchPhrase, callback, state), timeout);
         }
 
-        public static void AsyncPostFindPlayer(MessageConnection connection, string searchPhrase, MessageConnection.AnswerCallback callback, object state = null)
+        public static void AsyncPostFindPlayer(MessageConnection connection, string searchPhrase, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {

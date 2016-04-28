@@ -1,5 +1,7 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
+using SkyCrab.Connection.PresentationLayer.MessageConnections;
+using static SkyCrab.Connection.PresentationLayer.MessageConnection;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
@@ -29,12 +31,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
             return profile;
         }
         
-        public static MessageConnection.MessageInfo? SyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, int timeout)
+        public static MessageInfo? SyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, int timeout)
         {
             return SyncPost((callback, state) => AsyncPostRegister(connection, playerProfile, callback, state), timeout);
         }
 
-        public static void AsyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        public static void AsyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
