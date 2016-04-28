@@ -3,6 +3,7 @@ using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
@@ -31,6 +32,8 @@ namespace SkyCrabServer
                 processingMessagesOk = true;
                 switch (messageInfo.messageId)
                 {
+                    //common
+
                     case MessageId.DISCONNECT:
                         CloseConnection();
                         break;
@@ -44,6 +47,8 @@ namespace SkyCrabServer
                         DisconnectMsg.AsyncPostDisconnect(this);
                         CloseConnection();
                         break;
+
+                    //menu
 
                     case MessageId.LOGIN:
                         Login((PlayerProfile)messageInfo.message);
@@ -61,6 +66,24 @@ namespace SkyCrabServer
                         EditProfile((PlayerProfile)messageInfo.message);
                         break;
 
+                    case MessageId.GET_FRIENDS:
+                        GetFriends();
+                        break;
+
+                    case MessageId.FIND_PLAYER:
+                        FindFriends((string) messageInfo.message);
+                        break;
+
+                    case MessageId.ADD_FRIEND:
+                        AddFriend((UInt32) messageInfo.message);
+                        break;
+
+                    case MessageId.REMOVE_FRIEND:
+                        RemoveFriend((UInt32)messageInfo.message);
+                        break;
+                    
+                    //unknown
+                    
                     default:
                         throw new UnsuportedMessageException();
                 }
@@ -133,6 +156,49 @@ namespace SkyCrabServer
                 OkMsg.AsyncPostOk(this);
             else
                 ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.NICK_IS_TOO_SHITTY, ErrorCode.PASSWORD_TOO_SHORT2, ErrorCode.EMAIL_OCCUPIED2));
+        }
+
+        private void GetFriends()
+        {
+            //TODO undummy this method
+            if (RandBool)
+            {
+                List<Player> players = new List<Player>();
+                players.Add(new Player((uint)random.Next(), RandBool, RandBool ? "Korwin Krul" : "Może Bałtydzkie"));
+                players.Add(new Player((uint)random.Next(), RandBool, RandBool ? "LOLCAT ;-)" : "20000000 koni mechanicznych"));
+                PlayerListMsg.AsyncPostPlayerList(this, players);
+            }
+            else
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED2);
+            }
+        }
+
+        private void FindFriends(string searchPhrase)
+        {
+            //TODO undummy this method
+            List<Player> players = new List<Player>();
+            players.Add(new Player((uint)random.Next(), RandBool, RandBool ? "Ania26" : "Skrablenator 5000"));
+            players.Add(new Player((uint)random.Next(), RandBool, RandBool ? "Liter" : "Roman"));
+            PlayerListMsg.AsyncPostPlayerList(this, players);
+        }
+
+        private void AddFriend(UInt32 idFriend)
+        {
+            //TODO undummy this method
+            if (RandBool)
+                OkMsg.AsyncPostOk(this);
+            else
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.NOT_LOGGED3, ErrorCode.FRIEND_ALREADY_ADDED, ErrorCode.FOREVER_ALONE));
+        }
+
+        private void RemoveFriend(UInt32 idFriend)
+        {
+            //TODO undummy this method
+            if (RandBool)
+                OkMsg.AsyncPostOk(this);
+            else
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.NOT_LOGGED4, ErrorCode.NO_SUCH_FRIEND));
         }
 
         private ErrorCode RandErrorCode(params ErrorCode[] errorCodes) //TODO remove when will be not used
