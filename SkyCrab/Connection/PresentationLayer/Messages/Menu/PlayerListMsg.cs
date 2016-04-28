@@ -27,7 +27,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            List<Player> players = connection.SyncReadData(ListTranscoder<Player>.Get(PlayerTranscoder.Get));
+            List<Player> players = ListTranscoder<Player>.Get(PlayerTranscoder.Get).Read(connection);
             return players;
         }
 
@@ -35,7 +35,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
         {
             MessageConnection.MessageProcedure messsageProc = (writingBlock) =>
             {
-                connection.AsyncWriteData(ListTranscoder<Player>.Get(PlayerTranscoder.Get), writingBlock, players);
+                ListTranscoder<Player>.Get(PlayerTranscoder.Get).Write(connection, writingBlock, players);
             };
             connection.PostMessage(MessageId.PLAYER_LIST, messsageProc);
         }

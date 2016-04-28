@@ -16,17 +16,17 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         {
         }
 
-        public long Read(DataConnection dataConnection)
+        public long Read(EncryptedConnection connection)
         {
-            UInt64 udata = UInt64Transcoder.Get.Read(dataConnection);
+            UInt64 udata = UInt64Transcoder.Get.Read(connection);
             Int64 data = (Int64)udata;
             return data;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, long data)
+        public void Write(EncryptedConnection connection, object writingBlock, long data)
         {
             UInt64 udata = (UInt64)data;
-            UInt64Transcoder.Get.Write(dataConnection, writingBlock, udata);
+            UInt64Transcoder.Get.Write(connection, writingBlock, udata);
         }
 
     }

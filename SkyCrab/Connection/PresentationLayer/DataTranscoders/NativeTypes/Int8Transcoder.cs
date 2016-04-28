@@ -14,17 +14,17 @@
         {
         }
 
-        public sbyte Read(DataConnection dataConnection)
+        public sbyte Read(EncryptedConnection connection)
         {
-            byte[] bytes = dataConnection.SyncReadBytes(1);
+            byte[] bytes = connection.SyncReadBytes(1);
             sbyte result = (sbyte)bytes[0];
             return result;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, sbyte data)
+        public void Write(EncryptedConnection connection, object writingBlock, sbyte data)
         {
             byte[] bytes = new byte[1] { (byte)data };
-            dataConnection.AsyncWriteBytes(writingBlock, bytes);
+            connection.AsyncWriteBytes(writingBlock, bytes);
         }
 
     }

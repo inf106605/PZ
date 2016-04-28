@@ -17,7 +17,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
         {
         }
 
-        public Player Read(DataConnection connection)
+        public Player Read(EncryptedConnection connection)
         {
             uint id = UInt32Transcoder.Get.Read(connection);
             bool hasProfile = BoolTranscoder.Get.Read(connection);
@@ -36,7 +36,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
             return player;
         }
 
-        public void Write(DataConnection connection, object writingBlock, Player data)
+        public void Write(EncryptedConnection connection, object writingBlock, Player data)
         {
             UInt32Transcoder.Get.Write(connection, writingBlock, data.Id);
             BoolTranscoder.Get.Write(connection, writingBlock, data.Profile != null);

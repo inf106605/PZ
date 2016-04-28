@@ -1,4 +1,4 @@
-﻿using SkyCrab.Connection.PresentationLayer;
+﻿using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using System;
 using System.Threading;
 
@@ -8,18 +8,18 @@ namespace SkyCrab.Connection.Utils
     {
 
         private Semaphore semaphore = new Semaphore(0, 1);
-        private MessageConnection.MessageInfo? answer;
+        private MessageInfo? answer;
         private object _lock = new object();
 
 
 
-        public MessageConnection.MessageInfo? Answer
+        public MessageInfo? Answer
         {
             get { return answer; }
         }
 
 
-        public static MessageConnection.AnswerCallback Callback
+        public static AnswerCallback Callback
         {
             get { return RunSyncWriteCallbackBody; }
         }
@@ -30,7 +30,7 @@ namespace SkyCrab.Connection.Utils
             semaphore.WaitOne(timeout);
         }
 
-        private static void RunSyncWriteCallbackBody(MessageConnection.MessageInfo? answer, object state)
+        private static void RunSyncWriteCallbackBody(MessageInfo? answer, object state)
         {
             AnswerSynchronizer synchronizer = (AnswerSynchronizer)state;
             synchronizer.answer = answer;
