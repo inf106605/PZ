@@ -39,7 +39,6 @@ namespace SkyCrab.Connection.PresentationLayer
         private Timer pingTimer;
         protected BlockingCollection<MessageInfo> messages = new BlockingCollection<MessageInfo>(new ConcurrentQueue<MessageInfo>());
         private AnswerQueue answerQueue = new AnswerQueue();
-        private volatile bool stoping = false;
         protected bool processingMessagesOk;
 
 
@@ -88,7 +87,7 @@ namespace SkyCrab.Connection.PresentationLayer
             BeginReadingBlock();
             while (true)
             {
-                if (stoping)
+                if (disposed)
                     break;
                 TryReadMessage();
             }
@@ -103,7 +102,8 @@ namespace SkyCrab.Connection.PresentationLayer
                 AbstractMessage message;
                 if (!messageTypes.TryGetValue(messageId, out message))
                     throw new UnknownMessageException();
-                object messageData = message.Read(this);
+                object messageData = null;
+                messageData = message.Read(this);
                 EnqueueMessage(message, messageData);
             }
             catch (ReadTimeoutException)
@@ -126,13 +126,20 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private void PingTaskBody(object state)
         {
-            MessageInfo? messageInfo = PingMsg.SyncPostPing(this, 1000);
-            if (!messageInfo.HasValue)
+            lock (pingTimer)
             {
-                NoPongMsg noPongMsg = new NoPongMsg();
-                MessageInfo noPongMessageInfo = new MessageInfo();
-                noPongMessageInfo.messageId = noPongMsg.Id;
-                messages.Add(noPongMessageInfo);
+                if (disposed)
+                    return;
+                MessageInfo? messageInfo = PingMsg.SyncPostPing(this, 1000);
+                if (!messageInfo.HasValue)
+                {
+                    if (disposed)
+                        return;
+                    NoPongMsg noPongMsg = new NoPongMsg();
+                    MessageInfo noPongMessageInfo = new MessageInfo();
+                    noPongMessageInfo.messageId = noPongMsg.Id;
+                    messages.Add(noPongMessageInfo);
+                }
             }
         }
 
@@ -185,9 +192,10 @@ namespace SkyCrab.Connection.PresentationLayer
             EndWritingBlock(writingBlock);
         }
 
-        public override void Dispose()
+        protected override void DoDispose()
         {
             pingTimer.Dispose();
+            lock (pingTimer) {}
             CloseListeningTask();
             CloseProcessingTask();
             listeningTask.Dispose();
@@ -198,7 +206,6 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private void CloseListeningTask()
         {
-            stoping = true;
             if (!listeningTask.Wait(1000))
                 throw new TaskIsNotRespondingException();
         }

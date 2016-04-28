@@ -48,7 +48,7 @@ namespace SkyCrab.Connection.SessionLayer
                 foreach (WriteInfo writeInfo in queue.GetConsumingEnumerable())
                 {
                     writeTaskIsOk = true;
-                    if (writeInfo.bytes != null)
+                    if (!disposed && writeInfo.bytes != null)
                         base.WriteBytes(writeInfo.bytes);
                     if (writeInfo.callback != null)
                         writeInfo.callback.Invoke(writeInfo.state);
@@ -117,7 +117,7 @@ namespace SkyCrab.Connection.SessionLayer
             localWriteQueue.Add(writeInfo);
         }
 
-        public override void Dispose()
+        protected override void DoDispose()
         {
             CloseWriteTask();
             writeTask.Dispose();
