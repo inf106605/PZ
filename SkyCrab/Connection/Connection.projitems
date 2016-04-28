@@ -62,7 +62,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\MutexForThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\SkyCrabConnectionException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AnswerSynchronizer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\Synchronizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\TaskIsNotRespondingException.cs" />
   </ItemGroup>
 </Project>
