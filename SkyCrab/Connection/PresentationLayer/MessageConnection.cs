@@ -57,7 +57,7 @@ namespace SkyCrab.Connection.PresentationLayer
             addMessage(new RegisterMsg());
             addMessage(new EditProfileMsg());
             addMessage(new GetFriendsMsg());
-            addMessage(new FindPlayerMsg());
+            addMessage(new FindPlayersMsg());
             addMessage(new PlayerListMsg());
             addMessage(new AddFriendMsg());
             addMessage(new RemoveFriendMsg());

@@ -15,7 +15,7 @@
         REGISTER            = 10,
         EDIT_PROFILE        = 11,
         GET_FRIENDS         = 12,
-        FIND_PLAYER         = 13,
+        FIND_PLAYERS        = 13,
         PLAYER_LIST         = 14,
         ADD_FRIEND          = 15,
         REMOVE_FRIEND       = 16/*,

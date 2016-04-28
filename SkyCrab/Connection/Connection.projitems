@@ -46,7 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\RemoveFriendMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\EditProfileMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\ErrorMsg.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\FindPlayerMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\FindPlayersMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\GetFriendsMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\LoginMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\LoginOkMsg.cs" />
