@@ -44,17 +44,25 @@ namespace SkyCrab.Connection.SessionLayer
 
         private void RunWriteTaskBody()
         {
-            foreach (BlockingCollection<WriteInfo> queue in writeQueue.GetConsumingEnumerable())
+            try
             {
-                foreach (WriteInfo writeInfo in queue.GetConsumingEnumerable())
+                foreach (BlockingCollection<WriteInfo> queue in writeQueue.GetConsumingEnumerable())
                 {
-                    writeTaskIsOk = true;
-                    if (!isDisposed && writeInfo.bytes != null)
-                        base.WriteBytes(writeInfo.bytes);
-                    if (writeInfo.callback != null)
-                        writeInfo.callback.Invoke(writeInfo.state);
+                    foreach (WriteInfo writeInfo in queue.GetConsumingEnumerable())
+                    {
+                        writeTaskIsOk = true;
+                        if (!isDisposed && writeInfo.bytes != null)
+                            base.WriteBytes(writeInfo.bytes);
+                        if (writeInfo.callback != null)
+                            writeInfo.callback.Invoke(writeInfo.state);
+                    }
+                    queue.Dispose();
                 }
-                queue.Dispose();
+            }
+            catch (Exception e)
+            {
+                StoreException(e);
+                AsyncDispose();
             }
         }
 

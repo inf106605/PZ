@@ -78,20 +78,28 @@ namespace SkyCrab.Connection.PresentationLayer
         private void StartTasks()
         {
             listeningTask = Task.Factory.StartNew(RunListeningTaskBody, TaskCreationOptions.LongRunning);
-            processingTask = Task.Factory.StartNew(ProcessMessages, TaskCreationOptions.LongRunning);
+            processingTask = Task.Factory.StartNew(ProcessMessagesTaskBody, TaskCreationOptions.LongRunning);
             pingTimer = new Timer(PingTaskBody, null, 5000, 5000);
         }
 
         private void RunListeningTaskBody()
         {
-            BeginReadingBlock();
-            while (true)
+            try
             {
-                if (isDisposed)
-                    break;
-                TryReadMessage();
+                BeginReadingBlock();
+                while (true)
+                {
+                    if (isDisposed)
+                        break;
+                    TryReadMessage();
+                }
+                EndReadingBlock();
             }
-            EndReadingBlock();
+            catch (Exception e)
+            {
+                StoreException(e);
+                AsyncDispose();
+            }
         }
 
         private void TryReadMessage()
@@ -122,24 +130,45 @@ namespace SkyCrab.Connection.PresentationLayer
                 messages.Add(messageInfo);
         }
 
+        private void ProcessMessagesTaskBody()
+        {
+            try
+            {
+                ProcessMessages();
+            }
+            catch (Exception e)
+            {
+                StoreException(e);
+                AsyncDispose();
+            }
+        }
+
         protected abstract void ProcessMessages();
 
         private void PingTaskBody(object state)
         {
-            lock (pingTimer)
+            try
             {
-                if (isDisposing)
-                    return;
-                MessageInfo? messageInfo = PingMsg.SyncPostPing(this, 1000);
-                if (!messageInfo.HasValue)
+                lock (pingTimer)
                 {
                     if (isDisposing)
                         return;
-                    NoPongMsg noPongMsg = new NoPongMsg();
-                    MessageInfo noPongMessageInfo = new MessageInfo();
-                    noPongMessageInfo.messageId = noPongMsg.Id;
-                    messages.Add(noPongMessageInfo);
+                    MessageInfo? messageInfo = PingMsg.SyncPostPing(this, 1000);
+                    if (!messageInfo.HasValue)
+                    {
+                        if (isDisposing)
+                            return;
+                        NoPongMsg noPongMsg = new NoPongMsg();
+                        MessageInfo noPongMessageInfo = new MessageInfo();
+                        noPongMessageInfo.messageId = noPongMsg.Id;
+                        messages.Add(noPongMessageInfo);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                StoreException(e);
+                AsyncDispose();
             }
         }
 
@@ -158,11 +187,6 @@ namespace SkyCrab.Connection.PresentationLayer
             PrepareForDispose(true);
             OkDisconnectMsg.AsyncPostOkDisconnect(this);
             AsyncDispose();
-        }
-
-        protected void AsyncDispose()
-        {
-            Task.Factory.StartNew(Dispose);
         }
 
         internal void SetAnswerCallback(object writingBlock, AnswerCallback answerCallback, object state)
