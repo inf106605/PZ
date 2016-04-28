@@ -120,9 +120,9 @@ namespace SkyCrab.Connection.SessionLayer
         public override void Dispose()
         {
             CloseWriteTask();
+            writeTask.Dispose();
             readMutex.Dispose();
             writeQueue.Dispose();
-            writeTask.Dispose();
             base.Dispose();
         }
 

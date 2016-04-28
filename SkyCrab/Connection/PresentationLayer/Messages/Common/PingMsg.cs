@@ -1,4 +1,6 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
+﻿using SkyCrab.Connection.PresentationLayer.MessageConnections;
+
+namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
     /// <summary>
     /// <para>Sender: Server &amp; Client</para>
@@ -25,12 +27,12 @@
             return null;
         }
 
-        public static MessageConnection.MessageInfo? SyncPostPing(MessageConnection connection, int timeout)
+        public static MessageInfo? SyncPostPing(MessageConnection connection, int timeout)
         {
             return SyncPost((callback, state) => AsyncPostPing(connection, callback, state), timeout);
         }
 
-        public static void AsyncPostPing(MessageConnection connection, MessageConnection.AnswerCallback callback, object state = null)
+        public static void AsyncPostPing(MessageConnection connection, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

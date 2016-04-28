@@ -17,18 +17,18 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
         {
         }
 
-        public Player Read(DataConnection dataConnection)
+        public Player Read(EncryptedConnection connection)
         {
-            uint id = UInt32Transcoder.Get.Read(dataConnection);
-            PlayerProfile playerProfile = PlayerProfileTranscoder.Get.Read(dataConnection);
+            uint id = UInt32Transcoder.Get.Read(connection);
+            PlayerProfile playerProfile = PlayerProfileTranscoder.Get.Read(connection);
             Player player = new Player(id, playerProfile);
             return player;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, Player data)
+        public void Write(EncryptedConnection connection, object writingBlock, Player data)
         {
-            UInt32Transcoder.Get.Write(dataConnection, writingBlock, data.Id);
-            PlayerProfileTranscoder.Get.Write(dataConnection, writingBlock, data.Profile);
+            UInt32Transcoder.Get.Write(connection, writingBlock, data.Id);
+            PlayerProfileTranscoder.Get.Write(connection, writingBlock, data.Profile);
         }
 
     }
