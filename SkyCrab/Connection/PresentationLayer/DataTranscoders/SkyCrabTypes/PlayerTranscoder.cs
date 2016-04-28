@@ -17,18 +17,38 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
         {
         }
 
-        public Player Read(DataConnection dataConnection)
+        public Player Read(DataConnection connection)
         {
-            uint id = UInt32Transcoder.Get.Read(dataConnection);
-            PlayerProfile playerProfile = PlayerProfileTranscoder.Get.Read(dataConnection);
-            Player player = new Player(id, playerProfile);
+            uint id = UInt32Transcoder.Get.Read(connection);
+            bool hasProfile = BoolTranscoder.Get.Read(connection);
+            Player player;
+            if (hasProfile)
+            {
+                PlayerProfile playerProfile = PlayerProfileTranscoder.Get.Read(connection);
+                player = new Player(id, playerProfile);
+            }
+            else
+            {
+                bool isGuest = BoolTranscoder.Get.Read(connection);
+                string nick = StringTranscoder.Get.Read(connection);
+                player = new Player(id, isGuest, nick);
+            }
             return player;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, Player data)
+        public void Write(DataConnection connection, object writingBlock, Player data)
         {
-            UInt32Transcoder.Get.Write(dataConnection, writingBlock, data.Id);
-            PlayerProfileTranscoder.Get.Write(dataConnection, writingBlock, data.Profile);
+            UInt32Transcoder.Get.Write(connection, writingBlock, data.Id);
+            BoolTranscoder.Get.Write(connection, writingBlock, data.Profile != null);
+            if (data.Profile == null)
+            {
+                BoolTranscoder.Get.Write(connection, writingBlock, data.IsGuest);
+                StringTranscoder.Get.Write(connection, writingBlock, data.Nick);
+            }
+            else
+            {
+                PlayerProfileTranscoder.Get.Write(connection, writingBlock, data.Profile);
+            }
         }
 
     }
