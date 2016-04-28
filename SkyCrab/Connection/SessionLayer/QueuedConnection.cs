@@ -48,7 +48,7 @@ namespace SkyCrab.Connection.SessionLayer
                 foreach (WriteInfo writeInfo in queue.GetConsumingEnumerable())
                 {
                     writeTaskIsOk = true;
-                    if (!disposed && writeInfo.bytes != null)
+                    if (!isDisposing && writeInfo.bytes != null)
                         base.WriteBytes(writeInfo.bytes);
                     if (writeInfo.callback != null)
                         writeInfo.callback.Invoke(writeInfo.state);

@@ -88,7 +88,7 @@ namespace SkyCrab.Connection.PresentationLayer
             BeginReadingBlock();
             while (true)
             {
-                if (disposed)
+                if (isDisposing)
                     break;
                 TryReadMessage();
             }
@@ -129,12 +129,12 @@ namespace SkyCrab.Connection.PresentationLayer
         {
             lock (pingTimer)
             {
-                if (disposed)
+                if (isDisposing)
                     return;
                 MessageInfo? messageInfo = PingMsg.SyncPostPing(this, 1000);
                 if (!messageInfo.HasValue)
                 {
-                    if (disposed)
+                    if (isDisposing)
                         return;
                     NoPongMsg noPongMsg = new NoPongMsg();
                     MessageInfo noPongMessageInfo = new MessageInfo();
@@ -187,6 +187,8 @@ namespace SkyCrab.Connection.PresentationLayer
 
         internal void PostMessage(MessageId messageId, MessageProcedure messageProcedure)
         {
+            if (isDisposed)
+                throw new ObjectDisposedException("connection");
             object writingBlock = BeginWritingBlock();
             MessageIdTranscoder.Get.Write(this, writingBlock, messageId);
             messageProcedure.Invoke(writingBlock);

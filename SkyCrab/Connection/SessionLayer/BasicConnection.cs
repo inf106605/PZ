@@ -17,7 +17,8 @@ namespace SkyCrab.Connection.SessionLayer
         public const int PORT = 8888;
 
         private TcpClient tcpClient;
-        protected volatile bool disposed = false;
+        protected volatile bool isDisposing = false;
+        protected volatile bool isDisposed = false;
 
 
         public IPEndPoint LocalEndPoint
@@ -72,8 +73,11 @@ namespace SkyCrab.Connection.SessionLayer
 
         public void Dispose()
         {
-            disposed = true;
+            if (isDisposing)
+                return;
+            isDisposing = true;
             DoDispose();
+            isDisposed = true;
         }
 
         protected virtual void DoDispose()
