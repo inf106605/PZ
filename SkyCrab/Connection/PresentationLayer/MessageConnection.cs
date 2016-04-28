@@ -32,7 +32,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class MessageConnection : EncryptedConnection
     {
 
-        private static readonly Version version = new Version(3, 1, 0);
+        private static readonly Version version = new Version(4, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -45,6 +45,7 @@ namespace SkyCrab.Connection.PresentationLayer
         static MessageConnection()
         {
             addMessage(new DisconnectMsg());
+            addMessage(new OkDisconnectMsg());
             addMessage(new PingMsg());
             addMessage(new PongMsg());
 

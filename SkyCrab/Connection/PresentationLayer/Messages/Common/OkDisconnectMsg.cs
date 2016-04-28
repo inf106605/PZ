@@ -2,21 +2,21 @@
 {
     /// <summary>
     /// <para>Sender: Server &amp; Client</para>
-    /// <para>ID: <see cref="MessageId.DISCONNECT"/></para>
+    /// <para>ID: <see cref="MessageId.OK_DISCONNECT"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="OkDisconnectMsg"/></para>
+    /// <para>Passible answers: [none]</para>
     /// </summary>
-    public sealed class DisconnectMsg : AbstractMessage
+    public sealed class OkDisconnectMsg : AbstractMessage
     {
 
         public override MessageId Id
         {
-            get { return MessageId.DISCONNECT; }
+            get { return MessageId.OK_DISCONNECT; }
         }
 
         internal override bool Answer
         {
-            get { return false; }
+            get { return true; }
         }
 
         internal override object Read(MessageConnection connection)
@@ -29,7 +29,7 @@
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
             };
-            connection.PostMessage(MessageId.DISCONNECT, messageProcedure);
+            connection.PostMessage(MessageId.OK_DISCONNECT, messageProcedure);
         }
 
     }
