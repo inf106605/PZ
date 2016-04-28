@@ -44,15 +44,7 @@ namespace SkyCrab.Connection.SessionLayer
 
         protected virtual byte[] ReadBytes(UInt16 size)
         {
-            NetworkStream stream;
-            try
-            {
-                stream = tcpClient.GetStream();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new ReadTimeoutException(); //TODO EVEN WRONGER THAT BELOW! Repair this
-            }
+            NetworkStream stream = tcpClient.GetStream();
             byte[] bytes = new byte[size];
             UInt16 offset = 0;
             do
@@ -62,9 +54,13 @@ namespace SkyCrab.Connection.SessionLayer
                 {
                     readedBytes = (UInt16)stream.Read(bytes, offset, size - offset);
                 }
-                catch (IOException)
+                catch (IOException ex)
                 {
-                    throw new ReadTimeoutException(); //TODO WRONG! Repair this
+                    var socketExept = ex.InnerException as SocketException;
+                    if (socketExept != null && socketExept.ErrorCode == 10060)
+                        throw new ReadTimeoutException();
+                    else
+                        throw ex;
                 }
                 if (readedBytes == 0)
                     throw new ReadTimeoutException();
@@ -73,19 +69,14 @@ namespace SkyCrab.Connection.SessionLayer
             return bytes;
         }
 
-        public void Close()
+        public virtual void Dispose()
         {
             if (tcpClient != null)
             {
                 tcpClient.GetStream().Close();
                 tcpClient.Close();
+                tcpClient = null;
             }
-        }
-
-        public virtual void Dispose()
-        {
-            Close();
-            tcpClient = null;
         }
 
     }
