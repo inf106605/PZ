@@ -2,7 +2,13 @@
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
+using SkyCrab.Connection.PresentationLayer.Messages.Common.Connections;
+using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
+using SkyCrab.Connection.PresentationLayer.Messages.Common.Pings;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Connection.SessionLayer;
 using SkyCrab.Connection.Utils;
 using System;
@@ -31,7 +37,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class MessageConnection : EncryptedConnection
     {
 
-        private static readonly Version version = new Version(4, 0, 0);
+        private static readonly Version version = new Version(5, 1, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -43,27 +49,47 @@ namespace SkyCrab.Connection.PresentationLayer
 
         static MessageConnection()
         {
-            addMessage(new DisconnectMsg());
-            addMessage(new OkDisconnectMsg());
-            addMessage(new PingMsg());
-            addMessage(new PongMsg());
+            //--- Common ---
+            //Connections
+            AddMessage(new DisconnectMsg());
+            AddMessage(new OkDisconnectMsg());
+            //Pings
+            AddMessage(new PingMsg());
+            AddMessage(new PongMsg());
+            //Errors
+            AddMessage(new OkMsg());
+            AddMessage(new ErrorMsg());
 
-            addMessage(new OkMsg());
-            addMessage(new ErrorMsg());
-            addMessage(new LoginMsg());
-            addMessage(new LoginOkMsg());
-            addMessage(new LogoutMsg());
-            addMessage(new RegisterMsg());
-            addMessage(new EditProfileMsg());
-            addMessage(new GetFriendsMsg());
-            addMessage(new FindPlayersMsg());
-            addMessage(new PlayerListMsg());
-            addMessage(new AddFriendMsg());
-            addMessage(new RemoveFriendMsg());
-            //TODO more MORE!!!
+            //--- Menu ---
+            //Accounts
+            AddMessage(new LoginMsg());
+            AddMessage(new LoginOkMsg());
+            AddMessage(new LogoutMsg());
+            AddMessage(new RegisterMsg());
+            AddMessage(new EditProfileMsg());
+            //Friends
+            AddMessage(new GetFriendsMsg());
+            AddMessage(new FindPlayersMsg());
+            AddMessage(new PlayerListMsg());
+            AddMessage(new AddFriendMsg());
+            AddMessage(new RemoveFriendMsg());
+            //Rooms
+            AddMessage(new GetFriendRoomsMsg());
+            AddMessage(new FindRoomsMsg());
+            AddMessage(new RoomListMsg());
+            AddMessage(new CreateRoomMsg());
+            AddMessage(new RoomMsg());
+            //InRooms
+            AddMessage(new JoinRoomMsg());
+            AddMessage(new LeaveRoomMsg());
+            AddMessage(new PlayerJoinedMsg());
+            AddMessage(new PlayerLeavedMsg());
+            AddMessage(new PlayerReadyMsg());
+            AddMessage(new PlayerNotReadyMsg());
+            AddMessage(new ChatMsg());
         }
 
-        private static void addMessage(AbstractMessage message)
+        private static void AddMessage(AbstractMessage message)
         {
             messageTypes.Add(message.Id, message);
         }

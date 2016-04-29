@@ -2,7 +2,7 @@
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 {
-    internal sealed class UInt16Transcoder : ITranscoder<UInt16>
+    internal sealed class UInt16Transcoder : AbstractTranscoder<UInt16>
     {
 
         private static readonly UInt16Transcoder instance = new UInt16Transcoder();
@@ -16,7 +16,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         {
         }
 
-        public UInt16 Read(EncryptedConnection connection)
+        public override UInt16 Read(EncryptedConnection connection)
         {
             byte[] bytes = connection.SyncReadBytes(2);
             UInt16 data = (UInt16)(((UInt16)bytes[0]) << 8 |
@@ -24,7 +24,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             return data;
         }
 
-        public void Write(EncryptedConnection connection, object writingBlock, UInt16 data)
+        public override void Write(EncryptedConnection connection, object writingBlock, UInt16 data)
         {
             byte[] bytes = new byte[2];
             bytes[0] = (byte)(data >> 8);

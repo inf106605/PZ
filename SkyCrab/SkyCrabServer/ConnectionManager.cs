@@ -20,7 +20,7 @@ namespace SkyCrabServer
                     ServerConnection connection = new ServerConnection(tcpClient, 100); //TODO remove constant
                     Listener.serverConsole.Write("New client connected. (" + connection.ServerEndPoint.Address + ", " + connection.ClientAuthority + ")\n");
                     connections.Add(connection);
-                    connection.addConnectionCloseListener((disconectedConnection, exceptions) => OnCloseConnection((ServerConnection) disconectedConnection, exceptions));
+                    connection.AddConnectionCloseListener((disconectedConnection, exceptions) => OnCloseConnection((ServerConnection) disconectedConnection, exceptions));
                 }
                 catch (Exception e)
                 {

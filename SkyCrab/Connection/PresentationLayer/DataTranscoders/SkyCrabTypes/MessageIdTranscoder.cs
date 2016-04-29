@@ -4,7 +4,7 @@ using System;
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
 {
-    internal sealed class MessageIdTranscoder : ITranscoder<MessageId>
+    internal sealed class MessageIdTranscoder : AbstractTranscoder<MessageId>
     {
 
         private static readonly MessageIdTranscoder instance = new MessageIdTranscoder();
@@ -18,7 +18,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
         {
         }
 
-        public MessageId Read(EncryptedConnection connection)
+        public override MessageId Read(EncryptedConnection connection)
         {
             byte id = UInt8Transcoder.Get.Read(connection);
             if (!Enum.IsDefined(typeof(MessageId), id))
@@ -27,7 +27,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
             return data;
         }
 
-        public void Write(EncryptedConnection connection, object writingBlock, MessageId data)
+        public override void Write(EncryptedConnection connection, object writingBlock, MessageId data)
         {
             byte id = (byte)data;
             UInt8Transcoder.Get.Write(connection, writingBlock, id);

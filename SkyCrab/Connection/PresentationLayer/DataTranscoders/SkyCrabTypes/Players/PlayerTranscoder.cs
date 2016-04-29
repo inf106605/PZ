@@ -1,9 +1,9 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 
-namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
+namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Players
 {
-    internal sealed class PlayerTranscoder : ITranscoder<Player>
+    internal sealed class PlayerTranscoder : AbstractTranscoder<Player>
     {
 
         private static readonly PlayerTranscoder instance = new PlayerTranscoder();
@@ -17,7 +17,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
         {
         }
 
-        public Player Read(EncryptedConnection connection)
+        public override Player Read(EncryptedConnection connection)
         {
             uint id = UInt32Transcoder.Get.Read(connection);
             PlayerProfile playerProfile = PlayerProfileTranscoder.Get.Read(connection);
@@ -25,7 +25,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
             return player;
         }
 
-        public void Write(EncryptedConnection connection, object writingBlock, Player data)
+        public override void Write(EncryptedConnection connection, object writingBlock, Player data)
         {
             UInt32Transcoder.Get.Write(connection, writingBlock, data.Id);
             PlayerProfileTranscoder.Get.Write(connection, writingBlock, data.Profile);
