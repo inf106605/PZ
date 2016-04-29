@@ -31,6 +31,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         //GET_FRIEND_ROOMS
         NOT_LOGGED5             = NOT_LOGGED,
         //CREATE_ROOM
-        ALREADY_IN_ROOM         = 12
+        ALREADY_IN_ROOM         = 12,
+        //JOIN_ROOM
+        NO_SUCH_ROOM            = 13,
+        ALREADY_IN_ROOM2        = ALREADY_IN_ROOM,
+        ROOM_IS_FULL            = 14,
+        //LEAVE_ROOM
+        NOT_IN_ROOM             = 15
     }
 }

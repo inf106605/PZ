@@ -63,7 +63,7 @@ namespace SkyCrab.Common_classes.Rooms
             get { return name; }
             set
             {
-                LengthLimit.RoomName.checkAndThrow(value);
+                LengthLimit.RoomName.CheckAndThrow(value);
                 name = value;
             }
         }
@@ -100,7 +100,7 @@ namespace SkyCrab.Common_classes.Rooms
         {
             this.id = id;
             this.owner = owner;
-            LengthLimit.RoomName.checkAndThrow(name);
+            LengthLimit.RoomName.CheckAndThrow(name);
             this.name = name;
             this.roomType = roomType;
             this.rules = rules;

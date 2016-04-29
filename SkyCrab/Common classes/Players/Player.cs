@@ -25,7 +25,7 @@ namespace SkyCrab.Common_classes.Players
         {
             get { return nick; }
             set {
-                LengthLimit.Nick.checkAndThrow(value);
+                LengthLimit.Nick.CheckAndThrow(value);
                 nick = value;
                 if (profile != null)
                     profile.Nick = nick;
@@ -45,7 +45,7 @@ namespace SkyCrab.Common_classes.Players
 
         public Player(UInt32 id, bool isGuest, string nick)
         {
-            LengthLimit.Nick.checkAndThrow(nick);
+            LengthLimit.Nick.CheckAndThrow(nick);
             this.id = id;
             this.isGuest = isGuest;
             this.nick = nick;

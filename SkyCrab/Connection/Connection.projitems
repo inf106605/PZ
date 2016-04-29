@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\LimitedStringTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Players\PlayerProfileTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Players\PlayerTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Rooms\ChatMessageTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Rooms\RoomTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Rooms\RoomTypeTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Rooms\Rules\RuleSetTranscoder.cs" />
@@ -60,6 +61,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Friends\GetFriendsMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Friends\PlayerListMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Friends\RemoveFriendMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\PlayerJoinedMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\PlayerNotReadyMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\ChatMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\PlayerReadyMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\PlayerLeavedMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\LeaveRoomMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\JoinRoomMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Rooms\CreateRoomMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Rooms\FindRoomsMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Rooms\GetFriendRoomsMsg.cs" />

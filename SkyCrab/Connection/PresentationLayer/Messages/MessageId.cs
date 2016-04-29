@@ -32,11 +32,14 @@
         FIND_ROOMS          = 18,
         ROOM_LIST           = 19,
         CREATE_ROOM         = 20,
-        ROOM                = 21/*,
+        ROOM                = 21,
+        //InRooms
         JOIN_ROOM           = 22,
         LEAVE_ROOM          = 23,
         PLAYER_JOINED       = 24,
-        PLAYER_LEVED        = 25,
-        CHAT                = 26*/
+        PLAYER_LEAVED       = 25,
+        PLAYER_READY        = 26,
+        PLAYER_NOT_READY    = 27,
+        CHAT                = 28
     }
 }

@@ -7,6 +7,7 @@ using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Pings;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Connection.SessionLayer;
 using SkyCrab.Connection.Utils;
@@ -36,7 +37,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class MessageConnection : EncryptedConnection
     {
 
-        private static readonly Version version = new Version(5, 0, 0);
+        private static readonly Version version = new Version(5, 1, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -78,7 +79,14 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new RoomListMsg());
             AddMessage(new CreateRoomMsg());
             AddMessage(new RoomMsg());
-            //TODO more MORE!!!
+            //InRooms
+            AddMessage(new JoinRoomMsg());
+            AddMessage(new LeaveRoomMsg());
+            AddMessage(new PlayerJoinedMsg());
+            AddMessage(new PlayerLeavedMsg());
+            AddMessage(new PlayerReadyMsg());
+            AddMessage(new PlayerNotReadyMsg());
+            AddMessage(new ChatMsg());
         }
 
         private static void AddMessage(AbstractMessage message)
