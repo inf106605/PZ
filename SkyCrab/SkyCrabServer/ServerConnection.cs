@@ -70,7 +70,7 @@ namespace SkyCrabServer
                         break;
 
                     case MessageId.FIND_PLAYERS:
-                        FindFriends((string) messageInfo.message);
+                        FindPlayers((string) messageInfo.message);
                         break;
 
                     case MessageId.ADD_FRIEND:
@@ -163,8 +163,9 @@ namespace SkyCrabServer
             if (RandBool)
             {
                 List<Player> players = new List<Player>();
-                players.Add(new Player((uint)random.Next(), RandBool, RandBool ? "Korwin Krul" : "Może Bałtydzkie"));
-                players.Add(new Player((uint)random.Next(), RandBool, RandBool ? "LOLCAT ;-)" : "20000000 koni mechanicznych"));
+                players.Add(new Player((uint)random.Next(), false, RandBool ? "Korwin Krul" : "Może Bałtydzkie"));
+                players.Add(new Player((uint)random.Next(), false, RandBool ? "LOLCAT ;-)" : "20000000 koni mechanicznych"));
+                players.Add(new Player((uint)random.Next(), false, RandBool ? "LOLCAT ;-)" : "Korwin Krul"));
                 PlayerListMsg.AsyncPostPlayerList(this, players);
             }
             else
@@ -173,12 +174,13 @@ namespace SkyCrabServer
             }
         }
 
-        private void FindFriends(string searchPhrase)
+        private void FindPlayers(string searchPhrase)
         {
             //TODO undummy this method
             List<Player> players = new List<Player>();
-            players.Add(new Player((uint)random.Next(), RandBool, RandBool ? "Ania26" : "Skrablenator 5000"));
-            players.Add(new Player((uint)random.Next(), RandBool, RandBool ? "Liter" : "Roman"));
+            players.Add(new Player((uint)random.Next(), false, RandBool ? "Ania26" : "Skrablenator 5000"));
+            players.Add(new Player((uint)random.Next(), false, RandBool ? "Liter" : "Roman"));
+            players.Add(new Player((uint)random.Next(), false, RandBool ? "Roman" : "Skrablenator 5000"));
             PlayerListMsg.AsyncPostPlayerList(this, players);
         }
 
@@ -188,7 +190,7 @@ namespace SkyCrabServer
             if (RandBool)
                 OkMsg.AsyncPostOk(this);
             else
-                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.NOT_LOGGED3, ErrorCode.FRIEND_ALREADY_ADDED, ErrorCode.FOREVER_ALONE));
+                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.NOT_LOGGED3, ErrorCode.FRIEND_ALREADY_ADDED, ErrorCode.FOREVER_ALONE, ErrorCode.NO_SUCH_PLAYER));
         }
 
         private void RemoveFriend(UInt32 idFriend)
