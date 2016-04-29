@@ -9,7 +9,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
     /// <para>ID: <see cref="MessageId.ADD_FRIEND"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
     /// <para>Passible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
-    /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED3"/>, <see cref="ErrorCode.FRIEND_ALREADY_ADDED"/>, <see cref="ErrorCode.FOREVER_ALONE"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED3"/>, <see cref="ErrorCode.FRIEND_ALREADY_ADDED"/>, <see cref="ErrorCode.FOREVER_ALONE"/>, <see cref="ErrorCode.NO_SUCH_PLAYER"/></para>
     /// </summary>
     public sealed class AddFriendMsg : AbstractMessage
     {

@@ -2,7 +2,7 @@
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 {
-    internal sealed class VersionTranscoder : ITranscoder<Version>
+    internal sealed class VersionTranscoder : AbstractTranscoder<Version>
     {
 
         private static readonly VersionTranscoder instance = new VersionTranscoder();
@@ -16,7 +16,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         {
         }
 
-        public Version Read(EncryptedConnection connection)
+        public override Version Read(EncryptedConnection connection)
         {
             Int32 major = Int32Transcoder.Get.Read(connection);
             Int32 minor = Int32Transcoder.Get.Read(connection);
@@ -39,7 +39,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             }
         }
 
-        public void Write(EncryptedConnection connection, object writingBlock, Version data)
+        public override void Write(EncryptedConnection connection, object writingBlock, Version data)
         {
             Int32Transcoder.Get.Write(connection, writingBlock, data.Major);
             Int32Transcoder.Get.Write(connection, writingBlock, data.Minor);

@@ -4,7 +4,7 @@ using System;
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
 {
-    internal sealed class ErrorCodeTranscoder : ITranscoder<ErrorCode>
+    internal sealed class ErrorCodeTranscoder : AbstractTranscoder<ErrorCode>
     {
 
         private static readonly ErrorCodeTranscoder instance = new ErrorCodeTranscoder();
@@ -18,7 +18,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
         {
         }
 
-        public ErrorCode Read(EncryptedConnection connection)
+        public override ErrorCode Read(EncryptedConnection connection)
         {
             UInt16 code = UInt16Transcoder.Get.Read(connection);
             if (!Enum.IsDefined(typeof(ErrorCode), code))
@@ -27,7 +27,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
             return data;
         }
 
-        public void Write(EncryptedConnection connection, object writingBlock, ErrorCode data)
+        public override void Write(EncryptedConnection connection, object writingBlock, ErrorCode data)
         {
             UInt16 code = (UInt16)data;
             UInt16Transcoder.Get.Write(connection, writingBlock, code);

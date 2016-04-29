@@ -12,7 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ApplicationLayer\AbstractClientConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ApplicationLayer\AbstractServerConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\ClientEncryptedConnection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\ITranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\AbstractTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\BoolTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\DateTimeTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\Int32Transcoder.cs" />
@@ -27,9 +27,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\VersionTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\ErrorCodeTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\LimitedStringTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\RoomTypeTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\MessageIdTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\PlayerProfileTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\PlayerTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\RoomTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\RuleSetTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\RuleTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\TimeRuleTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\ValueIsNotInEnumException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\EncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnection.cs" />
@@ -43,6 +48,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\PongMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\PingMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\ErrorCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\FindRoomsMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\GetFriendRoomsMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\CreateRoomMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\RemoveFriendMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\EditProfileMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\ErrorMsg.cs" />
@@ -55,6 +63,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\OkMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\PlayerListMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\RegisterMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\RoomMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\RoomListMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\MessageId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\ServerEncryptedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SessionLayer\BasicConnection.cs" />

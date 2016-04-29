@@ -31,7 +31,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class MessageConnection : EncryptedConnection
     {
 
-        private static readonly Version version = new Version(4, 0, 0);
+        private static readonly Version version = new Version(5, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -43,27 +43,33 @@ namespace SkyCrab.Connection.PresentationLayer
 
         static MessageConnection()
         {
-            addMessage(new DisconnectMsg());
-            addMessage(new OkDisconnectMsg());
-            addMessage(new PingMsg());
-            addMessage(new PongMsg());
-
-            addMessage(new OkMsg());
-            addMessage(new ErrorMsg());
-            addMessage(new LoginMsg());
-            addMessage(new LoginOkMsg());
-            addMessage(new LogoutMsg());
-            addMessage(new RegisterMsg());
-            addMessage(new EditProfileMsg());
-            addMessage(new GetFriendsMsg());
-            addMessage(new FindPlayersMsg());
-            addMessage(new PlayerListMsg());
-            addMessage(new AddFriendMsg());
-            addMessage(new RemoveFriendMsg());
+            //Common
+            AddMessage(new DisconnectMsg());
+            AddMessage(new OkDisconnectMsg());
+            AddMessage(new PingMsg());
+            AddMessage(new PongMsg());
+            //Menu
+            AddMessage(new OkMsg());
+            AddMessage(new ErrorMsg());
+            AddMessage(new LoginMsg());
+            AddMessage(new LoginOkMsg());
+            AddMessage(new LogoutMsg());
+            AddMessage(new RegisterMsg());
+            AddMessage(new EditProfileMsg());
+            AddMessage(new GetFriendsMsg());
+            AddMessage(new FindPlayersMsg());
+            AddMessage(new PlayerListMsg());
+            AddMessage(new AddFriendMsg());
+            AddMessage(new RemoveFriendMsg());
+            AddMessage(new GetFriendRoomsMsg());
+            AddMessage(new FindRoomsMsg());
+            AddMessage(new RoomListMsg());
+            AddMessage(new CreateRoomMsg());
+            AddMessage(new RoomMsg());
             //TODO more MORE!!!
         }
 
-        private static void addMessage(AbstractMessage message)
+        private static void AddMessage(AbstractMessage message)
         {
             messageTypes.Add(message.Id, message);
         }

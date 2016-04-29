@@ -27,6 +27,10 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         NO_SUCH_PLAYER          = 10,
         //REMOVE_FRIEND
         NOT_LOGGED4             = NOT_LOGGED,
-        NO_SUCH_FRIEND          = 11
+        NO_SUCH_FRIEND          = 11,
+        //GET_FRIEND_ROOMS
+        NOT_LOGGED5             = NOT_LOGGED,
+        //CREATE_ROOM
+        ALREADY_IN_ROOM         = 12
     }
 }
