@@ -36,7 +36,7 @@ namespace SkyCrabServer
                     //common
 
                     case MessageId.DISCONNECT:
-                        CloseConnection();
+                        AnswerDisconnect(messageInfo.message);
                         break;
 
                     case MessageId.PING:
@@ -45,8 +45,7 @@ namespace SkyCrabServer
 
                     case MessageId.NO_PONG:
                         WriteToConsole("No answer to PING! (" + ClientEndPoint.Port + ")\n");
-                        DisconnectMsg.AsyncPostDisconnect(this);
-                        CloseConnection();
+                        AsyncDispose();
                         break;
 
                     //menu
@@ -211,16 +210,6 @@ namespace SkyCrabServer
         private bool RandBool //TODO remove when will be not used
         {
             get { return random.NextDouble() > 0.5; }
-        }
-
-        private void CloseConnection()
-        {
-            Task.Factory.StartNew(CloseThreadBody);
-        }
-
-        private void CloseThreadBody()
-        {
-            ConnectionManager.Close(this);
         }
 
     }
