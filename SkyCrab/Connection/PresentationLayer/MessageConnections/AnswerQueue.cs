@@ -64,14 +64,6 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
 
         public void Dispose()
         {
-            Stop();
-            requestSemaphore.Dispose();
-            answerSemaphore.Dispose();
-            task.Dispose();
-        }
-
-        public void Stop()
-        {
             lock (requests)
                 requests.Enqueue(null);
             requestSemaphore.Release();
@@ -84,6 +76,9 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
                 foreach (AnswerCallbackWithState? request in requests)
                     if (request.HasValue)
                         SendDummyAnswer(request.Value);
+            requestSemaphore.Dispose();
+            answerSemaphore.Dispose();
+            task.Dispose();
         }
 
         private void SendDummyAnswer(AnswerCallbackWithState request)

@@ -16,16 +16,17 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         EMAIL_OCCUPIED          = 6,
         //EDIT_PROFILE
         NICK_IS_TOO_SHITTY      = 7,
-        PASSWORD_TOO_SHORT2     = 5,
-        EMAIL_OCCUPIED2         = 6,
+        PASSWORD_TOO_SHORT2     = PASSWORD_TOO_SHORT,
+        EMAIL_OCCUPIED2         = EMAIL_OCCUPIED,
         //GET_FRIENDS
-        NOT_LOGGED2             = 3,
+        NOT_LOGGED2             = NOT_LOGGED,
         //ADD_FRIEND
-        NOT_LOGGED3             = 3,
+        NOT_LOGGED3             = NOT_LOGGED,
         FRIEND_ALREADY_ADDED    = 8,
         FOREVER_ALONE           = 9,
+        NO_SUCH_PLAYER          = 10,
         //REMOVE_FRIEND
-        NOT_LOGGED4             = 3,
-        NO_SUCH_FRIEND          = 10
+        NOT_LOGGED4             = NOT_LOGGED,
+        NO_SUCH_FRIEND          = 11
     }
 }
