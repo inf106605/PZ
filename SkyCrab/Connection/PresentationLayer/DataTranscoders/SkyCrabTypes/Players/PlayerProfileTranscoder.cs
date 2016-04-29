@@ -2,7 +2,7 @@
 using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 
-namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
+namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Players
 {
     internal sealed class PlayerProfileTranscoder : AbstractTranscoder<PlayerProfile>
     {

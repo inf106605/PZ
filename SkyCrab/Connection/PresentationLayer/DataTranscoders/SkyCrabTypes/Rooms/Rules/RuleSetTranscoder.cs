@@ -1,7 +1,7 @@
 ﻿using SkyCrab.Common_classes.Rooms.Rules;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 
-namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
+namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms.Rules
 {
     internal sealed class RuleSetTranscoder : AbstractTranscoder<RuleSet>
     {

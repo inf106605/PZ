@@ -2,7 +2,7 @@
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using System;
 
-namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
+namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms
 {
     internal sealed class RoomTypeTranscoder : AbstractTranscoder<RoomType>
     {

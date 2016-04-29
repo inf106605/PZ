@@ -1,7 +1,6 @@
 ﻿using SkyCrab.Common_classes.Players;
-using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Players;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
-using static SkyCrab.Connection.PresentationLayer.MessageConnection;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {

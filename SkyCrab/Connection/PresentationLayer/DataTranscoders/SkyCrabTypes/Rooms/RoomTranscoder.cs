@@ -3,8 +3,10 @@ using SkyCrab.Common_classes.Players;
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Common_classes.Rooms.Rules;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Players;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms.Rules;
 
-namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
+namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms
 {
     internal sealed class RoomTranscoder : AbstractTranscoder<Room>
     {

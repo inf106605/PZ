@@ -1,5 +1,5 @@
 ﻿using SkyCrab.Common_classes.Rooms;
-using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu

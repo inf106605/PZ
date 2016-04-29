@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
-using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms;
 using System.Collections.Generic;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
