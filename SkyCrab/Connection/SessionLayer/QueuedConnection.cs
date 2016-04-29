@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkyCrab.Connection.SessionLayer
@@ -43,17 +44,25 @@ namespace SkyCrab.Connection.SessionLayer
 
         private void RunWriteTaskBody()
         {
-            foreach (BlockingCollection<WriteInfo> queue in writeQueue.GetConsumingEnumerable())
+            try
             {
-                foreach (WriteInfo writeInfo in queue.GetConsumingEnumerable())
+                foreach (BlockingCollection<WriteInfo> queue in writeQueue.GetConsumingEnumerable())
                 {
-                    writeTaskIsOk = true;
-                    if (writeInfo.bytes != null)
-                        base.WriteBytes(writeInfo.bytes);
-                    if (writeInfo.callback != null)
-                        writeInfo.callback.Invoke(writeInfo.state);
+                    foreach (WriteInfo writeInfo in queue.GetConsumingEnumerable())
+                    {
+                        writeTaskIsOk = true;
+                        if (!isDisposed && writeInfo.bytes != null)
+                            base.WriteBytes(writeInfo.bytes);
+                        if (writeInfo.callback != null)
+                            writeInfo.callback.Invoke(writeInfo.state);
+                    }
+                    queue.Dispose();
                 }
-                queue.Dispose();
+            }
+            catch (Exception e)
+            {
+                StoreException(e);
+                AsyncDispose();
             }
         }
 
@@ -117,12 +126,23 @@ namespace SkyCrab.Connection.SessionLayer
             localWriteQueue.Add(writeInfo);
         }
 
-        public override void Dispose()
+        protected override void DoPrepareForDispose(bool answeringForDisconnectMsg)
+        {
+            for (int i = 0; i != 100; ++i)
+            {
+                if (writeQueue.Count == 0)
+                    break;
+                else
+                    Thread.Sleep(10);
+            }
+        }
+
+        protected override void DoDispose()
         {
             CloseWriteTask();
+            writeTask.Dispose();
             readMutex.Dispose();
             writeQueue.Dispose();
-            writeTask.Dispose();
             base.Dispose();
         }
 

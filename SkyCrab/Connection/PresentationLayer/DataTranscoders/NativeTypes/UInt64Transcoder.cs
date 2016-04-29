@@ -16,9 +16,9 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         {
         }
 
-        public ulong Read(DataConnection dataConnection)
+        public ulong Read(EncryptedConnection connection)
         {
-            byte[] bytes = dataConnection.SyncReadBytes(8);
+            byte[] bytes = connection.SyncReadBytes(8);
             UInt64 data = ((UInt64)bytes[0]) << 56 |
                             ((UInt64)bytes[1]) << 48 |
                             ((UInt64)bytes[2]) << 40 |
@@ -30,7 +30,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             return data;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, ulong data)
+        public void Write(EncryptedConnection connection, object writingBlock, ulong data)
         {
             byte[] bytes = new byte[8];
             bytes[0] = (byte)(data >> 56);
@@ -41,7 +41,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             bytes[5] = (byte)(data >> 16);
             bytes[6] = (byte)(data >> 8);
             bytes[7] = (byte)(data >> 0);
-            dataConnection.AsyncWriteBytes(writingBlock, bytes);
+            connection.AsyncWriteBytes(writingBlock, bytes);
         }
 
     }

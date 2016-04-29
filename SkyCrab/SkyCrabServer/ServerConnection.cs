@@ -1,11 +1,11 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.AplicationLayer;
+using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace SkyCrabServer
 {
@@ -35,7 +35,7 @@ namespace SkyCrabServer
                     //common
 
                     case MessageId.DISCONNECT:
-                        CloseConnection();
+                        AnswerDisconnect(messageInfo.message);
                         break;
 
                     case MessageId.PING:
@@ -44,8 +44,7 @@ namespace SkyCrabServer
 
                     case MessageId.NO_PONG:
                         WriteToConsole("No answer to PING! (" + ClientEndPoint.Port + ")\n");
-                        DisconnectMsg.AsyncPostDisconnect(this);
-                        CloseConnection();
+                        AsyncDispose();
                         break;
 
                     //menu
@@ -70,7 +69,7 @@ namespace SkyCrabServer
                         GetFriends();
                         break;
 
-                    case MessageId.FIND_PLAYER:
+                    case MessageId.FIND_PLAYERS:
                         FindFriends((string) messageInfo.message);
                         break;
 
@@ -210,16 +209,6 @@ namespace SkyCrabServer
         private bool RandBool //TODO remove when will be not used
         {
             get { return random.NextDouble() > 0.5; }
-        }
-
-        private void CloseConnection()
-        {
-            Task.Factory.StartNew(CloseThreadBody);
-        }
-
-        private void CloseThreadBody()
-        {
-            ConnectionManager.Close(this);
         }
 
     }

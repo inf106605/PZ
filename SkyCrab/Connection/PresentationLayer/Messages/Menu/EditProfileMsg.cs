@@ -1,5 +1,7 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
+using SkyCrab.Connection.PresentationLayer.MessageConnections;
+using static SkyCrab.Connection.PresentationLayer.MessageConnection;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 {
@@ -25,20 +27,20 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
 
         internal override object Read(MessageConnection connection)
         {
-            PlayerProfile playerProfile = connection.SyncReadData(PlayerProfileTranscoder.Get);
+            PlayerProfile playerProfile = PlayerProfileTranscoder.Get.Read(connection);
             return playerProfile;
         }
 
-        public static MessageConnection.MessageInfo? SyncPostEditProfile(MessageConnection connection, PlayerProfile playerProfile, int timeout)
+        public static MessageInfo? SyncPostEditProfile(MessageConnection connection, PlayerProfile playerProfile, int timeout)
         {
             return SyncPost((callback, state) => AsyncPostEditProfile(connection, playerProfile, callback, state), timeout);
         }
 
-        public static void AsyncPostEditProfile(MessageConnection connection, PlayerProfile playerProfile, MessageConnection.AnswerCallback callback, object state = null)
+        public static void AsyncPostEditProfile(MessageConnection connection, PlayerProfile playerProfile, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
-                connection.AsyncWriteData(PlayerProfileTranscoder.Get, writingBlock, playerProfile);
+                PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.EDIT_PROFILE, messageProc);

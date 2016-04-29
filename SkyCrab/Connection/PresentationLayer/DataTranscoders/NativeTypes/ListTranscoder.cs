@@ -29,26 +29,26 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             this.tTranscoder = tTranscoder;
         }
 
-        public List<T> Read(DataConnection dataConnection)
+        public List<T> Read(EncryptedConnection connection)
         {
             List<T> data = new List<T>();
-            byte size = UInt8Transcoder.Get.Read(dataConnection);
+            byte size = UInt8Transcoder.Get.Read(connection);
             for (; size != 0; --size)
             {
-                T elem = tTranscoder.Read(dataConnection);
+                T elem = tTranscoder.Read(connection);
                 data.Add(elem);
             }
             return data;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, List<T> data)
+        public void Write(EncryptedConnection connection, object writingBlock, List<T> data)
         {
             if (data.Count > byte.MaxValue)
                 throw new TooLongListException();
             byte size = (byte)data.Count;
-            UInt8Transcoder.Get.Write(dataConnection, writingBlock, size);
+            UInt8Transcoder.Get.Write(connection, writingBlock, size);
             foreach (T elem in data)
-                tTranscoder.Write(dataConnection, writingBlock, elem);
+                tTranscoder.Write(connection, writingBlock, elem);
         }
 
     }

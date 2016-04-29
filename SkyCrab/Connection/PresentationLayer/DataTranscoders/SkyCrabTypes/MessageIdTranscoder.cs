@@ -18,19 +18,19 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
         {
         }
 
-        public MessageId Read(DataConnection dataConnection)
+        public MessageId Read(EncryptedConnection connection)
         {
-            byte id = UInt8Transcoder.Get.Read(dataConnection);
+            byte id = UInt8Transcoder.Get.Read(connection);
             if (!Enum.IsDefined(typeof(MessageId), id))
                 throw new ValueIsNotInEnumException();
             MessageId data = (MessageId)id;
             return data;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, MessageId data)
+        public void Write(EncryptedConnection connection, object writingBlock, MessageId data)
         {
             byte id = (byte)data;
-            UInt8Transcoder.Get.Write(dataConnection, writingBlock, id);
+            UInt8Transcoder.Get.Write(connection, writingBlock, id);
         }
 
     }

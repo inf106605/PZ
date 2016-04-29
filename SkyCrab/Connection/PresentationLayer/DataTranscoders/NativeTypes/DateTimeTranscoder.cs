@@ -16,17 +16,17 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         {
         }
 
-        public DateTime Read(DataConnection dataConnection)
+        public DateTime Read(EncryptedConnection connection)
         {
-            Int64 binary = Int64Transcoder.Get.Read(dataConnection);
+            Int64 binary = Int64Transcoder.Get.Read(connection);
             DateTime data = DateTime.FromBinary(binary);
             return data;
         }
 
-        public void Write(DataConnection dataConnection, object writingBlock, DateTime data)
+        public void Write(EncryptedConnection connection, object writingBlock, DateTime data)
         {
             Int64 binary = data.ToBinary();
-            Int64Transcoder.Get.Write(dataConnection, writingBlock, binary);
+            Int64Transcoder.Get.Write(connection, writingBlock, binary);
         }
 
     }
