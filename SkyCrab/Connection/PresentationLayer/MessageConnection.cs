@@ -2,7 +2,12 @@
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
+using SkyCrab.Connection.PresentationLayer.Messages.Common.Connections;
+using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
+using SkyCrab.Connection.PresentationLayer.Messages.Common.Pings;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Connection.SessionLayer;
 using SkyCrab.Connection.Utils;
 using System;
@@ -43,24 +48,31 @@ namespace SkyCrab.Connection.PresentationLayer
 
         static MessageConnection()
         {
-            //Common
+            //--- Common ---
+            //Connections
             AddMessage(new DisconnectMsg());
             AddMessage(new OkDisconnectMsg());
+            //Pings
             AddMessage(new PingMsg());
             AddMessage(new PongMsg());
-            //Menu
+            //Errors
             AddMessage(new OkMsg());
             AddMessage(new ErrorMsg());
+
+            //--- Menu ---
+            //Accounts
             AddMessage(new LoginMsg());
             AddMessage(new LoginOkMsg());
             AddMessage(new LogoutMsg());
             AddMessage(new RegisterMsg());
             AddMessage(new EditProfileMsg());
+            //Friends
             AddMessage(new GetFriendsMsg());
             AddMessage(new FindPlayersMsg());
             AddMessage(new PlayerListMsg());
             AddMessage(new AddFriendMsg());
             AddMessage(new RemoveFriendMsg());
+            //Rooms
             AddMessage(new GetFriendRoomsMsg());
             AddMessage(new FindRoomsMsg());
             AddMessage(new RoomListMsg());

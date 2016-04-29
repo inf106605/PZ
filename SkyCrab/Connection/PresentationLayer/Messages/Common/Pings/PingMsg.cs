@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Connection.PresentationLayer.MessageConnections;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
+namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
 {
     /// <summary>
     /// <para>Sender: Server &amp; Client</para>

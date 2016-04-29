@@ -1,4 +1,4 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
+﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
 {
     /// <summary>
     /// <para>Sender: Server</para>

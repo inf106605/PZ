@@ -2,7 +2,7 @@
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using System;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
+namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
 {
     /// <summary>
     /// <para>Sender: Client</para>

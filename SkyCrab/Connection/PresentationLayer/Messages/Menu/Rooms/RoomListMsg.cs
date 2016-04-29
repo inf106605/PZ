@@ -3,7 +3,7 @@ using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms;
 using System.Collections.Generic;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Menu
+namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
 {
     /// <summary>
     /// <para>Sender: Server</para>

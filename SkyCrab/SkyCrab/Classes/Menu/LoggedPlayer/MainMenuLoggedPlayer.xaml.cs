@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrab.Menu;
 using System;
 using System.Collections.Generic;
