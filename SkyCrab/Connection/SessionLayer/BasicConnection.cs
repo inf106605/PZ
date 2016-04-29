@@ -75,7 +75,7 @@ namespace SkyCrab.Connection.SessionLayer
             tcpClient.ReceiveTimeout = readTimeout;
         }
 
-        public void addConnectionCloseListener(ConnectionCloseListener listener)
+        public void AddConnectionCloseListener(ConnectionCloseListener listener)
         {
             connectionCloseListeners.Add(listener);
             lock (_connectionCloseListenerLock)
@@ -86,7 +86,7 @@ namespace SkyCrab.Connection.SessionLayer
             }
         }
 
-        public void removeConnectionCloseListener(ConnectionCloseListener listener)
+        public void RemoveConnectionCloseListener(ConnectionCloseListener listener)
         {
             connectionCloseListeners.Remove(listener);
         }

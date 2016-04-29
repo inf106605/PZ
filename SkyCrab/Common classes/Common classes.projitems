@@ -9,6 +9,7 @@
     <Import_RootNamespace>SkyCrab.Common_classes</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Chats\ChatMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\Board.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\PositionOnBoard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\SquareType.cs" />

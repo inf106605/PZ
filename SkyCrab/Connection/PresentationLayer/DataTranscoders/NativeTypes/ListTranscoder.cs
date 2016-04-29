@@ -7,29 +7,26 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
     {
     }
 
-    internal sealed class ListTranscoder<T> : ITranscoder<List<T>>
+    internal sealed class ListTranscoder<T> : AbstractTranscoder<List<T>>
     {
 
-        private static readonly Dictionary<ITranscoder<T>, ListTranscoder<T>> instances = new Dictionary<ITranscoder<T>, ListTranscoder<T>>();
-        public static ListTranscoder<T> Get(ITranscoder<T> tTranscoder)
+        private static ListTranscoder<T> instance;
+        public static ListTranscoder<T> Get(AbstractTranscoder<T> tTranscoder)
         {
-            ListTranscoder<T> instance;
-            if (instances.TryGetValue(tTranscoder, out instance))
-                return instance;
-            instance = new ListTranscoder<T>(tTranscoder);
-            instances.Add(tTranscoder, instance);
+            if (instance == null)
+                instance = new ListTranscoder<T>(tTranscoder);
             return instance;
         }
 
-        private ITranscoder<T> tTranscoder;
+        private AbstractTranscoder<T> tTranscoder;
 
 
-        private ListTranscoder(ITranscoder<T> tTranscoder)
+        private ListTranscoder(AbstractTranscoder<T> tTranscoder)
         {
             this.tTranscoder = tTranscoder;
         }
 
-        public List<T> Read(EncryptedConnection connection)
+        public override List<T> Read(EncryptedConnection connection)
         {
             List<T> data = new List<T>();
             byte size = UInt8Transcoder.Get.Read(connection);
@@ -41,7 +38,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             return data;
         }
 
-        public void Write(EncryptedConnection connection, object writingBlock, List<T> data)
+        public override void Write(EncryptedConnection connection, object writingBlock, List<T> data)
         {
             if (data.Count > byte.MaxValue)
                 throw new TooLongListException();

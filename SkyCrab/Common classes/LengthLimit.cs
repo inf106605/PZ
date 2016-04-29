@@ -23,7 +23,9 @@
         private static readonly LengthLimit password = new LengthLimit(5, 100);
         private static readonly LengthLimit nick = new LengthLimit(1, 50);
         private static readonly LengthLimit eMail = new LengthLimit(0, 100);
+        private static readonly LengthLimit roomName = new LengthLimit(0, 50);
         private static readonly LengthLimit searchPhraze = new LengthLimit(0, 100);
+        private static readonly LengthLimit chatMessage = new LengthLimit(1, 1000);
 
         public static LengthLimit Login {
             get { return login; }
@@ -44,9 +46,19 @@
             get { return eMail; }
         }
 
+        public static LengthLimit RoomName
+        {
+            get { return roomName; }
+        }
+
         public static LengthLimit SearchPhraze
         {
             get { return searchPhraze; }
+        }
+
+        public static LengthLimit ChatMessage
+        {
+            get { return chatMessage; }
         }
 
 
@@ -70,13 +82,13 @@
             this.max = max;
         }
 
-        public Result check(string text)
+        public Result Check(string text)
         {
             int length = text.Length;
-            return check(length);
+            return Check(length);
         }
 
-        public Result check(int length)
+        public Result Check(int length)
         {
             if (length < min)
                 return Result.TOO_SHORT;
@@ -86,15 +98,15 @@
                 return Result.OK;
         }
 
-        public void checkAndThrow(string text)
+        public void CheckAndThrow(string text)
         {
             if (text == null)
                 return;
             int length = text.Length;
-            checkAndThrow(length);
+            CheckAndThrow(length);
         }
 
-        public void checkAndThrow(int length)
+        public void CheckAndThrow(int length)
         {
             if (length < min)
                 throw new TextTooShortException();

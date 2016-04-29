@@ -61,7 +61,11 @@ namespace SkyCrab.Common_classes.Rooms
         public string Name
         {
             get { return name; }
-            set { name = value; }
+            set
+            {
+                LengthLimit.RoomName.CheckAndThrow(value);
+                name = value;
+            }
         }
 
         public RoomType RoomType
@@ -96,6 +100,7 @@ namespace SkyCrab.Common_classes.Rooms
         {
             this.id = id;
             this.owner = owner;
+            LengthLimit.RoomName.CheckAndThrow(name);
             this.name = name;
             this.roomType = roomType;
             this.rules = rules;

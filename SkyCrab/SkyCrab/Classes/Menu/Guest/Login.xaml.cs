@@ -2,11 +2,9 @@
 using System.Windows.Controls;
 using SkyCrab.Menu;
 using SkyCrab.Classes.Menu.Guest;
-using SkyCrab.Connection.PresentationLayer;
 using SkyCrab.Common_classes.Players;
-using SkyCrab.Connection.Utils;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 
 namespace SkyCrab.Classes.Menu
 {

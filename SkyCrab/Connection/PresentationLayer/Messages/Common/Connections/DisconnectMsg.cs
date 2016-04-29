@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Connection.PresentationLayer.MessageConnections;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages
+namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Connections
 {
     /// <summary>
     /// <para>Sender: Server &amp; Client</para>

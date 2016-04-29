@@ -2,7 +2,9 @@
 using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
+using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;

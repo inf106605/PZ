@@ -1,17 +1,17 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.Messages
+﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
 {
     /// <summary>
     /// <para>Sender: Server &amp; Client</para>
-    /// <para>ID: <see cref="MessageId.OK_DISCONNECT"/></para>
+    /// <para>ID: <see cref="MessageId.PONG"/></para>
     /// <para>Data type: [none]</para>
     /// <para>Passible answers: [none]</para>
     /// </summary>
-    public sealed class OkDisconnectMsg : AbstractMessage
+    public sealed class PongMsg : AbstractMessage
     {
 
         public override MessageId Id
         {
-            get { return MessageId.OK_DISCONNECT; }
+            get { return MessageId.PONG; }
         }
 
         internal override bool Answer
@@ -19,17 +19,18 @@
             get { return true; }
         }
 
+
         internal override object Read(MessageConnection connection)
         {
             return null;
         }
 
-        public static void AsyncPostOkDisconnect(MessageConnection connection)
+        public static void AsyncPostPong(MessageConnection connection)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
             };
-            connection.PostMessage(MessageId.OK_DISCONNECT, messageProcedure);
+            connection.PostMessage(MessageId.PONG, messageProcedure);
         }
 
     }
