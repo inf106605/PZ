@@ -18,7 +18,7 @@ namespace SkyCrabServer
                 try
                 {
                     ServerConnection connection = new ServerConnection(tcpClient, 100); //TODO remove constant
-                    Listener.serverConsole.Write("New client connected. (" + connection.ServerEndPoint.Address + ")\n\tAddress: " + connection.ClientEndPoint.Address + "\n\tport: " + connection.ClientEndPoint.Port + "\n");
+                    Listener.serverConsole.Write("New client connected. (" + connection.ServerEndPoint.Address + ", " + connection.ClientAuthority + ")\n");
                     connections.Add(connection);
                     connection.addConnectionCloseListener((disconectedConnection, exceptions) => OnCloseConnection((ServerConnection) disconectedConnection, exceptions));
                 }

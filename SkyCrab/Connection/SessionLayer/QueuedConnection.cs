@@ -12,7 +12,7 @@ namespace SkyCrab.Connection.SessionLayer
     {
     }
     
-    public class QueuedConnection : BasicConnection
+    public abstract class QueuedConnection : BasicConnection
     {
         
         public delegate void Callback(Object state);

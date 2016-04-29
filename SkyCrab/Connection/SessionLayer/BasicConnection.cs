@@ -34,10 +34,26 @@ namespace SkyCrab.Connection.SessionLayer
         {
             get { return (IPEndPoint)tcpClient.Client.LocalEndPoint; }
         }
-
         public IPEndPoint RemoteEndPoint
         {
             get { return (IPEndPoint)tcpClient.Client.RemoteEndPoint; }
+        }
+        public abstract IPEndPoint ClientEndPoint { get; }
+        public abstract IPEndPoint ServerEndPoint { get; }
+        public string ClientAuthority
+        {
+            get { return CreateAuthorityString(ClientEndPoint); }
+        }
+        public string ServerAuthority
+        {
+            get { return CreateAuthorityString(ServerEndPoint); }
+        }
+
+
+        private static string CreateAuthorityString(IPEndPoint endPoint)
+        {
+            string authorityString = endPoint.Address + ":" + endPoint.Port;
+            return authorityString;
         }
 
         protected void StoreException(Exception e)

@@ -43,7 +43,7 @@ namespace SkyCrabServer
                         break;
 
                     case MessageId.NO_PONG:
-                        WriteToConsole("No answer to PING! (" + ClientEndPoint.Port + ")\n");
+                        WriteToConsole("No answer to PING! (" + ClientAuthority + ")\n");
                         AsyncDispose();
                         break;
 
@@ -87,7 +87,7 @@ namespace SkyCrabServer
                         throw new UnsuportedMessageException();
                 }
             }
-            string info = "Client disconnected. (" + ClientEndPoint.Port + ")\n";
+            string info = "Client disconnected. (" + ClientAuthority + ")\n";
             WriteToConsole(info);
         }
 
