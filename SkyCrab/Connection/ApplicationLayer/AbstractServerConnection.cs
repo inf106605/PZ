@@ -11,12 +11,12 @@ namespace SkyCrab.Connection.AplicationLayer
     abstract class AbstractServerConnection : ServerEncryptedConnection
     {
 
-        public IPEndPoint ClientEndPoint
+        public override IPEndPoint ClientEndPoint
         {
             get { return RemoteEndPoint; }
         }
 
-        public IPEndPoint ServerEndPoint
+        public override IPEndPoint ServerEndPoint
         {
             get { return LocalEndPoint; }
         }
