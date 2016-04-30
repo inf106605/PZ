@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkyCrabServer.Databases;
+using System;
 using System.Net;
 
 namespace SkyCrabServer
@@ -6,7 +7,7 @@ namespace SkyCrabServer
     class SkyCrab_Server
     {
 
-        private static readonly Version version = new Version(0, 1, 7);
+        private static readonly Version version = new Version(0, 2, 0);
 
 
         static int Main(string[] args)
@@ -22,8 +23,16 @@ namespace SkyCrabServer
             if (!GetAddressAndPort(args, out ipAddress, out port))
                 return -1;
 
+
             Banners.Banner.PrintBanner(version);
-            if (Listener.Listen(ipAddress, port))
+
+            Database.Connect();
+
+            bool result = Listener.Listen(ipAddress, port);
+
+            Database.Disconnect();
+
+            if (result)
                 return 0;
             else
                 return -1;
