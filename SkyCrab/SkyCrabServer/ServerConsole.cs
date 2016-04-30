@@ -48,14 +48,17 @@ namespace SkyCrabServer
                     break;
                 if (keyInfo.Key == ConsoleKey.Backspace)
                 {
-                    lock (_inputLock)
+                    if (inputString.Length != 0)
                     {
-                        if (Monitor.TryEnter(_writeLock))
+                        lock (_inputLock)
                         {
-                            Console.Write("\b \b");
-                            Monitor.Exit(_writeLock);
+                            if (Monitor.TryEnter(_writeLock))
+                            {
+                                Console.Write("\b \b");
+                                Monitor.Exit(_writeLock);
+                            }
+                            inputString = inputString.Substring(0, inputString.Length - 1);
                         }
-                        inputString = inputString.Substring(0, inputString.Length - 1);
                     }
                 }
                 else if (IsAllowerChar(keyInfo.KeyChar))

@@ -20,7 +20,7 @@ namespace SkyCrabServer.Databases
 
         public static void Connect()
         {
-            bool fileExists = false; //TODO FileExists;
+            bool fileExists = FileExists;
             if (!fileExists)
                 CreateFile();
             CreateConnection();

@@ -97,7 +97,10 @@
   <ItemGroup>
     <Content Include="Banners\banner.txt" />
     <Content Include="Databases\create_tables.sql" />
-    <Content Include="Externals\SQLite\SQLite.Interop.dll" />
+    <ContentWithTargetPath Include="Externals\SQLite\SQLite.Interop.dll">
+      <TargetPath>SQLite.Interop.dll</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </ContentWithTargetPath>
     <Content Include="Externals\SQLite\System.Data.SQLite.dll" />
     <Content Include="Externals\SQLite\System.Data.SQLite.EF6.dll" />
     <Content Include="Externals\SQLite\System.Data.SQLite.Linq.dll" />

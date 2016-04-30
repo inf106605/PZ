@@ -19,6 +19,8 @@ namespace SkyCrabServer
             try
             {
                 Console.WriteLine("Initializing the server at " + ipAddress + ":" + port + "...\n");
+
+                Console.WriteLine("Generating/Loading criptographic keys...\n");
                 ServerConnection.PreLoadStaticMembers();
 
                 tcpListener = new TcpListener(ipAddress, port);
