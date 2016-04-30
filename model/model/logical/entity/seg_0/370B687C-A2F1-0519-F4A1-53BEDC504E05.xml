@@ -26,6 +26,7 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="nick" id="4FF6B280-D980-0240-3DAE-F6E08C080927">
 <createdBy>Piotr</createdBy>
@@ -34,11 +35,11 @@
 <engineerTo>
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>50 CHAR</dataTypeSize>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="login" id="5CC46C74-20DB-F8B4-9C45-10A5E384F74E">
 <createdBy>Piotr</createdBy>
@@ -51,6 +52,7 @@
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>25 CHAR</dataTypeSize>
+<ownDataTypeParameters>25 CHAR,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="passwd_hash" id="AD8E4EC6-6EBE-DEB3-7939-1C67B4EE5334">
 <createdBy>Piotr</createdBy>
@@ -62,6 +64,7 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT033</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="e-mail" id="35C6EB91-53A8-E7E8-C004-613DEC2C5E17">
 <createdBy>Piotr</createdBy>
@@ -74,6 +77,7 @@
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="register_date" id="17327CC2-2D56-0D87-754D-7176FCD8635E">
 <createdBy>Piotr</createdBy>
@@ -85,6 +89,7 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="last_act_date" id="43A988B5-4437-58CB-5E65-67FEF453C906">
 <createdBy>Piotr</createdBy>
@@ -93,10 +98,10 @@
 <engineerTo>
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">

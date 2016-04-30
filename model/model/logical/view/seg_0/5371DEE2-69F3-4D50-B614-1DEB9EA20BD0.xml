@@ -24,6 +24,7 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>INTEGER</dataType>
 <reference>false</reference>
 <referencedColumn>156B8213-F3BA-4202-7BEC-A48AC0ECCC03</referencedColumn>
@@ -37,6 +38,7 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>VARCHAR2 (50 CHAR)</dataType>
 <reference>false</reference>
 <referencedColumn>4FF6B280-D980-0240-3DAE-F6E08C080927</referencedColumn>
@@ -50,6 +52,7 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>VARCHAR2 (25 CHAR)</dataType>
 <reference>false</reference>
 <referencedColumn>5CC46C74-20DB-F8B4-9C45-10A5E384F74E</referencedColumn>
@@ -63,6 +66,7 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>BLOB</dataType>
 <reference>false</reference>
 <referencedColumn>AD8E4EC6-6EBE-DEB3-7939-1C67B4EE5334</referencedColumn>
@@ -76,6 +80,7 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>VARCHAR2 (100)</dataType>
 <reference>false</reference>
 <referencedColumn>35C6EB91-53A8-E7E8-C004-613DEC2C5E17</referencedColumn>
@@ -89,6 +94,7 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>TIMESTAMP</dataType>
 <reference>false</reference>
 <referencedColumn>17327CC2-2D56-0D87-754D-7176FCD8635E</referencedColumn>
@@ -102,6 +108,7 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>TIMESTAMP</dataType>
 <reference>false</reference>
 <referencedColumn>43A988B5-4437-58CB-5E65-67FEF453C906</referencedColumn>
@@ -115,6 +122,8 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
 <reference>false</reference>
 <referencedColumnViewID>263E383E-E72E-BA13-5D5F-943AE7E64D62</referencedColumnViewID>
 <viewID>37CE7835-F9CA-FECE-4B20-87AA4EB8E3CC</viewID>
@@ -127,6 +136,8 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
 <reference>false</reference>
 <referencedColumnViewID>A7632069-89E9-8E40-D941-B9C15D7624D7</referencedColumnViewID>
 <viewID>37CE7835-F9CA-FECE-4B20-87AA4EB8E3CC</viewID>
@@ -139,6 +150,8 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
 <reference>false</reference>
 <referencedColumnViewID>CE81A0BB-6A11-C328-4557-955D5B6CDD90</referencedColumnViewID>
 <viewID>37CE7835-F9CA-FECE-4B20-87AA4EB8E3CC</viewID>
@@ -151,6 +164,7 @@
 <item key="2D362E8B-5229-B8F5-9D73-BE399D10CE20" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>INTEGER</dataType>
 <reference>false</reference>
 <referencedColumnViewID>2A68A42E-ADCC-C8D4-A9CB-E45E972F20A5</referencedColumnViewID>

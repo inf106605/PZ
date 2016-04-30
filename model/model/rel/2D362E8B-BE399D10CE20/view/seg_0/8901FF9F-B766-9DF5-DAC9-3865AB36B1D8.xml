@@ -19,6 +19,7 @@
 <generatorID>117BFA71-A5C2-F0C8-5113-40860390715F</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>INTEGER</dataType>
 <reference>false</reference>
 <referencedColumn>0E5C83A4-3864-A861-59BE-327B03970F07</referencedColumn>
@@ -31,6 +32,7 @@
 <generatorID>2B958C34-07E9-54FA-2438-B4DDAD9A37DC</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>TIMESTAMP</dataType>
 <reference>false</reference>
 <referencedColumn>CD6300DE-50C9-FD6E-BE2A-1F48C5D17E64</referencedColumn>
@@ -43,6 +45,7 @@
 <generatorID>C1F16FD5-EEA2-A9B9-4409-D509173E590D</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>TIMESTAMP</dataType>
 <reference>false</reference>
 <referencedColumn>A68800D9-B5C5-A08E-27B5-98419796341F</referencedColumn>
@@ -55,6 +58,7 @@
 <generatorID>CC74961F-904D-9730-1353-C1414FD9BB3C</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>CLOB</dataType>
 <reference>false</reference>
 <referencedColumn>3A131744-E443-6385-F423-1AEA6D668988</referencedColumn>
@@ -67,7 +71,9 @@
 <generatorID>57C96405-BBFC-BAAF-E092-58CFF7E162F7</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <alias>player_count</alias>
+<dataType>UNKNOWN</dataType>
 <expression>COUNT(*)</expression>
 <reference>false</reference>
 <viewID>8901FF9F-B766-9DF5-DAC9-3865AB36B1D8</viewID>
@@ -78,7 +84,9 @@
 <generatorID>DBC90395-D34D-7D32-1723-3458FEEDBD7C</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <alias>score_sum</alias>
+<dataType>UNKNOWN</dataType>
 <expression>Sum(score.score)</expression>
 <reference>false</reference>
 <viewID>8901FF9F-B766-9DF5-DAC9-3865AB36B1D8</viewID>
@@ -89,6 +97,7 @@
 <generatorID>3BDA3830-B0B5-F684-5111-0DAE41FE618C</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <alias>id_winner</alias>
 <dataType>INTEGER</dataType>
 <reference>false</reference>

@@ -1,14 +1,14 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <oracle.dbtools.crest.model.design.logical.LogicalDesign>
-   <object objectType="Entity" objectID="412A9302-15E0-807C-4231-C9E955841C3E" name="game" seqName="seg_0"/>
-   <object objectType="Entity" objectID="9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF" name="player" seqName="seg_0"/>
-   <object objectType="Entity" objectID="370B687C-A2F1-0519-F4A1-53BEDC504E05" name="player_data" seqName="seg_0"/>
-   <object objectType="Entity" objectID="1502E5E8-B66B-357C-02A6-3FC032E11A26" name="score" seqName="seg_0"/>
-   <object objectType="EntityView" objectID="49607E26-587B-339F-5A2A-2CCABB6219A6" name="view_game" seqName="seg_0"/>
-   <object objectType="EntityView" objectID="5371DEE2-69F3-4D50-B614-1DEB9EA20BD0" name="view_logged_player" seqName="seg_0"/>
-   <object objectType="EntityView" objectID="37CE7835-F9CA-FECE-4B20-87AA4EB8E3CC" name="view_player" seqName="seg_0"/>
-   <object objectType="Relation" objectID="2D0530AE-01A3-8A29-2477-38BBC70717A2" name="Relation_3" seqName="seg_0"/>
-   <object objectType="Relation" objectID="BA08F412-0D85-F3B4-CBC8-5D7E3A07B5BC" name="friend" seqName="seg_0"/>
-   <object objectType="Relation" objectID="48712057-4273-7010-0360-9EF46ED761A0" name="player_to_data" seqName="seg_0"/>
-   <object objectType="Relation" objectID="A121CE67-72F7-0436-4DAC-674DE6BF3B4D" name="sc_pl" seqName="seg_0"/>
+   <object objectType="Entity" objectID="412A9302-15E0-807C-4231-C9E955841C3E" name="game" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.Entity" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="" propertyTargetId=""/>
+   <object objectType="Entity" objectID="9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF" name="player" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.Entity" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="" propertyTargetId=""/>
+   <object objectType="Entity" objectID="370B687C-A2F1-0519-F4A1-53BEDC504E05" name="player_data" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.Entity" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="" propertyTargetId=""/>
+   <object objectType="Entity" objectID="1502E5E8-B66B-357C-02A6-3FC032E11A26" name="score" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.Entity" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="" propertyTargetId=""/>
+   <object objectType="EntityView" objectID="49607E26-587B-339F-5A2A-2CCABB6219A6" name="view_game" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.EntityView" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="" propertyTargetId=""/>
+   <object objectType="EntityView" objectID="5371DEE2-69F3-4D50-B614-1DEB9EA20BD0" name="view_logged_player" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.EntityView" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="" propertyTargetId=""/>
+   <object objectType="EntityView" objectID="37CE7835-F9CA-FECE-4B20-87AA4EB8E3CC" name="view_player" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.EntityView" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="" propertyTargetId=""/>
+   <object objectType="Relation" objectID="2D0530AE-01A3-8A29-2477-38BBC70717A2" name="Relation_3" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.Relation" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="412A9302-15E0-807C-4231-C9E955841C3E" propertyTargetId="1502E5E8-B66B-357C-02A6-3FC032E11A26"/>
+   <object objectType="Relation" objectID="BA08F412-0D85-F3B4-CBC8-5D7E3A07B5BC" name="friend" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.Relation" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="370B687C-A2F1-0519-F4A1-53BEDC504E05" propertyTargetId="370B687C-A2F1-0519-F4A1-53BEDC504E05"/>
+   <object objectType="Relation" objectID="48712057-4273-7010-0360-9EF46ED761A0" name="player_to_data" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.Relation" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF" propertyTargetId="370B687C-A2F1-0519-F4A1-53BEDC504E05"/>
+   <object objectType="Relation" objectID="A121CE67-72F7-0436-4DAC-674DE6BF3B4D" name="sc_pl" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.logical.Relation" propertyParentId="2FA5F0AC-A01A-3438-22FC-ACC2034DDEDA" propertySourceId="9B2E3D0F-7A11-BEA7-DBAB-74BEFCC3F2CF" propertyTargetId="1502E5E8-B66B-357C-02A6-3FC032E11A26"/>
 </oracle.dbtools.crest.model.design.logical.LogicalDesign>

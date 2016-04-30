@@ -18,6 +18,7 @@
 <generatorID>2A68A42E-ADCC-C8D4-A9CB-E45E972F20A5</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>INTEGER</dataType>
 <reference>false</reference>
 <referencedColumn>93690CC4-C4D5-27E8-F340-376F57D43567</referencedColumn>
@@ -29,6 +30,7 @@
 <createdTime>2016-03-22 19:13:50 UTC</createdTime>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <dataType>INTEGER</dataType>
 <reference>false</reference>
 <referencedColumn>163A4D57-84D8-1906-DC89-346AA261EEE9</referencedColumn>
@@ -40,7 +42,9 @@
 <generatorID>CE81A0BB-6A11-C328-4557-955D5B6CDD90</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <alias>walkover_count</alias>
+<dataType>UNKNOWN</dataType>
 <expression>COUNT(*)</expression>
 <reference>false</reference>
 <viewID>075FD872-2752-A1EB-D987-8B3A1147D9ED</viewID>
@@ -51,7 +55,9 @@
 <generatorID>263E383E-E72E-BA13-5D5F-943AE7E64D62</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <alias>games_count</alias>
+<dataType>UNKNOWN</dataType>
 <expression>COUNT(*)</expression>
 <reference>false</reference>
 <viewID>075FD872-2752-A1EB-D987-8B3A1147D9ED</viewID>
@@ -62,7 +68,9 @@
 <generatorID>A7632069-89E9-8E40-D941-B9C15D7624D7</generatorID>
 <ownerDesignName>model</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
 <alias>avg_score</alias>
+<dataType>UNKNOWN</dataType>
 <expression>Avg(non_walkover_score.score)</expression>
 <reference>false</reference>
 <viewID>075FD872-2752-A1EB-D987-8B3A1147D9ED</viewID>
