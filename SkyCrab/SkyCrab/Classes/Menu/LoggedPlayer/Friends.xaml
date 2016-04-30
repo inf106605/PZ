@@ -61,8 +61,20 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ListBox x:Name="FriendsListBox" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListPlayers}" SelectionChanged="ListBox_SelectionChanged"></ListBox>
-                <ListBox x:Name="FriendSearchListBox" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListBoxSearchingPlayers}" ></ListBox>
+                <ListBox x:Name="FriendsListBox" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListPlayers}" SelectionChanged="ListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Nick}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox x:Name="FriendSearchListBox" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListBoxSearchingPlayers}" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Nick}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >

@@ -51,10 +51,10 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             foreach ( var item in FriendSearchListBox.SelectedItems)
             {
-                MessageBox.Show(item.ToString());
-                if(!friendPlayer.ListPlayers.Contains(item.ToString()))
+                MessageBox.Show(item.GetType().GetProperty("Nick").GetValue(item,null).ToString());
+                if(!friendPlayer.ListPlayers.Contains(item))
                 {
-                    var addFriendMsgAnswer = AddFriendMsg.SyncPostAddFriend(App.clientConn, friendPlayer.GetIdPlayerFromList(item.ToString()), 1000);
+                    var addFriendMsgAnswer = AddFriendMsg.SyncPostAddFriend(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
 
                     if (!addFriendMsgAnswer.HasValue)
                     {
@@ -92,7 +92,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
                     if (answerValue.messageId == MessageId.OK)
                     {
-                        friendPlayer.AddPlayerToFriend(item.ToString());
+                        friendPlayer.AddPlayerToFriend(uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), item.GetType().GetProperty("Nick").GetValue(item,null).ToString());
 
                         var getFriendMsgAnswer = GetFriendsMsg.SyncPostGetFriends(App.clientConn, 1000);
                         if (!getFriendMsgAnswer.HasValue)
@@ -121,11 +121,11 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                         if (answerValue.messageId == MessageId.PLAYER_LIST)
                         {
                             friendPlayer.ListFriendFromServer = (List<Player>)answerValue.message; // lista znajomych 
-                            friendPlayer.ListOfFriends = new ObservableCollection<string>(); // nicki na liście znajomych
+                            friendPlayer.ListOfFriends = new ObservableCollection<Player>(); // nicki na liście znajomych
 
                             for (int i = 0; i < friendPlayer.ListFriendFromServer.Count; i++)
                             {
-                                friendPlayer.ListOfFriends.Add(friendPlayer.ListFriendFromServer[i].Nick);
+                                friendPlayer.ListOfFriends.Add(friendPlayer.ListFriendFromServer[i]);
                             }
 
                             return;
@@ -168,7 +168,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                 friendPlayer.listSearchngPlayers = (List<Player>)answerValue.message;
                 for (int i = 0; i < friendPlayer.listSearchngPlayers.Count; i++)
                 {
-                    friendPlayer.GetPlayersFromServerToList(friendPlayer.listSearchngPlayers[i].Nick);
+                    friendPlayer.GetPlayersFromServerToList(uint.Parse(friendPlayer.listSearchngPlayers[i].GetType().GetProperty("Id").GetValue(friendPlayer.listSearchngPlayers[i], null).ToString()), friendPlayer.listSearchngPlayers[i].GetType().GetProperty("Nick").GetValue(friendPlayer.listSearchngPlayers[i], null).ToString());
                 }
 
                 return;
