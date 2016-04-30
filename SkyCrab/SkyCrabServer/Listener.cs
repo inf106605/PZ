@@ -18,9 +18,8 @@ namespace SkyCrabServer
         {
             try
             {
-                Console.WriteLine("Initializing the server...\n\tAddress: " + ipAddress + "\n\tPort: " + port);
+                Console.WriteLine("Initializing the server at " + ipAddress + ":" + port + "...\n");
                 ServerConnection.PreLoadStaticMembers();
-                Console.WriteLine("\tDONE!\n");
 
                 tcpListener = new TcpListener(ipAddress, port);
                 tcpListener.Start();

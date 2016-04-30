@@ -153,7 +153,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             friendPlayer.ClearListBoxSearchingPlayers();
 
-            var getFriendMsgAnswer = FindPlayerMsg.SyncPostGetFriends(App.clientConn, searchTextBox.Text, 1000);
+            var getFriendMsgAnswer = FindPlayersMsg.SyncPostFindPlayers(App.clientConn, searchTextBox.Text, 1000);
 
             if (!getFriendMsgAnswer.HasValue)
             {

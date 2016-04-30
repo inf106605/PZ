@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnections\AnswerQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnections\MessageInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\AbstractMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\OkDisconnectMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\DisconnectMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\NoPongMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\PongMsg.cs" />
@@ -45,7 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\RemoveFriendMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\EditProfileMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\ErrorMsg.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\FindPlayerMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\FindPlayersMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\GetFriendsMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\LoginMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\LoginOkMsg.cs" />
@@ -61,7 +62,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\MutexForThread.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\SkyCrabConnectionException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AnswerSynchronizer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\Synchronizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\TaskIsNotRespondingException.cs" />
   </ItemGroup>
 </Project>

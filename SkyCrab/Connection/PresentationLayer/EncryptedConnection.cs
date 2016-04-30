@@ -123,7 +123,7 @@ namespace SkyCrab.Connection.PresentationLayer
             }
         }
 
-        public override void Dispose()
+        protected override void DoDispose()
         {
             if (inputRijndael != null)
                 inputRijndael.Dispose();
