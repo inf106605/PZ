@@ -4,12 +4,12 @@ using System.IO;
 
 namespace SkyCrabServer.Databases
 {
-    static class Database
+    sealed class Database : IDisposable
     {
 
         private const string FILE_NAME = "Database.sqlite";
 
-        private static SQLiteConnection connection;
+        private SQLiteConnection connection;
 
         
         private static bool FileExists
@@ -18,40 +18,47 @@ namespace SkyCrabServer.Databases
         }
 
 
-        public static void Connect()
+        public Database()
         {
-            bool fileExists = FileExists;
-            if (!fileExists)
-                CreateFile();
-            CreateConnection();
-            if (!fileExists)
-                CreateTables();
-            Console.WriteLine();
+            try
+            {
+                SkyCrab_Server.serverConsole.Lock();
+                bool fileExists = FileExists;
+                if (!fileExists)
+                    CreateFile();
+                CreateConnection();
+                if (!fileExists)
+                    CreateTables();
+            }
+            finally
+            {
+                SkyCrab_Server.serverConsole.Unlock();
+            }
         }
 
         private static void CreateFile()
         {
-            Console.WriteLine("Creating database file...");
+            SkyCrab_Server.serverConsole.WriteLine("Creating database file...");
             SQLiteConnection.CreateFile(FILE_NAME);
         }
 
-        private static void CreateConnection()
+        private void CreateConnection()
         {
-            Console.WriteLine("Connecting with database...");
+            SkyCrab_Server.serverConsole.WriteLine("Connecting with database...");
             connection = new SQLiteConnection("Data Source=" + FILE_NAME + "; Version=3;");
             connection.Open();
         }
 
-        private static void CreateTables()
+        private void CreateTables()
         {
-            Console.WriteLine("Creating tables...");
+            SkyCrab_Server.serverConsole.WriteLine("Creating tables...");
             SQLiteCommand command = new SQLiteCommand(Properties.Resources.create_tables, connection);
             command.ExecuteNonQuery();
         }
 
-        public static void Disconnect()
+        public void Dispose()
         {
-            Console.WriteLine("Disconnecting with database...\n");
+            SkyCrab_Server.serverConsole.WriteLine("Disconnecting with database...");
             connection.Close();
         }
 

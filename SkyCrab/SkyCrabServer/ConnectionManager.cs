@@ -17,15 +17,20 @@ namespace SkyCrabServer
             {
                 try
                 {
+                    SkyCrab_Server.serverConsole.Lock();
                     ServerConnection connection = new ServerConnection(tcpClient, 100); //TODO remove constant
-                    Listener.serverConsole.Write("New client connected. (" + connection.ServerEndPoint.Address + ", " + connection.ClientAuthority + ")\n");
+                    SkyCrab_Server.serverConsole.WriteLine("New client connected. (" + connection.ServerEndPoint.Address + ", " + connection.ClientAuthority + ")");
                     connections.Add(connection);
                     connection.AddConnectionCloseListener((disconectedConnection, exceptions) => OnCloseConnection((ServerConnection) disconectedConnection, exceptions));
                 }
                 catch (Exception e)
                 {
-                    Console.Error.WriteLine(e);
-                    Console.Error.WriteLine("Cannot initialize connection with client!\n");
+                    SkyCrab_Server.serverConsole.Write(e.ToString(), Console.Error);
+                    SkyCrab_Server.serverConsole.WriteLine("Cannot initialize connection with client!", Console.Error);
+                }
+                finally
+                {
+                    SkyCrab_Server.serverConsole.Unlock();
                 }
             }
         }
@@ -33,7 +38,7 @@ namespace SkyCrabServer
         private static void OnCloseConnection(ServerConnection disconectedConnection, AggregateException exceptions)
         {
             if (exceptions != null)
-                Console.WriteLine(exceptions.ToString());
+                SkyCrab_Server.serverConsole.Write(exceptions.ToString(), Console.Error);
             lock (connections)
                 connections.Remove((ServerConnection) disconectedConnection);
         }
@@ -45,7 +50,7 @@ namespace SkyCrabServer
 
         public static void CloseAll()
         {
-            Console.WriteLine("Closing connections with clients...\n");
+            SkyCrab_Server.serverConsole.WriteLine("Closing connections with clients...");
             List<ServerConnection> connectionsCopy;
             lock (connections)
                 connectionsCopy = new List<ServerConnection>(connections);

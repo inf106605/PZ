@@ -45,7 +45,7 @@ namespace SkyCrabServer
                         break;
 
                     case MessageId.NO_PONG:
-                        WriteToConsole("No answer to PING! (" + ClientAuthority + ")\n");
+                        SkyCrab_Server.serverConsole.WriteLine("No answer to PING! (" + ClientAuthority + ")");
                         AsyncDispose();
                         break;
 
@@ -89,16 +89,8 @@ namespace SkyCrabServer
                         throw new UnsuportedMessageException();
                 }
             }
-            string info = "Client disconnected. (" + ClientAuthority + ")\n";
-            WriteToConsole(info);
-        }
-
-        private void WriteToConsole(string text)
-        {
-            if (Listener.serverConsole == null)
-                Console.WriteLine(text);
-            else
-                Listener.serverConsole.Write(text);
+            string info = "Client disconnected. (" + ClientAuthority + ")";
+            SkyCrab_Server.serverConsole.WriteLine(info);
         }
 
         private void Login(PlayerProfile playerProfile)

@@ -9,6 +9,8 @@ namespace SkyCrabServer
 
         private static readonly Version version = new Version(0, 2, 1);
 
+        public static ServerConsole serverConsole;
+
 
         static int Main(string[] args)
         {
@@ -25,17 +27,15 @@ namespace SkyCrabServer
 
 
             Banners.Banner.PrintBanner(version);
-
-            Database.Connect();
-
-            bool result = Listener.Listen(ipAddress, port);
-
-            Database.Disconnect();
-
-            if (result)
-                return 0;
-            else
-                return -1;
+            using (serverConsole = new ServerConsole())
+            using (Database database = new Database())
+            {
+                bool result = Listener.Listen(ipAddress, port);
+                if (result)
+                    return 0;
+                else
+                    return -1;
+            }
         }
 
         private static void PrintHelp()

@@ -4,13 +4,12 @@ using System.Net.Sockets;
 
 namespace SkyCrabServer
 {
-    class Listener
+    static class Listener
     {
 
         private static TcpListener tcpListener;
         private static volatile IAsyncResult asyncResult;
         private static volatile bool stoping = false;
-        public static ServerConsole serverConsole;
         private static object _lock = new object();
 
 
@@ -18,26 +17,24 @@ namespace SkyCrabServer
         {
             try
             {
-                Console.WriteLine("Initializing the server at " + ipAddress + ":" + port + "...\n");
+                SkyCrab_Server.serverConsole.WriteLine("Initializing the server at " + ipAddress + ":" + port + "...");
 
-                Console.WriteLine("Generating/Loading criptographic keys...\n");
+                SkyCrab_Server.serverConsole.WriteLine("Generating/Loading criptographic keys...");
                 ServerConnection.PreLoadStaticMembers();
 
                 tcpListener = new TcpListener(ipAddress, port);
                 tcpListener.Start();
 
                 asyncResult = tcpListener.BeginAcceptTcpClient(ClientAccepter, null);
-                Console.WriteLine("Accepting clients is begun.\n");
+                SkyCrab_Server.serverConsole.WriteLine("Accepting clients is begun.");
 
-                serverConsole = new ServerConsole();
-                serverConsole.Start();
-                serverConsole = null;
+                SkyCrab_Server.serverConsole.Wait();
 
                 lock (tcpListener)
                     asyncResult = null;
 
                 tcpListener.Stop();
-                Console.WriteLine("Accepting clients is stopped.\n");
+                SkyCrab_Server.serverConsole.WriteLine("Accepting clients is stopped.");
 
                 lock (_lock)
                 {
@@ -45,7 +42,7 @@ namespace SkyCrabServer
                     ConnectionManager.CloseAll();
                 }
 
-                Console.WriteLine("Clearing memory...\n");
+                SkyCrab_Server.serverConsole.WriteLine("Clearing memory...");
                 ServerConnection.DisposeStaticMembers();
             }
             catch (Exception e)
