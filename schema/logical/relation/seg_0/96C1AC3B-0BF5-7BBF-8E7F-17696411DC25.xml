@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="game_to_score" directorySegmentName="seg_0" id="96C1AC3B-0BF5-7BBF-8E7F-17696411DC25">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:04:44 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<sourcePk>965D095C-FF04-4F39-A006-83BF5EACD02F</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>D9E4A2D0-5690-2623-94AC-37421CBC2D00</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>38F7E527-1817-9EB7-7C05-7C378EF49F4B</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

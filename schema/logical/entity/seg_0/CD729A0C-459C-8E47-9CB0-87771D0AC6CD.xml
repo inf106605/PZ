@@ -1,0 +1,109 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="CD729A0C-459C-8E47-9CB0-87771D0AC6CD" name="player_profile">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:36:44 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>pp</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="login" id="B6D9A0B2-D813-F39F-D834-75EF2BC35F3D">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:42:32 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>25</dataTypeSize>
+<ownDataTypeParameters>25,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="password_hash" id="35F49EA5-7E67-8237-6F48-B62B7F25E060">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:43:08 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT029</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nick" id="F3F1D97F-970C-FCFC-D550-9F05F15AF8FA">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:40:05 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="e-mail" id="5AA9DCD9-FB30-DB89-39DE-43B20482300C">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:47:32 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="register_data" id="712C4B94-CF4C-C68A-4AC2-DAA748642BCF">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:47:59 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="last_act_data" id="162672BE-B953-3602-86BC-F063140F0BD6">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:48:42 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="player_id" id="D711B8F3-AB66-9E8B-D983-7E39F911ADD5">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:37 UTC</createdTime>
+<generatorID>365FA764-F01A-8A7C-BD24-19D456887DA2</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<referedAttribute>0C817DD0-B4D5-0F8B-2B69-6CF448B2ABE6</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

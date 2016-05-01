@@ -1,0 +1,85 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="38F7E527-1817-9EB7-7C05-7C378EF49F4B" name="score">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:51:47 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>sc</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="walkover" id="ADBA7F52-A581-9E43-9E8C-F34655005F7D">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:52:07 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="place" id="67458705-06FB-4955-4B9B-B4DF8060AE7E">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:53:35 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="score" id="3FC6043A-4DFF-7733-E237-514DE9E3F693">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:53:54 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="player_id" id="CE164ACE-CBE8-A858-6F58-DF5DA88D26F9">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:04:25 UTC</createdTime>
+<generatorID>2FC0435F-7D1E-3176-83CF-12F7208658A6</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<referedAttribute>0C817DD0-B4D5-0F8B-2B69-6CF448B2ABE6</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="game_id" id="6B7E72DC-4F83-A444-041E-2A1EA33AAAF4">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:04:44 UTC</createdTime>
+<generatorID>96C1AC3B-0BF5-7BBF-8E7F-17696411DC25</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<referedAttribute>1DB1BFF2-BDB5-41B4-E54D-526E06194D31</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

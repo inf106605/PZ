@@ -1,0 +1,84 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C79809E4-D966-BF1A-1AD3-64B58B2DDDC3" name="friend">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="player_id" id="E50A0BD8-3ACD-FD97-5765-7FC0AB796FC3">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:18:46 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="56815D2C-3604-D252-EBF0-EDC62E96DDA5" referredColumn="5B1C3E7B-C1B7-3A1C-9E66-21D117C8EFBE"/>
+</associations>
+</Column>
+<Column name="friend_id" id="C682E077-7F04-96DF-77EF-624AF3FBE4DE">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:18:46 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1C2E1A63-4482-F75B-1F78-4814934DC4C0" referredColumn="5B1C3E7B-C1B7-3A1C-9E66-21D117C8EFBE"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="8197A321-65B6-77C3-A8BD-3D95E36E1F22" name="friend_PK">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E50A0BD8-3ACD-FD97-5765-7FC0AB796FC3"/>
+<colUsage columnID="C682E077-7F04-96DF-77EF-624AF3FBE4DE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3FA60A5B-31F4-49DB-E259-7612DE48DEE5" name="friend__IDX">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:33:38 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E50A0BD8-3ACD-FD97-5765-7FC0AB796FC3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2A2F916C-5119-180C-AAFD-6F76EF6A71A0" name="FK_ASS_2">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>238CE3D5-8D1F-8842-A67C-5D7F6CF8FEF6</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E50A0BD8-3ACD-FD97-5765-7FC0AB796FC3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F615201B-5696-9D1B-F7DD-E54B9B692F61" name="FK_ASS_3">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>238CE3D5-8D1F-8842-A67C-5D7F6CF8FEF6</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C682E077-7F04-96DF-77EF-624AF3FBE4DE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

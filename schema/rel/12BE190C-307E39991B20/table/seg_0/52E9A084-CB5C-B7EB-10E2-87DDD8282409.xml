@@ -1,0 +1,82 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="52E9A084-CB5C-B7EB-10E2-87DDD8282409" name="game">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>D9E4A2D0-5690-2623-94AC-37421CBC2D00</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<abbreviation>gm</abbreviation>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="game_id" id="FCA97484-4F0D-D1CB-76AC-19AAB6DDAEEF">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>1DB1BFF2-BDB5-41B4-E54D-526E06194D31</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="begin_time" id="DE7339A1-FF81-A3FB-3F15-3D4A6431C5A1">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>1C454BD5-E8BA-F39F-72A1-7810C7A7EEB1</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="end_time" id="7484B7CB-BBC6-04BA-F4B8-E5148A67A149">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>339D4408-CFD8-4E22-7E22-50EAEE797F3D</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="game_log" id="2530D8B3-561D-72CE-2D0E-8C4E8D8D0DF5">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>407B629D-0B7C-6DF1-ADC8-D03E1E2EDE05</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="90BDF193-52BE-533C-DF3F-AFC32172B730" name="game_PK">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>965D095C-FF04-4F39-A006-83BF5EACD02F</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FCA97484-4F0D-D1CB-76AC-19AAB6DDAEEF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="16163DD3-6126-A68A-85CD-C06F0A02CDB2" name="game__IDX">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:45:00 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FCA97484-4F0D-D1CB-76AC-19AAB6DDAEEF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

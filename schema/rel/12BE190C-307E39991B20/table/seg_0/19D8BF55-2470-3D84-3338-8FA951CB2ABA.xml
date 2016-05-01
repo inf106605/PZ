@@ -1,0 +1,48 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="19D8BF55-2470-3D84-3338-8FA951CB2ABA" name="player">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>EFB11C2C-F698-AFC3-17CD-B59202A3AB29</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<abbreviation>pl</abbreviation>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="player_id" id="FCAB8D8C-1BEA-C701-9110-CE56E7AF90E7">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>0C817DD0-B4D5-0F8B-2B69-6CF448B2ABE6</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="4717DA3C-BDA9-8B9E-B485-1A4C754FCB56" name="player_PK">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>9BC6096B-57D7-2DE4-C1DE-A2B688C86922</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FCAB8D8C-1BEA-C701-9110-CE56E7AF90E7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="043F3C4B-DBF8-34DD-7474-F22E11D0ECAC" name="player__IDX">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:17:16 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FCAB8D8C-1BEA-C701-9110-CE56E7AF90E7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,83 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D9E4A2D0-5690-2623-94AC-37421CBC2D00" name="game">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:55:35 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>gm</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="game_id" id="1DB1BFF2-BDB5-41B4-E54D-526E06194D31">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:55:48 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="begin_time" id="1C454BD5-E8BA-F39F-72A1-7810C7A7EEB1">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:56:27 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="end_time" id="339D4408-CFD8-4E22-7E22-50EAEE797F3D">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:56:47 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="game_log" id="407B629D-0B7C-6DF1-ADC8-D03E1E2EDE05">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:57:04 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="965D095C-FF04-4F39-A006-83BF5EACD02F" name="game PK">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 22:56:04 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>1DB1BFF2-BDB5-41B4-E54D-526E06194D31</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

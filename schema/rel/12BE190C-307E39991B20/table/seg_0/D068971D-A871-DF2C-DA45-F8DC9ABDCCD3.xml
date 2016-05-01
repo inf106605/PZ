@@ -1,0 +1,142 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="D068971D-A871-DF2C-DA45-F8DC9ABDCCD3" name="score">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>38F7E527-1817-9EB7-7C05-7C378EF49F4B</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<abbreviation>sc</abbreviation>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="walkover" id="ADD1AC97-3D5B-B483-3841-2CC218B98FF5">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>ADBA7F52-A581-9E43-9E8C-F34655005F7D</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="place" id="38682253-9149-442A-EB01-2DCDF0F7448F">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>67458705-06FB-4955-4B9B-B4DF8060AE7E</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="score" id="D3338CDB-7D5A-CC59-BBBD-B01FE44DFE20">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>3FC6043A-4DFF-7733-E237-514DE9E3F693</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="player_player_id" id="B06FB26E-65A6-63A0-5CEF-C817A63C5937">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>CE164ACE-CBE8-A858-6F58-DF5DA88D26F9</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BEB7A581-FC9D-BAEF-96EB-F4B1400E0B75" referredColumn="FCAB8D8C-1BEA-C701-9110-CE56E7AF90E7"/>
+</associations>
+</Column>
+<Column name="game_game_id" id="FE024A95-F5BA-E042-19B4-41CFD3B22E42">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>6B7E72DC-4F83-A444-041E-2A1EA33AAAF4</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="AC8AE948-6DAC-6598-F9EF-F404EB28670A" referredColumn="FCA97484-4F0D-D1CB-76AC-19AAB6DDAEEF"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C12678F7-5DD2-B196-B0A4-5E6EA0DC479E" name="score_PK">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:41:36 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B06FB26E-65A6-63A0-5CEF-C817A63C5937"/>
+<colUsage columnID="FE024A95-F5BA-E042-19B4-41CFD3B22E42"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7EC67DF1-0FC0-9D74-6B1C-2CA4F301CCFB" name="score__IDX">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:43:09 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B06FB26E-65A6-63A0-5CEF-C817A63C5937"/>
+<colUsage columnID="FE024A95-F5BA-E042-19B4-41CFD3B22E42"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DD8CA166-A86E-FFD1-7726-933A5BA85305" name="score__IDX_player">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:42:30 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B06FB26E-65A6-63A0-5CEF-C817A63C5937"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="578B5488-141C-EE4F-B403-15BB67BB0F01" name="score__IDX_game">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:43:09 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FE024A95-F5BA-E042-19B4-41CFD3B22E42"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="05E7C770-ADE0-B219-A159-C60D746BD71D" name="score_game_FK">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>96C1AC3B-0BF5-7BBF-8E7F-17696411DC25</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FE024A95-F5BA-E042-19B4-41CFD3B22E42"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="AFA63CEB-12C3-675E-8D23-77C60FEE3F92" name="score_player_FK">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>2FC0435F-7D1E-3176-83CF-12F7208658A6</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B06FB26E-65A6-63A0-5CEF-C817A63C5937"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

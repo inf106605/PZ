@@ -1,0 +1,180 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="34E95387-7720-C12F-BD26-0608DD46D1F5" name="player_profile">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>CD729A0C-459C-8E47-9CB0-87771D0AC6CD</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<abbreviation>pp</abbreviation>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="login" id="170FE982-2577-FDC5-B837-2B62B4F4EC3A">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>B6D9A0B2-D813-F39F-D834-75EF2BC35F3D</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>25</dataTypeSize>
+<ownDataTypeParameters>25,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="password_hash" id="1B343FCE-2244-73B2-B08E-A72B3E1CFA8F">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>35F49EA5-7E67-8237-6F48-B62B7F25E060</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT029</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nick" id="C05DD5D2-0076-A976-6429-EC3A4542716B">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>F3F1D97F-970C-FCFC-D550-9F05F15AF8FA</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="e-mail" id="F02D3C87-A860-DF2C-FFDD-A112832BFFB8">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>5AA9DCD9-FB30-DB89-39DE-43B20482300C</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="register_data" id="9DFF664F-CA97-1F28-637D-FDC2EA6AF7BB">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>712C4B94-CF4C-C68A-4AC2-DAA748642BCF</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="last_act_data" id="2567291B-9559-312D-4F40-5D845B555286">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>162672BE-B953-3602-86BC-F063140F0BD6</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>91229484-D19C-D458-8647-333C7FFE7B60</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="player_id" id="5B1C3E7B-C1B7-3A1C-9E66-21D117C8EFBE">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>D711B8F3-AB66-9E8B-D983-7E39F911ADD5</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="47FB6479-6533-9252-AA40-626196CD1EC6" referredColumn="FCAB8D8C-1BEA-C701-9110-CE56E7AF90E7"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="FCA96FD1-19F0-EB53-971A-78277FDD1AF6" name="pp_PK">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="5B1C3E7B-C1B7-3A1C-9E66-21D117C8EFBE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="365BE111-79E8-6ACC-DD55-F9ABCF500234" name="player_profile__UN_login">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:21:50 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="170FE982-2577-FDC5-B837-2B62B4F4EC3A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C68E7339-9D9E-48D8-976A-04ECB0B5157B" name="player_profile__UN_e-mail">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:21:50 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F02D3C87-A860-DF2C-FFDD-A112832BFFB8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="209B40E7-188D-32ED-7CF6-CA6D0695A7F8" name="player_profile__IDX">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>365FA764-F01A-8A7C-BD24-19D456887DA2</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="5B1C3E7B-C1B7-3A1C-9E66-21D117C8EFBE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="36507B4D-E707-5A18-A9FD-0422A2E57E32" name="player_profile__IDX_login">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:20:33 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="170FE982-2577-FDC5-B837-2B62B4F4EC3A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B88F2807-734F-ACD8-7683-2C14549FBF57" name="player_profile__IDX_e-mail">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:23:17 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F02D3C87-A860-DF2C-FFDD-A112832BFFB8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E7347916-F355-5C3B-BCA7-E95FC74AC578" name="player_profile_player_FK">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:11:57 UTC</createdTime>
+<generatorID>365FA764-F01A-8A7C-BD24-19D456887DA2</generatorID>
+<ownerDesignName>schema</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5B1C3E7B-C1B7-3A1C-9E66-21D117C8EFBE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+<validTimeDimensions>
+<validTimeDimension class="oracle.dbtools.crest.model.design.relational.ValidTimeDimension" name="ValidTime" directorySegmentName="seg_0" id="0A542EC1-4BF9-E97D-B885-FC7E1DE1CBF6">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:55:24 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<endTimeColumn>2567291B-9559-312D-4F40-5D845B555286</endTimeColumn>
+<startTimeColumn>9DFF664F-CA97-1F28-637D-FDC2EA6AF7BB</startTimeColumn>
+</validTimeDimension>
+</validTimeDimensions>
+</Table>

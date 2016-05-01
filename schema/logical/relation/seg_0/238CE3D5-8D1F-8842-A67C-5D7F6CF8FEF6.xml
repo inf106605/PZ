@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="friend" directorySegmentName="seg_0" id="238CE3D5-8D1F-8842-A67C-5D7F6CF8FEF6">
+<createdBy>Studia</createdBy>
+<createdTime>2016-05-01 23:07:57 UTC</createdTime>
+<ownerDesignName>schema</ownerDesignName>
+<engineerTo>
+<item key="12BE190C-16E1-5F0F-7393-307E39991B20" value="true"/>
+</engineerTo>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>CD729A0C-459C-8E47-9CB0-87771D0AC6CD</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>CD729A0C-459C-8E47-9CB0-87771D0AC6CD</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
