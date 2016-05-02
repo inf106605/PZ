@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace SkyCrabServer
+namespace SkyCrabServer.Consoles
 {
     //TODO use this all the time?
-    class ServerConsole
+    sealed class ServerConsole : IDisposable
     {
 
         private delegate bool CommandAction();
@@ -13,10 +15,11 @@ namespace SkyCrabServer
 
         private const string COMMAND_PROMPT = "> ";
         private static readonly Dictionary<string, CommandAction> commands = new Dictionary<string, CommandAction>();
-
+        private Task task;
         private object _writeLock = new object();
         private object _inputLock = new object();
         private volatile string inputString = "";
+        private volatile int lockCounter = 0;
 
 
         static ServerConsole()
@@ -28,9 +31,13 @@ namespace SkyCrabServer
         }
 
 
-        public void Start()
+        public ServerConsole()
         {
-            Console.Write(COMMAND_PROMPT);
+            task = Task.Factory.StartNew(StartTaskBody, TaskCreationOptions.LongRunning);
+        }
+
+        private void StartTaskBody()
+        {
             while (true)
             {
                 GetCommand();
@@ -48,14 +55,17 @@ namespace SkyCrabServer
                     break;
                 if (keyInfo.Key == ConsoleKey.Backspace)
                 {
-                    lock (_inputLock)
+                    if (inputString.Length != 0)
                     {
-                        if (Monitor.TryEnter(_writeLock))
+                        lock (_inputLock)
                         {
-                            Console.Write("\b \b");
-                            Monitor.Exit(_writeLock);
+                            if (Monitor.TryEnter(_writeLock))
+                            {
+                                Console.Write("\b \b");
+                                Monitor.Exit(_writeLock);
+                            }
+                            inputString = inputString.Substring(0, inputString.Length - 1);
                         }
-                        inputString = inputString.Substring(0, inputString.Length - 1);
                     }
                 }
                 else if (IsAllowerChar(keyInfo.KeyChar))
@@ -81,8 +91,9 @@ namespace SkyCrabServer
 
         private bool InterpretCommand()
         {
-            lock (_writeLock)
+            try
             {
+                Lock();
                 Console.WriteLine('\r' + COMMAND_PROMPT + inputString);
                 string upperInputString = inputString.ToUpper();
                 inputString = "";
@@ -95,23 +106,56 @@ namespace SkyCrabServer
                 else
                 {
                     Console.WriteLine("Unknown command!");
-                    Console.WriteLine("Type 'HELP' for more info.\n");
+                    Console.WriteLine("Type 'HELP' for more info.");
                 }
-                Console.Write(COMMAND_PROMPT);
+            }
+            finally
+            {
+                Unlock();
             }
             return true;
         }
 
-        public void Write(string text)
+        public void Lock()
         {
-            lock (_writeLock)
-            {
+            Monitor.Enter(_writeLock);
+            if (lockCounter++ == 0)
                 Console.Write('\r' + new string(' ', COMMAND_PROMPT.Length) + '\r');
-                Console.WriteLine(text);
-                Console.Write(COMMAND_PROMPT);
+        }
+
+        public void Unlock()
+        {
+            if (--lockCounter == 0)
+            {
+                Console.Write("\n" + COMMAND_PROMPT);
                 lock (_inputLock)
                     Console.Write(inputString);
             }
+            Monitor.Exit(_writeLock);
+        }
+
+        public void Write(string text)
+        {
+            Write(text, Console.Out);
+        }
+
+        public void Write(string text, TextWriter writer)
+        {
+            Lock();
+            Console.Write(text);
+            Unlock();
+        }
+
+        public void WriteLine(string text)
+        {
+            WriteLine(text, Console.Out);
+        }
+
+        public void WriteLine(string text, TextWriter writer)
+        {
+            Lock();
+            Console.WriteLine(text);
+            Unlock();
         }
 
         private static bool Help()
@@ -120,14 +164,26 @@ namespace SkyCrabServer
             Console.WriteLine("Available commands:");
             Console.WriteLine("\t'HELP'\tShow this message.");
             Console.WriteLine("\t'STOP'\tStop server and exit the program.\n\t\t(Alternative forms: 'EXIT', 'CLOSE'.)");
-            Console.WriteLine("-------------------------------------HELP--------------------------------------\n");
+            Console.WriteLine("-------------------------------------HELP--------------------------------------");
             return false;
         }
 
         private static bool Exit()
         {
-            Console.WriteLine("Stopping the server...\n");
+            Console.WriteLine("Stopping the server...");
             return true;
+        }
+
+        public void Wait()
+        {
+            task.Wait();
+        }
+
+        public void Dispose()
+        {
+            //TODO force closing task
+            Lock();
+            task.Dispose();
         }
 
     }
