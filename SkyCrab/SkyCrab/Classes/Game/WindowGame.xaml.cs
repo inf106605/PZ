@@ -32,12 +32,12 @@ namespace SkyCrab.Classes.Game
         public WindowGame()
         {
             InitializeComponent();
-            InitBinding();
+            InitBindingPlayers();
             scrabbleGame = new ScrabbleGame();
             DataContext = scrabbleGame;
         }
 
-        private void InitBinding()
+        private void InitBindingPlayers()
         {
             ScrabblePlayers = new List<ScrabblePlayers>();
             ScrabblePlayers.Add(new ScrabblePlayers("pleban325", 60, "0:06:14", 4));

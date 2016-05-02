@@ -14,9 +14,9 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
     class FriendPlayer
     {
         public ObservableCollection<Player> ListOfFriends = null; // lista znajomych
-        public List<Player> ListFriendFromServer = null;
+        public List<Player> ListFriendFromServer = null; // tymczasowa lista przypisanych danych z serwera - lista znajomych
         public ObservableCollection<Player> ListSearchingPlayers = null; // lista wszystkich graczy , których można dodać do znajomych
-        public List<Player> listSearchngPlayers = null;
+        public List<Player> listSearchngPlayers = null; // tymczasowa lista przypisanych z serwera - lista wszystkich graczy
 
         public ObservableCollection<Player> ListPlayers // lista znajomych ( bindowanie )
         {
@@ -41,8 +41,6 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                 return ListFriendFromServer;
             }
         }
-
-
 
         public void GetPlayersFromServerToList(uint id, string nick)
         {

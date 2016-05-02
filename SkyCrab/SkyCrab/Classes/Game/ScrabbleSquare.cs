@@ -40,6 +40,14 @@ namespace SkyCrab.Classes.Game
 
         public int Value { get; set; }
 
+        public bool isValue
+        {
+            get
+            {
+                return Value != 0 ? true : false;
+            }
+        }
+
         public bool IsDarkBlue
         {
             get

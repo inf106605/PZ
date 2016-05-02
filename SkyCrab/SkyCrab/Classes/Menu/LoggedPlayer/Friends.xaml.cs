@@ -85,6 +85,12 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                                     MessageBox.Show("Próbujesz dodać do znajomych samego siebie!");
                                     break;
                                 }
+                            case ErrorCode.NO_SUCH_PLAYER:
+                                {
+                                    MessageBox.Show("Nie ma takiego gracza!");
+                                    break;
+                                }
+
                         }
 
                         return;
