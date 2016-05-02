@@ -11,7 +11,7 @@ namespace SkyCrab.Classes.Game
     class ScrabbleRackTiles
     {
         static int counter;
-        public int Id { get; set; }
+        public int id { get; set; }
         public TileOnRack tile { get; set; }
 
         public string Name
@@ -30,13 +30,21 @@ namespace SkyCrab.Classes.Game
             }
         }
 
+        public int Id
+        {
+            get
+            {
+                return id;
+            }
+        }
+
         public ScrabbleRackTiles()
         {
         }
 
         public ScrabbleRackTiles(TileOnRack tile)
         {
-            this.Id = counter++;
+            this.id = counter++;
             this.tile = tile;
         }
 

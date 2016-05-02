@@ -29,6 +29,12 @@ namespace SkyCrab.Classes.Game
             rackTiles.Remove(rackTiles.Where(temp => temp.Id == id).Single());
         }
         
+        public ScrabbleRackTiles SearchIdTile(ScrabbleRackTiles scrabbleRackTile)
+        {
+            return rackTiles.Where(temp => scrabbleRackTile.Id == temp.id).Single();
+        }
+
+
         public ScrabbleRack()
         {
             rackTiles = new ObservableCollection<ScrabbleRackTiles>();

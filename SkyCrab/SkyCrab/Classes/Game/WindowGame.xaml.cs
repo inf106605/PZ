@@ -57,64 +57,50 @@ namespace SkyCrab.Classes.Game
         {
             // symulacja wyłożenia płytek
 
-            Dictionary<int,string> idAndLetter = new Dictionary<int, string>();
+            ScrabbleTilesSelectedFromRack scrabbleTilesSelectedFromRack = new ScrabbleTilesSelectedFromRack();
+            ScrabbleTilesSelectedFromBoard scrabbleTilesSelectedFromBoard = new ScrabbleTilesSelectedFromBoard();
 
             foreach (var item in listViewRack.SelectedItems)
             {
-                var key = int.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString());
-                var value = item.GetType().GetProperty("Name").GetValue(item, null).ToString();
-                idAndLetter.Add(key, value);
-                MessageBox.Show(key + " " + value);
+                var scrabbleTileFromRack = scrabbleGame.scrabbleRack.SearchIdTile((ScrabbleRackTiles)item);
+                scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Add(scrabbleTileFromRack);
             }
 
-            // sortowanie słownika po kluczu - id elementu 
-
-            var list_keys = idAndLetter.Keys.ToList();
-            // list_keys.Sort();
-            List<string> list_tiles = new List<string>();
-            //MessageBox.Show("Lista zaznaczonych na stojaku");
-
-            foreach (var key in list_keys)
+            /*
+            for(int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
             {
-                //MessageBox.Show(key + " : " + idAndLetter[key]);
-                list_tiles.Add(idAndLetter[key]);
-            }
+                MessageBox.Show( scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].id + " " + scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name + " " + scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value);
 
-            //MessageBox.Show("Koniec zaznaczonych na stojaku");
-            
-            List<int> Columns = new List<int>();
-            List<int> Rows = new List<int>();
-            List<int> PositionsListBox = new List<int>();
+            }
+            */
 
             foreach (var item in scrabbleBoard.SelectedItems)
             {
-                var Column = int.Parse(item.GetType().GetProperty("Row").GetValue(item, null).ToString()); // pobieranie współrzędnej x
-                var Row = int.Parse(item.GetType().GetProperty("Column").GetValue(item, null).ToString()); // pobieranie współrzędnej y
-                var listBoxPosition = int.Parse(item.GetType().GetProperty("PositionInListBox").GetValue(item, null).ToString()); // współrzędna pozycji w listbox'ie
-
-                Columns.Add(Column);
-                Rows.Add(Row);
-                PositionsListBox.Add(listBoxPosition);
-                MessageBox.Show(Column + " " + Row); // wyświetlenie pozycji x , y
+                scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Add((ScrabbleSquare)item);
             }
 
-            // sortowanie
-
-            Columns.Sort();
-            Rows.Sort();
-            PositionsListBox.Sort();
-
-            for(int i = 0; i < list_tiles.Count; i++)
+            for(int i = 0; i < scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Count; i++)
             {
-                scrabbleGame.scrabbleBoard.SetScrabbleSquare(PositionsListBox[i], Columns[i], Rows[i], list_tiles[i], 1);
+                MessageBox.Show(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column + " " + scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row);
+            }
+            
+            if(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Count != scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count)
+            {
+                MessageBox.Show("Nie zaznaczono odpowiedniej liczby płytek lub pól");
+                return;
+            }
+
+            for(int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            {
+                scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column , scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
             }
 
             //ScrabbleBoard.Squares[112] = new ScrabbleSquare(int.Parse("7"), int.Parse("7"), "A", 1); // wpisywanie współrzędnych na planszy oraz literki i wartości którą chcemy wyświetlić                                         
             //usunięcie z kolekcji Rack zaznaczonych płytek 
 
-            for (int i = 0; i < list_keys.Count; i++)
-                 scrabbleGame.scrabbleRack.RemoveTile(list_keys[i]);
-
+            for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+                 scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
+                 
         }
     } 
 }
