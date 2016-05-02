@@ -38,7 +38,6 @@ namespace SkyCrabServer.Consoles
 
         private void StartTaskBody()
         {
-            Console.Write(COMMAND_PROMPT);
             while (true)
             {
                 GetCommand();

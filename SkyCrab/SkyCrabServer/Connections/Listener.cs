@@ -22,8 +22,19 @@ namespace SkyCrabServer.Connactions
                 Globals.serverConsole.WriteLine("Generating/Loading criptographic keys...");
                 ServerConnection.PreLoadStaticMembers();
 
-                tcpListener = new TcpListener(ipAddress, port);
-                tcpListener.Start();
+                try
+                {
+                    tcpListener = new TcpListener(ipAddress, port);
+                    tcpListener.Start();
+                }
+                catch (SocketException e)
+                {
+                    if (e.HResult == -2147467259)
+                        Globals.serverConsole.WriteLine("Port " + port + " is already occupied!", Console.Error);
+                    else
+                        Globals.serverConsole.WriteLine("Cannot start listening!\n" + e.ToString(), Console.Error);
+                    return false;
+                }
 
                 asyncResult = tcpListener.BeginAcceptTcpClient(ClientAccepter, null);
                 Globals.serverConsole.WriteLine("Accepting clients is begun.");
@@ -32,7 +43,14 @@ namespace SkyCrabServer.Connactions
 
                 lock (tcpListener)
                     asyncResult = null;
-
+            }
+            catch (Exception e)
+            {
+                Globals.serverConsole.WriteLine(e.ToString(), Console.Error);
+                return false;
+            }
+            finally
+            {
                 tcpListener.Stop();
                 Globals.serverConsole.WriteLine("Accepting clients is stopped.");
 
@@ -44,11 +62,6 @@ namespace SkyCrabServer.Connactions
 
                 Globals.serverConsole.WriteLine("Clearing memory...");
                 ServerConnection.DisposeStaticMembers();
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e);
-                return false;
             }
 
             return true;

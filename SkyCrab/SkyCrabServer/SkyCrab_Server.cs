@@ -3,6 +3,7 @@ using SkyCrabServer.Consoles;
 using SkyCrabServer.Databases;
 using System;
 using System.Net;
+using System.Net.Sockets;
 
 namespace SkyCrabServer
 {
@@ -27,14 +28,25 @@ namespace SkyCrabServer
 
 
             Banners.Banner.PrintBanner(version);
-            using (Globals.serverConsole = new ServerConsole())
-            using (Globals.database = new Database())
+            try
             {
-                bool result = Listener.Listen(ipAddress, port);
-                if (result)
-                    return 0;
+                using (Globals.serverConsole = new ServerConsole())
+                using (Globals.database = new Database())
+                {
+                    bool result = Listener.Listen(ipAddress, port);
+                    if (result)
+                        return 0;
+                    else
+                        return -1;
+                }
+            }
+            catch (SocketException e)
+            {
+                if (e.ErrorCode == -2147467259)
+                    Console.Error.WriteLine("Port " + port + " is already occupied!");
                 else
-                    return -1;
+                    Console.Error.WriteLine("Cannot start listening!");
+                return -1;
             }
         }
 
