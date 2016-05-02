@@ -103,11 +103,6 @@ namespace SkyCrab.Classes.Menu
                             MessageBox.Show("Podany login jest zajęty!");
                             break;
                         }
-                    case ErrorCode.PASSWORD_TOO_SHORT:
-                        {
-                            MessageBox.Show("Podane hasło jest za krótkie!");
-                            break;
-                        }
 
                     case ErrorCode.EMAIL_OCCUPIED:
                         {
