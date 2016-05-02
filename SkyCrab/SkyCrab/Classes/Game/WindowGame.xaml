@@ -115,6 +115,7 @@
                                     </Setter.Value>
                                 </Setter>
                                 <Setter Property="ListBoxItem.HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="ListBoxItem.VerticalContentAlignment" Value="Top" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -122,8 +123,8 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <UniformGrid Columns="2" MaxWidth="20">
-                            <TextBlock x:Name="Tile" MaxHeight="20" />
-                            <TextBlock x:Name="Value" MaxHeight="10" />
+                            <TextBlock x:Name="Tile"  />
+                            <TextBlock x:Name="Value" Margin="4 6 0 0"  FontSize="7" />
                         </UniformGrid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding isValue}" Value="True">

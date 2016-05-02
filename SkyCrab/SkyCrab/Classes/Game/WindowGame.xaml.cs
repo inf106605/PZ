@@ -95,9 +95,6 @@ namespace SkyCrab.Classes.Game
                 scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column , scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
             }
 
-            //ScrabbleBoard.Squares[112] = new ScrabbleSquare(int.Parse("7"), int.Parse("7"), "A", 1); // wpisywanie współrzędnych na planszy oraz literki i wartości którą chcemy wyświetlić                                         
-            //usunięcie z kolekcji Rack zaznaczonych płytek 
-
             for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
                  scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
                  
