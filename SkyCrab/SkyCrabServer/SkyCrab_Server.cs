@@ -1,12 +1,16 @@
-﻿using System;
+﻿using SkyCrabServer.Connactions;
+using SkyCrabServer.Consoles;
+using SkyCrabServer.Databases;
+using System;
 using System.Net;
+using System.Net.Sockets;
 
 namespace SkyCrabServer
 {
     class SkyCrab_Server
     {
 
-        private static readonly Version version = new Version(0, 1, 7);
+        private static readonly Version version = new Version(0, 2, 2);
 
 
         static int Main(string[] args)
@@ -22,11 +26,28 @@ namespace SkyCrabServer
             if (!GetAddressAndPort(args, out ipAddress, out port))
                 return -1;
 
+
             Banners.Banner.PrintBanner(version);
-            if (Listener.Listen(ipAddress, port))
-                return 0;
-            else
+            try
+            {
+                using (Globals.serverConsole = new ServerConsole())
+                using (Globals.database = new Database())
+                {
+                    bool result = Listener.Listen(ipAddress, port);
+                    if (result)
+                        return 0;
+                    else
+                        return -1;
+                }
+            }
+            catch (SocketException e)
+            {
+                if (e.ErrorCode == -2147467259)
+                    Console.Error.WriteLine("Port " + port + " is already occupied!");
+                else
+                    Console.Error.WriteLine("Cannot start listening!");
                 return -1;
+            }
         }
 
         private static void PrintHelp()

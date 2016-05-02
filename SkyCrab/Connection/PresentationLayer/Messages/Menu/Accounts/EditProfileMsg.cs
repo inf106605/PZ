@@ -9,7 +9,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
     /// <para>ID: <see cref="MessageId.EDIT_PROFILE"/></para>
     /// <para>Data type: <see cref="PlayerProfile"/> (without login, registration and lastActivity) If a string is empty, the corresponding property will not change.</para>
     /// <para>Passible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
-    /// <para>Error codes: <see cref="ErrorCode.NICK_IS_TOO_SHITTY"/>, <see cref="ErrorCode.PASSWORD_TOO_SHORT2"/>, <see cref="ErrorCode.EMAIL_OCCUPIED2"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED2"/>, <see cref="ErrorCode.NICK_IS_TOO_SHITTY"/>, <see cref="ErrorCode.EMAIL_OCCUPIED2"/></para>
     /// </summary>
     public sealed class EditProfileMsg : AbstractMessage
     {

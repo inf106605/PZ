@@ -12,24 +12,25 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         NOT_LOGGED              = 3,
         //REGISTER
         LOGIN_OCCUPIED          = 4,
-        PASSWORD_TOO_SHORT      = 5,
+        PASSWORD_TOO_SHORT      = 5, //TODO remove
         EMAIL_OCCUPIED          = 6,
         //EDIT_PROFILE
+        NOT_LOGGED2             = NOT_LOGGED,
         NICK_IS_TOO_SHITTY      = 7,
-        PASSWORD_TOO_SHORT2     = PASSWORD_TOO_SHORT,
+        PASSWORD_TOO_SHORT2     = PASSWORD_TOO_SHORT, //TODO remove
         EMAIL_OCCUPIED2         = EMAIL_OCCUPIED,
         //GET_FRIENDS
-        NOT_LOGGED2             = NOT_LOGGED,
-        //ADD_FRIEND
         NOT_LOGGED3             = NOT_LOGGED,
+        //ADD_FRIEND
+        NOT_LOGGED4             = NOT_LOGGED,
         FRIEND_ALREADY_ADDED    = 8,
         FOREVER_ALONE           = 9,
         NO_SUCH_PLAYER          = 10,
         //REMOVE_FRIEND
-        NOT_LOGGED4             = NOT_LOGGED,
+        NOT_LOGGED5             = NOT_LOGGED,
         NO_SUCH_FRIEND          = 11,
         //GET_FRIEND_ROOMS
-        NOT_LOGGED5             = NOT_LOGGED,
+        NOT_LOGGED6             = NOT_LOGGED,
         //CREATE_ROOM
         ALREADY_IN_ROOM         = 12,
         //JOIN_ROOM

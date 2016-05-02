@@ -2,15 +2,14 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace SkyCrabServer
+namespace SkyCrabServer.Connactions
 {
-    class Listener
+    static class Listener
     {
 
         private static TcpListener tcpListener;
         private static volatile IAsyncResult asyncResult;
         private static volatile bool stoping = false;
-        public static ServerConsole serverConsole;
         private static object _lock = new object();
 
 
@@ -18,24 +17,42 @@ namespace SkyCrabServer
         {
             try
             {
-                Console.WriteLine("Initializing the server at " + ipAddress + ":" + port + "...\n");
+                Globals.serverConsole.WriteLine("Initializing the server at " + ipAddress + ":" + port + "...");
+
+                Globals.serverConsole.WriteLine("Generating/Loading criptographic keys...");
                 ServerConnection.PreLoadStaticMembers();
 
-                tcpListener = new TcpListener(ipAddress, port);
-                tcpListener.Start();
+                try
+                {
+                    tcpListener = new TcpListener(ipAddress, port);
+                    tcpListener.Start();
+                }
+                catch (SocketException e)
+                {
+                    if (e.HResult == -2147467259)
+                        Globals.serverConsole.WriteLine("Port " + port + " is already occupied!", Console.Error);
+                    else
+                        Globals.serverConsole.WriteLine("Cannot start listening!\n" + e.ToString(), Console.Error);
+                    return false;
+                }
 
                 asyncResult = tcpListener.BeginAcceptTcpClient(ClientAccepter, null);
-                Console.WriteLine("Accepting clients is begun.\n");
+                Globals.serverConsole.WriteLine("Accepting clients is begun.");
 
-                serverConsole = new ServerConsole();
-                serverConsole.Start();
-                serverConsole = null;
+                Globals.serverConsole.Wait();
 
                 lock (tcpListener)
                     asyncResult = null;
-
+            }
+            catch (Exception e)
+            {
+                Globals.serverConsole.WriteLine(e.ToString(), Console.Error);
+                return false;
+            }
+            finally
+            {
                 tcpListener.Stop();
-                Console.WriteLine("Accepting clients is stopped.\n");
+                Globals.serverConsole.WriteLine("Accepting clients is stopped.");
 
                 lock (_lock)
                 {
@@ -43,13 +60,8 @@ namespace SkyCrabServer
                     ConnectionManager.CloseAll();
                 }
 
-                Console.WriteLine("Clearing memory...\n");
+                Globals.serverConsole.WriteLine("Clearing memory...");
                 ServerConnection.DisposeStaticMembers();
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e);
-                return false;
             }
 
             return true;
