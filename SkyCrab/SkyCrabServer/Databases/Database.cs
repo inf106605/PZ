@@ -9,9 +9,12 @@ namespace SkyCrabServer.Databases
 
         private const string FILE_NAME = "Database.sqlite";
 
-        private SQLiteConnection connection;
+        //TODO do property at least
+        public SQLiteConnection connection;
 
-        
+        public object _lock = new object();
+
+
         private static bool FileExists
         {
             get { return File.Exists(FILE_NAME); }
@@ -22,7 +25,7 @@ namespace SkyCrabServer.Databases
         {
             try
             {
-                SkyCrab_Server.serverConsole.Lock();
+                Globals.serverConsole.Lock();
                 bool fileExists = FileExists;
                 if (!fileExists)
                     CreateFile();
@@ -32,34 +35,51 @@ namespace SkyCrabServer.Databases
             }
             finally
             {
-                SkyCrab_Server.serverConsole.Unlock();
+                Globals.serverConsole.Unlock();
             }
         }
 
         private static void CreateFile()
         {
-            SkyCrab_Server.serverConsole.WriteLine("Creating database file...");
+            Globals.serverConsole.WriteLine("Creating database file...");
             SQLiteConnection.CreateFile(FILE_NAME);
         }
 
         private void CreateConnection()
         {
-            SkyCrab_Server.serverConsole.WriteLine("Connecting with database...");
+            Globals.serverConsole.WriteLine("Connecting with database...");
             connection = new SQLiteConnection("Data Source=" + FILE_NAME + "; Version=3;");
             connection.Open();
         }
 
         private void CreateTables()
         {
-            SkyCrab_Server.serverConsole.WriteLine("Creating tables...");
+            Globals.serverConsole.WriteLine("Creating tables...");
             SQLiteCommand command = new SQLiteCommand(Properties.Resources.create_tables, connection);
             command.ExecuteNonQuery();
         }
 
         public void Dispose()
         {
-            SkyCrab_Server.serverConsole.WriteLine("Disconnecting with database...");
+            Globals.serverConsole.WriteLine("Disconnecting with database...");
             connection.Close();
+        }
+
+        public UInt32 GetLastInssertedId()
+        {
+            const string QUERY = "SELECT last_insert_rowid();";
+            SQLiteCommand command = new SQLiteCommand(QUERY, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                if (!reader.Read())
+                    throw new NoSuchRowException(command);
+                return (UInt32)reader.GetInt32(0);
+            }
+            finally
+            {
+                reader.Close();
+            }
         }
 
     }

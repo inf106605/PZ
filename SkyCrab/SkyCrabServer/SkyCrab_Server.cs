@@ -1,4 +1,6 @@
-﻿using SkyCrabServer.Databases;
+﻿using SkyCrabServer.Connactions;
+using SkyCrabServer.Consoles;
+using SkyCrabServer.Databases;
 using System;
 using System.Net;
 
@@ -7,9 +9,7 @@ namespace SkyCrabServer
     class SkyCrab_Server
     {
 
-        private static readonly Version version = new Version(0, 2, 1);
-
-        public static ServerConsole serverConsole;
+        private static readonly Version version = new Version(0, 2, 2);
 
 
         static int Main(string[] args)
@@ -27,8 +27,8 @@ namespace SkyCrabServer
 
 
             Banners.Banner.PrintBanner(version);
-            using (serverConsole = new ServerConsole())
-            using (Database database = new Database())
+            using (Globals.serverConsole = new ServerConsole())
+            using (Globals.database = new Database())
             {
                 bool result = Listener.Listen(ipAddress, port);
                 if (result)

@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SkyCrabServer
+namespace SkyCrabServer.Consoles
 {
     //TODO use this all the time?
     sealed class ServerConsole : IDisposable
@@ -107,7 +107,7 @@ namespace SkyCrabServer
                 else
                 {
                     Console.WriteLine("Unknown command!");
-                    Console.WriteLine("Type 'HELP' for more info.\n");
+                    Console.WriteLine("Type 'HELP' for more info.");
                 }
             }
             finally

@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace SkyCrabServer
+namespace SkyCrabServer.Connactions
 {
     static class Listener
     {
@@ -17,24 +17,24 @@ namespace SkyCrabServer
         {
             try
             {
-                SkyCrab_Server.serverConsole.WriteLine("Initializing the server at " + ipAddress + ":" + port + "...");
+                Globals.serverConsole.WriteLine("Initializing the server at " + ipAddress + ":" + port + "...");
 
-                SkyCrab_Server.serverConsole.WriteLine("Generating/Loading criptographic keys...");
+                Globals.serverConsole.WriteLine("Generating/Loading criptographic keys...");
                 ServerConnection.PreLoadStaticMembers();
 
                 tcpListener = new TcpListener(ipAddress, port);
                 tcpListener.Start();
 
                 asyncResult = tcpListener.BeginAcceptTcpClient(ClientAccepter, null);
-                SkyCrab_Server.serverConsole.WriteLine("Accepting clients is begun.");
+                Globals.serverConsole.WriteLine("Accepting clients is begun.");
 
-                SkyCrab_Server.serverConsole.Wait();
+                Globals.serverConsole.Wait();
 
                 lock (tcpListener)
                     asyncResult = null;
 
                 tcpListener.Stop();
-                SkyCrab_Server.serverConsole.WriteLine("Accepting clients is stopped.");
+                Globals.serverConsole.WriteLine("Accepting clients is stopped.");
 
                 lock (_lock)
                 {
@@ -42,7 +42,7 @@ namespace SkyCrabServer
                     ConnectionManager.CloseAll();
                 }
 
-                SkyCrab_Server.serverConsole.WriteLine("Clearing memory...");
+                Globals.serverConsole.WriteLine("Clearing memory...");
                 ServerConnection.DisposeStaticMembers();
             }
             catch (Exception e)
