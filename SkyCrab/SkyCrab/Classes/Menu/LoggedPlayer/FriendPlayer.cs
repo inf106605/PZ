@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

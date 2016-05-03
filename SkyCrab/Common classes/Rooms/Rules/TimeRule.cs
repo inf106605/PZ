@@ -1,10 +1,21 @@
-﻿namespace SkyCrab.Common_classes.Rooms.Rules
+﻿using System;
+
+namespace SkyCrab.Common_classes.Rooms.Rules
 {
-    public class TimeRule : Rule<uint>
+    public class TimeRule : Rule<UInt32>
     {
 
-        public uint minTime;
-        public uint maxTime;
+        public UInt32 minTime;
+        public UInt32 maxTime;
+        
+        public TimeRule()
+        {
+        }
+
+        public TimeRule(Rule<UInt32> rule) :
+            base(rule)
+        {
+        }
 
     }
 }

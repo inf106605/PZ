@@ -1,10 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using SkyCrab.Menu;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using System.Text.RegularExpressions;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 
 namespace SkyCrab.Classes.Menu
 {
@@ -101,11 +101,6 @@ namespace SkyCrab.Classes.Menu
                     case ErrorCode.LOGIN_OCCUPIED:
                         {
                             MessageBox.Show("Podany login jest zajęty!");
-                            break;
-                        }
-                    case ErrorCode.PASSWORD_TOO_SHORT:
-                        {
-                            MessageBox.Show("Podane hasło jest za krótkie!");
                             break;
                         }
 

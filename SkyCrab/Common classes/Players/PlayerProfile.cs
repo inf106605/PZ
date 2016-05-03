@@ -18,7 +18,7 @@ namespace SkyCrab.Common_classes.Players
             get { return login; }
             set
             {
-                LengthLimit.Login.checkAndThrow(value);
+                LengthLimit.Login.CheckAndThrow(value);
                 login = value;
             }
         }
@@ -28,7 +28,7 @@ namespace SkyCrab.Common_classes.Players
             get { return password; }
             set
             {
-                LengthLimit.Password.checkAndThrow(value);
+                LengthLimit.Password.CheckAndThrow(value);
                 password = value;
             }
         }
@@ -38,7 +38,7 @@ namespace SkyCrab.Common_classes.Players
             get { return nick; }
             set
             {
-                LengthLimit.Nick.checkAndThrow(value);
+                LengthLimit.Nick.CheckAndThrow(value);
                 nick = value;
             }
         }
@@ -48,7 +48,7 @@ namespace SkyCrab.Common_classes.Players
             get { return eMail; }
             set
             {
-                LengthLimit.EMail.checkAndThrow(value);
+                LengthLimit.EMail.CheckAndThrow(value);
                 eMail = value;
             }
         }

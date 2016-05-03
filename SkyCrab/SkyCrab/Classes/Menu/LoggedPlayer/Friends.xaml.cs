@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +25,6 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
     /// </summary>
     public partial class Friends : UserControl
     {
-        Timer timer;
         FriendPlayer friendPlayer = null;
         // timer = new Timer(nazwa_funkcji,parametry,po jakim czasie ma sie wywolac, ile razy ) 
         public Friends()

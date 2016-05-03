@@ -128,7 +128,7 @@ namespace SkyCrab.Connection.SessionLayer
 
         protected override void DoPrepareForDispose(bool answeringForDisconnectMsg)
         {
-            for (int i = 0; i != 100; ++i)
+            for (int i = 0; i != ReadTimeout; ++i)
             {
                 if (writeQueue.Count == 0)
                     break;
@@ -152,7 +152,7 @@ namespace SkyCrab.Connection.SessionLayer
             while (true)
             {
                 writeTaskIsOk = false;
-                if (writeTask.Wait(1000))
+                if (writeTask.Wait(ReadTimeout * 10))
                     break;
                 if (!writeTaskIsOk)
                     throw new TaskIsNotRespondingException();

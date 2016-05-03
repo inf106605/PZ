@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,11 +101,6 @@ namespace SkyCrab.Classes.Menu
                     case ErrorCode.NICK_IS_TOO_SHITTY:
                         {
                             MessageBox.Show("Podany nick jest nieodpowiedni!");
-                            break;
-                        }
-                    case ErrorCode.PASSWORD_TOO_SHORT2:
-                        {
-                            MessageBox.Show("Podane hasło jest za krótkie!");
                             break;
                         }
 

@@ -37,8 +37,8 @@ namespace SkyCrab
     
             try {
                 ClientConnection.PreLoadStaticMembers();
-                clientConn = new ClientConnection("127.0.0.1", 100);
-                clientConn.addConnectionCloseListener((connection, exceptions) => clientConn = null); //TODO handle exception (from argument, it is not throwed)
+                clientConn = new ClientConnection("127.0.0.1", 1000);
+                clientConn.AddConnectionCloseListener((connection, exceptions) => clientConn = null); //TODO handle exception (from argument, it is not throwed)
             } catch(Exception ex)
             {
                 MessageBox.Show("Nie udało się połączyć: " + ex.Message);

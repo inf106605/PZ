@@ -2,7 +2,7 @@
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 {
-    internal sealed class BoolTranscoder : ITranscoder<bool>
+    internal sealed class BoolTranscoder : AbstractTranscoder<bool>
     {
 
         private enum Value : byte
@@ -24,7 +24,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         }
 
 
-        public bool Read(EncryptedConnection connection)
+        public override bool Read(EncryptedConnection connection)
         {
             byte value = UInt8Transcoder.Get.Read(connection);
             switch (value)
@@ -40,7 +40,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             }
         }
 
-        public void Write(EncryptedConnection connection, object writingBlock, bool data)
+        public override void Write(EncryptedConnection connection, object writingBlock, bool data)
         {
             if (data)
                 UInt8Transcoder.Get.Write(connection, writingBlock, (byte)Value.TRUE);

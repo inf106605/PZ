@@ -3,7 +3,7 @@ using System.Text;
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
 {
-    internal sealed class StringTranscoder : ITranscoder<String>
+    internal sealed class StringTranscoder : AbstractTranscoder<String>
     {
 
         private static readonly StringTranscoder instance = new StringTranscoder();
@@ -17,7 +17,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
         {
         }
 
-        public String Read(EncryptedConnection connection)
+        public override String Read(EncryptedConnection connection)
         {
             UInt16 length = UInt16Transcoder.Get.Read(connection);
             if (length == 0)
@@ -27,7 +27,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
             return data;
         }
 
-        public void Write(EncryptedConnection connection, object writingBlock, String data)
+        public override void Write(EncryptedConnection connection, object writingBlock, String data)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(data);
             UInt16 lenght = (UInt16)bytes.Length;
