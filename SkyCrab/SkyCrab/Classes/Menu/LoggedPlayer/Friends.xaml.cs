@@ -26,7 +26,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
     public partial class Friends : UserControl
     {
         FriendPlayer friendPlayer = null;
-        // timer = new Timer(nazwa_funkcji,parametry,po jakim czasie ma sie wywolac, ile razy ) 
+
         public Friends()
         {
             InitializeComponent();

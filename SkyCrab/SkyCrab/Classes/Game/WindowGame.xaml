@@ -159,7 +159,7 @@
             </Grid.ColumnDefinitions>
             <UniformGrid x:Name="ActionPlayerButton" Columns="3" Grid.Column="1" Margin="5">
                 <Button x:Name="Play" Content="Graj" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Play_Click"></Button>
-                <Button x:Name="Exchange" Content="Wymiana" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
+                <Button x:Name="Exchange" Content="Wymiana" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Exchange_Click"></Button>
                 <Button x:Name="Pass" Content="Pas" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
             </UniformGrid>
         </Grid>
@@ -169,8 +169,7 @@
                      ItemsSource="{Binding RackTiles}"
                      SelectionMode="Extended"
                      dd:DragDrop.IsDragSource="True" 
-                     dd:DragDrop.IsDropTarget="True"
-                     >
+                     dd:DragDrop.IsDropTarget="True">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid IsItemsHost="True" Columns="8" />
