@@ -5,12 +5,13 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
     public enum ErrorCode : UInt16
     {
         //LOGIN
-        WRONG_LOGIN_OR_PASSWORD = 0,
-        USER_ALREADY_LOGGED     = 1,
-        SESSION_ALREADY_LOGGED  = 2,
+        SESSION_ALREADY_LOGGED  = 0,
+        WRONG_LOGIN_OR_PASSWORD = 1,
+        USER_ALREADY_LOGGED     = 2,
         //LOGOUT
         NOT_LOGGED              = 3,
         //REGISTER
+        SESSION_ALREADY_LOGGED2 = SESSION_ALREADY_LOGGED,
         LOGIN_OCCUPIED          = 4,
         EMAIL_OCCUPIED          = 5,
         //EDIT_PROFILE

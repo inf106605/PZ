@@ -98,6 +98,12 @@ namespace SkyCrab.Classes.Menu
 
                 switch (errorCode)
                 {
+                    case ErrorCode.SESSION_ALREADY_LOGGED2:
+                        {
+                            MessageBox.Show("Twój program jest już zalogowany na innego użytkownika");
+                            break;
+                        }
+
                     case ErrorCode.LOGIN_OCCUPIED:
                         {
                             MessageBox.Show("Podany login jest zajęty!");
