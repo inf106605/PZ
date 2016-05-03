@@ -19,6 +19,8 @@ namespace SkyCrabServer.Connactions
     class ServerConnection : AbstractServerConnection
     {
 
+        private const string DEFAULT_NICK = "Crab";
+
         private Random random = new Random(); //TODO remove when will be not used
         private Player player;
 
@@ -97,6 +99,11 @@ namespace SkyCrabServer.Connactions
 
         private void Login(PlayerProfile playerProfile)
         {
+            if (this.player != null)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.SESSION_ALREADY_LOGGED);
+                return;
+            }
             Player player = PlayerProfileTable.GetByLogin(playerProfile.Login);
             if (player == null)
             {
@@ -112,11 +119,6 @@ namespace SkyCrabServer.Connactions
                     ErrorMsg.AsyncPostError(this, ErrorCode.WRONG_LOGIN_OR_PASSWORD);
                     return;
                 }
-            }
-            if (this.player != null)
-            {
-                ErrorMsg.AsyncPostError(this, ErrorCode.SESSION_ALREADY_LOGGED);
-                return;
             }
             if (!Globals.players.TryAdd(player.Id, player))
             {
@@ -143,18 +145,26 @@ namespace SkyCrabServer.Connactions
 
         private void OnLogout()
         {
+            if (player != null)
             {
-                Player temp;
-                Globals.players.TryRemove(player.Id, out temp);
+                {
+                    Player temp;
+                    Globals.players.TryRemove(player.Id, out temp);
+                }
+                //TODO leave current room
+                player = null;
             }
-            //TODO leave current room
-            player = null;
         }
 
         private void Register(PlayerProfile playerProfile)
         {
             lock (PlayerProfileTable._lock)
             {
+                if (this.player != null)
+                {
+                    ErrorMsg.AsyncPostError(this, ErrorCode.SESSION_ALREADY_LOGGED2);
+                    return;
+                }
                 if (PlayerProfileTable.CheckLoginExists(playerProfile.Login))
                 {
                     ErrorMsg.AsyncPostError(this, ErrorCode.LOGIN_OCCUPIED);
@@ -171,13 +181,16 @@ namespace SkyCrabServer.Connactions
                     string decoratedPassword = DecoratePassword(playerProfile);
                     string passwordHash = BCrypt.HashPassword(decoratedPassword, BCrypt.GenerateSalt(12));
                     playerProfile.Password = null;
-                    playerProfile.Nick = playerProfile.Login;
+                    if (IsNickShitty(playerProfile.Login))
+                        playerProfile.Nick = DEFAULT_NICK;
+                    else
+                        playerProfile.Nick = playerProfile.Login;
                     playerProfile.Registration = DateTime.Now;
                     playerProfile.LastActivity = DateTime.Now;
                     id = PlayerProfileTable.Create(playerProfile, passwordHash);
                 }
 
-                Player player = new Player(id, playerProfile);
+                player = new Player(id, playerProfile);
                 Globals.players.TryAdd(player.Id, player);
                 LoginOkMsg.AsyncPostLoginOk(this, player);
             }

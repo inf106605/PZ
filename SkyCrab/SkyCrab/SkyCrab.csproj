@@ -65,6 +65,8 @@
     <Compile Include="Classes\Game\ScrabbleRack.cs" />
     <Compile Include="Classes\Game\ScrabbleRackTiles.cs" />
     <Compile Include="Classes\Game\ScrabbleSquare.cs" />
+    <Compile Include="Classes\Game\ScrabbleTilesSelectedFromBoard.cs" />
+    <Compile Include="Classes\Game\ScrabbleTilesSelectedFromRack.cs" />
     <Compile Include="Classes\Game\WindowGame.xaml.cs">
       <DependentUpon>WindowGame.xaml</DependentUpon>
     </Compile>
@@ -92,6 +94,7 @@
     <Compile Include="Classes\Menu\LoggedPlayer\CreateRoomForLoggedPlayers.xaml.cs">
       <DependentUpon>CreateRoomForLoggedPlayers.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\FriendPlayer.cs" />
     <Compile Include="Classes\Menu\LoggedPlayer\Friends.xaml.cs">
       <DependentUpon>Friends.xaml</DependentUpon>
     </Compile>

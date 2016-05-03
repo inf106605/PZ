@@ -16,9 +16,10 @@ namespace SkyCrab.Connection.SessionLayer
     public abstract class BasicConnection : IDisposable
     {
 
-        public const int PORT = 8888;
+        public const int PORT = 8888;  //TODO
 
         private TcpClient tcpClient;
+        private int readTimeout;
         protected volatile bool isDisposing = false;
         protected volatile bool isDisposed = false;
         private volatile bool preparedForDispose = false;
@@ -49,6 +50,11 @@ namespace SkyCrab.Connection.SessionLayer
             get { return CreateAuthorityString(ServerEndPoint); }
         }
 
+        public int ReadTimeout
+        {
+            get { return readTimeout; }
+        }
+
 
         private static string CreateAuthorityString(IPEndPoint endPoint)
         {
@@ -72,6 +78,7 @@ namespace SkyCrab.Connection.SessionLayer
         protected BasicConnection(TcpClient tcpClient, int readTimeout)
         {
             this.tcpClient = tcpClient;
+            this.readTimeout = readTimeout;
             tcpClient.ReceiveTimeout = readTimeout;
         }
 

@@ -25,6 +25,16 @@ namespace SkyCrab.Classes.Menu
 
         private void ButonLoginConfirm_Click(object sender, RoutedEventArgs e)
         {
+            if(loginTextbox.Text.Length < 3)
+            {
+                MessageBox.Show("Podana nazwa użytkownika jest za krótka!");
+                return;
+            }
+            if(passTextbox.Password.Length < 5)
+            {
+                MessageBox.Show("Twoje hasło jest za krótkie!");
+                return;
+            }
 
             PlayerProfile playerProfile = new PlayerProfile();
 
