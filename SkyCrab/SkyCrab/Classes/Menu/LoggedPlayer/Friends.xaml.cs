@@ -50,7 +50,6 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             foreach ( var item in FriendSearchListBox.SelectedItems)
             {
-                MessageBox.Show(item.GetType().GetProperty("Nick").GetValue(item,null).ToString());
                 if(!friendPlayer.ListPlayers.Contains(item))
                 {
                     var addFriendMsgAnswer = AddFriendMsg.SyncPostAddFriend(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
@@ -151,11 +150,57 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
         private void deleteFriendButton_Click(object sender, RoutedEventArgs e)
         {
+            uint idRemovedFriend = 0;
 
+            foreach (var item in FriendsListBox.SelectedItems)
+            {
+                MessageBox.Show(item.GetType().GetProperty("Nick").GetValue(item, null).ToString());
+
+                var deleteFriendMsgAnswer = RemoveFriendMsg.SyncPostRemoveFriend(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
+
+                if (!deleteFriendMsgAnswer.HasValue)
+                {
+                    MessageBox.Show("Brak odpowiedzi od serwera!");
+                    return;
+                }
+
+                var answerValue = deleteFriendMsgAnswer.Value;
+
+                if (answerValue.messageId == MessageId.ERROR)
+                {
+                    ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                    switch (errorCode)
+                    {
+                        case ErrorCode.NOT_LOGGED5:
+                            {
+                                MessageBox.Show("Nie jesteś zalogowany!");
+                                break;
+                            }
+                        case ErrorCode.NO_SUCH_FRIEND:
+                            {
+                                MessageBox.Show("Nie masz takiego znajomego!");
+                                break;
+                            }
+
+                    }
+                }
+                if (answerValue.messageId == MessageId.OK)
+                {
+                    idRemovedFriend = uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString());
+                }
+            }
+
+            if(idRemovedFriend != 0)
+            {
+                friendPlayer.RemovePlayerFromFriend(idRemovedFriend);
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (searchTextBox.Text.Length < 3) return;
+
             friendPlayer.ClearListBoxSearchingPlayers();
 
             var getFriendMsgAnswer = FindPlayersMsg.SyncPostFindPlayers(App.clientConn, searchTextBox.Text, 3000);
