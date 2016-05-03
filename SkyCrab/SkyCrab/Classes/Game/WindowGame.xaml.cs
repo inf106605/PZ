@@ -79,16 +79,46 @@ namespace SkyCrab.Classes.Game
                 scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Add((ScrabbleSquare)item);
             }
 
+            // WALIDACJA ZAZNACZONYCH PŁYTEK NA PLANSZY I STOJAKU
+
+            bool ifVerticalPositionTiles = true;
+            bool ifHorizontalPositionTiles = true;
+
             for(int i = 0; i < scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Count; i++)
             {
-                MessageBox.Show(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column + " " + scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row);
+                if(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].isValue)
+                {
+                    MessageBox.Show("W tym miejscu już istnieje płytka!");
+                    return;
+                }
+
+                if(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[0].Column != scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column)
+                {
+                    ifHorizontalPositionTiles = false;
+                }
+                if(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[0].Row != scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row)
+                {
+                    ifVerticalPositionTiles = false;
+                }
+
             }
-            
+
+            if (scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Count > 1)
+            {
+
+                if (!((ifVerticalPositionTiles && !ifHorizontalPositionTiles) || (!ifVerticalPositionTiles && ifHorizontalPositionTiles)))
+                {
+                    MessageBox.Show("Płytki są nieprawidłowo układane. Tylko poziomo lub pionowo");
+                    return;
+                }
+            }
             if(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Count != scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count)
             {
                 MessageBox.Show("Nie zaznaczono odpowiedniej liczby płytek lub pól");
                 return;
             }
+
+            // KONIEC WALIDACJI
 
             for(int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
             {
