@@ -130,7 +130,7 @@ namespace SkyCrabServer.Connactions
             LoginOkMsg.AsyncPostLoginOk(this, player);
         }
 
-        private void Logout() //TODO use this during disposing
+        private void Logout()
         {
             if (player == null)
             {
