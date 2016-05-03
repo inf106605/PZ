@@ -3,8 +3,8 @@
     public struct Letter
     {
 
-        char character;
-        uint points;
+        public readonly char character;
+        public readonly uint points;
 
 
         public Letter(char character, uint points)

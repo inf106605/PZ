@@ -12,11 +12,24 @@ namespace SkyCrab.Classes.Game
 {
     public class ScrabbleBoard
     {
-        static public ObservableCollection<ScrabbleSquare> Squares { get; private set; }
+        private ObservableCollection<ScrabbleSquare> squares;
+
+        public ObservableCollection<ScrabbleSquare> Squares
+        {
+            get
+            {
+                return squares;
+            }
+        }
+
+        public void SetScrabbleSquare(int PositionListBox, int Columns, int Rows, string NameTiles, int ValuesTiles)
+        {
+            squares[PositionListBox] = new ScrabbleSquare(Columns, Rows, NameTiles, ValuesTiles);
+        }
 
         public ScrabbleBoard()
         {
-            Squares = new ObservableCollection<ScrabbleSquare>();
+            squares = new ObservableCollection<ScrabbleSquare>();
 
             StandardBoard standardBoard = new StandardBoard();
 

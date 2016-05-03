@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Common_classes.Games.Players;
-using SkyCrab.Common_classes.Games.Pouches;
+using SkyCrab.Common_classes.Games.Pouch;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.Common_classes.Rooms.Rules;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace SkyCrab.Common_classes.Games
         private Board board;
         private PlayerInGame[] players;
         private uint currentPlayerNumber = 0;
-        private Pouch[] pouches;
+        private Pouch.Pouch[] pouches;
         private bool isDummy;
 
 
@@ -44,7 +44,7 @@ namespace SkyCrab.Common_classes.Games
             get { return players[currentPlayerNumber]; }
         }
 
-        public Pouch[] Puoches
+        public Pouch.Pouch[] Puoches
         {
             get { return pouches; }
         }

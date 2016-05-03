@@ -20,15 +20,35 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Play
         public override Player Read(EncryptedConnection connection)
         {
             uint id = UInt32Transcoder.Get.Read(connection);
-            PlayerProfile playerProfile = PlayerProfileTranscoder.Get.Read(connection);
-            Player player = new Player(id, playerProfile);
+            bool hasProfile = BoolTranscoder.Get.Read(connection);
+            Player player;
+            if (hasProfile)
+            {
+                PlayerProfile playerProfile = PlayerProfileTranscoder.Get.Read(connection);
+                player = new Player(id, playerProfile);
+            }
+            else
+            {
+                bool isGuest = BoolTranscoder.Get.Read(connection);
+                string nick = StringTranscoder.Get.Read(connection);
+                player = new Player(id, isGuest, nick);
+            }
             return player;
         }
 
         public override void Write(EncryptedConnection connection, object writingBlock, Player data)
         {
             UInt32Transcoder.Get.Write(connection, writingBlock, data.Id);
-            PlayerProfileTranscoder.Get.Write(connection, writingBlock, data.Profile);
+            BoolTranscoder.Get.Write(connection, writingBlock, data.Profile != null);
+            if (data.Profile == null)
+            {
+                BoolTranscoder.Get.Write(connection, writingBlock, data.IsGuest);
+                StringTranscoder.Get.Write(connection, writingBlock, data.Nick);
+            }
+            else
+            {
+                PlayerProfileTranscoder.Get.Write(connection, writingBlock, data.Profile);
+            }
         }
 
     }

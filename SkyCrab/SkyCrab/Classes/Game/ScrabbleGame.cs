@@ -1,4 +1,8 @@
-﻿using System;
+﻿using SkyCrab.Common_classes.Games.Letters;
+using SkyCrab.Common_classes.Games.Pouch;
+using SkyCrab.Common_classes.Games.Racks;
+using SkyCrab.Common_classes.Games.Tiles;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,17 +15,25 @@ namespace SkyCrab.Classes.Game
     {
         public ScrabbleBoard scrabbleBoard;
         public ScrabbleRack scrabbleRack;
-        
+        public Pouch pouch;
+
         public ScrabbleGame()
         {
             scrabbleBoard = new ScrabbleBoard(); 
             scrabbleRack = new ScrabbleRack();
+            scrabbleRack = new ScrabbleRack();
+            pouch = new Pouch(0,PolishTileSet.instance.Letters);
+            for(int i=0; i < 7;i++)
+            {
+                TileOnRack temp = new TileOnRack(pouch.DrawRandowmTile());
+                RackTiles.Add(new ScrabbleRackTiles(temp));
+            }
         }
 
-        static public ObservableCollection<ScrabbleSquare> Squares {
+       public ObservableCollection<ScrabbleSquare> Squares {
             get
             {
-                return ScrabbleBoard.Squares;   
+                return scrabbleBoard.Squares;   
             }
         }
 
@@ -29,7 +41,7 @@ namespace SkyCrab.Classes.Game
         {
             get
             {
-                return ScrabbleRack.RackTiles;
+                return scrabbleRack.RackTiles;
             }
         }
 

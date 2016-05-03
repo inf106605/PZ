@@ -1,5 +1,5 @@
 ﻿using SkyCrab.Common_classes.Games.Boards;
-using SkyCrab.Common_classes.Games.Pouches;
+using SkyCrab.Common_classes.Games.Pouch;
 using SkyCrab.Common_classes.Games.Tiles;
 
 namespace SkyCrab.Common_classes.Rooms.Rules

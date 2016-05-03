@@ -50,9 +50,9 @@
                                 <GridViewColumn Header="Czas" DisplayMemberBinding="{Binding PlayerTime}" />
                                 <GridViewColumn Header="Ilość płytek" DisplayMemberBinding="{Binding PlayerTiles}" />
                             </GridView.Columns>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </Grid>
             <Grid Grid.Row="3" Background="Black" Margin="10,10,10,-50">
                 <TextBox Background="Black" Foreground="Red" Text="CHAT" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
@@ -85,11 +85,11 @@
                 </Grid>
             </Grid>
             <ListBox Background="Black" x:Name="scrabbleBoard" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Squares}" SelectionMode="Extended">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid IsItemsHost="True" Rows="15" Columns="15" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid IsItemsHost="True" Rows="15" Columns="15" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
                         <Style.Triggers>
@@ -108,32 +108,48 @@
                             <DataTrigger Binding="{Binding Path=IsGreen}" Value="True">
                                 <Setter Property="ListBoxItem.Background" Value="#07b5ac"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=isValue}" Value="True">
+                                <Setter Property="ListBoxItem.Background" >
+                                    <Setter.Value>
+                                        <ImageBrush TileMode="Tile" ImageSource="/SkyCrab;component/Images/Game/blank.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="ListBoxItem.HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="ListBoxItem.VerticalContentAlignment" Value="Top" />
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Tile}" />
+                        <UniformGrid Columns="2" MaxWidth="20">
+                            <TextBlock x:Name="Tile"  />
+                            <TextBlock x:Name="Value" Margin="4 6 0 0"  FontSize="7" />
+                        </UniformGrid>
                         <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding isValue}" Value="True">
+                                <Setter TargetName="Tile" Property="TextBlock.Text" Value="{Binding Tile}" />
+                                <Setter TargetName="Value" Property="TextBlock.Text" Value="{Binding Value}" />
+                            </DataTrigger>
                             <DataTrigger Binding="{Binding IsDarkBlue}" Value="True">
                                 <Setter Property="ListBoxItem.Background" Value="#04bef1"/>
                             </DataTrigger>
-                                <DataTrigger Binding="{Binding IsRed}" Value="True">
+                            <DataTrigger Binding="{Binding IsRed}" Value="True">
                                 <Setter Property="ListBoxItem.Background" Value="#db3920"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsOrange}" Value="True">
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsOrange}" Value="True">
                                 <Setter Property="ListBoxItem.Background" Value="#fed9a5"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsBlue}" Value="True">
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsBlue}" Value="True">
                                 <Setter Property="ListBoxItem.Background" Value="#AEECF9"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsGreen}" Value="True">
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsGreen}" Value="True">
                                 <Setter Property="ListBoxItem.Background" Value="#07b5ac"/>
-                                </DataTrigger>
-                            </DataTemplate.Triggers>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -152,15 +168,15 @@
                      Background="Green"
                      ItemsSource="{Binding RackTiles}"
                      SelectionMode="Extended"
-                     dd:DragDrop.IsDragSource="True"
+                     dd:DragDrop.IsDragSource="True" 
                      dd:DragDrop.IsDropTarget="True"
                      >
                 <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid IsItemsHost="True" Columns="8" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
+                    <ItemsPanelTemplate>
+                        <UniformGrid IsItemsHost="True" Columns="8" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel.Background>
@@ -170,8 +186,8 @@
                             <TextBlock FontSize="5" MinWidth="5" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Left" Text="{Binding Value}"></TextBlock>
                         </StackPanel>
                     </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Viewbox>
         <Grid Grid.Column="2" Grid.Row="3">
             <Grid.ColumnDefinitions>
