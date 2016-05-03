@@ -189,7 +189,7 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private void PingTaskBody(object state)
         {
-            try
+            /*try
             {
                 lock (pingTimer)
                 {
@@ -211,7 +211,7 @@ namespace SkyCrab.Connection.PresentationLayer
             {
                 StoreException(e);
                 AsyncDispose();
-            }
+            }*/
         }
 
         protected void AnswerPing(object message)
@@ -293,7 +293,7 @@ namespace SkyCrab.Connection.PresentationLayer
             listeningTask.Dispose();
             processingTask.Dispose();
             answerQueue.Dispose();
-            base.Dispose();
+            base.DoDispose();
         }
 
         private void CloseListeningTask()
