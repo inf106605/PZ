@@ -37,7 +37,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class MessageConnection : EncryptedConnection
     {
 
-        private static readonly Version version = new Version(5, 1, 1);
+        private static readonly Version version = new Version(5, 1, 2);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -45,6 +45,22 @@ namespace SkyCrab.Connection.PresentationLayer
         protected BlockingCollection<MessageInfo> messages = new BlockingCollection<MessageInfo>(new ConcurrentQueue<MessageInfo>());
         private AnswerQueue answerQueue = new AnswerQueue();
         protected bool processingMessagesOk;
+
+
+        private int PingTimeout
+        {
+            get
+            {
+                int result = ReadTimeout * 10;
+                if (result > 20000)
+                    result = 20000;
+                if (result < 1000)
+                    result = 1000;
+                if (result < ReadTimeout * 2)
+                    result = ReadTimeout * 2;
+                return result;
+            }
+        }
 
 
         static MessageConnection()
@@ -105,7 +121,7 @@ namespace SkyCrab.Connection.PresentationLayer
         {
             listeningTask = Task.Factory.StartNew(RunListeningTaskBody, TaskCreationOptions.LongRunning);
             processingTask = Task.Factory.StartNew(ProcessMessagesTaskBody, TaskCreationOptions.LongRunning);
-            pingTimer = new Timer(PingTaskBody, null, 5000, 5000);
+            pingTimer = new Timer(PingTaskBody, null, PingTimeout * 3, PingTimeout * 3);
         }
 
         private void RunListeningTaskBody()
@@ -173,13 +189,13 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private void PingTaskBody(object state)
         {
-            try
+            /*try
             {
                 lock (pingTimer)
                 {
                     if (isDisposing)
                         return;
-                    MessageInfo? messageInfo = PingMsg.SyncPostPing(this, 1000);
+                    MessageInfo? messageInfo = PingMsg.SyncPostPing(this, PingTimeout);
                     if (!messageInfo.HasValue)
                     {
                         if (isDisposing)
@@ -195,7 +211,7 @@ namespace SkyCrab.Connection.PresentationLayer
             {
                 StoreException(e);
                 AsyncDispose();
-            }
+            }*/
         }
 
         protected void AnswerPing(object message)
@@ -267,7 +283,7 @@ namespace SkyCrab.Connection.PresentationLayer
             lock (pingTimer) { }
             base.DoPrepareForDispose(answeringToDisposeMsg);
             if (!answeringToDisposeMsg)
-                DisconnectMsg.SyncPostDisconnect(this, 1000);
+                DisconnectMsg.SyncPostDisconnect(this, ReadTimeout * 10);
         }
 
         protected override void DoDispose()
@@ -277,12 +293,12 @@ namespace SkyCrab.Connection.PresentationLayer
             listeningTask.Dispose();
             processingTask.Dispose();
             answerQueue.Dispose();
-            base.Dispose();
+            base.DoDispose();
         }
 
         private void CloseListeningTask()
         {
-            if (!listeningTask.Wait(1000))
+            if (!listeningTask.Wait(ReadTimeout * 10))
                 throw new TaskIsNotRespondingException();
         }
 
@@ -292,7 +308,7 @@ namespace SkyCrab.Connection.PresentationLayer
             while (true)
             {
                 processingMessagesOk = false;
-                if (processingTask.Wait(1000))
+                if (processingTask.Wait(ReadTimeout * 10))
                     break;
                 if (!processingMessagesOk)
                     throw new TaskIsNotRespondingException();

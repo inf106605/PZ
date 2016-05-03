@@ -143,12 +143,15 @@ namespace SkyCrabServer.Connactions
 
         private void OnLogout()
         {
+            if (player != null)
             {
-                Player temp;
-                Globals.players.TryRemove(player.Id, out temp);
+                {
+                    Player temp;
+                    Globals.players.TryRemove(player.Id, out temp);
+                }
+                //TODO leave current room
+                player = null;
             }
-            //TODO leave current room
-            player = null;
         }
 
         private void Register(PlayerProfile playerProfile)
