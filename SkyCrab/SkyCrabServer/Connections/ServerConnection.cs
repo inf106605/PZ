@@ -20,8 +20,7 @@ namespace SkyCrabServer.Connactions
     {
 
         private const string DEFAULT_NICK = "Crab";
-
-        private Random random = new Random(); //TODO remove when will be not used
+        
         private Player player;
 
 
@@ -104,7 +103,7 @@ namespace SkyCrabServer.Connactions
                 ErrorMsg.AsyncPostError(this, ErrorCode.SESSION_ALREADY_LOGGED);
                 return;
             }
-            Player player = PlayerProfileTable.GetByLogin(playerProfile.Login);
+            Player player = PlayerProfileTable.GetLongByLogin(playerProfile.Login);
             if (player == null)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.WRONG_LOGIN_OR_PASSWORD);
@@ -130,7 +129,7 @@ namespace SkyCrabServer.Connactions
             LoginOkMsg.AsyncPostLoginOk(this, player);
         }
 
-        private void Logout() //TODO use this during disposing
+        private void Logout()
         {
             if (player == null)
             {
@@ -165,12 +164,12 @@ namespace SkyCrabServer.Connactions
                     ErrorMsg.AsyncPostError(this, ErrorCode.SESSION_ALREADY_LOGGED2);
                     return;
                 }
-                if (PlayerProfileTable.CheckLoginExists(playerProfile.Login))
+                if (PlayerProfileTable.LoginExists(playerProfile.Login))
                 {
                     ErrorMsg.AsyncPostError(this, ErrorCode.LOGIN_OCCUPIED);
                     return;
                 }
-                if (PlayerProfileTable.CheckEMailExists(playerProfile.EMail, 0))
+                if (PlayerProfileTable.EMailExists(playerProfile.EMail, 0))
                 {
                     ErrorMsg.AsyncPostError(this, ErrorCode.EMAIL_OCCUPIED);
                     return;
@@ -232,7 +231,7 @@ namespace SkyCrabServer.Connactions
             }
             else
             {
-                if (PlayerProfileTable.CheckEMailExists(playerProfile.EMail, player.Id))
+                if (PlayerProfileTable.EMailExists(playerProfile.EMail, player.Id))
                 {
                     ErrorMsg.AsyncPostError(this, ErrorCode.EMAIL_OCCUPIED2);
                     return;
@@ -259,58 +258,66 @@ namespace SkyCrabServer.Connactions
 
         private void GetFriends()
         {
-            //TODO undummy this method
-            if (RandBool)
-            {
-                List<Player> players = new List<Player>();
-                players.Add(new Player((uint)random.Next(), false, RandBool ? "Korwin Krul" : "Może Bałtydzkie"));
-                players.Add(new Player((uint)random.Next(), false, RandBool ? "LOLCAT ;-)" : "20000000 koni mechanicznych"));
-                players.Add(new Player((uint)random.Next(), false, RandBool ? "LOLCAT ;-)" : "Korwin Krul"));
-                PlayerListMsg.AsyncPostPlayerList(this, players);
-            }
-            else
+            if (player == null)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED3);
+                return;
             }
+            List<UInt32> friendIds = FriendTable.GetByPlayerId(player.Id);
+            List<Player> friends = new List<Player>();
+            foreach (UInt32 friendId in friendIds)
+                friends.Add(PlayerProfileTable.GetShortById(friendId));
+            PlayerListMsg.AsyncPostPlayerList(this, friends);
         }
 
-        private void FindPlayers(string searchPhrase)
+        private void FindPlayers(string searchPhraze)
         {
-            //TODO undummy this method
-            List<Player> players = new List<Player>();
-            players.Add(new Player((uint)random.Next(), false, RandBool ? "Ania26" : "Skrablenator 5000"));
-            players.Add(new Player((uint)random.Next(), false, RandBool ? "Liter" : "Roman"));
-            players.Add(new Player((uint)random.Next(), false, RandBool ? "Roman" : "Skrablenator 5000"));
+            List<Player> players = PlayerProfileTable.FindShort(searchPhraze);
             PlayerListMsg.AsyncPostPlayerList(this, players);
         }
 
-        private void AddFriend(UInt32 idFriend)
+        private void AddFriend(UInt32 friendId)
         {
-            //TODO undummy this method
-            if (RandBool)
-                OkMsg.AsyncPostOk(this);
-            else
-                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.NOT_LOGGED4, ErrorCode.FRIEND_ALREADY_ADDED, ErrorCode.FOREVER_ALONE, ErrorCode.NO_SUCH_PLAYER));
+            if (player == null)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED4);
+                return;
+            }
+            if (player.Id == friendId)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.FOREVER_ALONE);
+                return;
+            }
+            if (!PlayerProfileTable.IdExists(friendId))
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.NO_SUCH_PLAYER);
+                return;
+            }
+            if (FriendTable.Exists(player.Id, friendId))
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.FRIEND_ALREADY_ADDED);
+                return;
+            }
+
+            FriendTable.Create(player.Id, friendId);
+            OkMsg.AsyncPostOk(this);
         }
 
-        private void RemoveFriend(UInt32 idFriend)
+        private void RemoveFriend(UInt32 friendId)
         {
-            //TODO undummy this method
-            if (RandBool)
-                OkMsg.AsyncPostOk(this);
-            else
-                ErrorMsg.AsyncPostError(this, RandErrorCode(ErrorCode.NOT_LOGGED5, ErrorCode.NO_SUCH_FRIEND));
-        }
+            if (player == null)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED5);
+                return;
+            }
+            if (!FriendTable.Exists(player.Id, friendId))
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.NO_SUCH_FRIEND);
+                return;
+            }
 
-        private ErrorCode RandErrorCode(params ErrorCode[] errorCodes) //TODO remove when will be not used
-        {
-            int index = random.Next(errorCodes.Length);
-            return errorCodes[index];
-        }
-
-        private bool RandBool //TODO remove when will be not used
-        {
-            get { return random.NextDouble() > 0.5; }
+            FriendTable.Delete(player.Id, friendId);
+            OkMsg.AsyncPostOk(this);
         }
 
         private static String DecoratePassword(PlayerProfile profile)

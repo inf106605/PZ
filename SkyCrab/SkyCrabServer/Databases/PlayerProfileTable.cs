@@ -1,5 +1,7 @@
 ﻿using SkyCrab.Common_classes.Players;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 
 namespace SkyCrabServer.Databases
@@ -16,10 +18,29 @@ namespace SkyCrabServer.Databases
         private const string LAST_ACT_DATA = "last_act_data";
         private const string PLAYER_ID = "player_id";
 
+        private const string SHORT_COLUMNS = NICK + ", " + REGISTRATION_DATA + ", " + LAST_ACT_DATA + ", " + PLAYER_ID;
+        private const string LONG_COLUMNS = LOGIN + ", " + NICK + ", " + E_MAIL + ", " + REGISTRATION_DATA + ", " + LAST_ACT_DATA + ", " + PLAYER_ID;
+
         public static object _lock = new object();
 
 
-        public static bool CheckLoginExists(string login)
+        public static bool IdExists(UInt32 playerId)
+        {
+            const string QUERY = "SELECT 1 FROM " + TABLE + " WHERE " + PLAYER_ID + "=@playerId";
+            SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
+            command.Parameters.Add(new SQLiteParameter("@playerId", playerId));
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                return reader.Read();
+            }
+            finally
+            {
+                reader.Close();
+            }
+        }
+
+        public static bool LoginExists(string login)
         {
             const string QUERY = "SELECT 1 FROM " + TABLE + " WHERE " + LOGIN + "=@login";
             SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
@@ -35,7 +56,7 @@ namespace SkyCrabServer.Databases
             }
         }
 
-        public static bool CheckEMailExists(string eMail, UInt32 playerId)
+        public static bool EMailExists(string eMail, UInt32 playerId)
         {
             const string QUERY = "SELECT 1 FROM " + TABLE + " WHERE " + E_MAIL + "=@eMail AND " + PLAYER_ID + "<>@playerId";
             SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
@@ -79,9 +100,28 @@ namespace SkyCrabServer.Databases
             command.ExecuteNonQuery();
         }
 
-        public static Player GetByLogin(string login)
+        public static Player GetShortById(UInt32 playerId)
         {
-            const string QUERY = "SELECT " + LOGIN + ", " + NICK + ", " + E_MAIL + ", " + REGISTRATION_DATA + ", " + LAST_ACT_DATA + ", " + PLAYER_ID + " FROM " + TABLE + " WHERE " + LOGIN + "=@login";
+            const string QUERY = "SELECT " + SHORT_COLUMNS + " FROM " + TABLE + " WHERE " + PLAYER_ID + "=@playerId";
+            SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
+            command.Parameters.Add(new SQLiteParameter("@playerId", playerId));
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                if (!reader.Read())
+                    return null;
+                Player player = GetShort(reader);
+                return player;
+            }
+            finally
+            {
+                reader.Close();
+            }
+        }
+
+        public static Player GetLongByLogin(string login)
+        {
+            const string QUERY = "SELECT " + LONG_COLUMNS + " FROM " + TABLE + " WHERE " + LOGIN + "=@login";
             SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
             command.Parameters.Add(new SQLiteParameter("@login", login));
             SQLiteDataReader reader = command.ExecuteReader();
@@ -89,14 +129,27 @@ namespace SkyCrabServer.Databases
             {
                 if (!reader.Read())
                     return null;
-                PlayerProfile playerProfile = new PlayerProfile();
-                playerProfile.Login = reader.GetString(0);
-                playerProfile.Nick = reader.GetString(1);
-                playerProfile.EMail = reader.GetString(2);
-                playerProfile.Registration = reader.GetDateTime(3);
-                playerProfile.LastActivity = reader.GetDateTime(4);
-                Player player = new Player((UInt32)reader.GetInt32(5), playerProfile);
+                Player player = GetLong(reader);
                 return player;
+            }
+            finally
+            {
+                reader.Close();
+            }
+        }
+
+        public static List<Player> FindShort(string searchPhraze)
+        {
+            const string QUERY = "SELECT " + SHORT_COLUMNS + " FROM " + TABLE + " WHERE " + NICK + " LIKE @searchPhraze";
+            SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
+            command.Parameters.Add(new SQLiteParameter("@searchPhraze", '%' + searchPhraze + '%')); //TODO escape special characters
+            SQLiteDataReader reader = command.ExecuteReader();
+            try
+            {
+                List<Player> players = new List<Player>();
+                while (reader.Read() && players.Count != ListTranscoder<object>.MAX_COUNT)
+                    players.Add(GetShort(reader));
+                return players;
             }
             finally
             {
@@ -120,6 +173,36 @@ namespace SkyCrabServer.Databases
             {
                 reader.Close();
             }
+        }
+
+        private static Player GetShort(SQLiteDataReader reader)
+        {
+            UInt32 playerId = (UInt32)reader.GetInt32(3);
+            PlayerProfile playerProfile = new PlayerProfile();
+            playerProfile.Nick = reader.GetString(0);
+            playerProfile.Registration = reader.GetDateTime(1);
+            if (Globals.players.ContainsKey(playerId))
+                playerProfile.LastActivity = DateTime.Now;
+            else
+                playerProfile.LastActivity = reader.GetDateTime(2);
+            Player player = new Player(playerId, playerProfile);
+            return player;
+        }
+
+        private static Player GetLong(SQLiteDataReader reader)
+        {
+            UInt32 playerId = (UInt32)reader.GetInt32(5);
+            PlayerProfile playerProfile = new PlayerProfile();
+            playerProfile.Login = reader.GetString(0);
+            playerProfile.Nick = reader.GetString(1);
+            playerProfile.EMail = reader.GetString(2);
+            playerProfile.Registration = reader.GetDateTime(3);
+            if (Globals.players.ContainsKey(playerId))
+                playerProfile.LastActivity = DateTime.Now;
+            else
+                playerProfile.LastActivity = reader.GetDateTime(4);
+            Player player = new Player(playerId, playerProfile);
+            return player;
         }
 
     }
