@@ -157,6 +157,9 @@ namespace SkyCrab.Classes.Game
                 }
             }
 
+            // Aktualizacja ilości pozostałych płytek
+
+            LeftTilesInPouch.Text = "Pozostało " + scrabbleGame.pouch.Count + " płytek";
 
         }
 
