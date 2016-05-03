@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Common_classes;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
@@ -8,12 +9,20 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes
     internal sealed class LimitedStringTranscoder : AbstractTranscoder<String>
     {
 
-        private static LimitedStringTranscoder instance;
+        private static Dictionary<LengthLimit, LimitedStringTranscoder> instances = new Dictionary<LengthLimit, LimitedStringTranscoder>();
         public static LimitedStringTranscoder Get(LengthLimit limit)
         {
-            if (instance == null)
+            LimitedStringTranscoder instance;
+            if (instances.TryGetValue(limit, out instance))
+            {
+                return instance;
+            }
+            else
+            {
                 instance = new LimitedStringTranscoder(limit);
-            return instance;
+                instances.Add(limit, instance);
+                return instance;
+            }
         }
 
         private LengthLimit limit;

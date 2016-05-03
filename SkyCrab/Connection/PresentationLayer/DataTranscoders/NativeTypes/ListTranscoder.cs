@@ -10,6 +10,8 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes
     internal sealed class ListTranscoder<T> : AbstractTranscoder<List<T>>
     {
 
+        public const int MAX_COUNT = byte.MaxValue;
+
         private static ListTranscoder<T> instance;
         public static ListTranscoder<T> Get(AbstractTranscoder<T> tTranscoder)
         {

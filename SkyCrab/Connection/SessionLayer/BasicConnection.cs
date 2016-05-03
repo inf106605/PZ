@@ -147,8 +147,6 @@ namespace SkyCrab.Connection.SessionLayer
                 if (preparedForDispose)
                     return;
                 preparedForDispose = true;
-                lock (_connectionCloseListenerLock)
-                    CallConnectionCloseListeners();
                 DoPrepareForDispose(answeringToDisposeMsg);
             }
             finally
@@ -178,10 +176,12 @@ namespace SkyCrab.Connection.SessionLayer
                 if (isDisposing)
                     return;
                 isDisposing = true;
+                PrepareForDispose(false);
+                isDisposed = true;
+                DoDispose();
+                lock (_connectionCloseListenerLock)
+                    CallConnectionCloseListeners();
             }
-            PrepareForDispose(false);
-            isDisposed = true;
-            DoDispose();
         }
 
         protected virtual void DoDispose()

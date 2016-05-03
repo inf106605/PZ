@@ -73,6 +73,7 @@
     <Compile Include="Banners\Banner.cs" />
     <Compile Include="Connections\ConnectionManager.cs" />
     <Compile Include="Databases\Database.cs" />
+    <Compile Include="Databases\FriendTable.cs" />
     <Compile Include="Databases\NoSuchRowException.cs" />
     <Compile Include="Databases\PlayerTable.cs" />
     <Compile Include="Databases\PlayerProfileTable.cs" />
