@@ -1,11 +1,15 @@
 ﻿using SkyCrab.Common_classes.Players;
+using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.AplicationLayer;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrabServer.Databases;
+using SkyCrabServer.ServerClasses;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -21,7 +25,20 @@ namespace SkyCrabServer.Connactions
 
         private const string DEFAULT_NICK = "Crab";
         
-        private Player player;
+        private ServerPlayer serverPlayer;
+
+
+        private bool Logged
+        {
+            get
+            {
+                if (this.serverPlayer == null)
+                    return false;
+                else
+                    return this.serverPlayer.player.Profile != null;
+            }
+        }
+
 
 
         public ServerConnection(TcpClient tcpClient, int readTimeout) :
@@ -37,7 +54,7 @@ namespace SkyCrabServer.Connactions
                 processingMessagesOk = true;
                 switch (messageInfo.messageId)
                 {
-                    //common
+                    //COMMON
 
                     case MessageId.DISCONNECT:
                         AnswerDisconnect(messageInfo.message);
@@ -52,7 +69,9 @@ namespace SkyCrabServer.Connactions
                         AsyncDispose();
                         break;
 
-                    //menu
+                    //MENU
+
+                    //accounts
 
                     case MessageId.LOGIN:
                         Login((PlayerProfile)messageInfo.message);
@@ -70,6 +89,8 @@ namespace SkyCrabServer.Connactions
                         EditProfile((PlayerProfile)messageInfo.message);
                         break;
 
+                    //friends
+
                     case MessageId.GET_FRIENDS:
                         GetFriends();
                         break;
@@ -85,9 +106,21 @@ namespace SkyCrabServer.Connactions
                     case MessageId.REMOVE_FRIEND:
                         RemoveFriend((UInt32)messageInfo.message);
                         break;
-                    
-                    //unknown
-                    
+
+                    //room
+
+                    case MessageId.CREATE_ROOM:
+                        CreateRoom((Room)messageInfo.message);
+                        break;
+
+                    case MessageId.FIND_ROOMS:
+                        FindRooms((Room)messageInfo.message);
+                        break;
+
+                    case MessageId.GET_FRIEND_ROOMS:
+                        GetFriendRooms();
+                        break;
+
                     default:
                         throw new UnsuportedMessageException();
                 }
@@ -98,7 +131,7 @@ namespace SkyCrabServer.Connactions
 
         private void Login(PlayerProfile playerProfile)
         {
-            if (this.player != null)
+            if (Logged)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.SESSION_ALREADY_LOGGED);
                 return;
@@ -119,19 +152,20 @@ namespace SkyCrabServer.Connactions
                     return;
                 }
             }
-            if (!Globals.players.TryAdd(player.Id, player))
+            ServerPlayer serverPlayer = new ServerPlayer(player);
+            if (!Globals.players.TryAdd(player.Id, serverPlayer))
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.USER_ALREADY_LOGGED);
                 return;
             }
 
-            this.player = player;
+            this.serverPlayer = serverPlayer;
             LoginOkMsg.AsyncPostLoginOk(this, player);
         }
 
         private void Logout()
         {
-            if (player == null)
+            if (!Logged)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED);
                 return;
@@ -144,14 +178,14 @@ namespace SkyCrabServer.Connactions
 
         private void OnLogout()
         {
-            if (player != null)
+            if (serverPlayer != null)
             {
                 {
-                    Player temp;
-                    Globals.players.TryRemove(player.Id, out temp);
+                    ServerPlayer temp;
+                    Globals.players.TryRemove(serverPlayer.player.Id, out temp);
                 }
-                //TODO leave current room
-                player = null;
+                OnLeaveRoom();
+                serverPlayer = null;
             }
         }
 
@@ -159,7 +193,7 @@ namespace SkyCrabServer.Connactions
         {
             lock (PlayerProfileTable._lock)
             {
-                if (this.player != null)
+                if (this.serverPlayer != null)
                 {
                     ErrorMsg.AsyncPostError(this, ErrorCode.SESSION_ALREADY_LOGGED2);
                     return;
@@ -189,15 +223,15 @@ namespace SkyCrabServer.Connactions
                     id = PlayerProfileTable.Create(playerProfile, passwordHash);
                 }
 
-                player = new Player(id, playerProfile);
-                Globals.players.TryAdd(player.Id, player);
-                LoginOkMsg.AsyncPostLoginOk(this, player);
+                serverPlayer = new ServerPlayer(new Player(id, playerProfile));
+                Globals.players.TryAdd(serverPlayer.player.Id, serverPlayer);
+                LoginOkMsg.AsyncPostLoginOk(this, serverPlayer.player);
             }
         }
 
         private void EditProfile(PlayerProfile playerProfile)
         {
-            if (player == null)
+            if (!Logged)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED2);
                 return;
@@ -205,7 +239,7 @@ namespace SkyCrabServer.Connactions
             string passwordHash;
             if (playerProfile.Password == null)
             {
-                passwordHash = PlayerProfileTable.GetPasswordHash(player.Id);
+                passwordHash = PlayerProfileTable.GetPasswordHash(serverPlayer.player.Id);
             }
             else
             {
@@ -215,7 +249,7 @@ namespace SkyCrabServer.Connactions
             }
             if (playerProfile.Nick == null)
             {
-                playerProfile.Nick = player.Nick;
+                playerProfile.Nick = serverPlayer.player.Nick;
             }
             else
             {
@@ -227,21 +261,21 @@ namespace SkyCrabServer.Connactions
             }
             if (playerProfile.EMail == null)
             {
-                playerProfile.EMail = player.Profile.EMail;
+                playerProfile.EMail = serverPlayer.player.Profile.EMail;
             }
             else
             {
-                if (PlayerProfileTable.EMailExists(playerProfile.EMail, player.Id))
+                if (PlayerProfileTable.EMailExists(playerProfile.EMail, serverPlayer.player.Id))
                 {
                     ErrorMsg.AsyncPostError(this, ErrorCode.EMAIL_OCCUPIED2);
                     return;
                 }
             }
 
-            PlayerProfileTable.Modify(player.Id, playerProfile, passwordHash);
+            PlayerProfileTable.Modify(serverPlayer.player.Id, playerProfile, passwordHash);
 
-            player.Profile.Nick = playerProfile.Nick;
-            player.Profile.EMail = playerProfile.EMail;
+            serverPlayer.player.Profile.Nick = playerProfile.Nick;
+            serverPlayer.player.Profile.EMail = playerProfile.EMail;
             //TODO should I do something more to inform program about changes? maybe.
             OkMsg.AsyncPostOk(this);
         }
@@ -256,14 +290,21 @@ namespace SkyCrabServer.Connactions
             return false;
         }
 
+        private static String DecoratePassword(PlayerProfile profile)
+        {
+            const string SALT = "L4RUmhBUM9sIbwg7hPEJMBSPo\\vFxfeJH*c?pt@&Rk0L)0EC obw1s71(!xn<6f$WFdc6,[@lPh%PTYv6iv}DU13 mwYY.hh8tL9h";
+            string decoratedPassword = profile.Password + SALT + profile.Login;
+            return decoratedPassword;
+        }
+
         private void GetFriends()
         {
-            if (player == null)
+            if (!Logged)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED3);
                 return;
             }
-            List<UInt32> friendIds = FriendTable.GetByPlayerId(player.Id);
+            List<UInt32> friendIds = FriendTable.GetByPlayerId(serverPlayer.player.Id);
             List<Player> friends = new List<Player>();
             foreach (UInt32 friendId in friendIds)
                 friends.Add(PlayerProfileTable.GetShortById(friendId));
@@ -278,12 +319,12 @@ namespace SkyCrabServer.Connactions
 
         private void AddFriend(UInt32 friendId)
         {
-            if (player == null)
+            if (!Logged)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED4);
                 return;
             }
-            if (player.Id == friendId)
+            if (serverPlayer.player.Id == friendId)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.FOREVER_ALONE);
                 return;
@@ -293,38 +334,147 @@ namespace SkyCrabServer.Connactions
                 ErrorMsg.AsyncPostError(this, ErrorCode.NO_SUCH_PLAYER);
                 return;
             }
-            if (FriendTable.Exists(player.Id, friendId))
+            if (FriendTable.Exists(serverPlayer.player.Id, friendId))
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.FRIEND_ALREADY_ADDED);
                 return;
             }
 
-            FriendTable.Create(player.Id, friendId);
+            FriendTable.Create(serverPlayer.player.Id, friendId);
             OkMsg.AsyncPostOk(this);
         }
 
         private void RemoveFriend(UInt32 friendId)
         {
-            if (player == null)
+            if (!Logged)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED5);
                 return;
             }
-            if (!FriendTable.Exists(player.Id, friendId))
+            if (!FriendTable.Exists(serverPlayer.player.Id, friendId))
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.NO_SUCH_FRIEND);
                 return;
             }
 
-            FriendTable.Delete(player.Id, friendId);
+            FriendTable.Delete(serverPlayer.player.Id, friendId);
             OkMsg.AsyncPostOk(this);
         }
 
-        private static String DecoratePassword(PlayerProfile profile)
+        private void CreateRoom(Room room)
         {
-            const string SALT = "L4RUmhBUM9sIbwg7hPEJMBSPo\\vFxfeJH*c?pt@&Rk0L)0EC obw1s71(!xn<6f$WFdc6,[@lPh%PTYv6iv}DU13 mwYY.hh8tL9h";
-            string decoratedPassword = profile.Password + SALT + profile.Login;
-            return decoratedPassword;
+            MakeValidPlayer();
+            if (serverPlayer.room != null)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.ALREADY_IN_ROOM);
+                return;
+            }
+            bool rulesAreValid = serverPlayer.room.Rules.maxRoundTime.value <= 3600 &&
+                    serverPlayer.room.Rules.maxPlayerCount.value <= 4;
+            if (!rulesAreValid)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.INVALID_RULES);
+                return;
+            }
+            room.Id = Globals.roomIdSequence.Value;
+            room.Owner = serverPlayer.player;
+            room.AddPlayer(serverPlayer.player);
+            Globals.rooms.TryAdd(room.Id, room);
+            serverPlayer.room = room;
+            RoomMsg.AsyncPostRoomList(this, room);
+        }
+
+        private void OnLeaveRoom()
+        {
+            serverPlayer.room.RemovePlayer(serverPlayer.player.Id);
+            if (serverPlayer.room.Players.Count == 0)
+            {
+                serverPlayer.room.Owner = null;
+                Room tmp;
+                Globals.rooms.TryRemove(serverPlayer.room.Id, out tmp);
+            }
+            else
+            {
+                if (serverPlayer.room.Owner.Id == serverPlayer.player.Id)
+                {
+                    serverPlayer.room.Owner = serverPlayer.room.Players.First.Value.Player;
+                    //TODO send new owner info to other players
+                }
+                //TODO send leave info to other players
+            }
+            serverPlayer.room = null;
+        }
+
+        private void FindRooms(Room roomFilter)
+        {
+            List<Room> foundRooms = new List<Room>();
+            foreach (KeyValuePair<UInt32, Room> pair in Globals.rooms)
+            {
+                if (RoomMath(pair.Value, roomFilter))
+                {
+                    foundRooms.Add(pair.Value);
+                    if (foundRooms.Count == ListTranscoder<object>.MAX_COUNT)
+                        break;
+                }
+            }
+            RoomListMsg.AsyncPostRoomList(this, foundRooms);
+        }
+
+        private void GetFriendRooms()
+        {
+            if (!Logged)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.NOT_LOGGED6);
+                return;
+            }
+            List<UInt32> friendIds = FriendTable.GetByPlayerId(serverPlayer.player.Id);
+            List<Room> foundRooms = new List<Room>();
+            foreach (UInt32 friendId in friendIds)
+            {
+                ServerPlayer serverFriend;
+                if (Globals.players.TryGetValue(friendId, out serverFriend))
+                {
+                    if (serverFriend.room != null)
+                    {
+                        if (RoomTypeMath(serverFriend.room))
+                        {
+                            foundRooms.Add(serverFriend.room);
+                            if (foundRooms.Count == ListTranscoder<object>.MAX_COUNT)
+                                break;
+                        }
+                    }
+                }
+            }
+            RoomListMsg.AsyncPostRoomList(this, foundRooms);
+        }
+
+        private bool RoomMath(Room room, Room roomFilter)
+        {
+            if (!room.Name.Contains(roomFilter.Name))
+                return false;
+            if (!room.Rules.Math(roomFilter.Rules))
+                return false;
+            if (!RoomTypeMath(room))
+                return false;
+            return true;
+        }
+
+        private bool RoomTypeMath(Room room)
+        {
+            if (room.RoomType == RoomType.PRIVATE)
+                return false;
+            if (room.RoomType == RoomType.FRIENDS && FriendTable.Exists(room.Owner.Id, serverPlayer.player.Id))
+                return false;
+            return true;
+        }
+
+        private void MakeValidPlayer()
+        {
+            if (serverPlayer == null)
+            {
+                UInt32 id = PlayerTable.Create();
+                serverPlayer = new ServerPlayer(new Player(id, false, DEFAULT_NICK+'#'+id));
+            }
         }
 
         protected override void DoDispose()
