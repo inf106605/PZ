@@ -119,6 +119,7 @@
     <Compile Include="Classes\Menu\Guest\PlayAsGuest.xaml.cs">
       <DependentUpon>PlayAsGuest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\ManageRooms.cs" />
     <Compile Include="Classes\Menu\LoggedPlayer\PlayAsLoggedPlayer.xaml.cs">
       <DependentUpon>PlayAsLoggedPlayer.xaml</DependentUpon>
     </Compile>

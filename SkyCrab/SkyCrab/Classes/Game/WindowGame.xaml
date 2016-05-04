@@ -168,6 +168,8 @@
                      Background="Green"
                      ItemsSource="{Binding RackTiles}"
                      SelectionMode="Extended"
+                     dd:DragDrop.IsDragSource="True" 
+                     dd:DragDrop.IsDropTarget="True"
                     >
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>

@@ -1,4 +1,7 @@
 ﻿using SkyCrab.Classes.Menu.LoggedPlayer;
+using SkyCrab.Common_classes.Rooms;
+using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +26,8 @@ namespace SkyCrab.Classes.Menu
     public partial class PlayAsLoggedPlayer : UserControl
     {
 
+        ManageRooms manageRooms = null;
+
         ObservableCollection<String> typeOfRoomLabels;
         ObservableCollection<String> minTimeLimitLabels;
         ObservableCollection<String> maxTimeLimitLabels;
@@ -32,6 +37,30 @@ namespace SkyCrab.Classes.Menu
         public PlayAsLoggedPlayer()
         {
             InitializeComponent();
+            manageRooms = new ManageRooms();
+            /*
+            var getListOfRooms = GetFriendRoomsMsg.SyncPostGetFriendRooms(App.clientConn, 3000);
+ 
+            if (!getListOfRooms.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = getListOfRooms.Value;
+            
+            if (answerValue.messageId == MessageId.PLAYER_LIST)
+            {
+                manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
+                for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
+                {
+                    manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
+                }
+            }
+
+            DataContext = manageRooms;
+
+    */
         } 
 
         private void Button_Click(object sender, RoutedEventArgs e)

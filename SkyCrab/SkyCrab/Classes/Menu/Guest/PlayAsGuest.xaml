@@ -116,11 +116,13 @@
         <Grid Grid.Column="1" ></Grid>
         <Grid Grid.Row="2" Grid.Column="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                <ColumnDefinition Width="0.05*"></ColumnDefinition>
                 <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                <ColumnDefinition Width="0.05*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Margin="20" Content="Powrót do menu" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Button_Click"></Button>
+            <Button Grid.Column="1" Margin="5" Content="Wybierz pokój" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
+            <Button Grid.Column="2" Margin="5" Content="Powrót do menu" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Button_Click"></Button>
         </Grid>
     </Grid>
 </UserControl>
