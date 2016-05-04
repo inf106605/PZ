@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,9 +38,29 @@ namespace SkyCrab
             base.OnStartup(e);
     
             try {
-                ClientConnection.PreLoadStaticMembers();
-                clientConn = new ClientConnection("127.0.0.1", 1000);
-                clientConn.AddConnectionCloseListener((connection, exceptions) => clientConn = null); //TODO handle exception (from argument, it is not throwed)
+
+                String path = @"connectionConfig.txt";
+
+                if (!File.Exists(path))
+                {
+                    // Create the file.
+                    using (FileStream fs = File.Create(path))
+                    {
+                        Byte[] info = new UTF8Encoding(true).GetBytes("127.0.0.1");
+                        // Add some information to the file.
+                        fs.Write(info, 0, info.Length);
+                    }
+                }
+
+                using (StreamReader sr = new StreamReader("connectionConfig.txt"))
+                {
+                    // Read the stream to a string, and write the string to the console.
+                    String host = sr.ReadLine();
+                    ClientConnection.PreLoadStaticMembers();
+                    clientConn = new ClientConnection(host, 1000);
+                    clientConn.AddConnectionCloseListener((connection, exceptions) => clientConn = null); //TODO handle exception (from argument, it is not throwed)
+                }
+                
             } catch(Exception ex)
             {
                 MessageBox.Show("Nie udało się połączyć: " + ex.Message);
