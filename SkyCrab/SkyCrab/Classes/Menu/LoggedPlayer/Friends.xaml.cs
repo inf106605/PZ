@@ -31,6 +31,27 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             InitializeComponent();
             friendPlayer = new FriendPlayer();
+            friendPlayer.ClearListBoxSearchingPlayers();
+
+            var getFriendMsgAnswer = FindPlayersMsg.SyncPostFindPlayers(App.clientConn, searchTextBox.Text, 3000);
+
+            if (!getFriendMsgAnswer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = getFriendMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.PLAYER_LIST)
+            {
+                friendPlayer.listSearchngPlayers = (List<Player>)answerValue.message;
+                for (int i = 0; i < friendPlayer.listSearchngPlayers.Count; i++)
+                {
+                    friendPlayer.GetPlayersFromServerToList(uint.Parse(friendPlayer.listSearchngPlayers[i].GetType().GetProperty("Id").GetValue(friendPlayer.listSearchngPlayers[i], null).ToString()), friendPlayer.listSearchngPlayers[i].GetType().GetProperty("Nick").GetValue(friendPlayer.listSearchngPlayers[i], null).ToString());
+                }
+            }
+
             DataContext = friendPlayer;
         }
 
@@ -199,7 +220,6 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (searchTextBox.Text.Length < 3) return;
 
             friendPlayer.ClearListBoxSearchingPlayers();
 
