@@ -52,6 +52,11 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             ListOfFriends.Add(new Player(id,false,nick));
         }
 
+        public void RemovePlayerFromFriend(uint friend)
+        {
+            ListOfFriends.Remove(ListOfFriends.Where(temp => temp.Id == friend).Single());
+        }
+
         public void ClearListBoxSearchingPlayers()
         {
             ListSearchingPlayers.Clear();

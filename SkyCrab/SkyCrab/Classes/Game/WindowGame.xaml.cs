@@ -1,4 +1,5 @@
-﻿using SkyCrab.Common_classes.Games.Racks;
+﻿using SkyCrab.Common_classes.Games.Letters;
+using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Menu;
 using System;
@@ -120,14 +121,93 @@ namespace SkyCrab.Classes.Game
 
             // KONIEC WALIDACJI
 
+
+            // ustawienie płytek na planszy
+
             for(int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
             {
                 scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column , scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
             }
 
+            // usunięcie płytek ze stojaka
+
             for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
                  scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
-                 
+
+            // uzupełnienie stojaka o ilość wyłożonych płytek. W przeciwnym przypadku jeżeli jest 
+            //ich mniej w woreczku to wyciągnięcie pozostałych
+
+            //MessageBox.Show("Zostało: " + scrabbleGame.pouch.Count + " płytek!");
+
+            if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count > scrabbleGame.pouch.Count)
+            {
+                for(int i=0; i < scrabbleGame.pouch.Count; i++)
+                {
+                    TileOnRack temp = new TileOnRack(scrabbleGame.pouch.DrawRandowmTile());
+                    scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
+                }
+            }
+
+            else
+            {
+                for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+                {
+                    TileOnRack temp = new TileOnRack(scrabbleGame.pouch.DrawRandowmTile());
+                    scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
+                }
+            }
+
+            // Aktualizacja ilości pozostałych płytek
+
+            LeftTilesInPouch.Text = "Pozostało " + scrabbleGame.pouch.Count + " płytek";
+
+        }
+
+        private void Exchange_Click(object sender, RoutedEventArgs e)
+        {
+            ScrabbleTilesSelectedFromRack scrabbleTilesSelectedFromRack = new ScrabbleTilesSelectedFromRack();
+
+            // sprawdzanie czy ilość zaznaczonych płytek nie przekracza ilości pozostałych płytek w woreczku
+
+            if(listViewRack.SelectedItems.Count > scrabbleGame.pouch.Count)
+            {
+                MessageBox.Show("Nie ma aż tylu płytek w woreczku do wymiany!");
+                return;
+            }
+
+            // dodanie zaznaczonych płytek do tymczasowej listy
+
+            foreach (var item in listViewRack.SelectedItems)
+            {
+                var scrabbleTileFromRack = scrabbleGame.scrabbleRack.SearchIdTile((ScrabbleRackTiles)item);
+                scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Add(scrabbleTileFromRack);
+            }
+
+            // usunięcie płytek ze stojaka 
+
+            for(int i =0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            {
+                scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
+            }
+            
+            // losowanie płytek z woreczka
+
+            for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            {
+                TileOnRack temp = new TileOnRack(scrabbleGame.pouch.DrawRandowmTile());
+                scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
+            }
+            
+            /*
+                        
+            // włożenie starych płytek do woreczka
+            for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            {
+                Letter temp = new Letter(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Letter.character, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Letter.points);
+                scrabbleGame.pouch.InsertTile(temp);
+            }
+            
+            */
         }
     } 
 }

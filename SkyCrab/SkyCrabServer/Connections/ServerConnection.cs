@@ -248,7 +248,7 @@ namespace SkyCrabServer.Connactions
 
         private static bool IsNickShitty(string nick)
         {
-            string[] reservedNicks = { "siupa" };
+            string[] reservedNicks = { "siupa" , "kris", "jerzyna" };
             foreach (string reservedNick in reservedNicks)
                 if (reservedNick.ToUpper() == nick.ToUpper())
                     return true;
