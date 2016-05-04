@@ -36,7 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Rooms\RoomType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\Rule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\RuleSet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\TimeRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rooms\Rules\RangeRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkyCrabException.cs" />
   </ItemGroup>
 </Project>

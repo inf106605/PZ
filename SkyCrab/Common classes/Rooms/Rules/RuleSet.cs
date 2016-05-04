@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Common_classes.Games.Pouches;
 using SkyCrab.Common_classes.Games.Tiles;
+using System;
 
 namespace SkyCrab.Common_classes.Rooms.Rules
 {
@@ -8,7 +9,8 @@ namespace SkyCrab.Common_classes.Rooms.Rules
     public struct RuleSet
     {
 
-        public TimeRule maxRoundTIme;
+        public RangeRule<UInt32> maxRoundTime;
+        public RangeRule<byte> maxPlayerCount;
         public Rule<bool> fivesFirst;
         public Rule<bool> restrictedExchange;
 

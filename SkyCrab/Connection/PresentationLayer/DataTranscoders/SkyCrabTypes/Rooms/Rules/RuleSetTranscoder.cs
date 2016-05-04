@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Common_classes.Rooms.Rules;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+using System;
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms.Rules
 {
@@ -20,7 +21,8 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Room
         public override RuleSet Read(EncryptedConnection connection)
         {
             RuleSet data = new RuleSet();
-            data.maxRoundTIme = TimeRuleTranscoder.Get.Read(connection);
+            data.maxRoundTime = RangeRuleTranscoder<UInt32>.Get(UInt32Transcoder.Get).Read(connection);
+            data.maxPlayerCount = RangeRuleTranscoder<byte>.Get(UInt8Transcoder.Get).Read(connection);
             data.fivesFirst = RuleTranscoder<bool>.Get(BoolTranscoder.Get).Read(connection);
             data.restrictedExchange = RuleTranscoder<bool>.Get(BoolTranscoder.Get).Read(connection);
             return data;
@@ -28,7 +30,8 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Room
 
         public override void Write(EncryptedConnection connection, object writingBlock, RuleSet data)
         {
-            TimeRuleTranscoder.Get.Write(connection, writingBlock, data.maxRoundTIme);
+            RangeRuleTranscoder<UInt32>.Get(UInt32Transcoder.Get).Write(connection, writingBlock, data.maxRoundTime);
+            RangeRuleTranscoder<byte>.Get(UInt8Transcoder.Get).Write(connection, writingBlock, data.maxPlayerCount);
             RuleTranscoder<bool>.Get(BoolTranscoder.Get).Write(connection, writingBlock, data.fivesFirst);
             RuleTranscoder<bool>.Get(BoolTranscoder.Get).Write(connection, writingBlock, data.restrictedExchange);
         }
