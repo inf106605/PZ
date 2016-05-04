@@ -33,7 +33,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.05*"></RowDefinition>
                 <RowDefinition Height="0.2*"></RowDefinition>
-                <RowDefinition Height="0.05*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
                 <RowDefinition Height="0.5*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid Grid.Row="1">
@@ -42,26 +42,75 @@
                     <ColumnDefinition Width="0.5*"></ColumnDefinition>
                     <ColumnDefinition Width="0.2*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <UniformGrid Grid.Column="1" Rows="2">
-                    <Button x:Name="RoomCreateButton" Content="UTWÓRZ POKÓJ" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="RoomCreateButton_Click" />
-                    <Button x:Name="SearchRoomButton" Content="WYSZUKAJ POKÓJ" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" />
-                </UniformGrid>
+                <Grid Grid.Column="1" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="RoomCreateButton" Grid.Row="0" Content="UTWÓRZ POKÓJ" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="RoomCreateButton_Click" />
+                    <TextBox x:Name="textBoxSearchRoom" Grid.Row="1" MaxLines="1" Margin="5"></TextBox>
+
+                </Grid>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="textBoxSearchRoom" Grid.Column="1" MaxLines="1"></TextBox>
+                <Grid Grid.Column="1">
+                    <TextBlock FontSize="15" Text="Kryteria wyszukiwania" HorizontalAlignment="Center" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                </Grid>
             </Grid>
             <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.0025*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.0025*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ListBox Grid.Column="1" Margin="5"></ListBox>
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <UniformGrid Grid.Column="0" Rows="6">
+                        <TextBlock Text="Rodzaj pokoju" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                        <TextBlock Text="Min czas gry" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                        <TextBlock Text="Max czas gry" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                        <TextBlock Text="Min liczba graczy" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                        <TextBlock Text="Max liczba graczy" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                        <TextBlock Text="Reguły gry" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                    </UniformGrid>
+                    <UniformGrid Grid.Column="1" Rows="6">
+                        <ComboBox x:Name="typeOfRoom" IsEditable="False" Text="publiczny" MinWidth="30" FontSize="9" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="typeOfRoom_Loaded">
+                        </ComboBox>
+                        <ComboBox x:Name="minTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="minTimeLimit_Loaded">
+                        </ComboBox>
+                        <ComboBox x:Name="maxTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="maxTimeLimit_Loaded">
+                        </ComboBox>
+                        <ComboBox x:Name="minCountPlayers" IsEditable="False" Text="1" MinWidth="30" FontSize="9"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="minCountPlayers_Loaded">
+                        </ComboBox>
+                        <ComboBox x:Name="maxCountPlayers" IsEditable="False" Text="4" MinWidth="30" FontSize="9"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="maxCountPlayers_Loaded">
+                        </ComboBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <CheckBox x:Name="fivesFirst" IsThreeState="True" Content="Piątki" FontSize="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></CheckBox>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <CheckBox x:Name="restrictedExchange"  FontSize="10" IsThreeState="True" Content="Wymiany" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></CheckBox>
+                            </Grid>
+                        </Grid>
+                    </UniformGrid>
+                </Grid>
+                <ListBox x:Name="ListRooms" Grid.Column="1" Grid.Row="1" Margin="5"></ListBox>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" ></Grid>

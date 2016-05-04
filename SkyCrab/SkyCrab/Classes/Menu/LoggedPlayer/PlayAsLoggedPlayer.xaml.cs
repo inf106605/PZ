@@ -68,7 +68,7 @@ namespace SkyCrab.Classes.Menu
             {
                 minTimeLimitLabels.Add(i.ToString());
             }
-            for(int i=15; i <=60; i+=15)
+            for(int i=30; i <=60; i+=15)
             {
                 minTimeLimitLabels.Add(i.ToString());
             }
@@ -86,13 +86,13 @@ namespace SkyCrab.Classes.Menu
             {
                 maxTimeLimitLabels.Add(i.ToString());
             }
-            for (int i = 15; i <= 60; i += 15)
+            for (int i = 30; i <= 60; i += 15)
             {
                 maxTimeLimitLabels.Add(i.ToString());
             }
             maxTimeLimitLabels.Add("Brak limitu");
             maxTimeLimit.ItemsSource = minTimeLimitLabels;
-            maxTimeLimit.SelectedIndex = 0;
+            maxTimeLimit.SelectedIndex = 6;
 
         }
 
@@ -115,7 +115,7 @@ namespace SkyCrab.Classes.Menu
                 maxCountPlayersLabels.Add(i.ToString());
             }
             maxCountPlayers.ItemsSource = maxCountPlayersLabels;
-            maxCountPlayers.SelectedIndex = 0;
+            maxCountPlayers.SelectedIndex = 3;
         }
     }
 }
