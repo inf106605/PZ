@@ -8,8 +8,8 @@ namespace SkyCrab
 {
     class ClientConnection : AbstractClientConnection
     {
-        public ClientConnection(string host, int readTimeout) :
-           base(host, readTimeout)
+        public ClientConnection(string host, int port, int readTimeout) :
+           base(host, port, readTimeout)
         {
 
         }

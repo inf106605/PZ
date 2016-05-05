@@ -404,8 +404,8 @@ namespace SkyCrabServer.Connactions
                 ErrorMsg.AsyncPostError(this, ErrorCode.ALREADY_IN_ROOM);
                 return;
             }
-            bool rulesAreValid = serverPlayer.room.Rules.maxRoundTime.value <= 3600 &&
-                    serverPlayer.room.Rules.maxPlayerCount.value <= 4;
+            bool rulesAreValid = room.Rules.maxRoundTime.value <= 3600 &&
+                    room.Rules.maxPlayerCount.value <= 4;
             if (!rulesAreValid)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.INVALID_RULES);
