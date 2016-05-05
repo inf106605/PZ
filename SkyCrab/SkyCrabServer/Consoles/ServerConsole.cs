@@ -20,6 +20,7 @@ namespace SkyCrabServer.Consoles
         private object _inputLock = new object();
         private volatile string inputString = "";
         private volatile int lockCounter = 0;
+        private bool closed = false;
 
 
         static ServerConsole()
@@ -101,7 +102,10 @@ namespace SkyCrabServer.Consoles
                 if (commands.TryGetValue(upperInputString, out commandAction))
                 {
                     if (commandAction.Invoke())
+                    {
+                        closed = true;
                         return false;
+                    }
                 }
                 else
                 {
@@ -119,7 +123,7 @@ namespace SkyCrabServer.Consoles
         public void Lock()
         {
             Monitor.Enter(_writeLock);
-            if (lockCounter++ == 0)
+            if (lockCounter++ == 0 && !closed)
                 Console.Write('\r' + new string(' ', COMMAND_PROMPT.Length) + '\r');
         }
 
@@ -127,7 +131,10 @@ namespace SkyCrabServer.Consoles
         {
             if (--lockCounter == 0)
             {
-                Console.Write("\n" + COMMAND_PROMPT);
+                if (closed)
+                    Console.WriteLine();
+                else
+                    Console.Write("\n" + COMMAND_PROMPT);
                 lock (_inputLock)
                     Console.Write(inputString);
             }
