@@ -38,8 +38,10 @@ namespace SkyCrab.Classes.Menu
         {
             InitializeComponent();
             manageRooms = new ManageRooms();
-            /*
-            var getListOfRooms = GetFriendRoomsMsg.SyncPostGetFriendRooms(App.clientConn, 3000);
+            
+            
+
+          //  var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn,
  
             if (!getListOfRooms.HasValue)
             {
@@ -48,8 +50,25 @@ namespace SkyCrab.Classes.Menu
             }
 
             var answerValue = getListOfRooms.Value;
-            
-            if (answerValue.messageId == MessageId.PLAYER_LIST)
+
+            if (answerValue.messageId == MessageId.ERROR)
+            {
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                switch (errorCode)
+                {
+                    case ErrorCode.NOT_LOGGED6:
+                        {
+                            MessageBox.Show("Nie jesteś zalogowany!");
+                            break;
+                        }
+
+                }
+
+                return;
+            }
+
+            if (answerValue.messageId == MessageId.ROOM_LIST)
             {
                 manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
                 for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
@@ -60,7 +79,7 @@ namespace SkyCrab.Classes.Menu
 
             DataContext = manageRooms;
 
-    */
+    
         } 
 
         private void Button_Click(object sender, RoutedEventArgs e)

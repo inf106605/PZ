@@ -44,7 +44,7 @@ namespace SkyCrab.Common_classes.Rooms
         private Player owner;
         private string name;
         private RoomType roomType;
-        private RuleSet rules;
+        private readonly RuleSet rules = new RuleSet();
         private LinkedList<PlayerInRoom> players = new LinkedList<PlayerInRoom>();
 
 
@@ -97,6 +97,10 @@ namespace SkyCrab.Common_classes.Rooms
             }
         }
 
+
+        public Room()
+        {
+        }
 
         public Room(uint id, Player owner, string name, RoomType roomType, RuleSet rules)
         {

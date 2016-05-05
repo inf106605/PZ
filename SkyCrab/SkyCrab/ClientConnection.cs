@@ -1,4 +1,5 @@
-﻿using SkyCrab.Connection.AplicationLayer;
+﻿using SkyCrab.Common_classes;
+using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using System.Threading.Tasks;
@@ -37,6 +38,12 @@ namespace SkyCrab
                         {
                             DisplayMessageBox("Serwer nie odpowiada!");
                             AsyncDispose();
+                            break;
+                        }
+                    default:
+                        {
+                            DisplayMessageBox("Otrzymano nieznany komunikat od serwera!");
+                            throw new SkyCrabException("Błąd ogólny");
                             break;
                         }
                 }

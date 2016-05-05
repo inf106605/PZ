@@ -110,9 +110,9 @@
                 <Viewbox Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <UniformGrid Rows="5" >
                         <TextBlock></TextBlock>
-                        <CheckBox x:Name="Rules1" Content="Najpierw ''piątki''" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
+                        <CheckBox x:Name="RulesFive" Content="Najpierw ''piątki''" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
                         <TextBlock></TextBlock>
-                        <CheckBox x:Name="Rules2" Content="Ograniczona wymiana" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
+                        <CheckBox x:Name="RulesExchange" Content="Ograniczona wymiana" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
                     </UniformGrid>
                 </Viewbox>
             </Grid>
