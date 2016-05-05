@@ -69,10 +69,6 @@ namespace SkyCrabServer.Connactions
                 {
                     //COMMON
 
-                    case MessageId.DISCONNECT:
-                        AnswerDisconnect(messageInfo.message);
-                        break;
-
                     case MessageId.PING:
                         AnswerPing(messageInfo.message);
                         break;

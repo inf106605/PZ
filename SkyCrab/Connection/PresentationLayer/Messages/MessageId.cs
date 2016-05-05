@@ -5,7 +5,7 @@
         //--- Common ---
         //Connections
         DISCONNECT          = 0,
-        OK_DISCONNECT       = 1,
+        SHUTDOWN            = 1,
         //Pings
         PING                = 2,
         PONG                = 3,
