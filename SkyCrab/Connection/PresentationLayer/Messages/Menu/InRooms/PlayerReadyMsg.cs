@@ -4,7 +4,7 @@ using System;
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
 {
     /// <summary>
-    /// <para>Sender: Server</para>
+    /// <para>Sender: Client & Server</para>
     /// <para>ID: <see cref="MessageId.PLAYER_READY"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
     /// <para>Passible answers: [none]</para>
@@ -29,7 +29,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return playerId;
         }
 
-        public static void AsyncPostLogout(MessageConnection connection, UInt32 playerId)
+        public static void AsyncPostReady(MessageConnection connection, UInt32 playerId)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

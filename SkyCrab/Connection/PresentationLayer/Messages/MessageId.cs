@@ -40,6 +40,7 @@
         PLAYER_LEAVED       = 25,
         PLAYER_READY        = 26,
         PLAYER_NOT_READY    = 27,
-        CHAT                = 28
+        NEW_ROOM_OWNER      = 28,
+        CHAT                = 29
     }
 }

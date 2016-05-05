@@ -29,7 +29,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return chatMessage;
         }
 
-        public static void AsyncPostLogout(MessageConnection connection, ChatMessage chatMessage)
+        public static void AsyncPostChat(MessageConnection connection, ChatMessage chatMessage)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

@@ -25,15 +25,15 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
 
         internal override object Read(MessageConnection connection)
         {
-            UInt32 roomId = UInt32Transcoder.Get.Read(connection);
-            return roomId;
+            UInt32 playerId = UInt32Transcoder.Get.Read(connection);
+            return playerId;
         }
 
-        public static void AsyncPostLogout(MessageConnection connection, UInt32 roomId)
+        public static void AsyncPostLeave(MessageConnection connection, UInt32 playerId)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                UInt32Transcoder.Get.Write(connection, writingBlock, roomId);
+                UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
             };
             connection.PostMessage(MessageId.PLAYER_LEAVED, messageProcedure);
         }
