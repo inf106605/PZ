@@ -140,8 +140,7 @@ namespace SkyCrab.Connection.PresentationLayer
             }
             catch (Exception e)
             {
-                StoreException(e);
-                AsyncDispose();
+                OnException(e);
             }
             finally
             {
@@ -199,8 +198,7 @@ namespace SkyCrab.Connection.PresentationLayer
             }
             catch (Exception e)
             {
-                StoreException(e);
-                AsyncDispose();
+                OnException(e);
             }
         }
 
@@ -227,8 +225,7 @@ namespace SkyCrab.Connection.PresentationLayer
                 }
                 catch (Exception e)
                 {
-                    StoreException(e);
-                    AsyncDispose();
+                    OnException(e);
                 }
             }
         }

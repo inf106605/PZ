@@ -27,7 +27,7 @@ namespace SkyCrab.Connection.SessionLayer
         public delegate void SkyCrabConnectionListener(BasicConnection connection, bool errors);
         public List<SkyCrabConnectionListener> closeListeners = new List<SkyCrabConnectionListener>();
         public List<SkyCrabConnectionListener> disposedListeners = new List<SkyCrabConnectionListener>();
-        private List<Exception> exceptions = new List<Exception>();
+        private List<Exception> exceptions = new List<Exception>(); //TODO synchronization
 
 
         public IPEndPoint LocalEndPoint
@@ -66,9 +66,10 @@ namespace SkyCrab.Connection.SessionLayer
             return authorityString;
         }
 
-        protected void StoreException(Exception e)
+        protected void OnException(Exception exception)
         {
-            exceptions.Add(e);
+            exceptions.Add(exception);
+            AsyncDispose();
         }
 
         private AggregateException CreateAggregateException()
@@ -101,7 +102,7 @@ namespace SkyCrab.Connection.SessionLayer
             lock (disposedListeners)
             {
                 disposedListeners.Add(listener);
-                if (closing)
+                if (disposed)
                     listener.Invoke(this, exceptions.Count != 0);
             }
         }

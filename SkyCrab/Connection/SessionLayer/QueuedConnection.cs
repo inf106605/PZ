@@ -60,8 +60,7 @@ namespace SkyCrab.Connection.SessionLayer
             }
             catch (Exception e)
             {
-                StoreException(e);
-                AsyncDispose();
+                OnException(e);
             }
         }
 
