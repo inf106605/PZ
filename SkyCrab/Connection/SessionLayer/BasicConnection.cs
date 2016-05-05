@@ -27,7 +27,7 @@ namespace SkyCrab.Connection.SessionLayer
         public delegate void SkyCrabConnectionListener(BasicConnection connection, bool errors);
         public List<SkyCrabConnectionListener> closeListeners = new List<SkyCrabConnectionListener>();
         public List<SkyCrabConnectionListener> disposedListeners = new List<SkyCrabConnectionListener>();
-        private List<Exception> exceptions = new List<Exception>(); //TODO synchronization
+        private List<Exception> exceptions = new List<Exception>();
 
 
         public IPEndPoint LocalEndPoint
@@ -56,7 +56,11 @@ namespace SkyCrab.Connection.SessionLayer
 
         public List<Exception> Exceptions
         {
-            get { return exceptions; }
+            get
+            {
+                lock (exceptions)
+                    return new List<Exception>(exceptions);
+            }
         }
 
 
@@ -68,16 +72,9 @@ namespace SkyCrab.Connection.SessionLayer
 
         protected void OnException(Exception exception)
         {
-            exceptions.Add(exception);
+            lock (exceptions)
+                exceptions.Add(exception);
             AsyncDispose();
-        }
-
-        private AggregateException CreateAggregateException()
-        {
-            if (exceptions.Count == 0)
-                return null;
-            else
-                return new AggregateException(exceptions);
         }
 
         protected BasicConnection(TcpClient tcpClient, int readTimeout)
@@ -93,7 +90,12 @@ namespace SkyCrab.Connection.SessionLayer
             {
                 closeListeners.Add(listener);
                 if (closing)
-                    listener.Invoke(this, exceptions.Count != 0);
+                {
+                    bool areExceptions;
+                    lock (exceptions)
+                        areExceptions = exceptions.Count != 0;
+                    listener.Invoke(this, areExceptions);
+                }
             }
         }
 
@@ -103,13 +105,19 @@ namespace SkyCrab.Connection.SessionLayer
             {
                 disposedListeners.Add(listener);
                 if (disposed)
-                    listener.Invoke(this, exceptions.Count != 0);
+                {
+                    bool areExceptions;
+                    lock (exceptions)
+                        areExceptions = exceptions.Count != 0;
+                    listener.Invoke(this, areExceptions);
+                }
             }
         }
 
         public void ClearExceptions()
         {
-            exceptions.Clear();
+            lock (exceptions)
+                exceptions.Clear();
         }
 
         protected virtual void WriteBytes(byte[] bytes)
@@ -182,7 +190,12 @@ namespace SkyCrab.Connection.SessionLayer
             lock (listeners)
             {
                 foreach (SkyCrabConnectionListener listener in listeners)
-                    listener.Invoke(this, exceptions.Count != 0);
+                {
+                    bool areExceptions;
+                    lock (exceptions)
+                        areExceptions = exceptions.Count != 0;
+                    listener.Invoke(this, areExceptions);
+                }
             }
         }
 
