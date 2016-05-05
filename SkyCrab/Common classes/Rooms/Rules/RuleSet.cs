@@ -40,5 +40,18 @@ namespace SkyCrab.Common_classes.Rooms.Rules
             return pouches;
         }
 
+        public bool Math(RuleSet filter)
+        {
+            if (!maxRoundTime.Math(filter.maxRoundTime))
+                return false;
+            if (!maxPlayerCount.Math(filter.maxPlayerCount))
+                return false;
+            if (!fivesFirst.Math(filter.fivesFirst))
+                return false;
+            if (!restrictedExchange.Math(filter.restrictedExchange))
+                return false;
+            return true;
+        }
+
     }
 }

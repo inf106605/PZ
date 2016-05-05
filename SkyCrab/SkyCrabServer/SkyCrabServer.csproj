@@ -81,6 +81,8 @@
     <Compile Include="Connections\Listener.cs" />
     <Compile Include="Consoles\ServerConsole.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="ServerClasses\Sequence.cs" />
+    <Compile Include="ServerClasses\ServerPlayer.cs" />
     <Compile Include="SkyCrab_Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
