@@ -16,7 +16,7 @@ namespace SkyCrab.Connection.SessionLayer
     public abstract class BasicConnection : IDisposable
     {
 
-        public const int PORT = 8888;  //TODO
+        public const int PORT = 56077;
 
         private TcpClient tcpClient;
         private int readTimeout;
