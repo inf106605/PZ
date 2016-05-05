@@ -154,14 +154,25 @@ namespace SkyCrab.Connection.PresentationLayer
             try
             {
                 MessageId messageId = MessageIdTranscoder.Get.Read(this);
-                if (messageId == MessageId.SHUTDOWN)
-                    return false;
-                AbstractMessage message;
-                if (!messageTypes.TryGetValue(messageId, out message))
-                    throw new UnknownMessageException();
-                object messageData = null;
-                messageData = message.Read(this);
-                EnqueueMessage(message, messageData);
+                switch (messageId)
+                {
+                    case MessageId.DISCONNECT:
+                        disconnectSemaphore.Release();
+                        AsyncDispose();
+                        break;
+
+                    case MessageId.SHUTDOWN:
+                        return false;
+
+                    default:
+                        AbstractMessage message;
+                        if (!messageTypes.TryGetValue(messageId, out message))
+                            throw new UnknownMessageException();
+                        object messageData = null;
+                        messageData = message.Read(this);
+                        EnqueueMessage(message, messageData);
+                        break;
+                }
             }
             catch (ReadTimeoutException)
             {
@@ -225,12 +236,6 @@ namespace SkyCrab.Connection.PresentationLayer
         protected void AnswerPing(object message)
         {
             PongMsg.AsyncPostPong(this);
-        }
-
-        protected void AnswerDisconnect(object message)
-        {
-            disconnectSemaphore.Release();
-            AsyncDispose();
         }
 
         internal void SetAnswerCallback(object writingBlock, AnswerCallback answerCallback, object state)
