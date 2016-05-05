@@ -139,6 +139,11 @@ namespace SkyCrab.Connection.PresentationLayer
             }
         }
 
+        protected override void StopCreatingMessages()
+        {
+            base.StopCreatingMessages();
+        }
+
         protected override void DoDispose()
         {
             if (inputRijndael != null)

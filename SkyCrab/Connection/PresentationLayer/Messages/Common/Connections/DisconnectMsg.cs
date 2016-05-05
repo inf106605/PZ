@@ -6,7 +6,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Connections
     /// <para>Sender: Server &amp; Client</para>
     /// <para>ID: <see cref="MessageId.DISCONNECT"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="OkDisconnectMsg"/></para>
+    /// <para>Passible answers: [none]</para>
     /// </summary>
     public sealed class DisconnectMsg : AbstractMessage
     {
@@ -26,16 +26,10 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Connections
             return null;
         }
 
-        public static MessageInfo? SyncPostDisconnect(MessageConnection connection, int timeout)
-        {
-            return SyncPost((callback, state) => AsyncPostDisconnect(connection, callback, state), timeout);
-        }
-
-        public static void AsyncPostDisconnect(MessageConnection connection, AnswerCallback callback, object state = null)
+        public static void AsyncPostDisconnect(MessageConnection connection)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.DISCONNECT, messageProcedure);
         }

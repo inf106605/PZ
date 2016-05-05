@@ -43,8 +43,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnections\AnswerQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\MessageConnections\MessageInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\AbstractMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\Connections\ShutdownMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\Connections\DisconnectMsg.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\Connections\OkDisconnectMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\Errors\ErrorMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\Errors\OkMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\Pings\NoPongMsg.cs" />

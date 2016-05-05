@@ -58,7 +58,7 @@ namespace SkyCrab
                     String host = sr.ReadLine();
                     ClientConnection.PreLoadStaticMembers();
                     clientConn = new ClientConnection(host, 1000);
-                    clientConn.AddConnectionCloseListener((connection, exceptions) => clientConn = null); //TODO handle exception (from argument, it is not throwed)
+                    clientConn.AddDisposedListener((connection, errors) => clientConn = null); //TODO handle exception (from argument, it is not throwed)
                 }
                 
             } catch(Exception ex)
