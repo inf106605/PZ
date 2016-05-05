@@ -1,5 +1,5 @@
 ﻿using SkyCrab.Common_classes.Games.Boards;
-using SkyCrab.Common_classes.Games.Pouches;
+using SkyCrab.Common_classes.Games.Pouch;
 using SkyCrab.Common_classes.Games.Tiles;
 using System;
 
@@ -38,6 +38,19 @@ namespace SkyCrab.Common_classes.Rooms.Rules
                 pouches[0] = new Pouch(0, PolishTileSet.instance.Letters);
             }
             return pouches;
+        }
+
+        public bool Math(RuleSet filter)
+        {
+            if (!maxRoundTime.Math(filter.maxRoundTime))
+                return false;
+            if (!maxPlayerCount.Math(filter.maxPlayerCount))
+                return false;
+            if (!fivesFirst.Math(filter.fivesFirst))
+                return false;
+            if (!restrictedExchange.Math(filter.restrictedExchange))
+                return false;
+            return true;
         }
 
     }

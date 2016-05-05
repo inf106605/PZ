@@ -82,7 +82,7 @@ namespace SkyCrab.Classes.Menu
             playerProfile.Password = passTextbox.Password;
             playerProfile.EMail = emailTextbox.Text;
 
-            var answer = RegisterMsg.SyncPostRegister(App.clientConn, playerProfile, 1000);
+            var answer = RegisterMsg.SyncPostRegister(App.clientConn, playerProfile, 3000);
 
             if (!answer.HasValue)
             {
@@ -98,6 +98,12 @@ namespace SkyCrab.Classes.Menu
 
                 switch (errorCode)
                 {
+                    case ErrorCode.SESSION_ALREADY_LOGGED2:
+                        {
+                            MessageBox.Show("Twój program jest już zalogowany na innego użytkownika");
+                            break;
+                        }
+
                     case ErrorCode.LOGIN_OCCUPIED:
                         {
                             MessageBox.Show("Podany login jest zajęty!");
@@ -118,7 +124,6 @@ namespace SkyCrab.Classes.Menu
             {
                 SkyCrabGlobalVariables.player = (Player)answerValue.message;
                 Switcher.Switch(new MainMenuLoggedPlayer());
-                return;
             }
         }
 

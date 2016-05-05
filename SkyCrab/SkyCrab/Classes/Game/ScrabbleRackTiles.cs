@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SkyCrab.Common_classes.Games.Racks;
+using SkyCrab.Common_classes.Games.Tiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +10,42 @@ namespace SkyCrab.Classes.Game
 {
     class ScrabbleRackTiles
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Value { get; set; }
+        static int counter;
+        public int id { get; set; }
+        public TileOnRack tile { get; set; }
+
+        public string Name
+        {
+            get
+            {
+                return "" + tile.Tile.Letter.character;
+            }
+        }
+
+        public string Value
+        {
+            get
+            {
+                return  tile.Tile.Letter.points.ToString();
+            }
+        }
+
+        public int Id
+        {
+            get
+            {
+                return id;
+            }
+        }
 
         public ScrabbleRackTiles()
         {
-
         }
 
-        public ScrabbleRackTiles(int id, string name, int value)
+        public ScrabbleRackTiles(TileOnRack tile)
         {
-            this.Id = id;
-            this.Name = name;
-            this.Value = value;
+            this.id = counter++;
+            this.tile = tile;
         }
 
     }

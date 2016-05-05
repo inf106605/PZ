@@ -25,13 +25,23 @@ namespace SkyCrab.Classes.Menu
 
         private void ButonLoginConfirm_Click(object sender, RoutedEventArgs e)
         {
+            if(loginTextbox.Text.Length < 3)
+            {
+                MessageBox.Show("Podana nazwa użytkownika jest za krótka!");
+                return;
+            }
+            if(passTextbox.Password.Length < 5)
+            {
+                MessageBox.Show("Twoje hasło jest za krótkie!");
+                return;
+            }
 
             PlayerProfile playerProfile = new PlayerProfile();
 
             playerProfile.Login = loginTextbox.Text;
             playerProfile.Password = passTextbox.Password;
 
-            var answer = LoginMsg.SyncPostLogin(App.clientConn, playerProfile, 1000);
+            var answer = LoginMsg.SyncPostLogin(App.clientConn, playerProfile, 3000);
 
             if (!answer.HasValue)
             {
@@ -71,7 +81,6 @@ namespace SkyCrab.Classes.Menu
                 {
                     SkyCrabGlobalVariables.player = (Player)answerValue.message;
                     Switcher.Switch(new MainMenuLoggedPlayer());
-                    return;
                 }
         }
         

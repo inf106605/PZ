@@ -2,6 +2,7 @@
 using SkyCrabServer.Consoles;
 using SkyCrabServer.Databases;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
@@ -10,7 +11,7 @@ namespace SkyCrabServer
     class SkyCrab_Server
     {
 
-        private static readonly Version version = new Version(0, 2, 2);
+        private static readonly Version version = new Version(0, 3, 0);
 
 
         static int Main(string[] args)
@@ -21,32 +22,39 @@ namespace SkyCrabServer
                 return 0;
             }
 
-            IPAddress ipAddress;
-            int port;
-            if (!GetAddressAndPort(args, out ipAddress, out port))
+            FileStream lockFile;
+            if (!CreateLockFile(out lockFile))
                 return -1;
-
-
-            Banners.Banner.PrintBanner(version);
-            try
+            using (lockFile)
             {
-                using (Globals.serverConsole = new ServerConsole())
-                using (Globals.database = new Database())
+
+                IPAddress ipAddress;
+                int port;
+                if (!GetAddressAndPort(args, out ipAddress, out port))
+                    return -1;
+
+
+                Banners.Banner.PrintBanner(version);
+                try
                 {
-                    bool result = Listener.Listen(ipAddress, port);
-                    if (result)
-                        return 0;
-                    else
-                        return -1;
+                    using (Globals.serverConsole = new ServerConsole())
+                    using (Globals.database = new Database())
+                    {
+                        bool result = Listener.Listen(ipAddress, port);
+                        if (result)
+                            return 0;
+                        else
+                            return -1;
+                    }
                 }
-            }
-            catch (SocketException e)
-            {
-                if (e.ErrorCode == -2147467259)
-                    Console.Error.WriteLine("Port " + port + " is already occupied!");
-                else
-                    Console.Error.WriteLine("Cannot start listening!");
-                return -1;
+                catch (SocketException e)
+                {
+                    if (e.ErrorCode == -2147467259)
+                        Console.Error.WriteLine("Port " + port + " is already occupied!");
+                    else
+                        Console.Error.WriteLine("Cannot start listening!");
+                    return -1;
+                }
             }
         }
 
@@ -58,6 +66,22 @@ namespace SkyCrabServer
             Console.WriteLine("\tADDRESS\tAn address or a domain to which the server will listen\n\t\tfor new connections.\n\t\tIf it is not given, the server will listen to all adresses.");
             Console.WriteLine("\tPORT\tA port to which the server will listen for new connections.\n\t\tIf it is not given, the server will use default port.\n\t\t(Using the default port is recomended.)");
             Console.WriteLine();
+        }
+
+        private static bool CreateLockFile(out FileStream fileStream)
+        {
+            const string LOCK_FILE_NAME = "SkyCrab_server.lock";
+            try
+            {
+                fileStream = new FileStream(LOCK_FILE_NAME, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, 8, FileOptions.DeleteOnClose);
+                return true;
+            }
+            catch (IOException)
+            {
+                Console.Error.WriteLine("Only one instance of the program can be opened in the same directory!");
+                fileStream = null;
+                return false;
+            }
         }
 
         private static bool GetAddressAndPort(string[] args, out IPAddress ipAddress, out int port)

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace SkyCrab.Common_classes.Games.Pouches
+namespace SkyCrab.Common_classes.Games.Pouch
 {
 
     public class NoSuchLetterEntryInPouchException : SkyCrabException

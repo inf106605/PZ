@@ -37,7 +37,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class MessageConnection : EncryptedConnection
     {
 
-        private static readonly Version version = new Version(5, 1, 2);
+        private static readonly Version version = new Version(8, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -189,7 +189,7 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private void PingTaskBody(object state)
         {
-            /*try
+            try
             {
                 lock (pingTimer)
                 {
@@ -211,7 +211,7 @@ namespace SkyCrab.Connection.PresentationLayer
             {
                 StoreException(e);
                 AsyncDispose();
-            }*/
+            }
         }
 
         protected void AnswerPing(object message)

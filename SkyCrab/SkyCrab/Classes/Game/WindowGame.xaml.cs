@@ -1,4 +1,5 @@
-﻿using SkyCrab.Common_classes.Games.Racks;
+﻿using SkyCrab.Common_classes.Games.Letters;
+using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Menu;
 using System;
@@ -27,14 +28,17 @@ namespace SkyCrab.Classes.Game
     {
         private List<ScrabblePlayers> ScrabblePlayers = null;
 
+        private ScrabbleGame scrabbleGame = null;
+
         public WindowGame()
         {
             InitializeComponent();
-            InitBinding();
-            DataContext = new ScrabbleGame();
+            InitBindingPlayers();
+            scrabbleGame = new ScrabbleGame();
+            DataContext = scrabbleGame;
         }
 
-        private void InitBinding()
+        private void InitBindingPlayers()
         {
             ScrabblePlayers = new List<ScrabblePlayers>();
             ScrabblePlayers.Add(new ScrabblePlayers("pleban325", 60, "0:06:14", 4));
@@ -54,65 +58,156 @@ namespace SkyCrab.Classes.Game
         {
             // symulacja wyłożenia płytek
 
-            Dictionary<int,string> idAndLetter = new Dictionary<int, string>();
+            ScrabbleTilesSelectedFromRack scrabbleTilesSelectedFromRack = new ScrabbleTilesSelectedFromRack();
+            ScrabbleTilesSelectedFromBoard scrabbleTilesSelectedFromBoard = new ScrabbleTilesSelectedFromBoard();
 
             foreach (var item in listViewRack.SelectedItems)
             {
-                var key = int.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString());
-                var value = item.GetType().GetProperty("Name").GetValue(item, null).ToString();
-                idAndLetter.Add(key, value);
-                MessageBox.Show(key + " " + value);
+                var scrabbleTileFromRack = scrabbleGame.scrabbleRack.SearchIdTile((ScrabbleRackTiles)item);
+                scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Add(scrabbleTileFromRack);
             }
 
-            // sortowanie słownika po kluczu - id elementu 
-
-            var list_keys = idAndLetter.Keys.ToList();
-            // list_keys.Sort();
-            List<string> list_tiles = new List<string>();
-            //MessageBox.Show("Lista zaznaczonych na stojaku");
-
-            foreach (var key in list_keys)
+            /*
+            for(int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
             {
-                //MessageBox.Show(key + " : " + idAndLetter[key]);
-                list_tiles.Add(idAndLetter[key]);
-            }
+                MessageBox.Show( scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].id + " " + scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name + " " + scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value);
 
-            //MessageBox.Show("Koniec zaznaczonych na stojaku");
-            
-            List<int> Columns = new List<int>();
-            List<int> Rows = new List<int>();
-            List<int> PositionsListBox = new List<int>();
+            }
+            */
 
             foreach (var item in scrabbleBoard.SelectedItems)
             {
-                var Column = int.Parse(item.GetType().GetProperty("Row").GetValue(item, null).ToString()); // pobieranie współrzędnej x
-                var Row = int.Parse(item.GetType().GetProperty("Column").GetValue(item, null).ToString()); // pobieranie współrzędnej y
-                var listBoxPosition = int.Parse(item.GetType().GetProperty("PositionInListBox").GetValue(item, null).ToString()); // współrzędna pozycji w listbox'ie
-
-                Columns.Add(Column);
-                Rows.Add(Row);
-                PositionsListBox.Add(listBoxPosition);
-                MessageBox.Show(Column + " " + Row); // wyświetlenie pozycji x , y
+                scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Add((ScrabbleSquare)item);
             }
 
-            // sortowanie
+            // WALIDACJA ZAZNACZONYCH PŁYTEK NA PLANSZY I STOJAKU
 
-            Columns.Sort();
-            Rows.Sort();
-            PositionsListBox.Sort();
+            bool ifVerticalPositionTiles = true;
+            bool ifHorizontalPositionTiles = true;
 
-            for(int i = 0; i < list_tiles.Count; i++)
+            for(int i = 0; i < scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Count; i++)
             {
-                ScrabbleBoard.Squares[PositionsListBox[i]] = new ScrabbleSquare(Columns[i], Rows[i], list_tiles[i], 1);
+                if(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].isValue)
+                {
+                    MessageBox.Show("W tym miejscu już istnieje płytka!");
+                    return;
+                }
+
+                if(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[0].Column != scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column)
+                {
+                    ifHorizontalPositionTiles = false;
+                }
+                if(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[0].Row != scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row)
+                {
+                    ifVerticalPositionTiles = false;
+                }
+
             }
 
-            //ScrabbleBoard.Squares[112] = new ScrabbleSquare(int.Parse("7"), int.Parse("7"), "A", 1); // wpisywanie współrzędnych na planszy oraz literki i wartości którą chcemy wyświetlić                                         
-            //usunięcie z kolekcji Rack zaznaczonych płytek 
+            if (scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Count > 1)
+            {
 
-            for (int i = 0; i < list_keys.Count; i++)
-                ScrabbleRack.RackTiles.Remove(ScrabbleRack.RackTiles.Where(temp => temp.Id == list_keys[i]).Single());
+                if (!((ifVerticalPositionTiles && !ifHorizontalPositionTiles) || (!ifVerticalPositionTiles && ifHorizontalPositionTiles)))
+                {
+                    MessageBox.Show("Płytki są nieprawidłowo układane. Tylko poziomo lub pionowo");
+                    return;
+                }
+            }
+            if(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard.Count != scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count)
+            {
+                MessageBox.Show("Nie zaznaczono odpowiedniej liczby płytek lub pól");
+                return;
+            }
+
+            // KONIEC WALIDACJI
+
+
+            // ustawienie płytek na planszy
+
+            for(int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            {
+                scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column , scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
+            }
+
+            // usunięcie płytek ze stojaka
+
+            for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+                 scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
+
+            // uzupełnienie stojaka o ilość wyłożonych płytek. W przeciwnym przypadku jeżeli jest 
+            //ich mniej w woreczku to wyciągnięcie pozostałych
+
+            //MessageBox.Show("Zostało: " + scrabbleGame.pouch.Count + " płytek!");
+
+            if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count > scrabbleGame.pouch.Count)
+            {
+                for(int i=0; i < scrabbleGame.pouch.Count; i++)
+                {
+                    TileOnRack temp = new TileOnRack(scrabbleGame.pouch.DrawRandowmTile());
+                    scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
+                }
+            }
+
+            else
+            {
+                for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+                {
+                    TileOnRack temp = new TileOnRack(scrabbleGame.pouch.DrawRandowmTile());
+                    scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
+                }
+            }
+
+            // Aktualizacja ilości pozostałych płytek
+
+            LeftTilesInPouch.Text = "Pozostało " + scrabbleGame.pouch.Count + " płytek";
+
+        }
+
+        private void Exchange_Click(object sender, RoutedEventArgs e)
+        {
+            ScrabbleTilesSelectedFromRack scrabbleTilesSelectedFromRack = new ScrabbleTilesSelectedFromRack();
+
+            // sprawdzanie czy ilość zaznaczonych płytek nie przekracza ilości pozostałych płytek w woreczku
+
+            if(listViewRack.SelectedItems.Count > scrabbleGame.pouch.Count)
+            {
+                MessageBox.Show("Nie ma aż tylu płytek w woreczku do wymiany!");
+                return;
+            }
+
+            // dodanie zaznaczonych płytek do tymczasowej listy
+
+            foreach (var item in listViewRack.SelectedItems)
+            {
+                var scrabbleTileFromRack = scrabbleGame.scrabbleRack.SearchIdTile((ScrabbleRackTiles)item);
+                scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Add(scrabbleTileFromRack);
+            }
+
+            // usunięcie płytek ze stojaka 
+
+            for(int i =0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            {
+                scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
+            }
             
+            // losowanie płytek z woreczka
 
+            for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            {
+                TileOnRack temp = new TileOnRack(scrabbleGame.pouch.DrawRandowmTile());
+                scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
+            }
+            
+            /*
+                        
+            // włożenie starych płytek do woreczka
+            for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            {
+                Letter temp = new Letter(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Letter.character, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Letter.points);
+                scrabbleGame.pouch.InsertTile(temp);
+            }
+            
+            */
         }
     } 
 }
