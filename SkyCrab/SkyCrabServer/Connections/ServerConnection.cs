@@ -1,5 +1,7 @@
-﻿using SkyCrab.Common_classes.Players;
+﻿using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Players;
 using SkyCrab.Common_classes.Rooms;
+using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
@@ -7,6 +9,7 @@ using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrabServer.Databases;
 using SkyCrabServer.ServerClasses;
@@ -39,7 +42,17 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-
+        private bool InRoom
+        {
+            get
+            {
+                if (serverPlayer == null)
+                    return false;
+                if (serverPlayer.room == null)
+                    return false;
+                return true;
+            }
+        }
 
         public ServerConnection(TcpClient tcpClient, int readTimeout) :
             base(tcpClient, readTimeout)
@@ -123,6 +136,28 @@ namespace SkyCrabServer.Connactions
 
                     default:
                         throw new UnsuportedMessageException();
+
+                    //in rooms
+
+                    case MessageId.JOIN_ROOM:
+                        JoinRoom((UInt32)messageInfo.message);
+                        break;
+
+                    case MessageId.LEAVE_ROOM:
+                        LeaveRoom();
+                        break;
+
+                    case MessageId.PLAYER_READY:
+                        PlayerReady();
+                        break;
+
+                    case MessageId.PLAYER_NOT_READY:
+                        PlayerNotReady();
+                        break;
+
+                    case MessageId.CHAT:
+                        Chat((ChatMessage)messageInfo.message);
+                        break;
                 }
             }
             string info = "Client disconnected. (" + ClientAuthority + ")";
@@ -152,7 +187,7 @@ namespace SkyCrabServer.Connactions
                     return;
                 }
             }
-            ServerPlayer serverPlayer = new ServerPlayer(player);
+            ServerPlayer serverPlayer = new ServerPlayer(this, player);
             if (!Globals.players.TryAdd(player.Id, serverPlayer))
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.USER_ALREADY_LOGGED);
@@ -184,7 +219,8 @@ namespace SkyCrabServer.Connactions
                     ServerPlayer temp;
                     Globals.players.TryRemove(serverPlayer.player.Id, out temp);
                 }
-                OnLeaveRoom();
+                if (InRoom)
+                    OnLeaveRoom();
                 serverPlayer = null;
             }
         }
@@ -223,7 +259,7 @@ namespace SkyCrabServer.Connactions
                     id = PlayerProfileTable.Create(playerProfile, passwordHash);
                 }
 
-                serverPlayer = new ServerPlayer(new Player(id, playerProfile));
+                serverPlayer = new ServerPlayer(this, new Player(id, playerProfile));
                 Globals.players.TryAdd(serverPlayer.player.Id, serverPlayer);
                 LoginOkMsg.AsyncPostLoginOk(this, serverPlayer.player);
             }
@@ -276,7 +312,6 @@ namespace SkyCrabServer.Connactions
 
             serverPlayer.player.Profile.Nick = playerProfile.Nick;
             serverPlayer.player.Profile.EMail = playerProfile.EMail;
-            //TODO should I do something more to inform program about changes? maybe.
             OkMsg.AsyncPostOk(this);
         }
 
@@ -364,7 +399,7 @@ namespace SkyCrabServer.Connactions
         private void CreateRoom(Room room)
         {
             MakeValidPlayer();
-            if (serverPlayer.room != null)
+            if (InRoom)
             {
                 ErrorMsg.AsyncPostError(this, ErrorCode.ALREADY_IN_ROOM);
                 return;
@@ -382,6 +417,7 @@ namespace SkyCrabServer.Connactions
             Globals.rooms.TryAdd(room.Id, room);
             serverPlayer.room = room;
             RoomMsg.AsyncPostRoomList(this, room);
+            PlayerJoinedMsg.asycnPostJoined(this, serverPlayer.player);
         }
 
         private void OnLeaveRoom()
@@ -398,9 +434,19 @@ namespace SkyCrabServer.Connactions
                 if (serverPlayer.room.Owner.Id == serverPlayer.player.Id)
                 {
                     serverPlayer.room.Owner = serverPlayer.room.Players.First.Value.Player;
-                    //TODO send new owner info to other players
+                    foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
+                    {
+                        ServerPlayer otherServerPlayer;
+                        Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                        NewRoomOwnerMsg.AsyncPostNewOwner(this, serverPlayer.room.Owner.Id);
+                    }
                 }
-                //TODO send leave info to other players
+                foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
+                {
+                    ServerPlayer otherServerPlayer;
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    PlayerLeavedMsg.AsyncPostLeave(this, serverPlayer.player.Id);
+                }
             }
             serverPlayer.room = null;
         }
@@ -468,12 +514,89 @@ namespace SkyCrabServer.Connactions
             return true;
         }
 
+        private void JoinRoom(UInt32 roomId)
+        {
+            if (InRoom)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.ALREADY_IN_ROOM2);
+                return;
+            }
+            Room room;
+            if (!Globals.rooms.TryGetValue(roomId, out room))
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.NO_SUCH_ROOM);
+                return;
+            }
+            if (room.Players.Count >= room.Rules.maxPlayerCount.value)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.ROOM_IS_FULL);
+                return;
+            }
+            serverPlayer.room = room;
+            room.AddPlayer(serverPlayer.player);
+            RoomMsg.AsyncPostRoomList(this, room);
+            foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
+            {
+                ServerPlayer otherServerPlayer;
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                PlayerJoinedMsg.asycnPostJoined(this, serverPlayer.player);
+            }
+        }
+
+        private void LeaveRoom()
+        {
+            if (!InRoom)
+            {
+                ErrorMsg.AsyncPostError(this, ErrorCode.NOT_IN_ROOM);
+                return;
+            }
+            OkMsg.AsyncPostOk(this);
+            OnLeaveRoom();
+        }
+
+        private void PlayerReady()
+        {
+            if (!InRoom)
+                return;
+            foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
+            {
+                ServerPlayer otherServerPlayer;
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                PlayerReadyMsg.AsyncPostReady(this, serverPlayer.player.Id);
+            }
+        }
+
+        private void PlayerNotReady()
+        {
+            if (!InRoom)
+                return;
+            foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
+            {
+                ServerPlayer otherServerPlayer;
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                PlayerNotReadyMsg.AsyncPostNotReady(this, serverPlayer.player.Id);
+            }
+        }
+
+        private void Chat(ChatMessage chatMessage)
+        {
+            chatMessage.PlayerId = serverPlayer.player.Id;
+            if (!InRoom)
+                return;
+            foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
+            {
+                ServerPlayer otherServerPlayer;
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                ChatMsg.AsyncPostChat(this, chatMessage);
+            }
+        }
+
         private void MakeValidPlayer()
         {
             if (serverPlayer == null)
             {
                 UInt32 id = PlayerTable.Create();
-                serverPlayer = new ServerPlayer(new Player(id, false, DEFAULT_NICK+'#'+id));
+                serverPlayer = new ServerPlayer(this, new Player(id, false, DEFAULT_NICK+'#'+id));
             }
         }
 

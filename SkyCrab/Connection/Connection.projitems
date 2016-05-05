@@ -61,6 +61,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Friends\GetFriendsMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Friends\PlayerListMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Friends\RemoveFriendMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\NewRoomOwnerMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\PlayerJoinedMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\PlayerNotReadyMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\InRooms\ChatMsg.cs" />
