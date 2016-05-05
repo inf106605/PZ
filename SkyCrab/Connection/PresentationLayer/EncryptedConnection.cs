@@ -4,6 +4,7 @@
 #endif
 
 using SkyCrab.Connection.SessionLayer;
+using SkyCrab.Connection.Utils;
 using System;
 using System.IO;
 using System.Net.Sockets;
@@ -11,6 +12,14 @@ using System.Security.Cryptography;
 
 namespace SkyCrab.Connection.PresentationLayer
 {
+    public sealed class WrongAsymetricKeyException : SkyCrabConnectionException
+    {
+        public WrongAsymetricKeyException(Exception innerException) :
+            base("", innerException)
+        {
+        }
+    }
+
     public abstract class EncryptedConnection : QueuedConnection
     {
         
@@ -25,7 +34,14 @@ namespace SkyCrab.Connection.PresentationLayer
             base(tcpClient, readTimeout)
         {
             #if !DO_NOT_ENCRYPT
-            Initialize();
+            try
+            {
+                Initialize();
+            }
+            catch (CryptographicException e)
+            {
+                throw new WrongAsymetricKeyException(e);
+            }
             #endif
         }
 
@@ -121,6 +137,11 @@ namespace SkyCrab.Connection.PresentationLayer
                 csp.FromXmlString(xml);
                 return csp;
             }
+        }
+
+        protected override void StopCreatingMessages()
+        {
+            base.StopCreatingMessages();
         }
 
         protected override void DoDispose()

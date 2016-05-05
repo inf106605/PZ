@@ -23,7 +23,7 @@ namespace SkyCrabServer.Connactions
                     ServerConnection connection = new ServerConnection(tcpClient, CONNECTION_TIMEOUT);
                     Globals.serverConsole.WriteLine("New client connected. (" + connection.ServerEndPoint.Address + ", " + connection.ClientAuthority + ")");
                     connections.Add(connection);
-                    connection.AddConnectionCloseListener((disconectedConnection, exceptions) => OnCloseConnection((ServerConnection) disconectedConnection, exceptions));
+                    connection.AddDisposedListener((disconectedConnection, errors) => OnCloseConnection((ServerConnection) disconectedConnection, errors));
                 }
                 catch (Exception e)
                 {
@@ -37,10 +37,10 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-        private static void OnCloseConnection(ServerConnection disconectedConnection, AggregateException exceptions)
+        private static void OnCloseConnection(ServerConnection disconectedConnection, bool errors)
         {
-            if (exceptions != null)
-                Globals.serverConsole.Write(exceptions.ToString(), Console.Error);
+            if (errors)
+                Globals.serverConsole.Write(new AggregateException(disconectedConnection.Exceptions).ToString(), Console.Error);
             lock (connections)
                 connections.Remove((ServerConnection) disconectedConnection);
         }

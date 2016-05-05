@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkyCrab.Connection.SessionLayer
@@ -16,18 +15,18 @@ namespace SkyCrab.Connection.SessionLayer
     public abstract class BasicConnection : IDisposable
     {
 
-        public const int PORT = 8888;  //TODO
+        public const int PORT = 56077;
 
         private TcpClient tcpClient;
         private int readTimeout;
-        protected volatile bool isDisposing = false;
-        protected volatile bool isDisposed = false;
-        private volatile bool preparedForDispose = false;
-        private object _prepareForDisposeLock = new object();
-        private object _disposeLock = new object();
-        public delegate void ConnectionCloseListener(BasicConnection connection, AggregateException exceptions);
-        public List<ConnectionCloseListener> connectionCloseListeners = new List<ConnectionCloseListener>();
-        private object _connectionCloseListenerLock = new object();
+
+        protected volatile bool closing = false;
+        protected volatile bool disposed = false;
+        private readonly object _disposeLock = new object();
+
+        public delegate void SkyCrabConnectionListener(BasicConnection connection, bool errors);
+        public List<SkyCrabConnectionListener> closeListeners = new List<SkyCrabConnectionListener>();
+        public List<SkyCrabConnectionListener> disposedListeners = new List<SkyCrabConnectionListener>();
         private List<Exception> exceptions = new List<Exception>();
 
 
@@ -55,6 +54,15 @@ namespace SkyCrab.Connection.SessionLayer
             get { return readTimeout; }
         }
 
+        public List<Exception> Exceptions
+        {
+            get
+            {
+                lock (exceptions)
+                    return new List<Exception>(exceptions);
+            }
+        }
+
 
         private static string CreateAuthorityString(IPEndPoint endPoint)
         {
@@ -62,17 +70,11 @@ namespace SkyCrab.Connection.SessionLayer
             return authorityString;
         }
 
-        protected void StoreException(Exception e)
+        protected void OnException(Exception exception)
         {
-            exceptions.Add(e);
-        }
-
-        private AggregateException CreateAggregateException()
-        {
-            if (exceptions.Count == 0)
-                return null;
-            else
-                return new AggregateException(exceptions);
+            lock (exceptions)
+                exceptions.Add(exception);
+            AsyncDispose();
         }
 
         protected BasicConnection(TcpClient tcpClient, int readTimeout)
@@ -82,20 +84,40 @@ namespace SkyCrab.Connection.SessionLayer
             tcpClient.ReceiveTimeout = readTimeout;
         }
 
-        public void AddConnectionCloseListener(ConnectionCloseListener listener)
+        public void AddCloseListener(SkyCrabConnectionListener listener)
         {
-            connectionCloseListeners.Add(listener);
-            lock (_connectionCloseListenerLock)
+            lock (closeListeners)
             {
-                AggregateException exceptions = CreateAggregateException();
-                if (preparedForDispose)
-                    listener.Invoke(this, exceptions);
+                closeListeners.Add(listener);
+                if (closing)
+                {
+                    bool areExceptions;
+                    lock (exceptions)
+                        areExceptions = exceptions.Count != 0;
+                    listener.Invoke(this, areExceptions);
+                }
             }
         }
 
-        public void RemoveConnectionCloseListener(ConnectionCloseListener listener)
+        public void AddDisposedListener(SkyCrabConnectionListener listener)
         {
-            connectionCloseListeners.Remove(listener);
+            lock (disposedListeners)
+            {
+                disposedListeners.Add(listener);
+                if (disposed)
+                {
+                    bool areExceptions;
+                    lock (exceptions)
+                        areExceptions = exceptions.Count != 0;
+                    listener.Invoke(this, areExceptions);
+                }
+            }
+        }
+
+        public void ClearExceptions()
+        {
+            lock (exceptions)
+                exceptions.Clear();
         }
 
         protected virtual void WriteBytes(byte[] bytes)
@@ -131,58 +153,27 @@ namespace SkyCrab.Connection.SessionLayer
             return bytes;
         }
 
-        protected void PrepareForDispose(bool answeringToDisposeMsg)
-        {
-            if (!answeringToDisposeMsg)
-            {
-                Monitor.Enter(_prepareForDisposeLock);
-            }
-            else
-            {
-                if (!Monitor.TryEnter(_prepareForDisposeLock))
-                    return;
-            }
-            try
-            {
-                if (preparedForDispose)
-                    return;
-                preparedForDispose = true;
-                DoPrepareForDispose(answeringToDisposeMsg);
-            }
-            finally
-            {
-                Monitor.Exit(_prepareForDisposeLock);
-            }
-        }
-
-        private void CallConnectionCloseListeners()
-        {
-            AggregateException exceptions = CreateAggregateException();
-            foreach (ConnectionCloseListener listener in connectionCloseListeners)
-                listener.Invoke(this, exceptions);
-        }
-
         protected void AsyncDispose()
         {
             Task.Factory.StartNew(Dispose);
         }
 
-        protected abstract void DoPrepareForDispose(bool answeringToDisposeMsg);
-
         public void Dispose()
         {
             lock (_disposeLock)
             {
-                if (isDisposing)
+                if (disposed)
                     return;
-                isDisposing = true;
-                PrepareForDispose(false);
-                isDisposed = true;
+                closing = true;
+                StopCreatingMessages();
+                CallListeners(closeListeners);
                 DoDispose();
-                lock (_connectionCloseListenerLock)
-                    CallConnectionCloseListeners();
+                disposed = true;
+                CallListeners(disposedListeners);
             }
         }
+
+        protected abstract void StopCreatingMessages();
 
         protected virtual void DoDispose()
         {
@@ -191,6 +182,20 @@ namespace SkyCrab.Connection.SessionLayer
                 tcpClient.GetStream().Close();
                 tcpClient.Close();
                 tcpClient = null;
+            }
+        }
+
+        private void CallListeners(List<SkyCrabConnectionListener> listeners)
+        {
+            lock (listeners)
+            {
+                foreach (SkyCrabConnectionListener listener in listeners)
+                {
+                    bool areExceptions;
+                    lock (exceptions)
+                        areExceptions = exceptions.Count != 0;
+                    listener.Invoke(this, areExceptions);
+                }
             }
         }
 
