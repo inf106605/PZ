@@ -1,5 +1,5 @@
-﻿using SkyCrab.Common_classes.Rooms.Rules;
-using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms.Rules;
+﻿using SkyCrab.Common_classes.Rooms;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <summary>
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.FIND_ROOMS"/></para>
-    /// <para>Data type: <see cref="RuleSet"/> (rule filter)</para>
+    /// <para>Data type: <see cref="Room"/> (room filter)</para>
     /// <para>Passible answers: <see cref="RoomListMsg"/></para>
     /// <para>Error codes: [none]</para>
     /// </summary>
@@ -26,20 +26,20 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
 
         internal override object Read(MessageConnection connection)
         {
-            RuleSet ruleFilter = RuleSetTranscoder.Get.Read(connection);
-            return ruleFilter;
+            Room roomFilter = RoomTranscoder.Get.Read(connection);
+            return roomFilter;
         }
 
-        public static MessageInfo? SyncPostFindRooms(MessageConnection connection, RuleSet ruleFilter, int timeout)
+        public static MessageInfo? SyncPostFindRooms(MessageConnection connection, Room roomFilter, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostFindRooms(connection, ruleFilter, callback, state), timeout);
+            return SyncPost((callback, state) => AsyncPostFindRooms(connection, roomFilter, callback, state), timeout);
         }
 
-        public static void AsyncPostFindRooms(MessageConnection connection, RuleSet ruleFilter, AnswerCallback callback, object state = null)
+        public static void AsyncPostFindRooms(MessageConnection connection, Room roomFilter, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {
-                RuleSetTranscoder.Get.Write(connection, writingBlock, ruleFilter);
+                RoomTranscoder.Get.Write(connection, writingBlock, roomFilter);
                 connection.SetAnswerCallback(writingBlock, callback, state);
             };
             connection.PostMessage(MessageId.FIND_ROOMS, messageProc);
