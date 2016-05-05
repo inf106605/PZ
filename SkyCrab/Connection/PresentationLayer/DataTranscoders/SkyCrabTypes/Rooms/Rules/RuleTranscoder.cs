@@ -1,9 +1,10 @@
 ﻿using SkyCrab.Common_classes.Rooms.Rules;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+using System;
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms.Rules
 {
-    internal sealed class RuleTranscoder<T> : AbstractTranscoder<Rule<T>>
+    internal sealed class RuleTranscoder<T> : AbstractTranscoder<Rule<T>> where T : IComparable
     {
 
         private static RuleTranscoder<T> instance;

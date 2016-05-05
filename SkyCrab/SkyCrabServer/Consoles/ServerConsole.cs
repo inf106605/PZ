@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SkyCrabServer.Consoles
 {
-    //TODO use this all the time?
+    //TODO hide prompt after close
     sealed class ServerConsole : IDisposable
     {
 

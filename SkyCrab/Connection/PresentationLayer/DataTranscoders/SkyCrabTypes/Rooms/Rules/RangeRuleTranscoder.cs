@@ -1,8 +1,9 @@
 ﻿using SkyCrab.Common_classes.Rooms.Rules;
+using System;
 
 namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms.Rules
 {
-    internal sealed class RangeRuleTranscoder<T> : AbstractTranscoder<RangeRule<T>>
+    internal sealed class RangeRuleTranscoder<T> : AbstractTranscoder<RangeRule<T>> where T : IComparable
     {
 
         private static RangeRuleTranscoder<T> instance;

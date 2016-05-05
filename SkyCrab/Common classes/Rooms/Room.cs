@@ -51,11 +51,13 @@ namespace SkyCrab.Common_classes.Rooms
         public uint Id
         {
             get { return id; }
+            set { id = value; }
         }
 
         public Player Owner
         {
             get { return owner; }
+            set { owner = value; }
         }
 
         public string Name
