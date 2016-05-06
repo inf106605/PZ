@@ -106,13 +106,13 @@ namespace SkyCrab.Common_classes.Rooms
             {
                 if(rules.fivesFirst.value == true)
                 {
-                    return "TAK";
+                    return "✓";
                 }
                 else if(rules.fivesFirst.value == false)
                 {
-                    return "NIE";
+                    return "-";
                 }
-                return "NIE";
+                return "-";
             }
         }
 
@@ -122,13 +122,13 @@ namespace SkyCrab.Common_classes.Rooms
             {
                 if (rules.restrictedExchange.value == true)
                 {
-                    return "TAK";
+                    return "✓";
                 }
                 else if (rules.restrictedExchange.value == false)
                 {
-                    return "NIE";
+                    return "-";
                 }
-                return "NIE";
+                return "-";
             }
         }
 
