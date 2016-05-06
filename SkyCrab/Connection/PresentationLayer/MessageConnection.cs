@@ -52,6 +52,7 @@ namespace SkyCrab.Connection.PresentationLayer
         protected bool processingMessagesOk;
         private volatile bool closingListeningTask = false;
         private Semaphore disconnectSemaphore = new Semaphore(0, 1);
+        protected bool disconectedOnItsOwn = true;
 
 
         private int PingTimeout
@@ -164,6 +165,8 @@ namespace SkyCrab.Connection.PresentationLayer
                 switch (messageId)
                 {
                     case MessageId.DISCONNECT:
+                        if (!closing)
+                            disconectedOnItsOwn = false;
                         disconnectSemaphore.Release();
                         AsyncDispose();
                         break;
