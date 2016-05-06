@@ -26,9 +26,9 @@ namespace SkyCrab
                 clientConn.Dispose();
                 ClientConnection.DisposeStaticMembers();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //MessageBox.Show("Wystąpił błąd o podanej treści: " + ex.Message);
+                MessageBox.Show("Wystąpił błąd o podanej treści: " + ex.Message);
             }
             base.OnExit(e);
         }
@@ -57,8 +57,14 @@ namespace SkyCrab
                     // Read the stream to a string, and write the string to the console.
                     String host = sr.ReadLine();
                     ClientConnection.PreLoadStaticMembers();
-                    clientConn = new ClientConnection(host, 1000);
-                    clientConn.AddDisposedListener((connection, errors) => clientConn = null); //TODO handle exception (from argument, it is not throwed)
+
+                    clientConn = new ClientConnection(host, ClientConnection.PORT, 1000);
+                    clientConn.AddDisposedListener((connection, errors) =>
+                            {
+                                if (errors)
+                                    MessageBox.Show("Wystąpił błąd o podanej treści: " + new AggregateException(clientConn.Exceptions));
+                                clientConn = null; //TODO handle exception (from argument, it is not throwed)
+                            });
                 }
                 
             } catch(Exception ex)

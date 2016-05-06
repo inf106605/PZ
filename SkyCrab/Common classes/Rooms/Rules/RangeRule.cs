@@ -19,7 +19,7 @@ namespace SkyCrab.Common_classes.Rooms.Rules
 
         public bool Math(RangeRule<T> filter)
         {
-            if (indifferently)
+            if (filter.indifferently)
                 return true;
             if (value.CompareTo(filter.min) < 0)
                 return false;

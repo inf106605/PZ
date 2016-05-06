@@ -1,4 +1,6 @@
-﻿using SkyCrab.Connection.AplicationLayer;
+﻿using SkyCrab.Common_classes;
+using SkyCrab.Common_classes.Players;
+using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using System.Threading.Tasks;
@@ -7,8 +9,8 @@ namespace SkyCrab
 {
     class ClientConnection : AbstractClientConnection
     {
-        public ClientConnection(string host, int readTimeout) :
-           base(host, readTimeout)
+        public ClientConnection(string host, int port, int readTimeout) :
+           base(host, port, readTimeout)
         {
 
         }
@@ -21,14 +23,6 @@ namespace SkyCrab
 
                 switch(messageInfo.messageId)
                 {
-                    //case MessageId.DISCONNECT:
-                        //{
-                            //TODO Sorry, you will not longer receive this message. It is handle by another class now. If you want to know, that server is disconnecting, use callback or implement method "DoDispose".
-                            //DisplayMessageBox("Serwer zakończył pracę!");
-                            //AnswerDisconnect(messageInfo.message);
-                            //break;
-                        //}
-
                     case MessageId.PING:
                         {
                             AnswerPing(messageInfo.message);
@@ -40,6 +34,19 @@ namespace SkyCrab
                             AsyncDispose();
                             break;
                         }
+
+                    case MessageId.PLAYER_JOINED:
+                        {
+                           lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.AddPlayer((Player)messageInfo.message);
+                            break;
+                        }
+
+                    default:
+                        {
+                            DisplayMessageBox("Otrzymano nieobsługiwany komunikat od serwera (" + messageInfo.messageId.ToString() + ")!");
+                            throw new SkyCrabException("Unsuported message: " + messageInfo.messageId.ToString());
+                        }
                 }
             }
         }
@@ -47,6 +54,13 @@ namespace SkyCrab
         private void DisplayMessageBox(string message)
         {
             Task.Factory.StartNew(()=>System.Windows.MessageBox.Show(message));
+        }
+
+        protected override void DoDispose()
+        {
+            if (!disconectedOnItsOwn)
+                DisplayMessageBox("Serwer zakończył pracę");
+            base.DoDispose();
         }
 
     }

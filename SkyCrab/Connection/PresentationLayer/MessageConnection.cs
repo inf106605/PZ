@@ -1,4 +1,9 @@
-﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+﻿//#define SHOW_MESSAGES
+#if SHOW_MESSAGES
+#warning "Received messages are writed to console!"
+#endif
+
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
@@ -47,6 +52,7 @@ namespace SkyCrab.Connection.PresentationLayer
         protected bool processingMessagesOk;
         private volatile bool closingListeningTask = false;
         private Semaphore disconnectSemaphore = new Semaphore(0, 1);
+        protected bool disconectedOnItsOwn = true;
 
 
         private int PingTimeout
@@ -153,9 +159,14 @@ namespace SkyCrab.Connection.PresentationLayer
             try
             {
                 MessageId messageId = MessageIdTranscoder.Get.Read(this);
+                #if SHOW_MESSAGES
+                Console.WriteLine("<- " + messageId.ToString());
+                #endif
                 switch (messageId)
                 {
                     case MessageId.DISCONNECT:
+                        if (!closing)
+                            disconectedOnItsOwn = false;
                         disconnectSemaphore.Release();
                         AsyncDispose();
                         break;
@@ -222,6 +233,10 @@ namespace SkyCrab.Connection.PresentationLayer
                         noPongMessageInfo.messageId = noPongMsg.Id;
                         messages.Add(noPongMessageInfo);
                     }
+                    else if (messageInfo.Value.messageId != MessageId.PONG)
+                    {
+                        throw new SkyCrabConnectionException("Wrong answer to ping!");
+                    }
                 }
                 catch (Exception e)
                 {
@@ -273,6 +288,9 @@ namespace SkyCrab.Connection.PresentationLayer
 
         internal void PostMessage(MessageId messageId, MessageProcedure messageProcedure)
         {
+            #if SHOW_MESSAGES
+            Console.WriteLine("-> " + messageId.ToString());
+            #endif
             object writingBlock = BeginWritingBlock();
             MessageIdTranscoder.Get.Write(this, writingBlock, messageId);
             messageProcedure.Invoke(writingBlock);

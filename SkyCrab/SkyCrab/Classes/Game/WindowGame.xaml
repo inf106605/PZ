@@ -168,6 +168,7 @@
                      Background="Green"
                      ItemsSource="{Binding RackTiles}"
                      SelectionMode="Extended"
+             
                     >
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>

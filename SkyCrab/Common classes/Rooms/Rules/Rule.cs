@@ -20,7 +20,7 @@ namespace SkyCrab.Common_classes.Rooms.Rules
 
         public bool Math(Rule<T> filter)
         {
-            if (indifferently)
+            if (filter.indifferently)
                 return true;
             else
                 return value.CompareTo(filter.value) == 0;
