@@ -222,6 +222,10 @@ namespace SkyCrab.Connection.PresentationLayer
                         noPongMessageInfo.messageId = noPongMsg.Id;
                         messages.Add(noPongMessageInfo);
                     }
+                    else if (messageInfo.Value.messageId != MessageId.PONG)
+                    {
+                        throw new SkyCrabConnectionException("Wrong answer to ping!");
+                    }
                 }
                 catch (Exception e)
                 {
