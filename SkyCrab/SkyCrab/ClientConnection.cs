@@ -45,7 +45,6 @@ namespace SkyCrab
                         {
                             DisplayMessageBox("Otrzymano nieznany komunikat od serwera!");
                             throw new SkyCrabException("Błąd ogólny");
-                            break;
                         }
                 }
             }
@@ -54,6 +53,12 @@ namespace SkyCrab
         private void DisplayMessageBox(string message)
         {
             Task.Factory.StartNew(()=>System.Windows.MessageBox.Show(message));
+        }
+
+        protected override void DoDispose()
+        {
+            DisplayMessageBox("Serwer zakończył pracę");
+            base.DoDispose();
         }
 
     }
