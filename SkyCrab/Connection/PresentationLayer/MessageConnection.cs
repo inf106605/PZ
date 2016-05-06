@@ -37,6 +37,10 @@ namespace SkyCrab.Connection.PresentationLayer
 
     public class UnknownMessageException : SkyCrabConnectionException
     {
+        public UnknownMessageException(string message) :
+            base(message)
+        {
+        }
     }
     
     public abstract class MessageConnection : EncryptedConnection
@@ -177,7 +181,7 @@ namespace SkyCrab.Connection.PresentationLayer
                     default:
                         AbstractMessage message;
                         if (!messageTypes.TryGetValue(messageId, out message))
-                            throw new UnknownMessageException();
+                            throw new UnknownMessageException(messageId.ToString());
                         object messageData = null;
                         messageData = message.Read(this);
                         EnqueueMessage(message, messageData);

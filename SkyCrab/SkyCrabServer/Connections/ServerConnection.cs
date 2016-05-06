@@ -130,9 +130,6 @@ namespace SkyCrabServer.Connactions
                         GetFriendRooms();
                         break;
 
-                    default:
-                        throw new UnsuportedMessageException();
-
                     //in rooms
 
                     case MessageId.JOIN_ROOM:
@@ -154,6 +151,11 @@ namespace SkyCrabServer.Connactions
                     case MessageId.CHAT:
                         Chat((ChatMessage)messageInfo.message);
                         break;
+
+                    //Unknown
+
+                    default:
+                        throw new UnsuportedMessageException();
                 }
             }
         }
