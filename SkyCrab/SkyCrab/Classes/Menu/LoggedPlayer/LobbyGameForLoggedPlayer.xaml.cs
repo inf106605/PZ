@@ -21,9 +21,17 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
     /// </summary>
     public partial class LobbyGameForLoggedPlayer : UserControl
     {
+        PlayersInLobby playersInLobby = null;
+
+
         public LobbyGameForLoggedPlayer()
         {
             InitializeComponent();
+
+            playersInLobby = new PlayersInLobby();
+
+            DataContext = playersInLobby;
+
         }
 
         private void ReturnCreateRoomForLoggedPlayer_Click(object sender, RoutedEventArgs e)

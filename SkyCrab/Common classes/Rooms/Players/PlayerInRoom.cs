@@ -20,7 +20,6 @@ namespace SkyCrab.Common_classes.Rooms.Players
             set { isReady = value; }
         }
 
-
         public PlayerInRoom(Player player)
         {
             this.player = player;

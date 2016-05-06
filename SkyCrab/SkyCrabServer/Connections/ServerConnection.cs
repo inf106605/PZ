@@ -613,8 +613,10 @@ namespace SkyCrabServer.Connactions
                 foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                 {
                     ServerPlayer otherServerPlayer;
-                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                    PlayerJoinedMsg.asycnPostJoined(this, serverPlayer.player);
+					Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+					PlayerJoinedMsg.asycnPostJoined(otherServerPlayer.connection, serverPlayer.player);
+					if (serverPlayer.player.Id != otherServerPlayer.player.Id)
+						PlayerJoinedMsg.asycnPostJoined(this, otherServerPlayer.player);
                 }
             }
             finally
