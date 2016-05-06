@@ -4,6 +4,7 @@ using SkyCrabServer.Databases;
 using SkyCrabServer.ServerClasses;
 using System;
 using System.Collections.Concurrent;
+using System.Threading;
 
 namespace SkyCrabServer
 {
@@ -16,10 +17,12 @@ namespace SkyCrabServer
 
         public static Database database;
 
-        public static ConcurrentDictionary<UInt32, ServerPlayer> players = new ConcurrentDictionary<UInt32, ServerPlayer>();
+        public static readonly ReaderWriterLock dataLock = new ReaderWriterLock();
+
+        public static readonly ConcurrentDictionary<UInt32, ServerPlayer> players = new ConcurrentDictionary<UInt32, ServerPlayer>();
 
         public static readonly Sequence roomIdSequence = new Sequence();
-        public static ConcurrentDictionary<UInt32, Room> rooms = new ConcurrentDictionary<UInt32, Room>();
+        public static readonly ConcurrentDictionary<UInt32, Room> rooms = new ConcurrentDictionary<UInt32, Room>();
 
     }
 }
