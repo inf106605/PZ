@@ -42,7 +42,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class MessageConnection : EncryptedConnection
     {
 
-        private static readonly Version version = new Version(9, 0, 0);
+        private static readonly Version version = new Version(9, 1, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -109,6 +109,7 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new PlayerLeavedMsg());
             AddMessage(new PlayerReadyMsg());
             AddMessage(new PlayerNotReadyMsg());
+            AddMessage(new NewRoomOwnerMsg());
             AddMessage(new ChatMsg());
         }
 
