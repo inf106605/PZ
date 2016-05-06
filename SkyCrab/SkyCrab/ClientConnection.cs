@@ -45,7 +45,7 @@ namespace SkyCrab
                     default:
                         {
                             DisplayMessageBox("Otrzymano nieobsługiwany komunikat od serwera (" + messageInfo.messageId.ToString() + ")!");
-                            throw new SkyCrabException("Błąd ogólny");
+                            throw new SkyCrabException("Unsuported message: " + messageInfo.messageId.ToString());
                         }
                 }
             }
