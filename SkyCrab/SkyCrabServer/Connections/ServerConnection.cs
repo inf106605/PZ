@@ -156,8 +156,6 @@ namespace SkyCrabServer.Connactions
                         break;
                 }
             }
-            string info = "Client disconnected. (" + ClientAuthority + ")";
-            Globals.serverConsole.WriteLine(info);
         }
 
         private void Login(PlayerProfile playerProfile)

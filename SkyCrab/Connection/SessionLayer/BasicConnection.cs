@@ -99,10 +99,8 @@ namespace SkyCrab.Connection.SessionLayer
                 closeListeners.Add(listener);
                 if (closing)
                 {
-                    bool areExceptions;
                     lock (exceptions)
-                        areExceptions = exceptions.Count != 0;
-                    listener.Invoke(this, areExceptions);
+                        listener.Invoke(this, exceptions.Count != 0);
                 }
             }
         }
@@ -114,10 +112,8 @@ namespace SkyCrab.Connection.SessionLayer
                 disposedListeners.Add(listener);
                 if (disposed)
                 {
-                    bool areExceptions;
                     lock (exceptions)
-                        areExceptions = exceptions.Count != 0;
-                    listener.Invoke(this, areExceptions);
+                        listener.Invoke(this, exceptions.Count != 0);
                 }
             }
         }
@@ -199,10 +195,8 @@ namespace SkyCrab.Connection.SessionLayer
             {
                 foreach (SkyCrabConnectionListener listener in listeners)
                 {
-                    bool areExceptions;
                     lock (exceptions)
-                        areExceptions = exceptions.Count != 0;
-                    listener.Invoke(this, areExceptions);
+                        listener.Invoke(this, exceptions.Count != 0);
                 }
             }
         }
