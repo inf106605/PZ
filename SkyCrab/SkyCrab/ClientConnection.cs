@@ -58,7 +58,7 @@ namespace SkyCrab
 
         protected override void DoDispose()
         {
-            DisplayMessageBox("Serwer zakończył pracę");
+            DisplayMessageBox("Serwer zakończył pracę");  //TODO show only if client did not disconnect on its own initiatives
             base.DoDispose();
         }
 
