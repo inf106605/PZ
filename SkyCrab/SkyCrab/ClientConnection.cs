@@ -37,7 +37,8 @@ namespace SkyCrab
 
                     case MessageId.PLAYER_JOINED:
                         {
-                            SkyCrabGlobalVariables.room.AddPlayer((Player)messageInfo.message);
+                           lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.AddPlayer((Player)messageInfo.message);
                             break;
                         }
 

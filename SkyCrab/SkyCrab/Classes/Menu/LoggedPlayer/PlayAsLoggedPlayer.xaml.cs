@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using System;
 using System.Collections.Generic;
@@ -298,6 +299,59 @@ namespace SkyCrab.Classes.Menu
             }
             maxCountPlayers.ItemsSource = maxCountPlayersLabels;
             maxCountPlayers.SelectedIndex = 3;
+        }
+
+        private void SelectAndJoinToRoom_Click(object sender, RoutedEventArgs e)
+        {
+            lock (SkyCrabGlobalVariables.roomLock)
+            {
+
+                foreach (var item in ListRooms.SelectedItems)
+                {
+                    var joinToRoomMsgAnswer = JoinRoomMsg.SyncPostLogout(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
+
+                    if (!joinToRoomMsgAnswer.HasValue)
+                    {
+                        MessageBox.Show("Brak odpowiedzi od serwera!");
+                        return;
+                    }
+
+                    var answerValue = joinToRoomMsgAnswer.Value;
+
+                    if (answerValue.messageId == MessageId.ERROR)
+                    {
+                        ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                        switch (errorCode)
+                        {
+                            case ErrorCode.NO_SUCH_ROOM:
+                                {
+                                    MessageBox.Show("Nie ma takiego pokoju!");
+                                    break;
+                                }
+                            case ErrorCode.ALREADY_IN_ROOM2:
+                                {
+                                    MessageBox.Show("Już jesteś w pokoju!");
+                                    break;
+                                }
+                            case ErrorCode.ROOM_IS_FULL:
+                                {
+                                    MessageBox.Show("Wybrany pokój jest pełny!");
+                                    break;
+                                }
+                        }
+
+                        return;
+                    }
+
+                    if (answerValue.messageId == MessageId.ROOM)
+                    {
+                        Room answerRoom = (Room)answerValue.message;
+                        SkyCrabGlobalVariables.room = answerRoom;
+                        Switcher.Switch(new LobbyGameForLoggedPlayer());
+                    }
+                }
+            }
         }
     }
 }

@@ -12,5 +12,7 @@ namespace SkyCrab
     {
        public static Player player;
        public static Room room; // pokój z uzupełnionymi danymi od serwera , wykorzystywany m.in. przez lobby
+
+        public static readonly object roomLock = new object();
     }
 }
