@@ -54,10 +54,10 @@
             </Viewbox>
             <Viewbox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left">
                 <UniformGrid Rows="4">
-                    <TextBlock x:Name="nameRommTextBlock" Text="Nazwa_pokoju" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
-                    <TextBlock x:Name="typeRoomTextBlock" Text="prywatny" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
-                    <TextBlock x:Name="limitOfTimeTextBlock" Text="Brak limitu" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
-                    <TextBlock x:Name="CountOfPlayersTextBlock" Text="4" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="nameRommTextBlock" Text="{Binding NameRoom}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="typeRoomTextBlock" Text="{Binding TypeOfRoom}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="limitOfTimeTextBlock" Text="{Binding MaxLimitTime}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="CountOfPlayersTextBlock" Text="{Binding MaxCountPlayers}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
                 </UniformGrid>
             </Viewbox>
         </Grid>
@@ -82,12 +82,12 @@
                 </UniformGrid>
             </Viewbox>
             <Grid Grid.Row="1">
-                <ListView x:Name="ListPlayers">
+                <ListView x:Name="ListPlayers" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListOfPlayers}">
                     <ListView.View>
                         <GridView AllowsColumnReorder="True">
                             <GridView.Columns>
-                                <GridViewColumn Header="Gracz"  DisplayMemberBinding="{Binding PlayerName}" />
-                                <GridViewColumn Header="Status"  DisplayMemberBinding="{Binding PlayerPoints}" />
+                                <GridViewColumn Header="Nick"  DisplayMemberBinding="{Binding Player.Nick}" />
+                                <GridViewColumn Header="Status" DisplayMemberBinding="{Binding IsReady}" />
                             </GridView.Columns>
                         </GridView>
                     </ListView.View>

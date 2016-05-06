@@ -123,6 +123,7 @@
     <Compile Include="Classes\Menu\LoggedPlayer\PlayAsLoggedPlayer.xaml.cs">
       <DependentUpon>PlayAsLoggedPlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Menu\LoggedPlayer\PlayersInLobby.cs" />
     <Compile Include="Classes\Menu\LoggedPlayer\Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
