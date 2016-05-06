@@ -1,4 +1,9 @@
-﻿using SkyCrab.Connection.Utils;
+﻿//#define LONG_TIMEOUTS
+#if LONG_TIMEOUTS
+#warning "This is a debug version with long timeouts!"
+#endif
+
+using SkyCrab.Connection.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,6 +84,9 @@ namespace SkyCrab.Connection.SessionLayer
 
         protected BasicConnection(TcpClient tcpClient, int readTimeout)
         {
+            #if LONG_TIMEOUTS
+            readTimeout = 1000000000;
+            #endif
             this.tcpClient = tcpClient;
             this.readTimeout = readTimeout;
             tcpClient.ReceiveTimeout = readTimeout;
