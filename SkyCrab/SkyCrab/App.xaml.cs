@@ -57,8 +57,9 @@ namespace SkyCrab
                     // Read the stream to a string, and write the string to the console.
                     String host = sr.ReadLine();
                     ClientConnection.PreLoadStaticMembers();
+
                     clientConn = new ClientConnection(host, ClientConnection.PORT, 1000);
-                    clientConn.AddConnectionCloseListener((connection, exceptions) => clientConn = null); //TODO handle exception (from argument, it is not throwed)
+                    clientConn.AddDisposedListener((connection, errors) => clientConn = null); //TODO handle exception (from argument, it is not throwed)
                 }
                 
             } catch(Exception ex)

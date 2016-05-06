@@ -3,7 +3,6 @@ using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkyCrab.Connection.SessionLayer
@@ -51,7 +50,7 @@ namespace SkyCrab.Connection.SessionLayer
                     foreach (WriteInfo writeInfo in queue.GetConsumingEnumerable())
                     {
                         writeTaskIsOk = true;
-                        if (!isDisposed && writeInfo.bytes != null)
+                        if (writeInfo.bytes != null)
                             base.WriteBytes(writeInfo.bytes);
                         if (writeInfo.callback != null)
                             writeInfo.callback.Invoke(writeInfo.state);
@@ -61,8 +60,7 @@ namespace SkyCrab.Connection.SessionLayer
             }
             catch (Exception e)
             {
-                StoreException(e);
-                AsyncDispose();
+                OnException(e);
             }
         }
 
@@ -126,15 +124,8 @@ namespace SkyCrab.Connection.SessionLayer
             localWriteQueue.Add(writeInfo);
         }
 
-        protected override void DoPrepareForDispose(bool answeringForDisconnectMsg)
+        protected override void StopCreatingMessages()
         {
-            for (int i = 0; i != ReadTimeout; ++i)
-            {
-                if (writeQueue.Count == 0)
-                    break;
-                else
-                    Thread.Sleep(10);
-            }
         }
 
         protected override void DoDispose()

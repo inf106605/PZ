@@ -48,7 +48,7 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Button x:Name="RoomCreateButton" Grid.Row="0" Content="UTWÓRZ POKÓJ" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="RoomCreateButton_Click" />
-                    <TextBox x:Name="textBoxSearchRoom" Grid.Row="1" MaxLines="1" Margin="5"></TextBox>
+                    <TextBox x:Name="textBoxSearchRoom" Grid.Row="1" MaxLines="1" Margin="5" TextChanged="textBoxSearchRoom_TextChanged"></TextBox>
                    
                 </Grid>
             </Grid>
@@ -102,21 +102,27 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0">
-                                <CheckBox x:Name="fivesFirst" IsThreeState="True" Content="Piątki" FontSize="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></CheckBox>
+                                <CheckBox x:Name="fivesFirst" IsThreeState="True" IsChecked="{x:Null}" Content="Piątki" FontSize="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></CheckBox>
                             </Grid>
                             <Grid Grid.Column="1">
-                                <CheckBox x:Name="restrictedExchange"  FontSize="10" IsThreeState="True" Content="Wymiany" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></CheckBox>
+                                <CheckBox x:Name="restrictedExchange"  FontSize="10" IsThreeState="True" IsChecked="{x:Null}" Content="Wymiany" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></CheckBox>
                             </Grid>
                         </Grid>
                     </UniformGrid>
                 </Grid>
-                <ListBox x:Name="ListRooms" Grid.Column="1" Grid.Row="1" Margin="5" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListRooms}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <ListView x:Name="ListRooms" Grid.Column="1" Grid.Row="1" Margin="5" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListRooms}">
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="True">
+                            <GridView.Columns>
+                                <GridViewColumn Header="Nazwa pokoju" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Header="Max czas tury" DisplayMemberBinding="{Binding MaxTimeLimit}" />
+                                <GridViewColumn Header="Liczba graczy" DisplayMemberBinding="{Binding MaxPlayersLimit}" />
+                                <GridViewColumn Header="Reguła piątki" DisplayMemberBinding="{Binding IsRulesFive}" />
+                                <GridViewColumn Header="Reguła wymiany" DisplayMemberBinding="{Binding IsRulesExchange}" />
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" ></Grid>

@@ -38,10 +38,18 @@ namespace SkyCrab.Classes.Menu
         {
             InitializeComponent();
             manageRooms = new ManageRooms();
-            
-            
+            Room filterRoom = new Room();
 
-          //  var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn,
+            filterRoom.Name = "";
+            filterRoom.RoomType = RoomType.PUBLIC;
+            filterRoom.Rules.fivesFirst.indifferently = true;
+           // filterRoom.Rules.fivesFirst.value = true;
+           filterRoom.Rules.restrictedExchange.indifferently = true;
+            //filterRoom.Rules.restrictedExchange.value = true;
+            filterRoom.Rules.maxPlayerCount.indifferently = true;
+            filterRoom.Rules.maxRoundTime.indifferently = true;
+
+            var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn, filterRoom, 1000);
  
             if (!getListOfRooms.HasValue)
             {
@@ -51,36 +59,109 @@ namespace SkyCrab.Classes.Menu
 
             var answerValue = getListOfRooms.Value;
 
-            if (answerValue.messageId == MessageId.ERROR)
+            if (answerValue.messageId == MessageId.ROOM_LIST)
             {
-                ErrorCode errorCode = (ErrorCode)answerValue.message;
-
-                switch (errorCode)
+                manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
+                for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
                 {
-                    case ErrorCode.NOT_LOGGED6:
-                        {
-                            MessageBox.Show("Nie jesteś zalogowany!");
-                            break;
-                        }
-
+                    MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
+                    manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
                 }
+            }
 
+            DataContext = manageRooms;
+    
+        }
+
+        private void textBoxSearchRoom_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // czyszczenie starej zawartości listy pokoi
+            manageRooms.ClearListRooms();
+
+            Room filterRoom = new Room();
+
+            filterRoom.Name = textBoxSearchRoom.Text;
+            //publiczny
+            if(typeOfRoom.Text == "publiczny")
+            {
+                filterRoom.RoomType = RoomType.PUBLIC;
+            }
+            // znajomi
+            else if (typeOfRoom.Text == "znajomi")
+            {
+                filterRoom.RoomType = RoomType.FRIENDS;
+            }
+
+            if(fivesFirst.IsChecked.Value == true)
+            {
+                filterRoom.Rules.fivesFirst.value = true;
+            }
+            else if(fivesFirst.IsChecked.Value == false)
+            {
+                filterRoom.Rules.fivesFirst.value = false;
+            }
+
+            if(restrictedExchange.IsChecked.Value == true)
+            {
+                filterRoom.Rules.restrictedExchange.value = true;
+            }
+            else if(restrictedExchange.IsChecked.Value == false)
+            {
+                filterRoom.Rules.restrictedExchange.value = false;
+            }
+            // stany pośrednie checkboxów - reguły gry
+            if(fivesFirst.IsChecked == null)
+            {
+                filterRoom.Rules.fivesFirst.indifferently = true;
+            }
+            if(restrictedExchange.IsChecked == null)
+            {
+                filterRoom.Rules.restrictedExchange.indifferently = true;
+            }
+            // min i max czas gry
+
+            if(int.Parse(minTimeLimit.Text) >= 0)
+            {
+                filterRoom.Rules.maxRoundTime.min = uint.Parse(minTimeLimit.Text);
+            }
+
+            if(int.Parse(maxTimeLimit.Text) >= 0)
+            {
+                filterRoom.Rules.maxRoundTime.max = uint.Parse(maxTimeLimit.Text);
+            }
+
+            // min i max liczba graczy
+            
+            if(int.Parse(minCountPlayers.Text) > 0)
+            {
+                filterRoom.Rules.maxPlayerCount.min = byte.Parse(minCountPlayers.Text);
+            }
+
+            if(int.Parse(maxCountPlayers.Text) > 0)
+            {
+                filterRoom.Rules.maxPlayerCount.max = byte.Parse(maxCountPlayers.Text);
+            }
+
+            var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn, filterRoom, 1000);
+
+            if (!getListOfRooms.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
                 return;
             }
+
+            var answerValue = getListOfRooms.Value;
 
             if (answerValue.messageId == MessageId.ROOM_LIST)
             {
                 manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
                 for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
                 {
+                    MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
                     manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
                 }
             }
-
-            DataContext = manageRooms;
-
-    
-        } 
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -90,11 +171,6 @@ namespace SkyCrab.Classes.Menu
         private void RoomCreateButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new CreateRoomForLoggedPlayers());
-        }
-
-        private void textBoxSearchRoom_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
 
         private void typeOfRoom_Loaded(object sender, RoutedEventArgs e)

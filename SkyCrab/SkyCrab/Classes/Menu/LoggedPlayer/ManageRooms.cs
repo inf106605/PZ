@@ -21,12 +21,21 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
         }
 
+        public ManageRooms()
+        {
+            ListOfRooms = new ObservableCollection<Room>();
+            ListRoomsFromServer = new List<Room>();
+        }
+
         public void GetRoomsFromServerToList(Room room)
         {
             ListOfRooms.Add(room);
         }
 
-
+        public void ClearListRooms()
+        {
+            ListOfRooms.Clear();
+        }
 
     }
 }

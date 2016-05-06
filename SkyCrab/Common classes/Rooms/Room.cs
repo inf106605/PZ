@@ -70,6 +70,7 @@ namespace SkyCrab.Common_classes.Rooms
             }
         }
 
+
         public RoomType RoomType
         {
             get { return roomType; }
@@ -79,6 +80,56 @@ namespace SkyCrab.Common_classes.Rooms
         public RuleSet Rules
         {
             get { return rules; }
+        }
+
+
+
+        public string MaxPlayersLimit
+        {
+            get
+            {
+                return rules.maxPlayerCount.value.ToString();
+            }
+        }
+
+        public string MaxTimeLimit
+        {
+            get
+            {
+                return rules.maxRoundTime.value.ToString();
+            }
+        }
+
+        public string IsRulesFive
+        {
+            get
+            {
+                if(rules.fivesFirst.value == true)
+                {
+                    return "TAK";
+                }
+                else if(rules.fivesFirst.value == false)
+                {
+                    return "NIE";
+                }
+                return "NIE";
+            }
+        }
+
+        public string IsRulesExchange
+        {
+            get
+            {
+                if (rules.restrictedExchange.value == true)
+                {
+                    return "TAK";
+                }
+                else if (rules.restrictedExchange.value == false)
+                {
+                    return "NIE";
+                }
+                return "NIE";
+            }
         }
 
         public LinkedList<PlayerInRoom> Players

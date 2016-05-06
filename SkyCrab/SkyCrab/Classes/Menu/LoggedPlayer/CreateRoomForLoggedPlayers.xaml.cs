@@ -36,6 +36,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
         private void PlayAsLoggedPlayerReturn_Click(object sender, RoutedEventArgs e)
         {
+            SkyCrabGlobalVariables.room = null;
             Switcher.Switch(new PlayAsLoggedPlayer());
         }
 
@@ -119,16 +120,16 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             room.Rules.maxPlayerCount.value = byte.Parse(maxCountPlayersComboBox.Text);
 
-            if(RulesFive.IsChecked.Value)
+            if(RulesFive.IsChecked ?? true)
             {
-                room.Rules.fivesFirst.value = true;    
+                room.Rules.fivesFirst.value = true;
             }
             else
             {
                 room.Rules.fivesFirst.value = false;
             }
 
-            if(RulesExchange.IsChecked.Value)
+            if(RulesExchange.IsChecked ?? true)
             {
                 room.Rules.restrictedExchange.value = true;
             }
@@ -174,10 +175,8 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             {
                 Room answerRoom = (Room)answerValue.message;
                 SkyCrabGlobalVariables.room = answerRoom;
-
+                Switcher.Switch(new LobbyGameForLoggedPlayer());
             }
-
-            Switcher.Switch(new LobbyGameForLoggedPlayer());
         }
 
     }
