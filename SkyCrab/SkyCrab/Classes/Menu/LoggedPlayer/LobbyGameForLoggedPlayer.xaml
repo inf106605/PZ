@@ -22,7 +22,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"></RowDefinition>
             <RowDefinition Height="0.4*"></RowDefinition>
-            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
             <RowDefinition Height="0.4*"></RowDefinition>
             <RowDefinition Height="0.2*"></RowDefinition>
         </Grid.RowDefinitions>
@@ -62,14 +62,17 @@
             </Viewbox>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <UniformGrid Grid.Column="1" Columns="1">
-                <Button Name="rulesGameButton" Content="REGUŁY GRY"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" ></Button>
-            </UniformGrid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock Text="REGUŁY GRY" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" HorizontalAlignment="Center"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ListView x:Name="ListRules"  ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Center" ItemsSource="{Binding RulesName}">
+                </ListView>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="3" Margin="5">
             <Grid.RowDefinitions>

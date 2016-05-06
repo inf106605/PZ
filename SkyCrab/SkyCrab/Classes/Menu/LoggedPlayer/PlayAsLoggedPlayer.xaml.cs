@@ -29,7 +29,6 @@ namespace SkyCrab.Classes.Menu
 
         ManageRooms manageRooms = null;
 
-        ObservableCollection<String> typeOfRoomLabels;
         ObservableCollection<String> minTimeLimitLabels;
         ObservableCollection<String> maxTimeLimitLabels;
         ObservableCollection<String> minCountPlayersLabels;
@@ -83,12 +82,12 @@ namespace SkyCrab.Classes.Menu
 
             filterRoom.Name = textBoxSearchRoom.Text;
             //publiczny
-            if(typeOfRoom.Text == "publiczny")
+            if(publicRoomRadioButton.IsChecked.Value)
             {
                 filterRoom.RoomType = RoomType.PUBLIC;
             }
             // znajomi
-            else if (typeOfRoom.Text == "znajomi")
+            else if (friendsRoomRadioButton.IsChecked.Value)
             {
                 filterRoom.RoomType = RoomType.FRIENDS;
             }
@@ -154,7 +153,7 @@ namespace SkyCrab.Classes.Menu
                 filterRoom.Rules.maxPlayerCount.max = byte.Parse(maxCountPlayers.Text);
             }
 
-            if (typeOfRoom.Text == "znajomi")
+            if (friendsRoomRadioButton.IsChecked.Value)
             {
                 var getListofFriendRooms = GetFriendRoomsMsg.SyncPostGetFriendRooms(App.clientConn, 1000);
 
@@ -195,7 +194,7 @@ namespace SkyCrab.Classes.Menu
 
             }
 
-            if (typeOfRoom.Text == "publiczny")
+            if (publicRoomRadioButton.IsChecked.Value)
             {
 
                 var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn, filterRoom, 1000);
@@ -230,17 +229,6 @@ namespace SkyCrab.Classes.Menu
         private void RoomCreateButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new CreateRoomForLoggedPlayers());
-        }
-
-        private void typeOfRoom_Loaded(object sender, RoutedEventArgs e)
-        {
-            typeOfRoomLabels = new ObservableCollection<String>();
-
-            typeOfRoomLabels.Add("publiczny");
-            typeOfRoomLabels.Add("znajomi");
-
-            typeOfRoom.ItemsSource = typeOfRoomLabels;
-            typeOfRoom.SelectedIndex = 0;
         }
 
         private void minTimeLimit_Loaded(object sender, RoutedEventArgs e)
