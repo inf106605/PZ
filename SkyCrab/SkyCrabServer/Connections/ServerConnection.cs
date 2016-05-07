@@ -449,8 +449,8 @@ namespace SkyCrabServer.Connactions
                 return;
             }
             room.Id = Globals.roomIdSequence.Value;
-            room.Owner = serverPlayer.player;
             room.AddPlayer(serverPlayer.player);
+            room.OwnerId = serverPlayer.player.Id;
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
@@ -463,6 +463,7 @@ namespace SkyCrabServer.Connactions
             }
             RoomMsg.AsyncPostRoom(this, room);
             PlayerJoinedMsg.asycnPostJoined(this, serverPlayer.player);
+            NewRoomOwnerMsg.AsyncPostNewOwner(this, serverPlayer.player.Id);
         }
 
         private void OnLeaveRoom()
@@ -475,20 +476,20 @@ namespace SkyCrabServer.Connactions
                     serverPlayer.room.RemovePlayer(serverPlayer.player.Id);
                     if (serverPlayer.room.Players.Count == 0)
                     {
-                        serverPlayer.room.Owner = null;
+                        serverPlayer.room.OwnerId = 0;
                         Room tmp;
                         Globals.rooms.TryRemove(serverPlayer.room.Id, out tmp);
                     }
                     else
                     {
-                        if (serverPlayer.room.Owner.Id == serverPlayer.player.Id)
+                        if (serverPlayer.room.OwnerId == serverPlayer.player.Id)
                         {
-                            serverPlayer.room.Owner = serverPlayer.room.Players.First.Value.Player;
+                            serverPlayer.room.OwnerId = serverPlayer.room.Players.First.Value.Player.Id;
                             foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                             {
                                 ServerPlayer otherServerPlayer;
                                 Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                                NewRoomOwnerMsg.AsyncPostNewOwner(this, serverPlayer.room.Owner.Id);
+                                NewRoomOwnerMsg.AsyncPostNewOwner(this, serverPlayer.room.OwnerId);
                             }
                         }
                         foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
@@ -581,7 +582,7 @@ namespace SkyCrabServer.Connactions
         {
             if (room.RoomType == RoomType.PRIVATE)
                 return false;
-            if (room.RoomType == RoomType.FRIENDS && FriendTable.Exists(room.Owner.Id, serverPlayer.player.Id))
+            if (room.RoomType == RoomType.FRIENDS && FriendTable.Exists(room.OwnerId, serverPlayer.player.Id))
                 return false;
             return true;
         }
@@ -618,6 +619,7 @@ namespace SkyCrabServer.Connactions
 					if (serverPlayer.player.Id != otherServerPlayer.player.Id)
 						PlayerJoinedMsg.asycnPostJoined(this, otherServerPlayer.player);
                 }
+                NewRoomOwnerMsg.AsyncPostNewOwner(this, room.OwnerId);
             }
             finally
             {

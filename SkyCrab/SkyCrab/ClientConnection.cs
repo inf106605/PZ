@@ -3,6 +3,7 @@ using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
+using System;
 using System.Threading.Tasks;
 
 namespace SkyCrab
@@ -64,7 +65,7 @@ namespace SkyCrab
                     case MessageId.NEW_ROOM_OWNER:
                         {
                             lock(SkyCrabGlobalVariables.roomLock)
-                                SkyCrabGlobalVariables.room.Owner = (Player)messageInfo.message;
+                                SkyCrabGlobalVariables.room.OwnerId = (UInt32)messageInfo.message;
                             break;
                         }
 

@@ -60,7 +60,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             get
             {
-                return SkyCrabGlobalVariables.room.Owner.Nick;
+                return SkyCrabGlobalVariables.room.Owner.Player.Nick;
             }
         }
 
