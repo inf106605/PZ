@@ -86,8 +86,14 @@
                         <TextBlock Text="Reguły gry" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
                     </UniformGrid>
                     <UniformGrid Grid.Column="1" Rows="6">
-                        <ComboBox x:Name="typeOfRoom" IsEditable="False" Text="publiczny" MinWidth="30" FontSize="9" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="typeOfRoom_Loaded">
-                        </ComboBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton x:Name="publicRoomRadioButton" Grid.Column="0" Content="publiczny" FontSize="10"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" IsChecked="True" />
+                            <RadioButton x:Name="friendsRoomRadioButton" Grid.Column="1" Content="znajomi"  FontSize="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
+                        </Grid>
                         <ComboBox x:Name="minTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="minTimeLimit_Loaded">
                         </ComboBox>
                         <ComboBox x:Name="maxTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="maxTimeLimit_Loaded">

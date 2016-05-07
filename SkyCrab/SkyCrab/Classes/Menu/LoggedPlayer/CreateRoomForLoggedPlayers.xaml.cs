@@ -49,7 +49,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
 
             maxCountPlayersComboBox.ItemsSource = labels;
-            maxCountPlayersComboBox.SelectedIndex = 0;
+            maxCountPlayersComboBox.SelectedIndex = 1;
         }
 
         private void GameAreaButton_Click(object sender, RoutedEventArgs e)

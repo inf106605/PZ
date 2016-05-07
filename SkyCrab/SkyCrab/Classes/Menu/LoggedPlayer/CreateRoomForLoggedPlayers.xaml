@@ -56,7 +56,7 @@
                 </Viewbox>
                 <Viewbox HorizontalAlignment="Left">
                     <UniformGrid Columns="3" >
-                        <RadioButton x:Name="publicRoomRadioButton" Margin="10" Content="publiczny"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
+                        <RadioButton x:Name="publicRoomRadioButton" Margin="10" Content="publiczny"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" IsChecked="True" />
                         <RadioButton x:Name="friendsRoomRadioButton" Margin="10" Content="znajomi"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
                         <RadioButton x:Name="privateRoomRadioButton" Margin="10" Content="prywatny"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
                     </UniformGrid>

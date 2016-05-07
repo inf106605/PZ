@@ -45,5 +45,21 @@ namespace SkyCrab.Classes.Game
             }
         }
 
+        public string OwnerRoom
+        {
+            get
+            {
+                return "Właściciel pokoju: " + SkyCrabGlobalVariables.room.Owner.Player.Nick;
+            }
+        }
+
+        public string RoomName
+        {
+            get
+            {
+                return "Pokój: " + SkyCrabGlobalVariables.room.Name;
+            }
+        }
+
     }
 }

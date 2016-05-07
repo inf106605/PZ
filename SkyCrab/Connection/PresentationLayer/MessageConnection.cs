@@ -42,7 +42,7 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class MessageConnection : EncryptedConnection
     {
 
-        private static readonly Version version = new Version(9, 0, 0);
+        private static readonly Version version = new Version(9, 1, 1);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -109,6 +109,7 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new PlayerLeavedMsg());
             AddMessage(new PlayerReadyMsg());
             AddMessage(new PlayerNotReadyMsg());
+            AddMessage(new NewRoomOwnerMsg());
             AddMessage(new ChatMsg());
         }
 
@@ -235,7 +236,7 @@ namespace SkyCrab.Connection.PresentationLayer
                     }
                     else if (messageInfo.Value.messageId != MessageId.PONG)
                     {
-                        throw new SkyCrabConnectionException("Wrong answer to ping!");
+                        throw new SkyCrabConnectionException("Wrong answer to ping! (" + messageInfo.Value.messageId.ToString() + ")");
                     }
                 }
                 catch (Exception e)

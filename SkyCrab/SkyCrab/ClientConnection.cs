@@ -3,6 +3,7 @@ using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
+using System;
 using System.Threading.Tasks;
 
 namespace SkyCrab
@@ -38,7 +39,33 @@ namespace SkyCrab
                     case MessageId.PLAYER_JOINED:
                         {
                            lock(SkyCrabGlobalVariables.roomLock)
+                            {
                                 SkyCrabGlobalVariables.room.AddPlayer((Player)messageInfo.message);
+                            }
+                            break;
+                        }
+                    case MessageId.PLAYER_LEAVED:
+                        {
+                            lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.RemovePlayer((uint)messageInfo.message);
+                            break;
+                        }
+                    case MessageId.PLAYER_READY:
+                        {
+                            lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.SetPlayerReady((uint)messageInfo.message, true);
+                            break;
+                        }
+                    case MessageId.PLAYER_NOT_READY:
+                        {
+                            lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.SetPlayerReady((uint)messageInfo.message, false);
+                            break;
+                        }
+                    case MessageId.NEW_ROOM_OWNER:
+                        {
+                            lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.OwnerId = (UInt32)messageInfo.message;
                             break;
                         }
 

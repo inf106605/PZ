@@ -14,6 +14,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
     {
 
         public ObservableCollection<PlayerInRoom> listOfPlayers = null; // lista graczy w pokoju
+        public ObservableCollection<string> rulesName = null; 
 
         public ObservableCollection<PlayerInRoom> ListOfPlayers // lista pokoi znajomych ( bindowanie )
         {
@@ -23,11 +24,43 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
         }
         
+        public ObservableCollection<string> RulesName
+        {
+            get
+            {
+                return rulesName;
+            }
+        }
+
+        public PlayersInLobby()
+        {
+            listOfPlayers = new ObservableCollection<PlayerInRoom>(SkyCrabGlobalVariables.room.Players);
+
+            rulesName = new ObservableCollection<string>();
+
+            if (SkyCrabGlobalVariables.room.Rules.fivesFirst.value == true)
+                rulesName.Add("Pierwsze piątki");
+            if (SkyCrabGlobalVariables.room.Rules.restrictedExchange.value == true)
+                rulesName.Add("Wymiany");
+
+           // if (SkyCrabGlobalVariables.room.Owner.Id != SkyCrabGlobalVariables.player.Id) return;
+
+
+        }
+
         public string NameRoom
         {
             get
             {
                 return SkyCrabGlobalVariables.room.Name;
+            }
+        }
+
+        public string OwnerRoom
+        {
+            get
+            {
+                return SkyCrabGlobalVariables.room.Owner.Player.Nick;
             }
         }
 
@@ -46,6 +79,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
         }
 
+
         public string MaxLimitTime
         {
             get
@@ -61,11 +95,5 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                 return SkyCrabGlobalVariables.room.MaxPlayersLimit;
             }
         }
-
-        public PlayersInLobby()
-        {
-            listOfPlayers = new ObservableCollection<PlayerInRoom>(SkyCrabGlobalVariables.room.Players);
-        }
-
     }
 }
