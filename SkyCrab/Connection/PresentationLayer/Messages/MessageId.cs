@@ -41,6 +41,14 @@
         PLAYER_READY        = 26,
         PLAYER_NOT_READY    = 27,
         NEW_ROOM_OWNER      = 28,
-        CHAT                = 29
+        CHAT                = 29,
+        
+        //--- Game ---
+        GAME_STARTED        = 30,
+        REORDER_RACK_TILES  = 31,
+        ROUND_TIMEOUT       = 32,
+        PLACE_TILES         = 33,
+        EXCHANGE_TILES      = 34,
+        PASS                = 35
     }
 }
