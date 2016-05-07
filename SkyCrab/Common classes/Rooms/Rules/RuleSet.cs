@@ -9,7 +9,7 @@ namespace SkyCrab.Common_classes.Rooms.Rules
     public struct RuleSet
     {
 
-        public RangeRule<UInt32> maxRoundTime;
+        public RangeRule<UInt32> maxTurnTime;
         public RangeRule<byte> maxPlayerCount;
         public Rule<bool> fivesFirst;
         public Rule<bool> restrictedExchange;
@@ -42,7 +42,7 @@ namespace SkyCrab.Common_classes.Rooms.Rules
 
         public bool Math(RuleSet filter)
         {
-            if (!maxRoundTime.Math(filter.maxRoundTime))
+            if (!maxTurnTime.Math(filter.maxTurnTime))
                 return false;
             if (!maxPlayerCount.Math(filter.maxPlayerCount))
                 return false;
