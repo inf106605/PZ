@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
+using System;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
 {
@@ -27,13 +28,13 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
             return errorCode;
         }
 
-        public static void AsyncPostError(MessageConnection connection, ErrorCode errorCode)
+        public static void AsyncPostError(UInt16 id, MessageConnection connection, ErrorCode errorCode)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
                 ErrorCodeTranscoder.Get.Write(connection, writingBlock, errorCode);
             };
-            connection.PostMessage(MessageId.ERROR, messageProcedure);
+            connection.PostAnswerMessage(id, MessageId.ERROR, messageProcedure);
         }
 
     }

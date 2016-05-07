@@ -40,9 +40,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {
                 LimitedStringTranscoder.Get(LengthLimit.SearchPhraze).Write(connection, writingBlock, searchPhrase);
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.FIND_PLAYERS, messageProc);
+            connection.PostNewMessage(MessageId.FIND_PLAYERS, messageProc, callback, state);
         }
 
     }

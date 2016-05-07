@@ -35,7 +35,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             {
                 ChatMessageTranscoder.Get.Write(connection, writingBlock, chatMessage);
             };
-            connection.PostMessage(MessageId.CHAT, messageProcedure);
+            connection.PostNewMessage(MessageId.CHAT, messageProcedure);
         }
     }
 }

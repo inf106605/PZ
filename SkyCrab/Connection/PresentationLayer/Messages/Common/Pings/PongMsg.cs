@@ -1,4 +1,6 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
+﻿using System;
+
+namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
 {
     /// <summary>
     /// <para>Sender: Server &amp; Client</para>
@@ -25,12 +27,12 @@
             return null;
         }
 
-        public static void AsyncPostPong(MessageConnection connection)
+        public static void AsyncPostPong(UInt16 id, MessageConnection connection)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
             };
-            connection.PostMessage(MessageId.PONG, messageProcedure);
+            connection.PostAnswerMessage(id, MessageId.PONG, messageProcedure);
         }
 
     }

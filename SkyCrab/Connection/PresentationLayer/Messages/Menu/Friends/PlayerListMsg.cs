@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Players;
+using System;
 using System.Collections.Generic;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
@@ -31,13 +32,13 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             return players;
         }
 
-        public static void AsyncPostPlayerList(MessageConnection connection, List<Player> players)
+        public static void AsyncPostPlayerList(UInt16 id, MessageConnection connection, List<Player> players)
         {
             MessageConnection.MessageProcedure messsageProc = (writingBlock) =>
             {
                 ListTranscoder<Player>.Get(PlayerTranscoder.Get).Write(connection, writingBlock, players);
             };
-            connection.PostMessage(MessageId.PLAYER_LIST, messsageProc);
+            connection.PostAnswerMessage(id, MessageId.PLAYER_LIST, messsageProc);
         }
 
     }

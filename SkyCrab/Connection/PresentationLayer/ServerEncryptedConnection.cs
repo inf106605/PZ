@@ -27,7 +27,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
         public ServerEncryptedConnection(TcpClient tcpClient, int readTimeout) :
-            base(tcpClient, readTimeout)
+            base(tcpClient, readTimeout, true)
         {
         }
 

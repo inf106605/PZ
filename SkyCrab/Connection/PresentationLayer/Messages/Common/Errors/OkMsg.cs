@@ -1,4 +1,6 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
+﻿using System;
+
+namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
 {
     /// <summary>
     /// <para>Sender: Server</para>
@@ -25,12 +27,12 @@
             return null;
         }
 
-        public static void AsyncPostOk(MessageConnection connection)
+        public static void AsyncPostOk(UInt16 id, MessageConnection connection)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
             };
-            connection.PostMessage(MessageId.OK, messageProcedure);
+            connection.PostAnswerMessage(id, MessageId.OK, messageProcedure);
         }
 
     }
