@@ -31,7 +31,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Connections
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
             };
-            connection.PostMessage(MessageId.SHUTDOWN, messageProcedure);
+            connection.PostNewMessage(MessageId.SHUTDOWN, messageProcedure);
         }
 
     }

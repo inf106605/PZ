@@ -35,7 +35,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             {
                 UInt32Transcoder.Get.Write(connection, writingBlock, newOwnerId);
             };
-            connection.PostMessage(MessageId.NEW_ROOM_OWNER, messageProcedure);
+            connection.PostNewMessage(MessageId.NEW_ROOM_OWNER, messageProcedure);
         }
     }
 }
