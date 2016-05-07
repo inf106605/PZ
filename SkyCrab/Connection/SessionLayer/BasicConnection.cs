@@ -1,4 +1,9 @@
-﻿using SkyCrab.Connection.Utils;
+﻿//#define LONG_TIMEOUTS
+#if LONG_TIMEOUTS
+#warning "This is a debug version with long timeouts!"
+#endif
+
+using SkyCrab.Connection.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,6 +84,9 @@ namespace SkyCrab.Connection.SessionLayer
 
         protected BasicConnection(TcpClient tcpClient, int readTimeout)
         {
+            #if LONG_TIMEOUTS
+            readTimeout = 1000000000;
+            #endif
             this.tcpClient = tcpClient;
             this.readTimeout = readTimeout;
             tcpClient.ReceiveTimeout = readTimeout;
@@ -91,10 +99,8 @@ namespace SkyCrab.Connection.SessionLayer
                 closeListeners.Add(listener);
                 if (closing)
                 {
-                    bool areExceptions;
                     lock (exceptions)
-                        areExceptions = exceptions.Count != 0;
-                    listener.Invoke(this, areExceptions);
+                        listener.Invoke(this, exceptions.Count != 0);
                 }
             }
         }
@@ -106,10 +112,8 @@ namespace SkyCrab.Connection.SessionLayer
                 disposedListeners.Add(listener);
                 if (disposed)
                 {
-                    bool areExceptions;
                     lock (exceptions)
-                        areExceptions = exceptions.Count != 0;
-                    listener.Invoke(this, areExceptions);
+                        listener.Invoke(this, exceptions.Count != 0);
                 }
             }
         }
@@ -191,10 +195,8 @@ namespace SkyCrab.Connection.SessionLayer
             {
                 foreach (SkyCrabConnectionListener listener in listeners)
                 {
-                    bool areExceptions;
                     lock (exceptions)
-                        areExceptions = exceptions.Count != 0;
-                    listener.Invoke(this, areExceptions);
+                        listener.Invoke(this, exceptions.Count != 0);
                 }
             }
         }

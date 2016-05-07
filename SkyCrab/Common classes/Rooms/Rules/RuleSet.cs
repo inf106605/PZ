@@ -6,13 +6,13 @@ using System;
 namespace SkyCrab.Common_classes.Rooms.Rules
 {
 	//Options that are sure to exist for now.
-    public struct RuleSet
+    public class RuleSet
     {
-
-        public RangeRule<UInt32> maxRoundTime;
-        public RangeRule<byte> maxPlayerCount;
-        public Rule<bool> fivesFirst;
-        public Rule<bool> restrictedExchange;
+  
+        public RangeRule<UInt32> maxRoundTime = new RangeRule<UInt32>();
+        public RangeRule<byte> maxPlayerCount = new RangeRule<byte>();
+        public Rule<bool> fivesFirst = new Rule<bool>();
+        public Rule<bool> restrictedExchange = new Rule<bool>();
 
 
         public Board CreateBoard()

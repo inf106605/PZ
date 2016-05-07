@@ -19,8 +19,8 @@ namespace SkyCrab.Connection.AplicationLayer
         }
 
 
-        public AbstractClientConnection(string host, int readTimeout) :
-            base(new TcpClient(host, PORT), readTimeout)
+        public AbstractClientConnection(string host, int port, int readTimeout) :
+            base(new TcpClient(host, port), readTimeout)
         {
         }
 

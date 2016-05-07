@@ -1,4 +1,9 @@
-﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+﻿//#define SHOW_MESSAGES
+#if SHOW_MESSAGES
+#warning "Received messages are writed to console!"
+#endif
+
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
@@ -42,7 +47,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(9, 0, 0);
+        private static readonly Version version = new Version(9, 1, 1);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -52,6 +57,7 @@ namespace SkyCrab.Connection.PresentationLayer
         protected bool processingMessagesOk;
         private volatile bool closingListeningTask = false;
         private Semaphore disconnectSemaphore = new Semaphore(0, 1);
+        protected bool disconectedOnItsOwn = true;
         private Sequence messageIdSequence = new Sequence();
 
 
@@ -109,6 +115,7 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new PlayerLeavedMsg());
             AddMessage(new PlayerReadyMsg());
             AddMessage(new PlayerNotReadyMsg());
+            AddMessage(new NewRoomOwnerMsg());
             AddMessage(new ChatMsg());
         }
 
@@ -160,9 +167,14 @@ namespace SkyCrab.Connection.PresentationLayer
             {
                 UInt16 id = UInt16Transcoder.Get.Read(this);
                 MessageId messageId = MessageIdTranscoder.Get.Read(this);
+                #if SHOW_MESSAGES
+                Console.WriteLine("<- " + messageId.ToString());
+                #endif
                 switch (messageId)
                 {
                     case MessageId.DISCONNECT:
+                        if (!closing)
+                            disconectedOnItsOwn = false;
                         disconnectSemaphore.Release();
                         AsyncDispose();
                         break;
@@ -229,6 +241,10 @@ namespace SkyCrab.Connection.PresentationLayer
                         noPongMessageInfo.messageId = noPongMsg.Id;
                         messages.Add(noPongMessageInfo);
                     }
+                    else if (messageInfo.Value.messageId != MessageId.PONG)
+                    {
+                        throw new SkyCrabConnectionException("Wrong answer to ping! (" + messageInfo.Value.messageId.ToString() + ")");
+                    }
                 }
                 catch (Exception e)
                 {
@@ -267,6 +283,9 @@ namespace SkyCrab.Connection.PresentationLayer
         internal void PostMessage(MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
         {
             UInt16 id = messageIdSequence.Value;
+            #if SHOW_MESSAGES
+            Console.WriteLine("-> " + messageId.ToString());
+            #endif
             object writingBlock = BeginWritingBlock();
             UInt16Transcoder.Get.Write(this, writingBlock, id);
             MessageIdTranscoder.Get.Write(this, writingBlock, messageId);
