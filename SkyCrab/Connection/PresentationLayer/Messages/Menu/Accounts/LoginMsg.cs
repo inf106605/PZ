@@ -41,9 +41,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
                 PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.LOGIN, messageProcedure);
+            connection.PostMessage(MessageId.LOGIN, messageProcedure, callback, state);
         }
 
     }

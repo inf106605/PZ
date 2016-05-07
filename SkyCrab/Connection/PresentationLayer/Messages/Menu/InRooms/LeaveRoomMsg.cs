@@ -36,9 +36,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.LEAVE_ROOM, messageProcedure);
+            connection.PostMessage(MessageId.LEAVE_ROOM, messageProcedure, callback, state);
         }
     }
 }

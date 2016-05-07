@@ -40,9 +40,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {
                 RuleSetTranscoder.Get.Write(connection, writingBlock, ruleFilter);
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.FIND_ROOMS, messageProc);
+            connection.PostMessage(MessageId.FIND_ROOMS, messageProc, callback, state);
         }
 
     }

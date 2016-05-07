@@ -36,9 +36,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.PING, messageProcedure);
+            connection.PostMessage(MessageId.PING, messageProcedure, callback, state);
         }
 
     }

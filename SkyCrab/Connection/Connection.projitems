@@ -79,6 +79,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SessionLayer\BasicConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SessionLayer\QueuedConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\MutexForThread.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Sequence.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\SkyCrabConnectionException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AnswerSynchronizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\TaskIsNotRespondingException.cs" />
