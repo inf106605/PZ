@@ -37,7 +37,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
             };
-            connection.PostMessage(MessageId.LOGOUT, messageProcedure, callback, state);
+            connection.PostNewMessage(MessageId.LOGOUT, messageProcedure, callback, state);
         }
     }
 }

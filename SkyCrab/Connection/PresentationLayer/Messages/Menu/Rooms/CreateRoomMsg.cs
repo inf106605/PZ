@@ -41,7 +41,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
             {
                 RoomTranscoder.Get.Write(connection, writingBlock, room);
             };
-            connection.PostMessage(MessageId.CREATE_ROOM, messageProc, callback, state);
+            connection.PostNewMessage(MessageId.CREATE_ROOM, messageProc, callback, state);
         }
 
     }

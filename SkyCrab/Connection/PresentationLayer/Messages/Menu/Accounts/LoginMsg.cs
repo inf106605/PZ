@@ -42,7 +42,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             {
                 PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
             };
-            connection.PostMessage(MessageId.LOGIN, messageProcedure, callback, state);
+            connection.PostNewMessage(MessageId.LOGIN, messageProcedure, callback, state);
         }
 
     }

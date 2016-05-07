@@ -1,4 +1,4 @@
-﻿#define SHOW_MESSAGES
+﻿//#define SHOW_MESSAGES
 #if SHOW_MESSAGES
 #warning "Received messages are writed to console!"
 #endif
@@ -47,7 +47,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(9, 1, 1);
+        private static readonly Version version = new Version(10, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -127,7 +127,7 @@ namespace SkyCrab.Connection.PresentationLayer
         protected MessageConnection(TcpClient tcpClient, int readTimeout, bool server) :
             base(tcpClient, readTimeout)
         {
-            messageIdSequence = server ? (ISequence)new FirstHalfSequence() : (ISequence)new SecondHalfSequence();
+            messageIdSequence = server ? (ISequence)new SecondHalfSequence() : (ISequence)new FirstHalfSequence();
             CheckVersion();
             StartTasks();
         }
@@ -169,7 +169,7 @@ namespace SkyCrab.Connection.PresentationLayer
                 UInt16 id = UInt16Transcoder.Get.Read(this);
                 MessageId messageId = MessageIdTranscoder.Get.Read(this);
                 #if SHOW_MESSAGES
-                Console.WriteLine("<- " + messageId.ToString() + " [" + id + "]");
+                Console.WriteLine("<- " + messageId.ToString() + " [" + (Int16)id + "]");
                 #endif
                 switch (messageId)
                 {
@@ -202,6 +202,7 @@ namespace SkyCrab.Connection.PresentationLayer
         private void EnqueueMessage(UInt16 id, AbstractMessage message, object messageData)
         {
             MessageInfo messageInfo = new MessageInfo();
+            messageInfo.id = id;
             messageInfo.messageId = message.Id;
             messageInfo.message = messageData;
             if (message.Answer)
@@ -254,9 +255,9 @@ namespace SkyCrab.Connection.PresentationLayer
             }
         }
 
-        protected void AnswerPing(object message)
+        protected void AnswerPing(UInt16 id, object message)
         {
-            PongMsg.AsyncPostPong(this);
+            PongMsg.AsyncPostPong(id, this);
         }
 
         private void CheckVersion()
@@ -281,11 +282,21 @@ namespace SkyCrab.Connection.PresentationLayer
 
         public delegate void MessageProcedure(object writingBlock);
 
-        internal void PostMessage(MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
+        internal void PostNewMessage(MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
         {
             UInt16 id = messageIdSequence.Value;
+            PostMessage(id, messageId, messageProcedure, answerCallback, state);
+        }
+
+        internal void PostAnswerMessage(UInt16 id, MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
+        {
+            PostMessage(id, messageId, messageProcedure, answerCallback, state);
+        }
+
+        private void PostMessage(UInt16 id, MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
+        {
             #if SHOW_MESSAGES
-            Console.WriteLine("-> " + messageId.ToString() + " [" + id + "]");
+            Console.WriteLine("-> " + messageId.ToString() + " [" + (Int16)id + "]");
             #endif
             object writingBlock = BeginWritingBlock();
             UInt16Transcoder.Get.Write(this, writingBlock, id);

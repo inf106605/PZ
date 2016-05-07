@@ -37,7 +37,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {
             };
-            connection.PostMessage(MessageId.GET_FRIENDS, messageProc, callback, state);
+            connection.PostNewMessage(MessageId.GET_FRIENDS, messageProc, callback, state);
         }
 
     }

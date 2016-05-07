@@ -48,7 +48,7 @@ namespace SkyCrab.Connection.Utils
         {
             get
             {
-                return (UInt16)(sequence.Value | 0x8000);
+                return (UInt16)(-(Int16)(sequence.Value & 0x7FFF));
             }
         }
 

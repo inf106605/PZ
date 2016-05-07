@@ -41,7 +41,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             {
                 LimitedStringTranscoder.Get(LengthLimit.SearchPhraze).Write(connection, writingBlock, searchPhrase);
             };
-            connection.PostMessage(MessageId.FIND_PLAYERS, messageProc, callback, state);
+            connection.PostNewMessage(MessageId.FIND_PLAYERS, messageProc, callback, state);
         }
 
     }

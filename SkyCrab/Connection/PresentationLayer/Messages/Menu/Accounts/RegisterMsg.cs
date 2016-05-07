@@ -41,7 +41,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             {
                 PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
             };
-            connection.PostMessage(MessageId.REGISTER, messageProc, callback, state);
+            connection.PostNewMessage(MessageId.REGISTER, messageProc, callback, state);
         }
 
     }

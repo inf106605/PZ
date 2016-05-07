@@ -41,7 +41,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             {
                 UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
             };
-            connection.PostMessage(MessageId.REMOVE_FRIEND, messageProcedure, callback, state);
+            connection.PostNewMessage(MessageId.REMOVE_FRIEND, messageProcedure, callback, state);
         }
 
     }
