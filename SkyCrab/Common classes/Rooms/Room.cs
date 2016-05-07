@@ -192,6 +192,8 @@ namespace SkyCrab.Common_classes.Rooms
                 if (i.Value.Player.Id == playerId)
                 {
                     players.Remove(i);
+                    if (playerId == ownerId)
+                        ownerId = 0;
                     return;
                 }
             throw new NoSuchPlayerInRoomException(playerId);

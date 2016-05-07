@@ -54,7 +54,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
         private void ReturnCreateRoomForLoggedPlayer_Click(object sender, RoutedEventArgs e)
         {
-            var joinToRoomMsgAnswer = LeaveRoomMsg.SyncPostLogout(App.clientConn, 1000);
+            var joinToRoomMsgAnswer = LeaveRoomMsg.SyncPostLeaveRoom(App.clientConn, 1000);
 
             if (!joinToRoomMsgAnswer.HasValue)
             {

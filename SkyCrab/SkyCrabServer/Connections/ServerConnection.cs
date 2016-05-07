@@ -468,43 +468,42 @@ namespace SkyCrabServer.Connactions
 
         private void OnLeaveRoom()
         {
-            if (InRoom)
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
             {
-                Globals.dataLock.AcquireWriterLock(-1);
-                try
+                if (InRoom)
                 {
                     serverPlayer.room.RemovePlayer(serverPlayer.player.Id);
                     if (serverPlayer.room.Players.Count == 0)
                     {
-                        serverPlayer.room.OwnerId = 0;
                         Room tmp;
                         Globals.rooms.TryRemove(serverPlayer.room.Id, out tmp);
                     }
                     else
                     {
-                        if (serverPlayer.room.OwnerId == serverPlayer.player.Id)
+                        if (serverPlayer.room.OwnerId == 0)
                         {
                             serverPlayer.room.OwnerId = serverPlayer.room.Players.First.Value.Player.Id;
                             foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                             {
                                 ServerPlayer otherServerPlayer;
                                 Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                                NewRoomOwnerMsg.AsyncPostNewOwner(this, serverPlayer.room.OwnerId);
+                                NewRoomOwnerMsg.AsyncPostNewOwner(otherServerPlayer.connection, serverPlayer.room.OwnerId);
                             }
                         }
                         foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                         {
                             ServerPlayer otherServerPlayer;
                             Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                            PlayerLeavedMsg.AsyncPostLeave(this, serverPlayer.player.Id);
+                            PlayerLeavedMsg.AsyncPostLeave(otherServerPlayer.connection, serverPlayer.player.Id);
                         }
                     }
                     serverPlayer.room = null;
                 }
-                finally
-                {
-                    Globals.dataLock.ReleaseWriterLock();
-                }
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
             }
         }
 
