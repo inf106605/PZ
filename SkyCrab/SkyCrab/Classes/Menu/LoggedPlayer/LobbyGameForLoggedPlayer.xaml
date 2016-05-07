@@ -45,17 +45,19 @@
                 </Viewbox>
             </UniformGrid>
             <Viewbox Grid.Row="4" Grid.Column="0">
-                <UniformGrid Rows="4">
+                <UniformGrid Rows="5">
                     <TextBlock Name="NameRoomLabel"  Text="NAZWA POKOJU" FontFamily="Gill Sans Ultra Bold" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="TypeRoomLabel"  Text="Rodzaj pokoju" FontFamily="Gill Sans Ultra Bold" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
+                    <TextBlock Name="OwnerRoomLabel"  Text="Właściciel pokoju" FontFamily="Gill Sans Ultra Bold" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="maxCountPlayersTextBlock" Text="Liczba graczy" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
                 </UniformGrid>
             </Viewbox>
             <Viewbox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left">
-                <UniformGrid Rows="4">
+                <UniformGrid Rows="5">
                     <TextBlock x:Name="nameRommTextBlock" Text="{Binding NameRoom}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
                     <TextBlock x:Name="typeRoomTextBlock" Text="{Binding TypeOfRoom}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="OwnerRoomTextBlock" Text="{Binding OwnerRoom}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
                     <TextBlock x:Name="limitOfTimeTextBlock" Text="{Binding MaxLimitTime}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
                     <TextBlock x:Name="CountOfPlayersTextBlock" Text="{Binding MaxCountPlayers}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
                 </UniformGrid>

@@ -65,23 +65,30 @@
                 <ColumnDefinition Width="0.05*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.025*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
                 <RowDefinition Height="0.1*"></RowDefinition>
                 <RowDefinition Height="0.025*"></RowDefinition>
                 <RowDefinition Height="0.8*"></RowDefinition>
                 <RowDefinition Height="0.025*"></RowDefinition>
             </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Grid.Column="1" Margin="5">
+                <TextBlock x:Name="RoomNameTextBlock" TextAlignment="Center" Text="{Binding RoomName}" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
+            </Grid>
             <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
-                    <TextBlock x:Name="LeftTilesInPouch" TextAlignment="Left" Text="Pozostało 93 płytek"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                    <TextBlock x:Name="LeftTilesInPouch" TextAlignment="Left" Text="Pozostało 93 płytek"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <TextBlock x:Name="OwnerRoom" TextAlignment="Center" Text="{Binding OwnerRoom}"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
+
                 </Grid>
                 <Grid Grid.Column="2">
-                    <TextBlock TextAlignment="Right" Text="Czas: 0:57:16"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></TextBlock>
+                    <TextBlock TextAlignment="Right" Text="Czas: 0:57:16"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
                 </Grid>
             </Grid>
             <ListBox Background="Black" x:Name="scrabbleBoard" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Squares}" SelectionMode="Extended">

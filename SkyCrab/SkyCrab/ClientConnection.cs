@@ -47,7 +47,24 @@ namespace SkyCrab
                                 SkyCrabGlobalVariables.room.RemovePlayer((uint)messageInfo.message);
                             break;
                         }
-                   
+                    case MessageId.PLAYER_READY:
+                        {
+                            lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.SetPlayerReady((uint)messageInfo.message, true);
+                            break;
+                        }
+                    case MessageId.PLAYER_NOT_READY:
+                        {
+                            lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.SetPlayerReady((uint)messageInfo.message, false);
+                            break;
+                        }
+                    case MessageId.NEW_ROOM_OWNER:
+                        {
+                            lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.Owner = (Player)messageInfo.message;
+                            break;
+                        }
 
                     default:
                         {
