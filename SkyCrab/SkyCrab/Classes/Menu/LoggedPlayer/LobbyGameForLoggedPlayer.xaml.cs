@@ -1,4 +1,6 @@
 ﻿using SkyCrab.Classes.Game;
+using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +38,38 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
         private void ReturnCreateRoomForLoggedPlayer_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new CreateRoomForLoggedPlayers());
+            var joinToRoomMsgAnswer = LeaveRoomMsg.SyncPostLogout(App.clientConn, 1000);
+
+            if (!joinToRoomMsgAnswer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = joinToRoomMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
+            {
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                switch (errorCode)
+                {
+                    case ErrorCode.NOT_IN_ROOM:
+                        {
+                            MessageBox.Show("Nie ma Cię w pokoju!");
+                            break;
+                        }
+                }
+
+                return;
+            }
+
+            if (answerValue.messageId == MessageId.OK)
+            {
+                MessageBox.Show("Opuściłeś pokój!");
+                Switcher.Switch(new PlayAsLoggedPlayer());
+            }
+
         }
 
         private void GameAreaButton_Click(object sender, RoutedEventArgs e)

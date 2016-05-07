@@ -41,6 +41,13 @@ namespace SkyCrab
                                 SkyCrabGlobalVariables.room.AddPlayer((Player)messageInfo.message);
                             break;
                         }
+                    case MessageId.PLAYER_LEAVED:
+                        {
+                            lock(SkyCrabGlobalVariables.roomLock)
+                                SkyCrabGlobalVariables.room.RemovePlayer((uint)messageInfo.message);
+                            break;
+                        }
+                   
 
                     default:
                         {

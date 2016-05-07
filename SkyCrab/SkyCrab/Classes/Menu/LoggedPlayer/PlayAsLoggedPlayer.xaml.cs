@@ -64,7 +64,6 @@ namespace SkyCrab.Classes.Menu
                 manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
                 for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
                 {
-                    MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
                     manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
                 }
             }
@@ -338,6 +337,7 @@ namespace SkyCrab.Classes.Menu
                         SkyCrabGlobalVariables.room = answerRoom;
                         Switcher.Switch(new LobbyGameForLoggedPlayer());
                     }
+
                 }
             }
         }
