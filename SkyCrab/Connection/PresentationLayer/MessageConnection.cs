@@ -1,4 +1,4 @@
-﻿//#define SHOW_MESSAGES
+﻿#define SHOW_MESSAGES
 #if SHOW_MESSAGES
 #warning "Received messages are writed to console!"
 #endif
@@ -58,7 +58,7 @@ namespace SkyCrab.Connection.PresentationLayer
         private volatile bool closingListeningTask = false;
         private Semaphore disconnectSemaphore = new Semaphore(0, 1);
         protected bool disconectedOnItsOwn = true;
-        private Sequence messageIdSequence = new Sequence();
+        private readonly ISequence messageIdSequence;
 
 
         private int PingTimeout
@@ -124,9 +124,10 @@ namespace SkyCrab.Connection.PresentationLayer
             messageTypes.Add(message.Id, message);
         }
 
-        protected MessageConnection(TcpClient tcpClient, int readTimeout) :
+        protected MessageConnection(TcpClient tcpClient, int readTimeout, bool server) :
             base(tcpClient, readTimeout)
         {
+            messageIdSequence = server ? (ISequence)new FirstHalfSequence() : (ISequence)new SecondHalfSequence();
             CheckVersion();
             StartTasks();
         }
@@ -168,7 +169,7 @@ namespace SkyCrab.Connection.PresentationLayer
                 UInt16 id = UInt16Transcoder.Get.Read(this);
                 MessageId messageId = MessageIdTranscoder.Get.Read(this);
                 #if SHOW_MESSAGES
-                Console.WriteLine("<- " + messageId.ToString());
+                Console.WriteLine("<- " + messageId.ToString() + " [" + id + "]");
                 #endif
                 switch (messageId)
                 {
@@ -284,7 +285,7 @@ namespace SkyCrab.Connection.PresentationLayer
         {
             UInt16 id = messageIdSequence.Value;
             #if SHOW_MESSAGES
-            Console.WriteLine("-> " + messageId.ToString());
+            Console.WriteLine("-> " + messageId.ToString() + " [" + id + "]");
             #endif
             object writingBlock = BeginWritingBlock();
             UInt16Transcoder.Get.Write(this, writingBlock, id);
