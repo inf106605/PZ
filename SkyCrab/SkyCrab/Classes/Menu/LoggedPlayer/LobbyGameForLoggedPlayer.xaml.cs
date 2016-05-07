@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SkyCrab.Classes.Menu.LoggedPlayer
 {
@@ -33,7 +34,22 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             playersInLobby = new PlayersInLobby();
 
             DataContext = playersInLobby;
+            // co 3 sekundy następuje odświeżanie listy graczy w lobby
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+            dispatcherTimer.Start();
 
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            // Updating the Label which displays the current second
+            playersInLobby = new PlayersInLobby();
+            DataContext = playersInLobby;
+
+            // Forcing the CommandManager to raise the RequerySuggested event
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private void ReturnCreateRoomForLoggedPlayer_Click(object sender, RoutedEventArgs e)
@@ -75,6 +91,12 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         private void GameAreaButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new WindowGame());
+        }
+
+        private void RefreshPlayerList_Click(object sender, RoutedEventArgs e)
+        {
+            playersInLobby = new PlayersInLobby();
+            DataContext = playersInLobby;
         }
     }
 }
