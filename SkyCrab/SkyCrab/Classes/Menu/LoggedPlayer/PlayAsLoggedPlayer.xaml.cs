@@ -37,6 +37,8 @@ namespace SkyCrab.Classes.Menu
         ObservableCollection<String> minCountPlayersLabels;
         ObservableCollection<String> maxCountPlayersLabels;
 
+        private int CounterForTrigger = 0;
+
         public PlayAsLoggedPlayer()
         {
             InitializeComponent();
@@ -83,6 +85,10 @@ namespace SkyCrab.Classes.Menu
 
         private void UpdateSearching(object sender, RoutedEventArgs x)
         {
+            CounterForTrigger++;
+
+            if (CounterForTrigger < 5)
+                return;
              // czyszczenie starej zawartości listy pokoi
             manageRooms.ClearListRooms();
 
@@ -100,20 +106,20 @@ namespace SkyCrab.Classes.Menu
                 filterRoom.RoomType = RoomType.FRIENDS;
             }
 
-            if(fivesFirst.IsChecked.HasValue == true)
+            if(fivesFirst.IsChecked == true)
             {
                 filterRoom.Rules.fivesFirst.value = true;
             }
-            else if(fivesFirst.IsChecked.HasValue == false)
+            else if(fivesFirst.IsChecked == false)
             {
                 filterRoom.Rules.fivesFirst.value = false;
             }
 
-            if(restrictedExchange.IsChecked.HasValue == true)
+            if(restrictedExchange.IsChecked == true)
             {
                 filterRoom.Rules.restrictedExchange.value = true;
             }
-            else if(restrictedExchange.IsChecked.HasValue == false)
+            else if(restrictedExchange.IsChecked == false)
             {
                 filterRoom.Rules.restrictedExchange.value = false;
             }
