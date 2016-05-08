@@ -38,7 +38,7 @@ namespace SkyCrab.Classes.Menu.Guest
             // co 3 sekundy następuje odświeżanie listy graczy w lobby
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
 
         }
