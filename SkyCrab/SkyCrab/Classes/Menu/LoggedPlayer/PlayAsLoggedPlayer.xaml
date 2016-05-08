@@ -48,8 +48,8 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Button x:Name="RoomCreateButton" Grid.Row="0" Content="UTWÓRZ POKÓJ" Margin="5" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="RoomCreateButton_Click" />
-                    <TextBox x:Name="textBoxSearchRoom" Grid.Row="1" MaxLines="1" Margin="5" TextChanged="textBoxSearchRoom_TextChanged"></TextBox>
-                   
+                    <TextBox x:Name="textBoxSearchRoom" Grid.Row="1" MaxLines="1" Margin="5" TextChanged="UpdateSearching"></TextBox>
+
                 </Grid>
             </Grid>
             <Grid Grid.Row="2">
@@ -91,16 +91,16 @@
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <RadioButton x:Name="publicRoomRadioButton" Grid.Column="0" Content="publiczny" FontSize="10"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" IsChecked="True" />
-                            <RadioButton x:Name="friendsRoomRadioButton" Grid.Column="1" Content="znajomi"  FontSize="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
+                            <RadioButton x:Name="publicRoomRadioButton" Grid.Column="0" Content="publiczny" FontSize="10"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" IsChecked="True" Click="UpdateSearching" />
+                            <RadioButton x:Name="friendsRoomRadioButton" Grid.Column="1" Content="znajomi"  FontSize="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Click="UpdateSearching" />
                         </Grid>
-                        <ComboBox x:Name="minTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="minTimeLimit_Loaded">
+                        <ComboBox x:Name="minTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="15" SelectionChanged="UpdateSearching">
                         </ComboBox>
-                        <ComboBox x:Name="maxTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="maxTimeLimit_Loaded">
+                        <ComboBox x:Name="maxTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                         </ComboBox>
-                        <ComboBox x:Name="minCountPlayers" IsEditable="False" Text="1" MinWidth="30" FontSize="9"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="minCountPlayers_Loaded">
+                        <ComboBox x:Name="minCountPlayers" IsEditable="False" Text="1" MinWidth="30" FontSize="9"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                         </ComboBox>
-                        <ComboBox x:Name="maxCountPlayers" IsEditable="False" Text="4" MinWidth="30" FontSize="9"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="maxCountPlayers_Loaded">
+                        <ComboBox x:Name="maxCountPlayers" IsEditable="False" Text="4" MinWidth="30" FontSize="9"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  >
                         </ComboBox>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -108,10 +108,10 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0">
-                                <CheckBox x:Name="fivesFirst" IsThreeState="True" IsChecked="{x:Null}" Content="Piątki" FontSize="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></CheckBox>
+                                <CheckBox x:Name="fivesFirst" IsThreeState="True" IsChecked="{x:Null}" Content="Piątki" FontSize="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Click="UpdateSearching" Checked="UpdateSearching"></CheckBox>
                             </Grid>
                             <Grid Grid.Column="1">
-                                <CheckBox x:Name="restrictedExchange"  FontSize="10" IsThreeState="True" IsChecked="{x:Null}" Content="Wymiany" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"></CheckBox>
+                                <CheckBox x:Name="restrictedExchange"  FontSize="10" IsThreeState="True" IsChecked="{x:Null}" Content="Wymiany" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Height="15" VerticalAlignment="Top"></CheckBox>
                             </Grid>
                         </Grid>
                     </UniformGrid>
