@@ -80,17 +80,17 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                 return;
             }
 
-            if (publicRoomRadioButton.IsChecked.Value == true)
+            if (publicRoomRadioButton.IsChecked == true)
             {
                 room.RoomType = RoomType.PUBLIC;
             }
 
-            if(friendsRoomRadioButton.IsChecked.Value == true)
+            if(friendsRoomRadioButton.IsChecked == true)
             {
                 room.RoomType = RoomType.FRIENDS;
             }
 
-            if(privateRoomRadioButton.IsChecked.Value == true)
+            if(privateRoomRadioButton.IsChecked == true)
             {
                 room.RoomType = RoomType.PRIVATE;
             }

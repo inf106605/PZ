@@ -89,7 +89,16 @@ namespace SkyCrab.Classes.Menu
 
             if (CounterForTrigger < 5)
                 return;
-             // czyszczenie starej zawartości listy pokoi
+
+            textBoxSearchRoom.IsEnabled = true;
+            minTimeLimit.IsEditable = true;
+            maxTimeLimit.IsEditable = true;
+            minCountPlayers.IsEditable = true;
+            maxCountPlayers.IsEditable = true;
+            fivesFirst.IsEnabled = true;
+            restrictedExchange.IsEnabled = true;
+
+            // czyszczenie starej zawartości listy pokoi
             manageRooms.ClearListRooms();
 
             Room filterRoom = new Room();
@@ -169,7 +178,15 @@ namespace SkyCrab.Classes.Menu
 
             if (friendsRoomRadioButton.IsChecked.Value)
             {
-                var getListofFriendRooms = GetFriendRoomsMsg.SyncPostGetFriendRooms(App.clientConn, 1000);
+                textBoxSearchRoom.IsEnabled = false;
+                minTimeLimit.IsEditable = false;
+                maxTimeLimit.IsEditable = false;
+                minCountPlayers.IsEditable = false;
+                maxCountPlayers.IsEditable = false;
+                fivesFirst.IsEnabled = false;
+                restrictedExchange.IsEnabled = false;
+
+                var getListofFriendRooms = GetFriendRoomsMsg.SyncPostGetFriendRooms(App.clientConn, 2000);
 
                 if (!getListofFriendRooms.HasValue)
                 {

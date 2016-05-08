@@ -50,6 +50,7 @@ namespace SkyCrab
                                 SkyCrabGlobalVariables.room.RemovePlayer((uint)messageInfo.message);
                             break;
                         }
+
                     case MessageId.PLAYER_READY:
                         {
                             lock(SkyCrabGlobalVariables.roomLock)
