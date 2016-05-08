@@ -3,7 +3,6 @@ using SkyCrab.Connection.Utils;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages
 {
-    
     public abstract class AbstractMessage
     {
 

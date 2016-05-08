@@ -26,7 +26,7 @@ namespace SkyCrab
                 {
                     case MessageId.PING:
                         {
-                            AnswerPing(messageInfo.message);
+                            AnswerPing(messageInfo.id, messageInfo.message);
                             break;
                         }
                     case MessageId.NO_PONG:
