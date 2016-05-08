@@ -27,6 +27,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             ListRoomsFromServer = new List<Room>();
         }
 
+
         public void GetRoomsFromServerToList(Room room)
         {
             ListOfRooms.Add(room);

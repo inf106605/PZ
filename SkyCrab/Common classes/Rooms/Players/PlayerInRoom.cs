@@ -8,6 +8,15 @@ namespace SkyCrab.Common_classes.Rooms.Players
         private Player player;
         private bool isReady = false;
 
+        public string isReadyStatus
+        {
+            get
+            {
+                if (isReady)
+                    return "GOTOWY";
+                return "OCZEKUJĄCY";
+            }
+        }
 
         public Player Player
         {

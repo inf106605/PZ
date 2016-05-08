@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SkyCrab.Classes.Menu
 {
@@ -29,16 +31,23 @@ namespace SkyCrab.Classes.Menu
 
         ManageRooms manageRooms = null;
 
+
         ObservableCollection<String> minTimeLimitLabels;
         ObservableCollection<String> maxTimeLimitLabels;
         ObservableCollection<String> minCountPlayersLabels;
         ObservableCollection<String> maxCountPlayersLabels;
 
+        private int CounterForTrigger = 0;
+
         public PlayAsLoggedPlayer()
         {
             InitializeComponent();
+
             manageRooms = new ManageRooms();
             Room filterRoom = new Room();
+
+            loadingItems();
+
 
             filterRoom.Name = "";
             filterRoom.RoomType = RoomType.PUBLIC;
@@ -69,12 +78,18 @@ namespace SkyCrab.Classes.Menu
             }
 
             DataContext = manageRooms;
-    
+
+
         }
 
-        private void textBoxSearchRoom_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void UpdateSearching(object sender, RoutedEventArgs x)
         {
-            // czyszczenie starej zawartości listy pokoi
+            CounterForTrigger++;
+
+            if (CounterForTrigger < 5)
+                return;
+             // czyszczenie starej zawartości listy pokoi
             manageRooms.ClearListRooms();
 
             Room filterRoom = new Room();
@@ -91,20 +106,20 @@ namespace SkyCrab.Classes.Menu
                 filterRoom.RoomType = RoomType.FRIENDS;
             }
 
-            if(fivesFirst.IsChecked.HasValue == true)
+            if(fivesFirst.IsChecked == true)
             {
                 filterRoom.Rules.fivesFirst.value = true;
             }
-            else if(fivesFirst.IsChecked.HasValue == false)
+            else if(fivesFirst.IsChecked == false)
             {
                 filterRoom.Rules.fivesFirst.value = false;
             }
 
-            if(restrictedExchange.IsChecked.HasValue == true)
+            if(restrictedExchange.IsChecked == true)
             {
                 filterRoom.Rules.restrictedExchange.value = true;
             }
-            else if(restrictedExchange.IsChecked.HasValue == false)
+            else if(restrictedExchange.IsChecked == false)
             {
                 filterRoom.Rules.restrictedExchange.value = false;
             }
@@ -119,37 +134,37 @@ namespace SkyCrab.Classes.Menu
             }
             // min i max czas gry
 
-            if(minTimeLimit.Text == "Brak limitu")
+            if (minTimeLimit.SelectedValue != null)
             {
-                filterRoom.Rules.maxRoundTime.min = 0;
+                if ((string)minTimeLimit.SelectedValue == "Brak limitu")
+                    filterRoom.Rules.maxRoundTime.min = 0;
+                else if (int.Parse((string)minTimeLimit.SelectedValue) > 0)
+                    filterRoom.Rules.maxRoundTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
 
             }
 
-            else if (int.Parse(minTimeLimit.Text) > 0)
-            {
-                filterRoom.Rules.maxRoundTime.min = uint.Parse(minTimeLimit.Text);
-            }
 
-            if(maxTimeLimit.Text == "Brak limitu")
+            if (maxTimeLimit.SelectedValue != null)
             {
-                filterRoom.Rules.maxRoundTime.max = 0;
-            }
+                if((string)maxTimeLimit.SelectedValue == "Brak limitu")
+                    filterRoom.Rules.maxRoundTime.max = 0;
 
-            else if (int.Parse(maxTimeLimit.Text) > 0)
-            {
-                filterRoom.Rules.maxRoundTime.max = uint.Parse(maxTimeLimit.Text);
+                else if (int.Parse((string)maxTimeLimit.SelectedValue) > 0)
+                    filterRoom.Rules.maxRoundTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
             }
 
             // min i max liczba graczy
             
-            if(int.Parse(minCountPlayers.Text) > 0)
+            if(minCountPlayers.SelectedValue != null)
             {
-                filterRoom.Rules.maxPlayerCount.min = byte.Parse(minCountPlayers.Text);
+                if(int.Parse((string)minCountPlayers.SelectedValue) > 0)
+                    filterRoom.Rules.maxPlayerCount.min = byte.Parse((string)minCountPlayers.SelectedValue);
             }
 
-            if(int.Parse(maxCountPlayers.Text) > 0)
+            if(maxCountPlayers.SelectedValue != null)
             {
-                filterRoom.Rules.maxPlayerCount.max = byte.Parse(maxCountPlayers.Text);
+                if(int.Parse((string)maxCountPlayers.SelectedValue) > 0)
+                    filterRoom.Rules.maxPlayerCount.max = byte.Parse((string)maxCountPlayers.SelectedValue);
             }
 
             if (friendsRoomRadioButton.IsChecked.Value)
@@ -185,7 +200,7 @@ namespace SkyCrab.Classes.Menu
                     manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
                     for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
                     {
-                        MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
+                        //MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
                         manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
                     }
                 }
@@ -211,13 +226,12 @@ namespace SkyCrab.Classes.Menu
                     manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
                     for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
                     {
-                        MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
+                        //MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
                         manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
                     }
                 }
 
             }
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -228,6 +242,54 @@ namespace SkyCrab.Classes.Menu
         private void RoomCreateButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new CreateRoomForLoggedPlayers());
+        }
+
+        private void loadingItems()
+        {
+            minTimeLimitLabels = new ObservableCollection<String>();
+
+            for (int i = 5; i <= 15; i += 5)
+            {
+                minTimeLimitLabels.Add(i.ToString());
+            }
+            for (int i = 30; i <= 60; i += 15)
+            {
+                minTimeLimitLabels.Add(i.ToString());
+            }
+            minTimeLimitLabels.Add("Brak limitu");
+
+            minTimeLimit.ItemsSource = minTimeLimitLabels;
+            minTimeLimit.SelectedIndex = 0;
+
+            maxTimeLimitLabels = new ObservableCollection<String>();
+
+            for (int i = 5; i <= 15; i += 5)
+            {
+                maxTimeLimitLabels.Add(i.ToString());
+            }
+            for (int i = 30; i <= 60; i += 15)
+            {
+                maxTimeLimitLabels.Add(i.ToString());
+            }
+            maxTimeLimitLabels.Add("Brak limitu");
+            maxTimeLimit.ItemsSource = minTimeLimitLabels;
+            maxTimeLimit.SelectedIndex = 6;
+
+            minCountPlayersLabels = new ObservableCollection<String>();
+            for (int i = 1; i <= 4; i++)
+            {
+                minCountPlayersLabels.Add(i.ToString());
+            }
+            minCountPlayers.ItemsSource = minCountPlayersLabels;
+            minCountPlayers.SelectedIndex = 0;
+
+            maxCountPlayersLabels = new ObservableCollection<String>();
+            for (int i = 1; i <= 4; i++)
+            {
+                maxCountPlayersLabels.Add(i.ToString());
+            }
+            maxCountPlayers.ItemsSource = maxCountPlayersLabels;
+            maxCountPlayers.SelectedIndex = 3;
         }
 
         private void minTimeLimit_Loaded(object sender, RoutedEventArgs e)
@@ -246,6 +308,8 @@ namespace SkyCrab.Classes.Menu
 
             minTimeLimit.ItemsSource = minTimeLimitLabels;
             minTimeLimit.SelectedIndex = 0;
+
+
         }
 
         private void maxTimeLimit_Loaded(object sender, RoutedEventArgs e)
