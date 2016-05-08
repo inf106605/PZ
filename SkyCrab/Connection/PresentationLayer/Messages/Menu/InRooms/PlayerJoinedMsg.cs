@@ -20,7 +20,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
 
         internal override bool Answer
         {
-            get { return true; }
+            get { return false; }
         }
 
         internal override object Read(MessageConnection connection)
@@ -35,7 +35,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             {
                 PlayerTranscoder.Get.Write(connection, writingBlock, player);
             };
-            connection.PostMessage(MessageId.PLAYER_JOINED, messageProcedure);
+            connection.PostNewMessage(MessageId.PLAYER_JOINED, messageProcedure);
         }
     }
 }

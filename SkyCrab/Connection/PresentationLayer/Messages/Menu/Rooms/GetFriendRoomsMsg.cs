@@ -36,9 +36,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
         {
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.GET_FRIEND_ROOMS, messageProc);
+            connection.PostNewMessage(MessageId.GET_FRIEND_ROOMS, messageProc, callback, state);
         }
 
     }

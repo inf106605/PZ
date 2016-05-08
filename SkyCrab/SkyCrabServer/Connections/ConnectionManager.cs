@@ -23,7 +23,8 @@ namespace SkyCrabServer.Connactions
                     ServerConnection connection = new ServerConnection(tcpClient, CONNECTION_TIMEOUT);
                     Globals.serverConsole.WriteLine("New client connected. (" + connection.ServerEndPoint.Address + ", " + connection.ClientAuthority + ")");
                     connections.Add(connection);
-                    connection.AddDisposedListener((disconectedConnection, errors) => OnCloseConnection((ServerConnection) disconectedConnection, errors));
+                    connection.AddCloseListener((connectionWithErrors, errors) => { if (errors) OnConnectionError((ServerConnection)connectionWithErrors); });
+                    connection.AddDisposedListener((disconectedConnection, errors) => OnCloseConnection((ServerConnection)disconectedConnection, errors));
                 }
                 catch (Exception e)
                 {
@@ -37,10 +38,18 @@ namespace SkyCrabServer.Connactions
             }
         }
 
+        private static void OnConnectionError(ServerConnection connectionWithErrors)
+        {
+            Globals.serverConsole.Write(new AggregateException(connectionWithErrors.Exceptions).ToString(), Console.Error);
+            connectionWithErrors.ClearExceptions();
+            Globals.serverConsole.WriteLine("There are problems with connetion with client! (" + connectionWithErrors.ClientAuthority + ")\nThe server will attempt to close it. This may take a while.", Console.Error);
+        }
+
         private static void OnCloseConnection(ServerConnection disconectedConnection, bool errors)
         {
             if (errors)
                 Globals.serverConsole.Write(new AggregateException(disconectedConnection.Exceptions).ToString(), Console.Error);
+            Globals.serverConsole.WriteLine("Client disconnected. (" + disconectedConnection.ClientAuthority + ")");
             lock (connections)
                 connections.Remove((ServerConnection) disconectedConnection);
         }

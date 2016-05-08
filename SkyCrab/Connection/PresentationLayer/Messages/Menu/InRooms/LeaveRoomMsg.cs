@@ -27,18 +27,17 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return null;
         }
         
-        public static MessageInfo? SyncPostLogout(MessageConnection connection, int timeout)
+        public static MessageInfo? SyncPostLeaveRoom(MessageConnection connection, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostLogout(connection, callback, state), timeout);
+            return SyncPost((callback, state) => AsyncPostLeaveRoom(connection, callback, state), timeout);
         }
 
-        public static void AsyncPostLogout(MessageConnection connection, AnswerCallback callback, object state = null)
+        public static void AsyncPostLeaveRoom(MessageConnection connection, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.LEAVE_ROOM, messageProcedure);
+            connection.PostNewMessage(MessageId.LEAVE_ROOM, messageProcedure, callback, state);
         }
     }
 }

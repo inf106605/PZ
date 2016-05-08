@@ -40,9 +40,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {
                 PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
-                connection.SetAnswerCallback(writingBlock, callback, state);
             };
-            connection.PostMessage(MessageId.EDIT_PROFILE, messageProc);
+            connection.PostNewMessage(MessageId.EDIT_PROFILE, messageProc, callback, state);
         }
 
     }

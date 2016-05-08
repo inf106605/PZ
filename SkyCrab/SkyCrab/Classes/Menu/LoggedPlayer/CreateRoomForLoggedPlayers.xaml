@@ -56,7 +56,7 @@
                 </Viewbox>
                 <Viewbox HorizontalAlignment="Left">
                     <UniformGrid Columns="3" >
-                        <RadioButton x:Name="publicRoomRadioButton" Margin="10" Content="publiczny"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
+                        <RadioButton x:Name="publicRoomRadioButton" Margin="10" Content="publiczny"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" IsChecked="True" />
                         <RadioButton x:Name="friendsRoomRadioButton" Margin="10" Content="znajomi"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
                         <RadioButton x:Name="privateRoomRadioButton" Margin="10" Content="prywatny"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" />
                     </UniformGrid>
@@ -95,7 +95,7 @@
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.05*"></RowDefinition>
-                <RowDefinition Height="0.15*"></RowDefinition>
+                <RowDefinition Height="0.3*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Viewbox Grid.Row="1" >
@@ -103,24 +103,17 @@
             </Viewbox>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Viewbox Grid.Column="0">
-                    <UniformGrid Rows="4" >
-                        <CheckBox x:Name="Uniform1_Rules1" Content="Reguła wymyślona na szybko" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
-                        <CheckBox x:Name="Uniform1_Rules2" Content="Reguła krwawej pięści" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
-                        <CheckBox x:Name="Uniform1_Rules3" Content="Reguła szybkiej ręki" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
-                        <CheckBox x:Name="Uniform1_Rules4" Content="Reguła zręcznego orła" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
-                </UniformGrid>
-                </Viewbox>
-                <Viewbox Grid.Column="1">
-                <UniformGrid Rows="4" >
-                        <CheckBox x:Name="Uniform2_Rules1" Content="Reguła pijanego mistrza Shaolin" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
-                        <CheckBox x:Name="Uniform2_Rules2" Content="Reguła na wnuczka" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
-                        <CheckBox x:Name="Uniform2_Rules3" Content="Reguła wolnego zamiatania" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
-                        <CheckBox x:Name="Uniform2_Rules4" Content="Reguła smoka wawelskiego" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
-                </UniformGrid>
+                <Viewbox Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <UniformGrid Rows="5" >
+                        <TextBlock></TextBlock>
+                        <CheckBox x:Name="RulesFive" Content="Najpierw ''piątki''" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
+                        <TextBlock></TextBlock>
+                        <CheckBox x:Name="RulesExchange" Content="Ograniczona wymiana" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></CheckBox>
+                    </UniformGrid>
                 </Viewbox>
             </Grid>
         </Grid>

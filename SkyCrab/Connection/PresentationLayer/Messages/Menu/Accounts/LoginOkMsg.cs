@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Players;
+using System;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
 {
@@ -28,13 +29,13 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             return player;
         }
 
-        public static void AsyncPostLoginOk(MessageConnection connection, Player player)
+        public static void AsyncPostLoginOk(UInt16 id, MessageConnection connection, Player player)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
                 PlayerTranscoder.Get.Write(connection, writingBlock, player);
             };
-            connection.PostMessage(MessageId.LOGIN_OK, messageProcedure);
+            connection.PostAnswerMessage(id, MessageId.LOGIN_OK, messageProcedure);
         }
 
     }
