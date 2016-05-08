@@ -98,5 +98,10 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             playersInLobby = new PlayersInLobby();
             DataContext = playersInLobby;
         }
+
+        private void ChangeStatusGame_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new WindowGame());
+        }
     }
 }

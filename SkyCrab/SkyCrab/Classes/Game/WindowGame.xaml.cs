@@ -1,4 +1,5 @@
-﻿using SkyCrab.Common_classes.Games.Letters;
+﻿using SkyCrab.Classes.Menu;
+using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Menu;
@@ -51,7 +52,14 @@ namespace SkyCrab.Classes.Game
 
         private void ExitGame_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new MainMenu());
+            if (!SkyCrabGlobalVariables.player.IsGuest)
+            {
+                Switcher.Switch(new MainMenuLoggedPlayer());
+            }
+            else
+            {
+                Switcher.Switch(new MainMenu());
+            }
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)
