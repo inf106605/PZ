@@ -109,7 +109,12 @@ namespace SkyCrab.Common_classes.Rooms
         {
             get
             {
-                return rules.maxRoundTime.value.ToString();
+                if(rules.maxRoundTime.value == 0)
+                {
+                    return "Brak limitu";
+                }
+                else
+                    return rules.maxRoundTime.value.ToString();
             }
         }
 

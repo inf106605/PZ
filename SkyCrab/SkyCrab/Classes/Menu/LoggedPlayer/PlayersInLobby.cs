@@ -34,15 +34,17 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
         public PlayersInLobby()
         {
-            listOfPlayers = new ObservableCollection<PlayerInRoom>(SkyCrabGlobalVariables.room.Players);
+            if (SkyCrabGlobalVariables.room != null)
+            {
+                listOfPlayers = new ObservableCollection<PlayerInRoom>(SkyCrabGlobalVariables.room.Players);
 
-            rulesName = new ObservableCollection<string>();
+                rulesName = new ObservableCollection<string>();
 
-            if (SkyCrabGlobalVariables.room.Rules.fivesFirst.value == true)
-                rulesName.Add("Pierwsze piątki");
-            if (SkyCrabGlobalVariables.room.Rules.restrictedExchange.value == true)
-                rulesName.Add("Wymiany");
-
+                if (SkyCrabGlobalVariables.room.Rules.fivesFirst.value == true)
+                    rulesName.Add("Pierwsze piątki");
+                if (SkyCrabGlobalVariables.room.Rules.restrictedExchange.value == true)
+                    rulesName.Add("Wymiany");
+            }
            // if (SkyCrabGlobalVariables.room.Owner.Id != SkyCrabGlobalVariables.player.Id) return;
 
 
@@ -52,7 +54,9 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             get
             {
-                return SkyCrabGlobalVariables.room.Name;
+                if(SkyCrabGlobalVariables.room != null)
+                    return SkyCrabGlobalVariables.room.Name;
+                return "";
             }
         }
 
@@ -60,7 +64,9 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             get
             {
-                return SkyCrabGlobalVariables.room.Owner.Player.Nick;
+                if(SkyCrabGlobalVariables.room != null)
+                 return SkyCrabGlobalVariables.room.Owner.Player.Nick;
+                return "";
             }
         }
 
@@ -68,14 +74,16 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             get
             {
-                if (SkyCrabGlobalVariables.room.RoomType == RoomType.PUBLIC)
-                    return "publiczny";
-                else if (SkyCrabGlobalVariables.room.RoomType == RoomType.PRIVATE)
-                    return "prywatny";
-                else if (SkyCrabGlobalVariables.room.RoomType == RoomType.FRIENDS)
-                    return "znajomi";
-
-                return "publiczny";
+                if (SkyCrabGlobalVariables.room != null)
+                {
+                    if (SkyCrabGlobalVariables.room.RoomType == RoomType.PUBLIC)
+                        return "publiczny";
+                    else if (SkyCrabGlobalVariables.room.RoomType == RoomType.PRIVATE)
+                        return "prywatny";
+                    else if (SkyCrabGlobalVariables.room.RoomType == RoomType.FRIENDS)
+                        return "znajomi";
+                }
+                return "";
             }
         }
 
@@ -84,7 +92,9 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             get
             {
-                return SkyCrabGlobalVariables.room.MaxTimeLimit;
+                if(SkyCrabGlobalVariables.room !=null)
+                 return SkyCrabGlobalVariables.room.MaxTimeLimit;
+                return "";
             }
         }
 
@@ -92,7 +102,9 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             get
             {
-                return SkyCrabGlobalVariables.room.MaxPlayersLimit;
+                if(SkyCrabGlobalVariables.room != null)
+                  return SkyCrabGlobalVariables.room.MaxPlayersLimit;
+                return "";
             }
         }
     }

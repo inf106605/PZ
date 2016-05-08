@@ -56,13 +56,13 @@
                 <Viewbox HorizontalAlignment="Left" Margin="1">
                     <UniformGrid>
                         <ComboBox IsEditable="True" Text="15" MinWidth="50"  IsReadOnly="False" Name="TimeLimit" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                            <ComboBoxItem Tag="1">5</ComboBoxItem>
-                            <ComboBoxItem Tag="2">10</ComboBoxItem>
-                            <ComboBoxItem Tag="3">15</ComboBoxItem>
-                            <ComboBoxItem Tag="4">30</ComboBoxItem>
-                            <ComboBoxItem Tag="5">45</ComboBoxItem>
-                            <ComboBoxItem Tag="6">60</ComboBoxItem>
-                            <ComboBoxItem Tag="6">Brak limitu</ComboBoxItem>
+                            <ComboBoxItem>5</ComboBoxItem>
+                            <ComboBoxItem>10</ComboBoxItem>
+                            <ComboBoxItem>15</ComboBoxItem>
+                            <ComboBoxItem>30</ComboBoxItem>
+                            <ComboBoxItem>45</ComboBoxItem>
+                            <ComboBoxItem>60</ComboBoxItem>
+                            <ComboBoxItem>Brak limitu</ComboBoxItem>
                         </ComboBox>
                     </UniformGrid>
                 </Viewbox>

@@ -84,6 +84,8 @@ namespace SkyCrab.Classes.Menu.Guest
             if (answerValue.messageId == MessageId.OK)
             {
                 MessageBox.Show("Opuściłeś pokój!");
+                SkyCrabGlobalVariables.room = null;
+                playersInLobby = null;
                 Switcher.Switch(new PlayAsGuest());
             }
 
