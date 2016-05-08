@@ -83,6 +83,8 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             if (answerValue.messageId == MessageId.OK)
             {
                 MessageBox.Show("Opuściłeś pokój!");
+                SkyCrabGlobalVariables.room = null;
+                playersInLobby = null;
                 Switcher.Switch(new PlayAsLoggedPlayer());
             }
 

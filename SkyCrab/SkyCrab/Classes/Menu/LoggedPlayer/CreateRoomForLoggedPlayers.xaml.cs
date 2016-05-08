@@ -97,18 +97,20 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             // walidacja czasu gry
 
-            if (int.Parse(TimeLimit.Text) > 0)
+            if (TimeLimit.SelectedValue != null || TimeLimit.Text != null)
             {
-                room.Rules.maxRoundTime.value = uint.Parse(TimeLimit.Text);
-            }
-            else if(TimeLimit.Text == "Brak limitu")
-            {
-                room.Rules.maxRoundTime.value = 0;
-            }
-            else
-            {
-                MessageBox.Show("Nieprawidłowa wartość czasu gry!");
-                return;
+                Regex regex = new Regex(@"^\d+$");
+                Match match = regex.Match(TimeLimit.Text);
+
+                if ((string)TimeLimit.Text == "Brak limitu")
+                    room.Rules.maxRoundTime.value = 0;
+                else if (!match.Success)
+                {
+                    MessageBox.Show("Nieprawidłowa wartość czasu gry!");
+                    return;
+                }
+                else if (int.Parse((string)TimeLimit.Text) > 0)
+                    room.Rules.maxRoundTime.value = uint.Parse((string)TimeLimit.Text);
             }
 
             // przypisanie maksymalnej liczby graczy
