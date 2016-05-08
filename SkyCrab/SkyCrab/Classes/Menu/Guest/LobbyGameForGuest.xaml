@@ -22,13 +22,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"></RowDefinition>
             <RowDefinition Height="0.4*"></RowDefinition>
-            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
             <RowDefinition Height="0.4*"></RowDefinition>
             <RowDefinition Height="0.2*"></RowDefinition>
         </Grid.RowDefinitions>
         <UniformGrid Grid.Column="1" Grid.Row="0">
             <Image Source="/Images/skycrab_logo.png" />
         </UniformGrid>
+        <Grid Grid.Column="2" Grid.Row="0">
+            <TextBlock x:Name="ChatTextBlock" Text="CHAT"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+        </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"></ColumnDefinition>
@@ -45,29 +48,36 @@
                 </Viewbox>
             </UniformGrid>
             <Viewbox Grid.Row="4" Grid.Column="0">
-                <UniformGrid Rows="3">
+                <UniformGrid Rows="5">
                     <TextBlock Name="NameRoomLabel"  Text="NAZWA POKOJU" FontFamily="Gill Sans Ultra Bold" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
+                    <TextBlock Name="TypeRoomLabel"  Text="Rodzaj pokoju" FontFamily="Gill Sans Ultra Bold" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
+                    <TextBlock Name="OwnerRoomLabel"  Text="Właściciel pokoju" FontFamily="Gill Sans Ultra Bold" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="maxCountPlayersTextBlock" Text="Liczba graczy" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
                 </UniformGrid>
             </Viewbox>
             <Viewbox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left">
-                <UniformGrid Rows="3">
-                <TextBlock x:Name="nameRommTextBlock" Text="Nazwa_pokoju" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
-                <TextBlock x:Name="limitOfTimeTextBlock" Text="Brak limitu" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
-                <TextBlock x:Name="CountOfPlayersTextBlock" Text="4" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
-            </UniformGrid>
+                <UniformGrid Rows="5">
+                    <TextBlock x:Name="nameRommTextBlock" Text="{Binding NameRoom}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="typeRoomTextBlock" Text="{Binding TypeOfRoom}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="OwnerRoomTextBlock" Text="{Binding OwnerRoom}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="limitOfTimeTextBlock" Text="{Binding MaxLimitTime}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="CountOfPlayersTextBlock" Text="{Binding MaxCountPlayers}" FontFamily="Gill Sans Ultra Bold" MinWidth="150" Margin="5" TextWrapping="Wrap"/>
+                </UniformGrid>
             </Viewbox>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <UniformGrid Grid.Column="1" Columns="1">
-                <Button Name="rulesGameButton" Content="REGUŁY GRY"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" ></Button>
-            </UniformGrid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock Text="REGUŁY GRY" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" HorizontalAlignment="Center"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ListView x:Name="ListRules"  ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalContentAlignment="Center" ItemsSource="{Binding RulesName}">
+                </ListView>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="3" Margin="5">
             <Grid.RowDefinitions>
@@ -76,16 +86,16 @@
             </Grid.RowDefinitions>
             <Viewbox Grid.Row="0" HorizontalAlignment="Center">
                 <UniformGrid Rows="1" Margin="3">
-                <TextBlock x:Name="ListNameTextBlock" Text="LISTA GRACZY"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
-            </UniformGrid>
+                    <TextBlock x:Name="ListNameTextBlock" Text="LISTA GRACZY"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
+                </UniformGrid>
             </Viewbox>
             <Grid Grid.Row="1">
-                <ListView x:Name="ListPlayers">
+                <ListView x:Name="ListPlayers" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding ListOfPlayers}">
                     <ListView.View>
                         <GridView AllowsColumnReorder="True">
                             <GridView.Columns>
-                                <GridViewColumn Header="Gracz"  DisplayMemberBinding="{Binding PlayerName}" />
-                                <GridViewColumn Header="Status"  DisplayMemberBinding="{Binding PlayerPoints}" />
+                                <GridViewColumn Header="Nick"  DisplayMemberBinding="{Binding Player.Nick}" />
+                                <GridViewColumn Header="Status" DisplayMemberBinding="{Binding isReadyStatus}" />
                             </GridView.Columns>
                         </GridView>
                     </ListView.View>
@@ -93,11 +103,24 @@
             </Grid>
         </Grid>
         <UniformGrid Columns="2" Grid.Column="1" Grid.Row="4">
-            <Button Name="GameAreaButton" Content="GRAJ" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="GameAreaButton_Click" ></Button>
-            <Button Name="ReturnCreateRoomForGuest"   Content="POWRÓT" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ReturnCreateRoomForGuest_Click"></Button>
+            <Button Name="ChangeStatusGame" Content="ZMIEŃ STATUS" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ChangeStatusGame_Click"></Button>
+            <Button Name="ReturnCreateRoomForLoggedPlayer"   Content="POWRÓT" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ReturnCreateRoomForLoggedPlayer_Click"></Button>
         </UniformGrid>
-        <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" Margin="5" Background="Black">
-            <TextBox Background="Black" Foreground="Red" Text="CHAT" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+        <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" Margin="5" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*"></RowDefinition>
+                <RowDefinition Height="0.2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBox x:Name="ReadChat">
+                </TextBox>
+            </Grid>
+            <Grid Grid.Row="1">
+                <TextBox x:Name="WriteChat" Margin="0 10 0 0"></TextBox>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="4">
+            <Button Name="SendChatMessage"   Content="WYŚLIJ" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
         </Grid>
     </Grid>
 </UserControl>

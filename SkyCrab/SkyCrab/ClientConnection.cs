@@ -44,6 +44,7 @@ namespace SkyCrab
                             }
                             break;
                         }
+
                     case MessageId.PLAYER_LEAVED:
                         {
                             lock(SkyCrabGlobalVariables.roomLock)

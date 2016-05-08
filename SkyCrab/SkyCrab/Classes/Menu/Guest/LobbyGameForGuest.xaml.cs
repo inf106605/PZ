@@ -1,4 +1,7 @@
 ﻿using SkyCrab.Classes.Game;
+using SkyCrab.Classes.Menu.LoggedPlayer;
+using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SkyCrab.Classes.Menu.Guest
 {
@@ -21,17 +25,82 @@ namespace SkyCrab.Classes.Menu.Guest
     /// </summary>
     public partial class LobbyGameForGuest : UserControl
     {
+        PlayersInLobby playersInLobby = null;
+
+
         public LobbyGameForGuest()
         {
             InitializeComponent();
+
+            playersInLobby = new PlayersInLobby();
+
+            DataContext = playersInLobby;
+            // co 3 sekundy następuje odświeżanie listy graczy w lobby
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+            dispatcherTimer.Start();
+
         }
 
-        private void ReturnCreateRoomForGuest_Click(object sender, RoutedEventArgs e)
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            Switcher.Switch(new CreateRoomForGuest());
+            // Updating the Label which displays the current second
+            playersInLobby = new PlayersInLobby();
+            DataContext = playersInLobby;
+
+            // Forcing the CommandManager to raise the RequerySuggested event
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private void ReturnCreateRoomForLoggedPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            var joinToRoomMsgAnswer = LeaveRoomMsg.SyncPostLeaveRoom(App.clientConn, 1000);
+
+            if (!joinToRoomMsgAnswer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = joinToRoomMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
+            {
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                switch (errorCode)
+                {
+                    case ErrorCode.NOT_IN_ROOM:
+                        {
+                            MessageBox.Show("Nie ma Cię w pokoju!");
+                            break;
+                        }
+                }
+
+                return;
+            }
+
+            if (answerValue.messageId == MessageId.OK)
+            {
+                MessageBox.Show("Opuściłeś pokój!");
+                Switcher.Switch(new PlayAsGuest());
+            }
+
         }
 
         private void GameAreaButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new WindowGame());
+        }
+
+        private void RefreshPlayerList_Click(object sender, RoutedEventArgs e)
+        {
+            playersInLobby = new PlayersInLobby();
+            DataContext = playersInLobby;
+        }
+
+        private void ChangeStatusGame_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new WindowGame());
         }
