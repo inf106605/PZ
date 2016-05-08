@@ -488,15 +488,19 @@ namespace SkyCrabServer.Connactions
                             serverPlayer.room.OwnerId = serverPlayer.room.Players.First.Value.Player.Id;
                             foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                             {
-                                ServerPlayer otherServerPlayer;
+                                ServerPlayer otherServerPlayer; //Schrödinger Variable
                                 Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                                if (otherServerPlayer == null)  //WTF!?
+                                    throw new Exception("Whatever.");
                                 NewRoomOwnerMsg.AsyncPostNewOwner(otherServerPlayer.connection, serverPlayer.room.OwnerId);
                             }
                         }
                         foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                         {
-                            ServerPlayer otherServerPlayer;
+                            ServerPlayer otherServerPlayer; //Schrödinger Variable
                             Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                            if (otherServerPlayer == null)  //WTF!?
+                                throw new Exception("Whatever.");
                             PlayerLeavedMsg.AsyncPostLeave(otherServerPlayer.connection, serverPlayer.player.Id);
                         }
                     }
