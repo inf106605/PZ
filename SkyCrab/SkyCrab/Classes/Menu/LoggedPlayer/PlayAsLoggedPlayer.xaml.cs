@@ -79,11 +79,190 @@ namespace SkyCrab.Classes.Menu
 
             DataContext = manageRooms;
 
-
+            // co 5 sekund następuje odświeżanie listy pokoi graczy
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
+            dispatcherTimer.Start();
         }
 
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            // Updating Searching
+            UpdateSearching();
+            // Forcing the CommandManager to raise the RequerySuggested event
+            CommandManager.InvalidateRequerySuggested();
+        }
 
         private void UpdateSearching(object sender, RoutedEventArgs x)
+        {
+            CounterForTrigger++;
+
+            if (CounterForTrigger < 5)
+                return;
+
+            textBoxSearchRoom.IsEnabled = true;
+            minTimeLimit.IsEditable = true;
+            maxTimeLimit.IsEditable = true;
+            minCountPlayers.IsEditable = true;
+            maxCountPlayers.IsEditable = true;
+            fivesFirst.IsEnabled = true;
+            restrictedExchange.IsEnabled = true;
+
+            // czyszczenie starej zawartości listy pokoi
+            manageRooms.ClearListRooms();
+
+            Room filterRoom = new Room();
+
+            filterRoom.Name = textBoxSearchRoom.Text;
+            //publiczny
+            if (publicRoomRadioButton.IsChecked.Value)
+            {
+                filterRoom.RoomType = RoomType.PUBLIC;
+            }
+            // znajomi
+            else if (friendsRoomRadioButton.IsChecked.Value)
+            {
+                filterRoom.RoomType = RoomType.FRIENDS;
+            }
+
+            if (fivesFirst.IsChecked == true)
+            {
+                filterRoom.Rules.fivesFirst.value = true;
+            }
+            else if (fivesFirst.IsChecked == false)
+            {
+                filterRoom.Rules.fivesFirst.value = false;
+            }
+
+            if (restrictedExchange.IsChecked == true)
+            {
+                filterRoom.Rules.restrictedExchange.value = true;
+            }
+            else if (restrictedExchange.IsChecked == false)
+            {
+                filterRoom.Rules.restrictedExchange.value = false;
+            }
+            // stany pośrednie checkboxów - reguły gry
+            if (fivesFirst.IsChecked == null)
+            {
+                filterRoom.Rules.fivesFirst.indifferently = true;
+            }
+            if (restrictedExchange.IsChecked == null)
+            {
+                filterRoom.Rules.restrictedExchange.indifferently = true;
+            }
+            // min i max czas gry
+
+            if (minTimeLimit.SelectedValue != null)
+            {
+                if ((string)minTimeLimit.SelectedValue == "Brak limitu")
+                    filterRoom.Rules.maxRoundTime.min = 0;
+                else if (int.Parse((string)minTimeLimit.SelectedValue) > 0)
+                    filterRoom.Rules.maxRoundTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
+
+            }
+
+
+            if (maxTimeLimit.SelectedValue != null)
+            {
+                if ((string)maxTimeLimit.SelectedValue == "Brak limitu")
+                    filterRoom.Rules.maxRoundTime.max = 0;
+
+                else if (int.Parse((string)maxTimeLimit.SelectedValue) > 0)
+                    filterRoom.Rules.maxRoundTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
+            }
+
+            // min i max liczba graczy
+
+            if (minCountPlayers.SelectedValue != null)
+            {
+                if (int.Parse((string)minCountPlayers.SelectedValue) > 0)
+                    filterRoom.Rules.maxPlayerCount.min = byte.Parse((string)minCountPlayers.SelectedValue);
+            }
+
+            if (maxCountPlayers.SelectedValue != null)
+            {
+                if (int.Parse((string)maxCountPlayers.SelectedValue) > 0)
+                    filterRoom.Rules.maxPlayerCount.max = byte.Parse((string)maxCountPlayers.SelectedValue);
+            }
+
+            if (friendsRoomRadioButton.IsChecked.Value)
+            {
+                textBoxSearchRoom.IsEnabled = false;
+                minTimeLimit.IsEditable = false;
+                maxTimeLimit.IsEditable = false;
+                minCountPlayers.IsEditable = false;
+                maxCountPlayers.IsEditable = false;
+                fivesFirst.IsEnabled = false;
+                restrictedExchange.IsEnabled = false;
+
+                var getListofFriendRooms = GetFriendRoomsMsg.SyncPostGetFriendRooms(App.clientConn, 2000);
+
+                if (!getListofFriendRooms.HasValue)
+                {
+                    MessageBox.Show("Brak odpowiedzi od serwera!");
+                    return;
+                }
+
+                var answerValue = getListofFriendRooms.Value;
+
+                if (answerValue.messageId == MessageId.ERROR)
+                {
+                    ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                    switch (errorCode)
+                    {
+                        case ErrorCode.NOT_LOGGED6:
+                            {
+                                MessageBox.Show("Nie jesteś zalogowany!");
+                                break;
+                            }
+                    }
+
+                    return;
+                }
+
+                if (answerValue.messageId == MessageId.ROOM_LIST)
+                {
+                    manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
+                    for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
+                    {
+                        //MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
+                        manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
+                    }
+                }
+
+
+            }
+
+            if (publicRoomRadioButton.IsChecked.Value)
+            {
+
+                var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn, filterRoom, 1000);
+
+                if (!getListOfRooms.HasValue)
+                {
+                    MessageBox.Show("Brak odpowiedzi od serwera!");
+                    return;
+                }
+
+                var answerValue = getListOfRooms.Value;
+
+                if (answerValue.messageId == MessageId.ROOM_LIST)
+                {
+                    manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
+                    for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
+                    {
+                        //MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
+                        manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
+                    }
+                }
+
+            }
+        }
+
+        private void UpdateSearching()
         {
             CounterForTrigger++;
 
