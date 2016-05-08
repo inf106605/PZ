@@ -20,7 +20,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
 
         internal override bool Answer
         {
-            get { return true; }
+            get { return false; }
         }
 
         internal override object Read(MessageConnection connection)
