@@ -66,7 +66,7 @@ namespace SkyCrabServer.Connactions
             {
                 processingMessagesOk = true;
 
-                UInt16 id = messageInfo.id;
+                Int16 id = messageInfo.id;
                 switch (messageInfo.messageId)
                 {
                     //COMMON
@@ -160,7 +160,7 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-        private void Login(UInt16 id, PlayerProfile playerProfile)
+        private void Login(Int16 id, PlayerProfile playerProfile)
         {
             if (Logged)
             {
@@ -202,7 +202,7 @@ namespace SkyCrabServer.Connactions
             LoginOkMsg.AsyncPostLoginOk(id, this, player);
         }
 
-        private void Logout(UInt16 id)
+        private void Logout(Int16 id)
         {
             if (!Logged)
             {
@@ -232,7 +232,7 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-        private void Register(UInt16 id, PlayerProfile playerProfile)
+        private void Register(Int16 id, PlayerProfile playerProfile)
         {
             lock (PlayerProfileTable._lock)
             {
@@ -279,7 +279,7 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-        private void EditProfile(UInt16 id, PlayerProfile playerProfile)
+        private void EditProfile(Int16 id, PlayerProfile playerProfile)
         {
             if (!Logged)
             {
@@ -354,7 +354,7 @@ namespace SkyCrabServer.Connactions
             return decoratedPassword;
         }
 
-        private void GetFriends(UInt16 id)
+        private void GetFriends(Int16 id)
         {
             if (!Logged)
             {
@@ -376,7 +376,7 @@ namespace SkyCrabServer.Connactions
             PlayerListMsg.AsyncPostPlayerList(id, this, friends);
         }
 
-        private void FindPlayers(UInt16 id, string searchPhraze)
+        private void FindPlayers(Int16 id, string searchPhraze)
         {
             List<Player> players;
             Globals.dataLock.AcquireReaderLock(-1);
@@ -391,7 +391,7 @@ namespace SkyCrabServer.Connactions
             PlayerListMsg.AsyncPostPlayerList(id, this, players);
         }
 
-        private void AddFriend(UInt16 id, UInt32 friendId)
+        private void AddFriend(Int16 id, UInt32 friendId)
         {
             if (!Logged)
             {
@@ -418,7 +418,7 @@ namespace SkyCrabServer.Connactions
             OkMsg.AsyncPostOk(id, this);
         }
 
-        private void RemoveFriend(UInt16 id, UInt32 friendId)
+        private void RemoveFriend(Int16 id, UInt32 friendId)
         {
             if (!Logged)
             {
@@ -435,7 +435,7 @@ namespace SkyCrabServer.Connactions
             OkMsg.AsyncPostOk(id, this);
         }
 
-        private void CreateRoom(UInt16 id, Room room)
+        private void CreateRoom(Int16 id, Room room)
         {
             MakeValidPlayer();
             if (InRoom)
@@ -513,7 +513,7 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-        private void FindRooms(UInt16 id, Room roomFilter)
+        private void FindRooms(Int16 id, Room roomFilter)
         {
             List<Room> foundRooms = new List<Room>();
             Globals.dataLock.AcquireReaderLock(-1);
@@ -536,7 +536,7 @@ namespace SkyCrabServer.Connactions
             RoomListMsg.AsyncPostRoomList(id, this, foundRooms);
         }
 
-        private void GetFriendRooms(UInt16 id)
+        private void GetFriendRooms(Int16 id)
         {
             if (!Logged)
             {
@@ -592,7 +592,7 @@ namespace SkyCrabServer.Connactions
             return true;
         }
 
-        private void JoinRoom(UInt16 id, UInt32 roomId)
+        private void JoinRoom(Int16 id, UInt32 roomId)
         {
             MakeValidPlayer();
             if (InRoom)
@@ -635,7 +635,7 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-        private void LeaveRoom(UInt16 id)
+        private void LeaveRoom(Int16 id)
         {
             if (!InRoom)
             {

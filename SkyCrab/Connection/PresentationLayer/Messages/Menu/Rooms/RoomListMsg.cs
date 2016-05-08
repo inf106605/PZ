@@ -32,7 +32,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
             return rooms;
         }
 
-        public static void AsyncPostRoomList(UInt16 id, MessageConnection connection, List<Room> rooms)
+        public static void AsyncPostRoomList(Int16 id, MessageConnection connection, List<Room> rooms)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

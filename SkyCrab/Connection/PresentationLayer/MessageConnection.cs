@@ -42,7 +42,7 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private struct StateWithId
         {
-            public UInt16 id;
+            public Int16 id;
             public object state;
         }
 
@@ -166,10 +166,10 @@ namespace SkyCrab.Connection.PresentationLayer
         {
             try
             {
-                UInt16 id = UInt16Transcoder.Get.Read(this);
+                Int16 id = Int16Transcoder.Get.Read(this);
                 MessageId messageId = MessageIdTranscoder.Get.Read(this);
                 #if SHOW_MESSAGES
-                Console.WriteLine("<- " + messageId.ToString() + " [" + (Int16)id + "]");
+                Console.WriteLine("<-" + RemoteEndPoint.Port + " - " + messageId.ToString() + " [" + id + "]");
                 #endif
                 switch (messageId)
                 {
@@ -199,7 +199,7 @@ namespace SkyCrab.Connection.PresentationLayer
             return true;
         }
 
-        private void EnqueueMessage(UInt16 id, AbstractMessage message, object messageData)
+        private void EnqueueMessage(Int16 id, AbstractMessage message, object messageData)
         {
             MessageInfo messageInfo = new MessageInfo();
             messageInfo.id = id;
@@ -255,7 +255,7 @@ namespace SkyCrab.Connection.PresentationLayer
             }
         }
 
-        protected void AnswerPing(UInt16 id, object message)
+        protected void AnswerPing(Int16 id, object message)
         {
             PongMsg.AsyncPostPong(id, this);
         }
@@ -284,22 +284,22 @@ namespace SkyCrab.Connection.PresentationLayer
 
         internal void PostNewMessage(MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
         {
-            UInt16 id = messageIdSequence.Value;
+            Int16 id = messageIdSequence.Value;
             PostMessage(id, messageId, messageProcedure, answerCallback, state);
         }
 
-        internal void PostAnswerMessage(UInt16 id, MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
+        internal void PostAnswerMessage(Int16 id, MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
         {
             PostMessage(id, messageId, messageProcedure, answerCallback, state);
         }
 
-        private void PostMessage(UInt16 id, MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
+        private void PostMessage(Int16 id, MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
         {
             #if SHOW_MESSAGES
-            Console.WriteLine("-> " + messageId.ToString() + " [" + (Int16)id + "]");
+            Console.WriteLine("->" + RemoteEndPoint.Port + " - " + messageId.ToString() + " [" + id + "]");
             #endif
             object writingBlock = BeginWritingBlock();
-            UInt16Transcoder.Get.Write(this, writingBlock, id);
+            Int16Transcoder.Get.Write(this, writingBlock, id);
             MessageIdTranscoder.Get.Write(this, writingBlock, messageId);
             messageProcedure.Invoke(writingBlock);
             if (answerCallback != null)
@@ -307,7 +307,7 @@ namespace SkyCrab.Connection.PresentationLayer
             EndWritingBlock(writingBlock);
         }
 
-        private void SetAnswerCallback(object writingBlock, UInt16 id, AnswerCallback answerCallback, object state)
+        private void SetAnswerCallback(object writingBlock, Int16 id, AnswerCallback answerCallback, object state)
         {
             StateWithId stateWithId = new StateWithId();
             stateWithId.id = id;

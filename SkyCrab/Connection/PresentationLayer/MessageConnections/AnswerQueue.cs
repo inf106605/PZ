@@ -11,13 +11,13 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
 
         private struct RequestWithId
         {
-            public UInt16 id;
+            public Int16 id;
             public AnswerCallbackWithState request;
         }
 
         private struct AnswerWithId
         {
-            public UInt16 id;
+            public Int16 id;
             public MessageInfo answer;
         }
 
@@ -61,13 +61,13 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
                 if (requestWithId.Value.id == answerWithId.Value.id)
                     Task.Factory.StartNew(() => requestWithId.Value.request.answerCallback.Invoke(answerWithId.Value.answer, requestWithId.Value.request.state));
                 else if (HalfLess(requestWithId.Value.id, answerWithId.Value.id))
-                    Console.Error.WriteLine("Answer with ID " + requestWithId.Value.id + " is missing!"); //TODO something more?
+                    Console.Error.WriteLine("Received answer with id " + answerWithId.Value.id + " but not answer with ID " + requestWithId.Value.id + "!"); //TODO something more?
                 else
                     Console.Error.WriteLine("Answer with ID " + answerWithId.Value.id + " is duplicated!"); //TODO something more?
             }
         }
 
-        public void AddRequest(UInt16 id, AnswerCallbackWithState request)
+        public void AddRequest(Int16 id, AnswerCallbackWithState request)
         {
             RequestWithId requestWithId = new RequestWithId();
             requestWithId.id = id;
@@ -77,7 +77,7 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
             requestSemaphore.Release();
         }
 
-        public void AddAnswer(UInt16 id, MessageInfo answer)
+        public void AddAnswer(Int16 id, MessageInfo answer)
         {
             AnswerWithId messageInfoWithId = new AnswerWithId();
             messageInfoWithId.id = id;
@@ -111,10 +111,12 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
             Task.Factory.StartNew(() => request.answerCallback.Invoke(null, request.state));
         }
 
-        private static bool HalfLess(UInt16 x, UInt16 y)
+        private static bool HalfLess(Int16 x, Int16 y)
         {
-            x -= y;
-            return x >= UInt16.MaxValue / 2;
+            UInt16 a = (UInt16)((UInt16)(x < 0 ? -x : x) | 0x8000);
+            UInt16 b = (UInt16)((UInt16)(y < 0 ? -y : y) | 0x8000);
+            a -= b;
+            return a >= UInt16.MaxValue / 2;
         }
 
     }

@@ -27,7 +27,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
             return null;
         }
 
-        public static void AsyncPostPong(UInt16 id, MessageConnection connection)
+        public static void AsyncPostPong(Int16 id, MessageConnection connection)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

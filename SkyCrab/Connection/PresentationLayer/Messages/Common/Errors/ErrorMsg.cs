@@ -28,7 +28,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
             return errorCode;
         }
 
-        public static void AsyncPostError(UInt16 id, MessageConnection connection, ErrorCode errorCode)
+        public static void AsyncPostError(Int16 id, MessageConnection connection, ErrorCode errorCode)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

@@ -2,12 +2,7 @@
 
 namespace SkyCrab.Connection.Utils
 {
-    internal interface ISequence
-    {
-        UInt16 Value { get; }
-    }
-
-    internal sealed class Sequence : ISequence
+    internal sealed class Sequence
     {
 
         private readonly object _sequenceLock = new object();
@@ -24,16 +19,21 @@ namespace SkyCrab.Connection.Utils
 
     }
 
+    internal interface ISequence
+    {
+        Int16 Value { get; }
+    }
+
     internal sealed class FirstHalfSequence : ISequence
     {
 
         private readonly Sequence sequence = new Sequence();
 
-        public UInt16 Value
+        public Int16 Value
         {
             get
             {
-                return (UInt16)(sequence.Value & 0x7FFF);
+                return (Int16)(sequence.Value & 0x7FFF);
             }
         }
 
@@ -44,14 +44,13 @@ namespace SkyCrab.Connection.Utils
 
         private readonly Sequence sequence = new Sequence();
 
-        public UInt16 Value
+        public Int16 Value
         {
             get
             {
-                return (UInt16)(-(Int16)(sequence.Value & 0x7FFF));
+                return (Int16)(-(Int16)(sequence.Value & 0x7FFF));
             }
         }
 
     }
-
 }
