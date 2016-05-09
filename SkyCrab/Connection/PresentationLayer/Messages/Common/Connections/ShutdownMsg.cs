@@ -26,7 +26,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Connections
             return null;
         }
 
-        public static void AsyncPostShutdown(MessageConnection connection)
+        public static void AsyncPost(MessageConnection connection)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

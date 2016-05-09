@@ -27,12 +27,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
             return null;
         }
 
-        public static MessageInfo? SyncPostPing(MessageConnection connection, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostPing(connection, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, callback, state), timeout);
         }
 
-        public static void AsyncPostPing(MessageConnection connection, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

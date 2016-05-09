@@ -233,7 +233,7 @@ namespace SkyCrab.Connection.PresentationLayer
                 {
                     if (closing)
                         return;
-                    MessageInfo? messageInfo = PingMsg.SyncPostPing(this, PingTimeout);
+                    MessageInfo? messageInfo = PingMsg.SyncPost(this, PingTimeout);
                     if (!messageInfo.HasValue)
                     {
                         if (closing)
@@ -257,7 +257,7 @@ namespace SkyCrab.Connection.PresentationLayer
 
         protected void AnswerPing(UInt16 id, object message)
         {
-            PongMsg.AsyncPostPong(id, this);
+            PongMsg.AsyncPost(id, this);
         }
 
         private void CheckVersion()
@@ -351,9 +351,9 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private void ExchangeDisconnectMessages()
         {
-            DisconnectMsg.AsyncPostDisconnect(this);
+            DisconnectMsg.AsyncPost(this);
             disconnectSemaphore.WaitOne(ReadTimeout * 10);
-            ShutdownMsg.AsyncPostShutdown(this);
+            ShutdownMsg.AsyncPost(this);
         }
 
         private void CloseListeningTask()

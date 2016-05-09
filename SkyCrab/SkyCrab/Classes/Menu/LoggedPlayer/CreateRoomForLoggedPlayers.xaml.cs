@@ -139,7 +139,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
 
 
-            var createRoomMsgAnswer = CreateRoomMsg.SyncPostCreateRoom(App.clientConn, room, 1000);
+            var createRoomMsgAnswer = CreateRoomMsg.SyncPost(App.clientConn, room, 1000);
             
 
             if (!createRoomMsgAnswer.HasValue)

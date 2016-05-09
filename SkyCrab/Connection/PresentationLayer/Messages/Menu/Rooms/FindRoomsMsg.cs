@@ -30,12 +30,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
             return roomFilter;
         }
 
-        public static MessageInfo? SyncPostFindRooms(MessageConnection connection, Room roomFilter, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, Room roomFilter, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostFindRooms(connection, roomFilter, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, roomFilter, callback, state), timeout);
         }
 
-        public static void AsyncPostFindRooms(MessageConnection connection, Room roomFilter, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, Room roomFilter, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {

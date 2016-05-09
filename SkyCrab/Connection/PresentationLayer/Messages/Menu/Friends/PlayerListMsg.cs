@@ -32,7 +32,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             return players;
         }
 
-        public static void AsyncPostPlayerList(UInt16 id, MessageConnection connection, List<Player> players)
+        public static void AsyncPost(UInt16 id, MessageConnection connection, List<Player> players)
         {
             MessageConnection.MessageProcedure messsageProc = (writingBlock) =>
             {

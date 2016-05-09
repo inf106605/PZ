@@ -82,7 +82,7 @@ namespace SkyCrab.Classes.Menu
             playerProfile.Nick = nickTextbox.Text == "" ? null : nickTextbox.Text;
             playerProfile.Password = passTextbox.Password == "" ? null : passTextbox.Password;
 
-            var answer = EditProfileMsg.SyncPostEditProfile(App.clientConn, playerProfile, 1000);
+            var answer = EditProfileMsg.SyncPost(App.clientConn, playerProfile, 1000);
 
             if (!answer.HasValue)
             {

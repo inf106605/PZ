@@ -27,12 +27,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             return null;
         }
 
-        public static MessageInfo? SyncPostGetFriends(MessageConnection connection, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostGetFriends(connection, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, callback, state), timeout);
         }
 
-        public static void AsyncPostGetFriends(MessageConnection connection, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
             {

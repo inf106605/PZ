@@ -29,7 +29,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return player;
         }
 
-        public static void asycnPostJoined(MessageConnection connection, Player player)
+        public static void asycnPost(MessageConnection connection, Player player)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

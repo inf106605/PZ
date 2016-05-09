@@ -30,12 +30,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             return profile;
         }
         
-        public static MessageInfo? SyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, PlayerProfile playerProfile, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostRegister(connection, playerProfile, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, playerProfile, callback, state), timeout);
         }
 
-        public static void AsyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, PlayerProfile playerProfile, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
             {

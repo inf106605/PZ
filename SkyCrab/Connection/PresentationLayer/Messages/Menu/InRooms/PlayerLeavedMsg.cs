@@ -29,7 +29,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return playerId;
         }
 
-        public static void AsyncPostLeave(MessageConnection connection, UInt32 playerId)
+        public static void AsyncPost(MessageConnection connection, UInt32 playerId)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

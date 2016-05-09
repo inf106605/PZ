@@ -29,7 +29,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             return player;
         }
 
-        public static void AsyncPostLoginOk(UInt16 id, MessageConnection connection, Player player)
+        public static void AsyncPost(UInt16 id, MessageConnection connection, Player player)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {

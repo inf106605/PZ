@@ -29,7 +29,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return newOwnerId;
         }
 
-        public static void AsyncPostNewOwner(MessageConnection connection, UInt32 newOwnerId)
+        public static void AsyncPost(MessageConnection connection, UInt32 newOwnerId)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
             {
