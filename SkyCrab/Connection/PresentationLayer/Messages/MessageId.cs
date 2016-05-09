@@ -45,10 +45,15 @@
         
         //--- Game ---
         GAME_STARTED        = 30,
-        REORDER_RACK_TILES  = 31,
-        ROUND_TIMEOUT       = 32,
-        PLACE_TILES         = 33,
-        EXCHANGE_TILES      = 34,
-        PASS                = 35
+        NEXT_TURN           = 31,
+        NEW_TILES           = 32,
+        LOSS_TILES          = 33,
+        GAIN_POINTS         = 34,
+        REORDER_RACK_TILES  = 35,
+        TURE_TIMEOUT        = 36,
+        PLACE_TILES         = 37,
+        EXCHANGE_TILES      = 38,
+        PASS                = 39,
+        GAME_ENDED          = 40
     }
 }
