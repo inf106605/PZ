@@ -1,10 +1,15 @@
-﻿using SkyCrab.Common_classes;
+﻿using SkyCrab.Classes.Menu.Guest;
+using SkyCrab.Classes.Menu.LoggedPlayer;
+using SkyCrab.Common_classes;
+using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace SkyCrab
 {
@@ -70,7 +75,14 @@ namespace SkyCrab
                                 SkyCrabGlobalVariables.room.OwnerId = (UInt32)messageInfo.message;
                             break;
                         }
-
+                    case MessageId.CHAT:
+                        {
+                            SkyCrabGlobalVariables.chatMessages = new ChatMessage();
+                            SkyCrabGlobalVariables.chatMessages = (ChatMessage)messageInfo.message;
+                            SkyCrabGlobalVariables.MessagesLog += "Crab#" + SkyCrabGlobalVariables.chatMessages.PlayerId + ": " + SkyCrabGlobalVariables.chatMessages.Message + Environment.NewLine;
+                            SkyCrabGlobalVariables.chatMessages = null;
+                            break;
+                        }
                     default:
                         {
                             DisplayMessageBox("Otrzymano nieobsługiwany komunikat od serwera (" + messageInfo.messageId.ToString() + ")!");

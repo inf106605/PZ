@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Classes.Game;
 using SkyCrab.Classes.Menu.LoggedPlayer;
+using SkyCrab.Common_classes.Chats;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using System;
@@ -33,7 +34,6 @@ namespace SkyCrab.Classes.Menu.Guest
             InitializeComponent();
 
             playersInLobby = new PlayersInLobby();
-
             DataContext = playersInLobby;
             // co 3 sekundy następuje odświeżanie listy graczy w lobby
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
@@ -48,8 +48,10 @@ namespace SkyCrab.Classes.Menu.Guest
             // Updating the Label which displays the current second
             playersInLobby = new PlayersInLobby();
             DataContext = playersInLobby;
-
             // Forcing the CommandManager to raise the RequerySuggested event
+
+            ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
+
             CommandManager.InvalidateRequerySuggested();
         }
 
@@ -105,6 +107,20 @@ namespace SkyCrab.Classes.Menu.Guest
         private void ChangeStatusGame_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new WindowGame());
+        }
+
+        private void SendChatMessage_Click(object sender, RoutedEventArgs e)
+        {
+            if (SkyCrabGlobalVariables.player == null)
+            {
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.Message = WriteChat.Text;    
+                ChatMsg.AsyncPostChat(App.clientConn, chatMessage);
+            }
+            else
+            {
+                MessageBox.Show("Jesteś zalogowanym graczem, sorry!");
+            }
         }
     }
 }
