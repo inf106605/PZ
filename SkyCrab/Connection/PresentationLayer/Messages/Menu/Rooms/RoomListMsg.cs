@@ -10,7 +10,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.ROOM_LIST"/></para>
     /// <para>Data type: <see cref="List{T}"/> of <see cref="Room"/>s</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class RoomListMsg : AbstractMessage

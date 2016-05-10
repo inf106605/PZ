@@ -50,7 +50,7 @@
         LOSS_TILES          = 33,
         GAIN_POINTS         = 34,
         REORDER_RACK_TILES  = 35,
-        TURE_TIMEOUT        = 36,
+        TURN_TIMEOUT        = 36,
         PLACE_TILES         = 37,
         EXCHANGE_TILES      = 38,
         PASS                = 39,

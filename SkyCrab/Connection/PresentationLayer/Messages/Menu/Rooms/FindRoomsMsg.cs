@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.FIND_ROOMS"/></para>
     /// <para>Data type: <see cref="Room"/> (room filter)</para>
-    /// <para>Passible answers: <see cref="RoomListMsg"/></para>
+    /// <para>Possible answers: <see cref="RoomListMsg"/></para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class FindRoomsMsg : AbstractMessage

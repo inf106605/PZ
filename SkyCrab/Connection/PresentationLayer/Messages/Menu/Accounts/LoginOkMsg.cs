@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.LOGIN_OK"/></para>
     /// <para>Data type: <see cref="Player"/> (without password)</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// </summary>
     public sealed class LoginOkMsg : AbstractMessage
     {

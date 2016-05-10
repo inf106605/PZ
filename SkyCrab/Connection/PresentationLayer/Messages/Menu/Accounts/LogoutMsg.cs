@@ -6,7 +6,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.LOGOUT"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED"/></para>
     /// </summary>
     public sealed class LogoutMsg : AbstractMessage

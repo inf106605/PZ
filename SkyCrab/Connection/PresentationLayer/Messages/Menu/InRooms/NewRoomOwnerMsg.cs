@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.NEW_ROOM_OWNER"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class NewRoomOwnerMsg : AbstractMessage

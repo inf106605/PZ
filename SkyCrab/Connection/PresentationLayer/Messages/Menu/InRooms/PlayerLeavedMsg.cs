@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.PLAYER_LEAVED"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class PlayerLeavedMsg : AbstractMessage
@@ -20,7 +20,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
 
         internal override bool Answer
         {
-            get { return true; }
+            get { return false; }
         }
 
         internal override object Read(MessageConnection connection)

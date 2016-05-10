@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.ERROR"/></para>
     /// <para>Data type: <see cref="ErrorCode"/></para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// </summary>
     public sealed class ErrorMsg : AbstractMessage
     {

@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.JOIN_ROOM"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="RoomMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="RoomMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NO_SUCH_ROOM"/>, <see cref="ErrorCode.ALREADY_IN_ROOM2"/>, <see cref="ErrorCode.ROOM_IS_FULL"/></para>
     /// </summary>
     public sealed class JoinRoomMsg : AbstractMessage

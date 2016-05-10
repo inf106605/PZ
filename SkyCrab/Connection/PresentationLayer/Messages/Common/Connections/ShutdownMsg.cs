@@ -6,7 +6,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Connections
     /// <para>Sender: Server &amp; Client</para>
     /// <para>ID: <see cref="MessageId.SHUTDOWN"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// </summary>
     public sealed class ShutdownMsg : AbstractMessage
     {

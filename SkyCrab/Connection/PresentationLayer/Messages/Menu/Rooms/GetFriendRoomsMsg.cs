@@ -6,7 +6,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.GET_FRIEND_ROOMS"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="RoomListMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="RoomListMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED6"/></para>
     /// </summary>
     public sealed class GetFriendRoomsMsg : AbstractMessage

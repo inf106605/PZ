@@ -47,7 +47,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(10, 0, 0);
+        private static readonly Version version = new Version(11, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -117,6 +117,19 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new PlayerNotReadyMsg());
             AddMessage(new NewRoomOwnerMsg());
             AddMessage(new ChatMsg());
+
+            //--- Gane ---
+            AddMessage(new GameStartedMsg());
+            AddMessage(new NextTurnMsg());
+            AddMessage(new NewTilesMsg());
+            AddMessage(new LossTilesMsg());
+            AddMessage(new GainPointsMsg());
+            AddMessage(new ReorderRackTilesMsg());
+            AddMessage(new TurnTimeoutMsg());
+            AddMessage(new PlaceTilesMsg());
+            AddMessage(new ExchangeTilesMsg());
+            AddMessage(new PassMsg());
+            AddMessage(new GameEndedMsg());
         }
 
         private static void AddMessage(AbstractMessage message)

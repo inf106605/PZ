@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.FIND_PLAYERS"/></para>
     /// <para>Data type: <see cref="string"/> (search phraze)</para>
-    /// <para>Passible answers: <see cref="PlayerListMsg"/></para>
+    /// <para>Possible answers: <see cref="PlayerListMsg"/></para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class FindPlayersMsg : AbstractMessage

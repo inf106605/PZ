@@ -6,7 +6,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.GET_FRIENDS"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="PlayerListMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="PlayerListMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED3"/></para>
     /// </summary>
     public sealed class GetFriendsMsg : AbstractMessage

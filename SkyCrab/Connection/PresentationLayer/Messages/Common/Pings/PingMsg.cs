@@ -6,7 +6,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
     /// <para>Sender: Server &amp; Client</para>
     /// <para>ID: <see cref="MessageId.PING"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="PongMsg"/></para>
+    /// <para>Possible answers: <see cref="PongMsg"/></para>
     /// </summary>
     public sealed class PingMsg : AbstractMessage
     {

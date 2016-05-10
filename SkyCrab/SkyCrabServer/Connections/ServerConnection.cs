@@ -146,15 +146,15 @@ namespace SkyCrabServer.Connactions
                         break;
 
                     case MessageId.PLAYER_READY:
-                        PlayerReady();
+                        PlayerReady(id);
                         break;
 
                     case MessageId.PLAYER_NOT_READY:
-                        PlayerNotReady();
+                        PlayerNotReady(id);
                         break;
 
                     case MessageId.CHAT:
-                        Chat((ChatMessage)messageInfo.message);
+                        Chat(id, (ChatMessage)messageInfo.message);
                         break;
                 }
             }
@@ -639,18 +639,22 @@ namespace SkyCrabServer.Connactions
             OnLeaveRoom();
         }
 
-        private void PlayerReady()
+        private void PlayerReady(UInt16 id)
         {
             if (!InRoom)
+            {
+                ErrorMsg.AsyncPost(id, this, ErrorCode.NOT_IN_ROOM2);
                 return;
+            }
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
+                OkMsg.AsyncPost(id, this);
                 foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                 {
                     ServerPlayer otherServerPlayer;
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                    PlayerReadyMsg.AsyncPost(this, serverPlayer.player.Id);
+                    PlayerReadyMsg.AsyncPost(this, serverPlayer.player.Id, null);
                 }
             }
             finally
@@ -659,18 +663,22 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-        private void PlayerNotReady()
+        private void PlayerNotReady(UInt16 id)
         {
             if (!InRoom)
+            {
+                ErrorMsg.AsyncPost(id, this, ErrorCode.NOT_IN_ROOM);
                 return;
+            }
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
+                OkMsg.AsyncPost(id, this);
                 foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                 {
                     ServerPlayer otherServerPlayer;
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                    PlayerNotReadyMsg.AsyncPost(this, serverPlayer.player.Id);
+                    PlayerNotReadyMsg.AsyncPost(this, serverPlayer.player.Id, null);
                 }
             }
             finally
@@ -679,19 +687,23 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-        private void Chat(ChatMessage chatMessage)
+        private void Chat(UInt16 id, ChatMessage chatMessage)
         {
             chatMessage.PlayerId = serverPlayer.player.Id;
             if (!InRoom)
+            {
+                ErrorMsg.AsyncPost(id, this, ErrorCode.NOT_IN_ROOM);
                 return;
+            }
             Globals.dataLock.AcquireReaderLock(-1);
             try
             {
+                OkMsg.AsyncPost(id, this);
                 foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                 {
                     ServerPlayer otherServerPlayer;
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                    ChatMsg.AsyncPost(this, chatMessage);
+                    ChatMsg.AsyncPost(this, chatMessage, null);
                 }
             }
             finally

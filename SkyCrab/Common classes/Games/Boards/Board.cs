@@ -40,6 +40,11 @@ namespace SkyCrab.Common_classes.Games.Boards
 
         public abstract SquareType GetSquareType(PositionOnBoard position);
 
+        public void PutTile(TileOnBoard tileOnBoard)
+        {
+            PutTile(tileOnBoard.tile, tileOnBoard.position);
+        }
+
         public abstract void PutTile(Tile tile, PositionOnBoard position);
 
         public abstract Tile GetTile(PositionOnBoard position);

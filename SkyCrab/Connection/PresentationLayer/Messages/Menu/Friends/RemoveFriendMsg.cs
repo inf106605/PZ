@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.REMOVE_FRIEND"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
-    /// <para>Passible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED5"/>, <see cref="ErrorCode.NO_SUCH_FRIEND"/></para>
     /// </summary>
     public sealed class RemoveFriendMsg : AbstractMessage
