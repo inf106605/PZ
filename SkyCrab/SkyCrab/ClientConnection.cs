@@ -91,7 +91,7 @@ namespace SkyCrab
 
                     case MessageId.GAME_STARTED:
                         {
-                            Switcher.Switch(new WindowGame());
+                            SkyCrabGlobalVariables.isGame = true;
                             break;
                         }
 

@@ -15,6 +15,7 @@ namespace SkyCrab
        public static SkyCrabRoom room; // pokój z uzupełnionymi danymi od serwera , wykorzystywany m.in. przez lobby
         public static ChatMessage chatMessages;
         public static String MessagesLog = "";
+        public static bool isGame = false;
         public static readonly object roomLock = new object();
     }
 }
