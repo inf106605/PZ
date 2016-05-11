@@ -29,10 +29,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
 
         public static void AsyncPost(UInt16 id, MessageConnection connection)
         {
-            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-            };
-            connection.PostAnswerMessage(id, MessageId.PONG, messageProcedure);
+            connection.PostAnswerMessage(id, MessageId.PONG, null);
         }
 
     }

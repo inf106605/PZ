@@ -32,9 +32,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
         public static void AsyncPost(MessageConnection connection, UInt32 winnerId)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                UInt32Transcoder.Get.Write(connection, writingBlock, winnerId);
-            };
+                    UInt32Transcoder.Get.Write(connection, writingBlock, winnerId);
             connection.PostNewMessage(MessageId.GAME_ENDED, messageProcedure);
         }
     }

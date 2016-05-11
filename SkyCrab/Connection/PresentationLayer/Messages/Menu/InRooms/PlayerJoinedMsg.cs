@@ -32,9 +32,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
         public static void asycnPost(MessageConnection connection, Player player)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                PlayerTranscoder.Get.Write(connection, writingBlock, player);
-            };
+                    PlayerTranscoder.Get.Write(connection, writingBlock, player);
             connection.PostNewMessage(MessageId.PLAYER_JOINED, messageProcedure);
         }
     }

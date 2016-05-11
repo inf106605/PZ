@@ -38,9 +38,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
         public static void AsyncPost(MessageConnection connection, ChatMessage chatMessage, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                ChatMessageTranscoder.Get.Write(connection, writingBlock, chatMessage);
-            };
+                    ChatMessageTranscoder.Get.Write(connection, writingBlock, chatMessage);
             connection.PostNewMessage(MessageId.CHAT, messageProcedure, callback, state);
         }
     }

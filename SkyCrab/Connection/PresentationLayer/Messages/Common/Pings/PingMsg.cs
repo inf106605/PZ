@@ -34,10 +34,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
 
         public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
-            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-            };
-            connection.PostNewMessage(MessageId.PING, messageProcedure, callback, state);
+            connection.PostNewMessage(MessageId.PING, null, callback, state);
         }
 
     }

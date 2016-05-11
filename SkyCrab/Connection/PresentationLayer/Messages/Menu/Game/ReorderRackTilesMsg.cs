@@ -33,9 +33,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
         public static void AsyncPost(MessageConnection connection, Rack rack)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                RackTranscoder.Get.Write(connection, writingBlock, rack);
-            };
+                    RackTranscoder.Get.Write(connection, writingBlock, rack);
             connection.PostNewMessage(MessageId.REORDER_RACK_TILES, messageProcedure);
         }
     }

@@ -27,10 +27,7 @@
 
         public static void AsyncPost(MessageConnection connection)
         {
-            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-            };
-            connection.PostNewMessage(MessageId.TURN_TIMEOUT, messageProcedure);
+            connection.PostNewMessage(MessageId.TURN_TIMEOUT, null);
         }
     }
 }

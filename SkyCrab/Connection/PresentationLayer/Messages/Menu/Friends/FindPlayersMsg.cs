@@ -38,9 +38,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
         public static void AsyncPost(MessageConnection connection, string searchPhrase, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
-            {
-                LimitedStringTranscoder.Get(LengthLimit.SearchPhraze).Write(connection, writingBlock, searchPhrase);
-            };
+                    LimitedStringTranscoder.Get(LengthLimit.SearchPhraze).Write(connection, writingBlock, searchPhrase);
             connection.PostNewMessage(MessageId.FIND_PLAYERS, messageProc, callback, state);
         }
 

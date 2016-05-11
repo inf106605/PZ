@@ -34,10 +34,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
 
         public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
-            MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
-            {
-            };
-            connection.PostNewMessage(MessageId.GET_FRIEND_ROOMS, messageProc, callback, state);
+            connection.PostNewMessage(MessageId.GET_FRIEND_ROOMS, null, callback, state);
         }
 
     }

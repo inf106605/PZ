@@ -35,9 +35,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
         public static void AsyncPost(MessageConnection connection, List<TileWithNumber> tiles)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Write(connection, writingBlock, tiles);
-            };
+                    ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Write(connection, writingBlock, tiles);
             connection.PostNewMessage(MessageId.EXCHANGE_TILES, messageProcedure);
         }
     }

@@ -29,10 +29,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
 
         public static void AsyncPost(MessageConnection connection)
         {
-            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-            };
-            connection.PostNewMessage(MessageId.PASS, messageProcedure);
+            connection.PostNewMessage(MessageId.PASS, null);
         }
     }
 }

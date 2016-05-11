@@ -34,10 +34,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
 
         public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
-            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-            };
-            connection.PostNewMessage(MessageId.LOGOUT, messageProcedure, callback, state);
+            connection.PostNewMessage(MessageId.LOGOUT, null, callback, state);
         }
     }
 }

@@ -35,9 +35,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
         public static void AsyncPost(UInt16 id, MessageConnection connection, List<Player> players)
         {
             MessageConnection.MessageProcedure messsageProc = (writingBlock) =>
-            {
-                ListTranscoder<Player>.Get(PlayerTranscoder.Get).Write(connection, writingBlock, players);
-            };
+                    ListTranscoder<Player>.Get(PlayerTranscoder.Get).Write(connection, writingBlock, players);
             connection.PostAnswerMessage(id, MessageId.PLAYER_LIST, messsageProc);
         }
 

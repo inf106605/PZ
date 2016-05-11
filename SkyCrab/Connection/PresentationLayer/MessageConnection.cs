@@ -47,7 +47,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(11, 0, 0);
+        private static readonly Version version = new Version(11, 0, 1);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -314,7 +314,8 @@ namespace SkyCrab.Connection.PresentationLayer
             object writingBlock = BeginWritingBlock();
             UInt16Transcoder.Get.Write(this, writingBlock, id);
             MessageIdTranscoder.Get.Write(this, writingBlock, messageId);
-            messageProcedure.Invoke(writingBlock);
+            if (messageProcedure != null)
+                messageProcedure.Invoke(writingBlock);
             if (answerCallback != null)
                 SetAnswerCallback(writingBlock, id, answerCallback, state);
             EndWritingBlock(writingBlock);
