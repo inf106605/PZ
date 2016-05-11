@@ -154,6 +154,52 @@ namespace SkyCrabServer.Connactions
                         Chat(id, (ChatMessage)messageInfo.message);
                         break;
 
+                    //GAME
+					
+                    case MessageId.GAME_STARTED:
+                        //TODO
+                        break;
+                        
+                    case MessageId.NEXT_TURN:
+                        //TODO
+                        break;
+						
+                    case MessageId.NEW_TILES:
+						//TODO
+						break;
+						
+                    case MessageId.LOSS_TILES:
+						//TODO
+						break;
+						
+                    case MessageId.GAIN_POINTS:
+						//TODO
+						break;
+						
+                    case MessageId.REORDER_RACK_TILES:
+						//TODO
+						break;
+						
+                    case MessageId.TURN_TIMEOUT:
+						//TODO
+						break;
+						
+                    case MessageId.PLACE_TILES:
+						//TODO
+						break;
+						
+                    case MessageId.EXCHANGE_TILES:
+						//TODO
+						break;
+						
+                    case MessageId.PASS:
+						//TODO
+						break;
+						
+                    case MessageId.GAME_ENDED:
+						//TODO
+						break;
+						
                     //Unknown
 
                     default:
@@ -493,20 +539,21 @@ namespace SkyCrabServer.Connactions
                                 ServerPlayer otherServerPlayer; //Schrödinger Variable
                                 Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                                 if (otherServerPlayer == null)  //WTF!?
-                                    throw new Exception("Whatever.");
+                                    throw new Exception("Whatever...");
                                 NewRoomOwnerMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.room.OwnerId);
                             }
                         }
                         foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                         {
+                            playerInRoom.IsReady = false;
                             ServerPlayer otherServerPlayer; //Schrödinger Variable
                             Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                             if (otherServerPlayer == null)  //WTF!?
-                                throw new Exception("Whatever.");
+                                throw new Exception("Whatever...");
                             PlayerLeavedMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.player.Id);
                         }
-                        ClearStatuses();
                     }
+                    ClearStatuses();
                     serverPlayer.room = null;
                 }
             }
@@ -625,7 +672,7 @@ namespace SkyCrabServer.Connactions
                     ServerPlayer otherServerPlayer; //Schrödinger Variable
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                     if (otherServerPlayer == null)  //WTF!?
-                        throw new Exception("Whatever.");
+                        throw new Exception("Whatever...");
                     PlayerJoinedMsg.asycnPost(otherServerPlayer.connection, serverPlayer.player);
 					if (serverPlayer.player.Id != otherServerPlayer.player.Id)
 						PlayerJoinedMsg.asycnPost(this, otherServerPlayer.player);
@@ -660,15 +707,17 @@ namespace SkyCrabServer.Connactions
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
+                serverPlayer.room.GetPlayer(serverPlayer.player.Id).IsReady = true;
                 OkMsg.AsyncPost(id, this);
                 foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                 {
                     ServerPlayer otherServerPlayer; //Schrödinger Variable
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                     if (otherServerPlayer == null)  //WTF!?
-                        throw new Exception("Whatever.");
+                        throw new Exception("Whatever...");
                     PlayerReadyMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.player.Id, null);
                 }
+                CheckAllPlayersReady();
             }
             finally
             {
@@ -686,15 +735,17 @@ namespace SkyCrabServer.Connactions
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
+                serverPlayer.room.GetPlayer(serverPlayer.player.Id).IsReady = false;
                 OkMsg.AsyncPost(id, this);
                 foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                 {
                     ServerPlayer otherServerPlayer; //Schrödinger Variable
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                     if (otherServerPlayer == null)  //WTF!?
-                        throw new Exception("Whatever.");
+                        throw new Exception("Whatever...");
                     PlayerNotReadyMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.player.Id, null);
                 }
+                CancelStartingGame();
             }
             finally
             {
@@ -719,7 +770,7 @@ namespace SkyCrabServer.Connactions
                     ServerPlayer otherServerPlayer; //Schrödinger Variable
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                     if (otherServerPlayer == null)  //WTF!?
-                        throw new Exception("Whatever.");
+                        throw new Exception("Whatever...");
                     ChatMsg.AsyncPost(otherServerPlayer.connection, chatMessage, null);
                 }
             }
@@ -736,10 +787,11 @@ namespace SkyCrabServer.Connactions
                 ServerPlayer otherServerPlayer; //Schrödinger Variable
                 Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                 if (otherServerPlayer == null)  //WTF!?
-                    throw new Exception("Whatever.");
+                    throw new Exception("Whatever...");
                 foreach (PlayerInRoom playerInRoom2 in serverPlayer.room.Players)
                     PlayerNotReadyMsg.AsyncPost(otherServerPlayer.connection, playerInRoom2.Player.Id, null);
             }
+            CancelStartingGame();
         }
 
         private void MakeValidPlayer()
