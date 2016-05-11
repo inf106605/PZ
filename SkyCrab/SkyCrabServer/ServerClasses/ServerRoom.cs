@@ -72,6 +72,7 @@ namespace SkyCrabServer.ServerClasses
                         throw new Exception("Whatever...");
                     GameStartedMsg.AsyncPost(otherServerPlayer.connection, game.Id);
                 }
+                GameLog.OnGameStart(game);
             }
             finally
             {

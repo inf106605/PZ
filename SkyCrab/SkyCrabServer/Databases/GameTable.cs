@@ -15,15 +15,24 @@ namespace SkyCrabServer.Databases
 
         public static UInt32 Create()
         {
+            const string QUERY = "INSERT INTO " + TABLE + " (" + ID + ", " + BEGIN_TIME + ", " + GAME_LOG + ") VALUES (null, @begin_time, '')";
             lock (Globals.database._lock)
             {
-                const string QUERY = "INSERT INTO " + TABLE + " (" + ID + ", " + BEGIN_TIME + ", " + GAME_LOG + ") VALUES (null, @begin_time, '')";
                 SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
                 command.Parameters.Add(new SQLiteParameter("@begin_time", DateTime.Now));
                 command.ExecuteNonQuery();
-                UInt32 id = Globals.database.GetLastInssertedId();
-                return id;
+                UInt32 gameId = Globals.database.GetLastInssertedId();
+                return gameId;
             }
+        }
+
+        public static void AddToLog(UInt32 gameId, string log)
+        {
+            const string QUERY = "UPDATE " + TABLE + " SET " + GAME_LOG + " = " + GAME_LOG + " || @log WHERE " + ID + "=@gameId";
+            SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
+            command.Parameters.Add(new SQLiteParameter("@gameId", gameId));
+            command.Parameters.Add(new SQLiteParameter("@log", log));
+            command.ExecuteNonQuery();
         }
 
     }

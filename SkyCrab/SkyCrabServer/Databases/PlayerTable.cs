@@ -28,9 +28,9 @@ namespace SkyCrabServer.Databases
 
         public static UInt32 Create()
         {
+            const string QUERY = "INSERT INTO " + TABLE + " (" + ID + ") VALUES (null)";
             lock (Globals.database._lock)
             {
-                const string QUERY = "INSERT INTO " + TABLE + " (" + ID + ") VALUES (null)";
                 SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
                 command.ExecuteNonQuery();
                 UInt32 id = Globals.database.GetLastInssertedId();
