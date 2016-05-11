@@ -6,7 +6,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.GET_FRIEND_ROOMS"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="RoomListMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="RoomListMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED6"/></para>
     /// </summary>
     public sealed class GetFriendRoomsMsg : AbstractMessage
@@ -27,17 +27,14 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
             return null;
         }
 
-        public static MessageInfo? SyncPostGetFriendRooms(MessageConnection connection, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostGetFriendRooms(connection, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, callback, state), timeout);
         }
 
-        public static void AsyncPostGetFriendRooms(MessageConnection connection, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
-            MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
-            {
-            };
-            connection.PostNewMessage(MessageId.GET_FRIEND_ROOMS, messageProc, callback, state);
+            connection.PostNewMessage(MessageId.GET_FRIEND_ROOMS, null, callback, state);
         }
 
     }

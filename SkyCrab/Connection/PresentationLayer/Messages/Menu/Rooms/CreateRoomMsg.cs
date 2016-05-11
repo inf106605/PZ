@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.CREATE_ROOM"/></para>
     /// <para>Data type: <see cref="Room"/> (without id, owner and players)</para>
-    /// <para>Passible answers: <see cref="RoomMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="RoomMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.ALREADY_IN_ROOM"/>, <see cref="ErrorCode.INVALID_RULES"/></para>
     /// </summary>
     public sealed class CreateRoomMsg : AbstractMessage
@@ -30,17 +30,15 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
             return room;
         }
         
-        public static MessageInfo? SyncPostCreateRoom(MessageConnection connection, Room room, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, Room room, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostCreateRoom(connection, room, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, room, callback, state), timeout);
         }
 
-        public static void AsyncPostCreateRoom(MessageConnection connection, Room room, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, Room room, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
-            {
-                RoomTranscoder.Get.Write(connection, writingBlock, room);
-            };
+                    RoomTranscoder.Get.Write(connection, writingBlock, room);
             connection.PostNewMessage(MessageId.CREATE_ROOM, messageProc, callback, state);
         }
 

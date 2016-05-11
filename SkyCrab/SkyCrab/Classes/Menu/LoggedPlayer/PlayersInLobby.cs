@@ -94,7 +94,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             get
             {
                 if(SkyCrabGlobalVariables.room !=null)
-                    return TextConverter.TimeintToString(SkyCrabGlobalVariables.room.room.Rules.maxRoundTime.value);
+                    return TextConverter.TimeintToString(SkyCrabGlobalVariables.room.room.Rules.maxTurnTime.value);
                 return "";
             }
         }

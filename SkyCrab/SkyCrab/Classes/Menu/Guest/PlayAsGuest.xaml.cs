@@ -57,9 +57,9 @@ namespace SkyCrab.Classes.Menu
             filterRoom.Rules.restrictedExchange.indifferently = true;
             //filterRoom.Rules.restrictedExchange.value = true;
             filterRoom.Rules.maxPlayerCount.indifferently = true;
-            filterRoom.Rules.maxRoundTime.indifferently = true;
+            filterRoom.Rules.maxTurnTime.indifferently = true;
 
-            var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn, filterRoom, 1000);
+            var getListOfRooms = FindRoomsMsg.SyncPost(App.clientConn, filterRoom, 1000);
 
             if (!getListOfRooms.HasValue)
             {
@@ -136,9 +136,9 @@ namespace SkyCrab.Classes.Menu
             if (minTimeLimit.SelectedValue != null)
             {
                 if ((string)minTimeLimit.SelectedValue == "Brak limitu")
-                    filterRoom.Rules.maxRoundTime.min = 0;
+                    filterRoom.Rules.maxTurnTime.min = 0;
                 else if (int.Parse((string)minTimeLimit.SelectedValue) > 0)
-                    filterRoom.Rules.maxRoundTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
+                    filterRoom.Rules.maxTurnTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
 
             }
 
@@ -146,10 +146,10 @@ namespace SkyCrab.Classes.Menu
             if (maxTimeLimit.SelectedValue != null)
             {
                 if ((string)maxTimeLimit.SelectedValue == "Brak limitu")
-                    filterRoom.Rules.maxRoundTime.max = 0;
+                    filterRoom.Rules.maxTurnTime.max = 0;
 
                 else if (int.Parse((string)maxTimeLimit.SelectedValue) > 0)
-                    filterRoom.Rules.maxRoundTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
+                    filterRoom.Rules.maxTurnTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
             }
 
             // min i max liczba graczy
@@ -167,7 +167,7 @@ namespace SkyCrab.Classes.Menu
             }
 
         
-                var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn, filterRoom, 1000);
+                var getListOfRooms = FindRoomsMsg.SyncPost(App.clientConn, filterRoom, 1000);
 
                 if (!getListOfRooms.HasValue)
                 {
@@ -236,9 +236,9 @@ namespace SkyCrab.Classes.Menu
             if (minTimeLimit.SelectedValue != null)
             {
                 if ((string)minTimeLimit.SelectedValue == "Brak limitu")
-                    filterRoom.Rules.maxRoundTime.min = 0;
+                    filterRoom.Rules.maxTurnTime.min = 0;
                 else if (int.Parse((string)minTimeLimit.SelectedValue) > 0)
-                    filterRoom.Rules.maxRoundTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
+                    filterRoom.Rules.maxTurnTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
 
             }
 
@@ -246,10 +246,10 @@ namespace SkyCrab.Classes.Menu
             if (maxTimeLimit.SelectedValue != null)
             {
                 if ((string)maxTimeLimit.SelectedValue == "Brak limitu")
-                    filterRoom.Rules.maxRoundTime.max = 0;
+                    filterRoom.Rules.maxTurnTime.max = 0;
 
                 else if (int.Parse((string)maxTimeLimit.SelectedValue) > 0)
-                    filterRoom.Rules.maxRoundTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
+                    filterRoom.Rules.maxTurnTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
             }
 
             // min i max liczba graczy
@@ -267,7 +267,7 @@ namespace SkyCrab.Classes.Menu
             }
 
 
-            var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn, filterRoom, 1000);
+            var getListOfRooms = FindRoomsMsg.SyncPost(App.clientConn, filterRoom, 1000);
 
             if (!getListOfRooms.HasValue)
             {
@@ -422,7 +422,7 @@ namespace SkyCrab.Classes.Menu
                 foreach (var item in ListRooms.SelectedItems)
                 {
                     UInt32 roomId = ((Room)item.GetType().GetField("room").GetValue(item)).Id;
-                    var joinToRoomMsgAnswer = JoinRoomMsg.SyncPostLogout(App.clientConn, roomId, 1000);
+                    var joinToRoomMsgAnswer = JoinRoomMsg.SyncPost(App.clientConn, roomId, 1000);
 
                     if (!joinToRoomMsgAnswer.HasValue)
                     {

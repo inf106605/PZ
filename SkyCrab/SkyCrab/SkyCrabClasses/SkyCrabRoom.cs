@@ -25,7 +25,7 @@ namespace SkyCrab.SkyCrabClasses
 
         public string MaxTimeLimit
         {
-            get { return TextConverter.TimeintToString(room.Rules.maxRoundTime.value); }
+            get { return TextConverter.TimeintToString(room.Rules.maxTurnTime.value); }
         }
 
         public string MaxPlayersLimit

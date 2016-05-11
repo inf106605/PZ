@@ -104,14 +104,14 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                 Match match = regex.Match(TimeLimit.Text);
 
                 if ((string)TimeLimit.Text == "Brak limitu")
-                    room.Rules.maxRoundTime.value = 0;
+                    room.Rules.maxTurnTime.value = 0;
                 else if (!match.Success)
                 {
                     MessageBox.Show("Nieprawidłowa wartość czasu gry!");
                     return;
                 }
                 else if (int.Parse((string)TimeLimit.Text) > 0)
-                    room.Rules.maxRoundTime.value = uint.Parse((string)TimeLimit.Text);
+                    room.Rules.maxTurnTime.value = uint.Parse((string)TimeLimit.Text);
             }
 
             // przypisanie maksymalnej liczby graczy
@@ -142,7 +142,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
 
 
-            var createRoomMsgAnswer = CreateRoomMsg.SyncPostCreateRoom(App.clientConn, room, 1000);
+            var createRoomMsgAnswer = CreateRoomMsg.SyncPost(App.clientConn, room, 1000);
             
 
             if (!createRoomMsgAnswer.HasValue)

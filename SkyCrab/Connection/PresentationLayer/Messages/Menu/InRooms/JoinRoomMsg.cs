@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.JOIN_ROOM"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="RoomMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="RoomMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NO_SUCH_ROOM"/>, <see cref="ErrorCode.ALREADY_IN_ROOM2"/>, <see cref="ErrorCode.ROOM_IS_FULL"/></para>
     /// </summary>
     public sealed class JoinRoomMsg : AbstractMessage
@@ -30,17 +30,15 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return roomId;
         }
         
-        public static MessageInfo? SyncPostLogout(MessageConnection connection, UInt32 roomId, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, UInt32 roomId, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostLogout(connection, roomId, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, roomId, callback, state), timeout);
         }
 
-        public static void AsyncPostLogout(MessageConnection connection, UInt32 roomId, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, UInt32 roomId, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                UInt32Transcoder.Get.Write(connection, writingBlock, roomId);
-            };
+                    UInt32Transcoder.Get.Write(connection, writingBlock, roomId);
             connection.PostNewMessage(MessageId.JOIN_ROOM, messageProcedure, callback, state);
         }
     }

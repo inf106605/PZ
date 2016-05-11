@@ -57,7 +57,7 @@ namespace SkyCrab.Classes.Menu.Guest
 
         private void ReturnCreateRoomForLoggedPlayer_Click(object sender, RoutedEventArgs e)
         {
-            var joinToRoomMsgAnswer = LeaveRoomMsg.SyncPostLeaveRoom(App.clientConn, 1000);
+            var joinToRoomMsgAnswer = LeaveRoomMsg.SyncPost(App.clientConn, 1000);
 
             if (!joinToRoomMsgAnswer.HasValue)
             {
@@ -114,8 +114,8 @@ namespace SkyCrab.Classes.Menu.Guest
             if (SkyCrabGlobalVariables.player == null)
             {
                 ChatMessage chatMessage = new ChatMessage();
-                chatMessage.Message = WriteChat.Text;    
-                ChatMsg.AsyncPostChat(App.clientConn, chatMessage);
+                chatMessage.Message = WriteChat.Text;
+                ChatMsg.AsyncPost(App.clientConn, chatMessage, null);  //FIXME
             }
             else
             {

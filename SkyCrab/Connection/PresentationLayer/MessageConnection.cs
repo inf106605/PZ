@@ -47,7 +47,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(10, 0, 0);
+        private static readonly Version version = new Version(11, 0, 1);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -117,6 +117,19 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new PlayerNotReadyMsg());
             AddMessage(new NewRoomOwnerMsg());
             AddMessage(new ChatMsg());
+
+            //--- Gane ---
+            AddMessage(new GameStartedMsg());
+            AddMessage(new NextTurnMsg());
+            AddMessage(new NewTilesMsg());
+            AddMessage(new LossTilesMsg());
+            AddMessage(new GainPointsMsg());
+            AddMessage(new ReorderRackTilesMsg());
+            AddMessage(new TurnTimeoutMsg());
+            AddMessage(new PlaceTilesMsg());
+            AddMessage(new ExchangeTilesMsg());
+            AddMessage(new PassMsg());
+            AddMessage(new GameEndedMsg());
         }
 
         private static void AddMessage(AbstractMessage message)
@@ -233,7 +246,7 @@ namespace SkyCrab.Connection.PresentationLayer
                 {
                     if (closing)
                         return;
-                    MessageInfo? messageInfo = PingMsg.SyncPostPing(this, PingTimeout);
+                    MessageInfo? messageInfo = PingMsg.SyncPost(this, PingTimeout);
                     if (!messageInfo.HasValue)
                     {
                         if (closing)
@@ -257,7 +270,7 @@ namespace SkyCrab.Connection.PresentationLayer
 
         protected void AnswerPing(Int16 id, object message)
         {
-            PongMsg.AsyncPostPong(id, this);
+            PongMsg.AsyncPost(id, this);
         }
 
         private void CheckVersion()
@@ -301,7 +314,8 @@ namespace SkyCrab.Connection.PresentationLayer
             object writingBlock = BeginWritingBlock();
             Int16Transcoder.Get.Write(this, writingBlock, id);
             MessageIdTranscoder.Get.Write(this, writingBlock, messageId);
-            messageProcedure.Invoke(writingBlock);
+            if (messageProcedure != null)
+                messageProcedure.Invoke(writingBlock);
             if (answerCallback != null)
                 SetAnswerCallback(writingBlock, id, answerCallback, state);
             EndWritingBlock(writingBlock);
@@ -351,9 +365,9 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private void ExchangeDisconnectMessages()
         {
-            DisconnectMsg.AsyncPostDisconnect(this);
+            DisconnectMsg.AsyncPost(this);
             disconnectSemaphore.WaitOne(ReadTimeout * 10);
-            ShutdownMsg.AsyncPostShutdown(this);
+            ShutdownMsg.AsyncPost(this);
         }
 
         private void CloseListeningTask()

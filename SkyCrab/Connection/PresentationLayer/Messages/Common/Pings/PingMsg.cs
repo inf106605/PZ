@@ -6,7 +6,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
     /// <para>Sender: Server &amp; Client</para>
     /// <para>ID: <see cref="MessageId.PING"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="PongMsg"/></para>
+    /// <para>Possible answers: <see cref="PongMsg"/></para>
     /// </summary>
     public sealed class PingMsg : AbstractMessage
     {
@@ -27,17 +27,14 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Pings
             return null;
         }
 
-        public static MessageInfo? SyncPostPing(MessageConnection connection, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostPing(connection, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, callback, state), timeout);
         }
 
-        public static void AsyncPostPing(MessageConnection connection, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
-            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-            };
-            connection.PostNewMessage(MessageId.PING, messageProcedure, callback, state);
+            connection.PostNewMessage(MessageId.PING, null, callback, state);
         }
 
     }

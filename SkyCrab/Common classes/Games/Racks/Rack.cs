@@ -41,7 +41,7 @@ namespace SkyCrab.Common_classes.Games.Racks
         public const int MaxTilesCount = IntendedTilesCount + 1;
         public const float Size = MaxTilesCount * TileOnRack.Size;
 
-        private LinkedList<TileOnRack> tiles = new LinkedList<TileOnRack>();
+        private LinkedList<TileOnRack> tiles;
 
         
         public LinkedList<TileOnRack> Tiles
@@ -52,6 +52,12 @@ namespace SkyCrab.Common_classes.Games.Racks
 
         public Rack()
         {
+            tiles = new LinkedList<TileOnRack>();
+        }
+
+        public Rack(ICollection<TileOnRack> tiles)
+        {
+            tiles = new LinkedList<TileOnRack>(tiles);
         }
 
         public TileOnRack GetTileOnPosition(float position)
@@ -76,10 +82,10 @@ namespace SkyCrab.Common_classes.Games.Racks
 
         public TileOnRack PutTile(Tile tile, float position = float.PositiveInfinity)
         {
-            return PutTile(new Tile[] { tile }, position).First.Value;
+            return PutTiles(new Tile[] { tile }, position).First.Value;
         }
 
-        public LinkedList<TileOnRack> PutTile(IList<Tile> tiles, float position = Size)
+        public LinkedList<TileOnRack> PutTiles(ICollection<Tile> tiles, float position = Size)
         {
             if (tiles.Count == 0)
                 return new LinkedList<TileOnRack>();

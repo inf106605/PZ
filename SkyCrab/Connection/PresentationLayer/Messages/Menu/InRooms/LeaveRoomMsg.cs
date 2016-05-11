@@ -6,7 +6,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.LEAVE_ROOM"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NOT_IN_ROOM"/></para>
     /// </summary>
     public sealed class LeaveRoomMsg : AbstractMessage
@@ -27,17 +27,14 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return null;
         }
         
-        public static MessageInfo? SyncPostLeaveRoom(MessageConnection connection, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostLeaveRoom(connection, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, callback, state), timeout);
         }
 
-        public static void AsyncPostLeaveRoom(MessageConnection connection, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
-            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-            };
-            connection.PostNewMessage(MessageId.LEAVE_ROOM, messageProcedure, callback, state);
+            connection.PostNewMessage(MessageId.LEAVE_ROOM, null, callback, state);
         }
     }
 }
