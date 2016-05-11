@@ -9,7 +9,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
     /// <para>ID: <see cref="MessageId.LOGIN"/></para>
     /// <para>Data type: <see cref="PlayerProfile"/> (login and password only)</para>
     /// <para>Possible answers: <see cref="LoginOkMsg"/>, <see cref="ErrorMsg"/></para>
-    /// <para>Error codes: <see cref="ErrorCode.SESSION_ALREADY_LOGGED"/>, <see cref="ErrorCode.WRONG_LOGIN_OR_PASSWORD"/>, <see cref="ErrorCode.USER_ALREADY_LOGGED"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.SESSION_ALREADY_LOGGED2"/>, <see cref="ErrorCode.WRONG_LOGIN_OR_PASSWORD"/>, <see cref="ErrorCode.USER_ALREADY_LOGGED"/></para>
     /// </summary>
     public sealed class LoginMsg : AbstractMessage
     {
