@@ -64,6 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Common\Pings\PongMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\ErrorCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\EditProfileMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\LoginAsGuestMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\LoginMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\LoginOkMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\LogoutMsg.cs" />

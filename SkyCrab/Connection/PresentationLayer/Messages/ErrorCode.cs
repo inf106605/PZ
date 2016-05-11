@@ -4,14 +4,16 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
 {
     public enum ErrorCode : UInt16
     {
+        //LOGIN_AS_GUEST
+        SESSION_ALREADY_LOGGED = 0,
         //LOGIN
-        SESSION_ALREADY_LOGGED  = 0,
+        SESSION_ALREADY_LOGGED2 = SESSION_ALREADY_LOGGED,
         WRONG_LOGIN_OR_PASSWORD = 1,
         USER_ALREADY_LOGGED     = 2,
         //LOGOUT
         NOT_LOGGED              = 3,
         //REGISTER
-        SESSION_ALREADY_LOGGED2 = SESSION_ALREADY_LOGGED,
+        SESSION_ALREADY_LOGGED3 = SESSION_ALREADY_LOGGED,
         LOGIN_OCCUPIED          = 4,
         EMAIL_OCCUPIED          = 5,
         //EDIT_PROFILE
@@ -31,9 +33,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         //GET_FRIEND_ROOMS
         NOT_LOGGED6             = NOT_LOGGED,
         //CREATE_ROOM
+        NOT_LOGGED7             = NOT_LOGGED,
         ALREADY_IN_ROOM         = 11,
         INVALID_RULES           = 12,
         //JOIN_ROOM
+        NOT_LOGGED8             = NOT_LOGGED,
         ALREADY_IN_ROOM2        = ALREADY_IN_ROOM,
         NO_SUCH_ROOM            = 13,
         ROOM_IS_FULL            = 14,
