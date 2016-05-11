@@ -75,6 +75,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Game\ReorderRackTilesMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Game\TurnTimeoutMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\EditProfileMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\LoginAsGuestMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\LoginMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\LoginOkMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Accounts\LogoutMsg.cs" />

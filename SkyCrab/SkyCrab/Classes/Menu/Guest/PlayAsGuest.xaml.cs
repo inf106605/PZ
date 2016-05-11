@@ -453,6 +453,16 @@ namespace SkyCrab.Classes.Menu
                                     MessageBox.Show("Wybrany pokój jest pełny!");
                                     break;
                                 }
+                            case ErrorCode.NOT_LOGGED8:
+                                {
+                                    MessageBox.Show("Użytkownik nie jest zalogowany!");
+                                    break;
+                                }
+                            default:
+                                {
+                                    MessageBox.Show("Nieznany błąd");
+                                    break;
+                                }
                         }
 
                         return;

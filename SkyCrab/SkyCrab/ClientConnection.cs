@@ -1,8 +1,10 @@
-﻿using SkyCrab.Classes.Menu.Guest;
+﻿using SkyCrab.Classes.Game;
+using SkyCrab.Classes.Menu.Guest;
 using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes;
 using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Players;
+using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.AplicationLayer;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
@@ -79,10 +81,20 @@ namespace SkyCrab
                         {
                             SkyCrabGlobalVariables.chatMessages = new ChatMessage();
                             SkyCrabGlobalVariables.chatMessages = (ChatMessage)messageInfo.message;
-                            SkyCrabGlobalVariables.MessagesLog += "Crab#" + SkyCrabGlobalVariables.chatMessages.PlayerId + ": " + SkyCrabGlobalVariables.chatMessages.Message + Environment.NewLine;
+
+                            PlayerInRoom tempPlayer = SkyCrabGlobalVariables.room.room.GetPlayer(SkyCrabGlobalVariables.chatMessages.PlayerId);
+                            SkyCrabGlobalVariables.MessagesLog += tempPlayer.Player.Nick + ": " + SkyCrabGlobalVariables.chatMessages.Message + Environment.NewLine;
+
                             SkyCrabGlobalVariables.chatMessages = null;
                             break;
                         }
+
+                    case MessageId.GAME_STARTED:
+                        {
+                            Switcher.Switch(new WindowGame());
+                            break;
+                        }
+
                     default:
                         {
                             DisplayMessageBox("Otrzymano nieobsługiwany komunikat od serwera (" + messageInfo.messageId.ToString() + ")!");

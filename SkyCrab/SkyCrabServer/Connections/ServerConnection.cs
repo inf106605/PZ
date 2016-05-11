@@ -31,14 +31,33 @@ namespace SkyCrabServer.Connactions
         private ServerPlayer serverPlayer;
 
 
+        private bool LoggedAsGuest
+        {
+            get
+            {
+                if (serverPlayer == null)
+                    return false;
+                else
+                    return serverPlayer.player.Profile == null;
+            }
+        }
+
+        private bool LoggedAnyway
+        {
+            get
+            {
+                return serverPlayer !=null;
+            }
+        }
+
         private bool Logged
         {
             get
             {
-                if (this.serverPlayer == null)
+                if (serverPlayer == null)
                     return false;
                 else
-                    return this.serverPlayer.player.Profile != null;
+                    return serverPlayer.player.Profile != null;
             }
         }
 
@@ -83,6 +102,10 @@ namespace SkyCrabServer.Connactions
                     //MENU
 
                     //accounts
+
+                    case MessageId.LOGIN_AS_GUEST:
+                        LoginAsGuest(id);
+                        break;
 
                     case MessageId.LOGIN:
                         Login(id, (PlayerProfile)messageInfo.message);
@@ -208,18 +231,43 @@ namespace SkyCrabServer.Connactions
             }
         }
 
-        private void Login(Int16 id, PlayerProfile playerProfile)
+        private void LoginAsGuest(Int16 id)
         {
             if (Logged)
             {
                 ErrorMsg.AsyncPost(id, this, ErrorCode.SESSION_ALREADY_LOGGED);
                 return;
             }
-            Player player;
+            if (!LoggedAsGuest)
+            {
+                Globals.dataLock.AcquireWriterLock(-1);
+                try
+                {
+                    UInt32 playerId = PlayerTable.Create();
+                    serverPlayer = new ServerPlayer(this, new Player(playerId, false, DEFAULT_NICK + '#' + playerId));
+                    Globals.players.TryAdd(playerId, serverPlayer);
+                }
+                finally
+                {
+                    Globals.dataLock.ReleaseWriterLock();
+                }
+            }
+            LoginOkMsg.AsyncPost(id, this, serverPlayer.player);
+        }
+
+        private void Login(Int16 id, PlayerProfile playerProfile)
+        {
+            if (Logged)
+            {
+                ErrorMsg.AsyncPost(id, this, ErrorCode.SESSION_ALREADY_LOGGED2);
+                return;
+            }
+            if (LoggedAsGuest)
+                OnLogout();
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
-                player = PlayerProfileTable.GetLongByLogin(playerProfile.Login);
+                Player player = PlayerProfileTable.GetLongByLogin(playerProfile.Login);
                 if (player == null)
                 {
                     ErrorMsg.AsyncPost(id, this, ErrorCode.WRONG_LOGIN_OR_PASSWORD);
@@ -242,12 +290,12 @@ namespace SkyCrabServer.Connactions
                     return;
                 }
                 this.serverPlayer = serverPlayer;
+                LoginOkMsg.AsyncPost(id, this, player);
             }
             finally
             {
                 Globals.dataLock.ReleaseWriterLock();
             }
-            LoginOkMsg.AsyncPost(id, this, player);
         }
 
         private void Logout(Int16 id)
@@ -263,20 +311,19 @@ namespace SkyCrabServer.Connactions
 
         private void OnLogout()
         {
-            if (Logged)
+            OnLeaveRoom();
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
             {
-                OnLeaveRoom();
-                Globals.dataLock.AcquireWriterLock(-1);
-                try
                 {
                     ServerPlayer temp;
                     Globals.players.TryRemove(serverPlayer.player.Id, out temp);
-                    serverPlayer = null;
                 }
-                finally
-                {
-                    Globals.dataLock.ReleaseWriterLock();
-                }
+                serverPlayer = null;
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
             }
         }
 
@@ -286,7 +333,7 @@ namespace SkyCrabServer.Connactions
             {
                 if (this.serverPlayer != null)
                 {
-                    ErrorMsg.AsyncPost(id, this, ErrorCode.SESSION_ALREADY_LOGGED2);
+                    ErrorMsg.AsyncPost(id, this, ErrorCode.SESSION_ALREADY_LOGGED3);
                     return;
                 }
                 if (PlayerProfileTable.LoginExists(playerProfile.Login))
@@ -485,7 +532,11 @@ namespace SkyCrabServer.Connactions
 
         private void CreateRoom(Int16 id, Room room)
         {
-            MakeValidPlayer();
+            if (!LoggedAnyway)
+            {
+                ErrorMsg.AsyncPost(id, this, ErrorCode.NOT_LOGGED7);
+                return;
+            }
             if (InRoom)
             {
                 ErrorMsg.AsyncPost(id, this, ErrorCode.ALREADY_IN_ROOM);
@@ -644,7 +695,11 @@ namespace SkyCrabServer.Connactions
 
         private void JoinRoom(Int16 id, UInt32 roomId)
         {
-            MakeValidPlayer();
+            if (!LoggedAnyway)
+            {
+                ErrorMsg.AsyncPost(id, this, ErrorCode.NOT_LOGGED8);
+                return;
+            }
             if (InRoom)
             {
                 ErrorMsg.AsyncPost(id, this, ErrorCode.ALREADY_IN_ROOM2);
@@ -792,24 +847,6 @@ namespace SkyCrabServer.Connactions
                     PlayerNotReadyMsg.AsyncPost(otherServerPlayer.connection, playerInRoom2.Player.Id, null);
             }
             CancelStartingGame();
-        }
-
-        private void MakeValidPlayer()
-        {
-            if (serverPlayer == null)
-            {
-                Globals.dataLock.AcquireWriterLock(-1);
-                try
-                {
-                    UInt32 id = PlayerTable.Create();
-                    serverPlayer = new ServerPlayer(this, new Player(id, false, DEFAULT_NICK + '#' + id));
-                    Globals.players.TryAdd(id, serverPlayer);
-                }
-                finally
-                {
-                    Globals.dataLock.ReleaseWriterLock();
-                }
-            }
         }
 
         protected override void DoDispose()

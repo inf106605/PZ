@@ -161,7 +161,7 @@ namespace SkyCrab.Common_classes.Rooms
                     return true;
             return false;
         }
-        
+
         public void SetPlayerReady(uint playerId, bool ready)
         {
             foreach (PlayerInRoom playerInRoom in players)

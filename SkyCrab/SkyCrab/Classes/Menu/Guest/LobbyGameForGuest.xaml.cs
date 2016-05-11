@@ -1,6 +1,8 @@
 ﻿using SkyCrab.Classes.Game;
 using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Rooms.Players;
+using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using System;
@@ -106,21 +108,79 @@ namespace SkyCrab.Classes.Menu.Guest
 
         private void ChangeStatusGame_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new WindowGame());
+            if (SkyCrabGlobalVariables.room != null)
+            {
+                PlayerInRoom myPlayer = SkyCrabGlobalVariables.room.room.GetPlayer(SkyCrabGlobalVariables.player.Id);
+
+                MessageInfo? playerReadyMsgAnswer;
+
+                if (!myPlayer.IsReady)
+                {
+                    playerReadyMsgAnswer = PlayerReadyMsg.SyncPost(App.clientConn, myPlayer.Player.Id, 1000);
+                }
+                else
+                {
+                    playerReadyMsgAnswer = PlayerNotReadyMsg.SyncPost(App.clientConn, myPlayer.Player.Id, 1000);
+                }
+
+                if (!playerReadyMsgAnswer.HasValue)
+                {
+                    MessageBox.Show("Brak odpowiedzi od serwera!");
+                    return;
+                }
+
+                var answerValue = playerReadyMsgAnswer.Value;
+
+                if (answerValue.messageId == MessageId.ERROR)
+                {
+                    ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                    switch (errorCode)
+                    {
+                        case ErrorCode.NOT_IN_ROOM2:
+                            {
+                                MessageBox.Show("Nie ma Cię w pokoju!");
+                                break;
+                            }
+                    }
+
+                    return;
+                }
+            }
+
+            else
+                return;
         }
 
         private void SendChatMessage_Click(object sender, RoutedEventArgs e)
         {
-            if (SkyCrabGlobalVariables.player == null)
-            {
                 ChatMessage chatMessage = new ChatMessage();
                 chatMessage.Message = WriteChat.Text;
-                ChatMsg.AsyncPost(App.clientConn, chatMessage, null);  //FIXME
-            }
-            else
+                var chatMsgAnswer = ChatMsg.SyncPost(App.clientConn, chatMessage, 1000);
+
+                if (!chatMsgAnswer.HasValue)
+                {
+                    MessageBox.Show("Brak odpowiedzi od serwera!");
+                    return;
+                }
+
+                var answerValue = chatMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
             {
-                MessageBox.Show("Jesteś zalogowanym graczem, sorry!");
-            }
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                 switch (errorCode)
+                 {
+                      case ErrorCode.NOT_IN_ROOM4:
+                           {
+                                MessageBox.Show("Nie ma Cię w pokoju!");
+                                break;
+                           }
+                 }
+                 return;
+             }
+            WriteChat.Text = "";
         }
     }
 }
