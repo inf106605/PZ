@@ -5,7 +5,7 @@ using System;
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
 {
     /// <summary>
-    /// <para>Sender: Client & Server</para>
+    /// <para>Sender: Client &amp; Server</para>
     /// <para>ID: <see cref="MessageId.PLAYER_NOT_READY"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
     /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
