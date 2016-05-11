@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.FIND_PLAYERS"/></para>
     /// <para>Data type: <see cref="string"/> (search phraze)</para>
-    /// <para>Passible answers: <see cref="PlayerListMsg"/></para>
+    /// <para>Possible answers: <see cref="PlayerListMsg"/></para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class FindPlayersMsg : AbstractMessage
@@ -30,17 +30,15 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             return searchPhrase;
         }
 
-        public static MessageInfo? SyncPostFindPlayers(MessageConnection connection, string searchPhrase, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, string searchPhrase, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostFindPlayers(connection, searchPhrase, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, searchPhrase, callback, state), timeout);
         }
 
-        public static void AsyncPostFindPlayers(MessageConnection connection, string searchPhrase, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, string searchPhrase, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (object writingBlock) =>
-            {
-                LimitedStringTranscoder.Get(LengthLimit.SearchPhraze).Write(connection, writingBlock, searchPhrase);
-            };
+                    LimitedStringTranscoder.Get(LengthLimit.SearchPhraze).Write(connection, writingBlock, searchPhrase);
             connection.PostNewMessage(MessageId.FIND_PLAYERS, messageProc, callback, state);
         }
 

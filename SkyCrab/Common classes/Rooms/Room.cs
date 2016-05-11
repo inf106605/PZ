@@ -109,7 +109,7 @@ namespace SkyCrab.Common_classes.Rooms
         {
             get
             {
-                return rules.maxRoundTime.value.ToString();
+                return rules.maxTurnTime.value.ToString();
             }
         }
 

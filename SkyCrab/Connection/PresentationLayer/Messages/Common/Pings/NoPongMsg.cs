@@ -4,7 +4,7 @@
     /// <para>Sender: <see cref="MessageConnection"/></para>
     /// <para>ID: <see cref="MessageId.NO_PONG"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// <para>It's a pseudo-message which is enqueued by <see cref="MessageConnection"/> when it is no answer to message <see cref="PingMsg"/>.</para>
     /// </summary>
     public sealed class NoPongMsg : AbstractMessage

@@ -1,16 +1,14 @@
 ﻿using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Common_classes.Games.Players;
-using SkyCrab.Common_classes.Games.Pouch;
-using SkyCrab.Common_classes.Players;
-using SkyCrab.Common_classes.Rooms.Rules;
-using System.Collections.Generic;
+using SkyCrab.Common_classes.Rooms;
+using SkyCrab.Common_classes.Rooms.Players;
 
 namespace SkyCrab.Common_classes.Games
 {
     class Game
     {
 
-        private RuleSet rules;
+        private Room room;
         private Board board;
         private PlayerInGame[] players;
         private uint currentPlayerNumber = 0;
@@ -18,9 +16,9 @@ namespace SkyCrab.Common_classes.Games
         private bool isDummy;
 
 
-        public RuleSet Rules
+        public Room Room
         {
-            get { return rules; }
+            get { return room; }
         }
 
         public Board Board
@@ -55,15 +53,15 @@ namespace SkyCrab.Common_classes.Games
         }
 
 
-        public Game(RuleSet rules, IList<Player> players, bool isDummy)
+        public Game(Room room, bool isDummy)
         {
-            this.rules = rules;
-            this.board = rules.CreateBoard();
-            this.players = new PlayerInGame[players.Count];
+            this.room = room;
+            this.board = room.Rules.CreateBoard();
+            this.players = new PlayerInGame[room.Players.Count];
             uint i = 0;
-            foreach (Player player in players)
-                this.players[i++] = new PlayerInGame(player);
-            this.pouches = rules.CreatePouches(isDummy);
+            foreach (PlayerInRoom playerInRoom in room.Players)
+                this.players[i++] = new PlayerInGame(playerInRoom.Player);
+            this.pouches = room.Rules.CreatePouches(isDummy);
             this.isDummy = isDummy;
         }
 

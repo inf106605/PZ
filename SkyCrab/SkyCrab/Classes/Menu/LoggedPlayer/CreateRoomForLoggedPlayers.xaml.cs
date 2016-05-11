@@ -99,11 +99,11 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             if (int.Parse(TimeLimit.Text) > 0)
             {
-                room.Rules.maxRoundTime.value = uint.Parse(TimeLimit.Text);
+                room.Rules.maxTurnTime.value = uint.Parse(TimeLimit.Text);
             }
             else if(TimeLimit.Text == "Brak limitu")
             {
-                room.Rules.maxRoundTime.value = 0;
+                room.Rules.maxTurnTime.value = 0;
             }
             else
             {
@@ -139,7 +139,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
 
 
-            var createRoomMsgAnswer = CreateRoomMsg.SyncPostCreateRoom(App.clientConn, room, 1000);
+            var createRoomMsgAnswer = CreateRoomMsg.SyncPost(App.clientConn, room, 1000);
             
 
             if (!createRoomMsgAnswer.HasValue)

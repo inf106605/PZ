@@ -47,9 +47,9 @@ namespace SkyCrab.Classes.Menu
            filterRoom.Rules.restrictedExchange.indifferently = true;
             //filterRoom.Rules.restrictedExchange.value = true;
             filterRoom.Rules.maxPlayerCount.indifferently = true;
-            filterRoom.Rules.maxRoundTime.indifferently = true;
+            filterRoom.Rules.maxTurnTime.indifferently = true;
 
-            var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn, filterRoom, 1000);
+            var getListOfRooms = FindRoomsMsg.SyncPost(App.clientConn, filterRoom, 1000);
  
             if (!getListOfRooms.HasValue)
             {
@@ -121,23 +121,23 @@ namespace SkyCrab.Classes.Menu
 
             if(minTimeLimit.Text == "Brak limitu")
             {
-                filterRoom.Rules.maxRoundTime.min = 0;
+                filterRoom.Rules.maxTurnTime.min = 0;
 
             }
 
             else if (int.Parse(minTimeLimit.Text) > 0)
             {
-                filterRoom.Rules.maxRoundTime.min = uint.Parse(minTimeLimit.Text);
+                filterRoom.Rules.maxTurnTime.min = uint.Parse(minTimeLimit.Text);
             }
 
             if(maxTimeLimit.Text == "Brak limitu")
             {
-                filterRoom.Rules.maxRoundTime.max = 0;
+                filterRoom.Rules.maxTurnTime.max = 0;
             }
 
             else if (int.Parse(maxTimeLimit.Text) > 0)
             {
-                filterRoom.Rules.maxRoundTime.max = uint.Parse(maxTimeLimit.Text);
+                filterRoom.Rules.maxTurnTime.max = uint.Parse(maxTimeLimit.Text);
             }
 
             // min i max liczba graczy
@@ -154,7 +154,7 @@ namespace SkyCrab.Classes.Menu
 
             if (friendsRoomRadioButton.IsChecked.Value)
             {
-                var getListofFriendRooms = GetFriendRoomsMsg.SyncPostGetFriendRooms(App.clientConn, 1000);
+                var getListofFriendRooms = GetFriendRoomsMsg.SyncPost(App.clientConn, 1000);
 
                 if (!getListofFriendRooms.HasValue)
                 {
@@ -196,7 +196,7 @@ namespace SkyCrab.Classes.Menu
             if (publicRoomRadioButton.IsChecked.Value)
             {
 
-                var getListOfRooms = FindRoomsMsg.SyncPostFindRooms(App.clientConn, filterRoom, 1000);
+                var getListOfRooms = FindRoomsMsg.SyncPost(App.clientConn, filterRoom, 1000);
 
                 if (!getListOfRooms.HasValue)
                 {
@@ -295,7 +295,7 @@ namespace SkyCrab.Classes.Menu
 
                 foreach (var item in ListRooms.SelectedItems)
                 {
-                    var joinToRoomMsgAnswer = JoinRoomMsg.SyncPostLogout(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
+                    var joinToRoomMsgAnswer = JoinRoomMsg.SyncPost(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
 
                     if (!joinToRoomMsgAnswer.HasValue)
                     {

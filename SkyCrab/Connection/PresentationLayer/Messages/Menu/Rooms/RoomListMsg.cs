@@ -10,7 +10,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.ROOM_LIST"/></para>
     /// <para>Data type: <see cref="List{T}"/> of <see cref="Room"/>s</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class RoomListMsg : AbstractMessage
@@ -32,12 +32,10 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
             return rooms;
         }
 
-        public static void AsyncPostRoomList(UInt16 id, MessageConnection connection, List<Room> rooms)
+        public static void AsyncPost(UInt16 id, MessageConnection connection, List<Room> rooms)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                ListTranscoder<Room>.Get(RoomTranscoder.Get).Write(connection, writingBlock, rooms);
-            };
+                    ListTranscoder<Room>.Get(RoomTranscoder.Get).Write(connection, writingBlock, rooms);
             connection.PostAnswerMessage(id, MessageId.ROOM_LIST, messageProcedure);
         }
 

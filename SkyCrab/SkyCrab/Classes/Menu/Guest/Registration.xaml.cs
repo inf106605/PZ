@@ -82,7 +82,7 @@ namespace SkyCrab.Classes.Menu
             playerProfile.Password = passTextbox.Password;
             playerProfile.EMail = emailTextbox.Text;
 
-            var answer = RegisterMsg.SyncPostRegister(App.clientConn, playerProfile, 3000);
+            var answer = RegisterMsg.SyncPost(App.clientConn, playerProfile, 3000);
 
             if (!answer.HasValue)
             {

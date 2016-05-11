@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.REMOVE_FRIEND"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
-    /// <para>Passible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED5"/>, <see cref="ErrorCode.NO_SUCH_FRIEND"/></para>
     /// </summary>
     public sealed class RemoveFriendMsg : AbstractMessage
@@ -30,17 +30,15 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             return playerId;
         }
         
-        public static MessageInfo? SyncPostRemoveFriend(MessageConnection connection, UInt32 playerId, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, UInt32 playerId, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostRemoveFriend(connection, playerId, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, playerId, callback, state), timeout);
         }
 
-        public static void AsyncPostRemoveFriend(MessageConnection connection, UInt32 playerId, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, UInt32 playerId, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
-            };
+                    UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
             connection.PostNewMessage(MessageId.REMOVE_FRIEND, messageProcedure, callback, state);
         }
 
