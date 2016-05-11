@@ -22,7 +22,7 @@ namespace SkyCrabServer.ServerClasses
             this.room = room;
         }
 
-        private void CheckAllPlayersReady()
+        public void CheckAllPlayersReady()
         {
             foreach (PlayerInRoom playerInRoom in room.Players)
                 if (!playerInRoom.IsReady)
@@ -32,7 +32,7 @@ namespace SkyCrabServer.ServerClasses
             Task.Factory.StartNew(StartGameTimerTaskBody);
         }
 
-        private void CancelStartingGame()
+        public void CancelStartingGame()
         {
             if (startGameTimer == null)
                 return;

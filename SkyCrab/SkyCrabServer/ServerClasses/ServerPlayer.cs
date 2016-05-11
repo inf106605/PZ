@@ -1,5 +1,4 @@
 ﻿using SkyCrab.Common_classes.Players;
-using SkyCrab.Common_classes.Rooms;
 using SkyCrabServer.Connactions;
 
 namespace SkyCrabServer.ServerClasses
@@ -9,7 +8,7 @@ namespace SkyCrabServer.ServerClasses
 
         public readonly ServerConnection connection;
         public readonly Player player;
-        public Room room;
+        public ServerRoom serverRoom;
 
         public ServerPlayer(ServerConnection connection, Player player)
         {
