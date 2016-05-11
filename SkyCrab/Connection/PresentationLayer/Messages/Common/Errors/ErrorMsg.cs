@@ -30,7 +30,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
 
         public static void AsyncPost(Int16 id, MessageConnection connection, ErrorCode errorCode)
         {
-            connection.PostAnswerMessage(id, MessageId.ERROR, null);
+			MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
+					ErrorCodeTranscoder.Get.Write(connection, writingBlock, errorCode);
+            connection.PostAnswerMessage(id, MessageId.ERROR, messageProcedure);
         }
 
     }

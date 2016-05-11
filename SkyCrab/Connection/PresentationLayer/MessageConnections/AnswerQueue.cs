@@ -41,29 +41,41 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
 
         private void RunTaskBody()
         {
+            AnswerWithId? answerWithId = null;
             while (true)
             {
-                requestSemaphore.WaitOne();
+                if (!answerWithId.HasValue)
+                {
+                    answerSemaphore.WaitOne();
+                    lock (answers)
+                        answerWithId = answers.Dequeue();
+                    if (!answerWithId.HasValue)
+                        return;
+                }
+                requestSemaphore.WaitOne(100);
                 RequestWithId? requestWithId;
                 lock (requests)
                     requestWithId = requests.Dequeue();
                 if (!requestWithId.HasValue)
                     return;
-                answerSemaphore.WaitOne();
-                AnswerWithId? answerWithId;
-                lock (answers)
-                    answerWithId = answers.Dequeue();
-                if (!answerWithId.HasValue)
-                {
-                    SendDummyAnswer(requestWithId.Value.request);
-                    return;
-                }
                 if (requestWithId.Value.id == answerWithId.Value.id)
-                    Task.Factory.StartNew(() => requestWithId.Value.request.answerCallback.Invoke(answerWithId.Value.answer, requestWithId.Value.request.state));
+                {
+                    AnswerCallback callback = requestWithId.Value.request.answerCallback;
+                    MessageInfo answer = answerWithId.Value.answer;
+                    object state = requestWithId.Value.request.state;
+                    Task.Factory.StartNew(() => callback.Invoke(answer, state));
+                    answerWithId = null;
+                }
                 else if (HalfLess(requestWithId.Value.id, answerWithId.Value.id))
-                    Console.Error.WriteLine("Received answer with id " + answerWithId.Value.id + " but not answer with ID " + requestWithId.Value.id + "!"); //TODO something more?
+                {
+                    Console.Error.WriteLine("Received answer with id " + answerWithId.Value.id + " but not answer with ID " + requestWithId.Value.id + "!");
+                    SendDummyAnswer(requestWithId.Value.request);
+                }
                 else
+                {
                     Console.Error.WriteLine("Answer with ID " + answerWithId.Value.id + " is duplicated!"); //TODO something more?
+                    answerWithId = null;
+                }
             }
         }
 
