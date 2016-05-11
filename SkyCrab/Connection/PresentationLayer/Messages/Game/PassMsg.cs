@@ -1,6 +1,6 @@
 ﻿using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
+namespace SkyCrab.Connection.PresentationLayer.Messages.Game
 {
     /// <summary>
     /// <para>Sender: Client</para>

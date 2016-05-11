@@ -2,12 +2,14 @@
 using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Common_classes.Rooms.Players;
+using System;
 
 namespace SkyCrab.Common_classes.Games
 {
     class Game
     {
 
+        private UInt32 id;
         private Room room;
         private Board board;
         private PlayerInGame[] players;
@@ -15,6 +17,11 @@ namespace SkyCrab.Common_classes.Games
         private Pouch.Pouch[] pouches;
         private bool isDummy;
 
+
+        public UInt32 Id
+        {
+            get { return id; }
+        }
 
         public Room Room
         {
@@ -53,8 +60,9 @@ namespace SkyCrab.Common_classes.Games
         }
 
 
-        public Game(Room room, bool isDummy)
+        public Game(UInt32 id, Room room, bool isDummy)
         {
+            this.id = id;
             this.room = room;
             this.board = room.Rules.CreateBoard();
             this.players = new PlayerInGame[room.Players.Count];

@@ -10,6 +10,7 @@ using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Connections;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Pings;
+using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
@@ -35,6 +36,10 @@ namespace SkyCrab.Connection.PresentationLayer
 
     public class UnknownMessageException : SkyCrabConnectionException
     {
+        public UnknownMessageException(string message) :
+            base(message)
+        {
+        }
     }
     
     public abstract class MessageConnection : EncryptedConnection
@@ -199,7 +204,7 @@ namespace SkyCrab.Connection.PresentationLayer
                     default:
                         AbstractMessage message;
                         if (!messageTypes.TryGetValue(messageId, out message))
-                            throw new UnknownMessageException();
+                            throw new UnknownMessageException(messageId.ToString());
                         object messageData = null;
                         messageData = message.Read(this);
                         EnqueueMessage(id, message, messageData);

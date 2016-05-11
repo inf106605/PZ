@@ -37,7 +37,7 @@ namespace SkyCrabServer
                 Banners.Banner.PrintBanner(version);
                 try
                 {
-                    using (Globals.serverConsole = new ServerConsole())
+                    using (Globals.serverConsole = new ServerConsole()) //TODO dispose it propely if it is not completion state
                     using (Globals.database = new Database())
                     {
                         bool result = Listener.Listen(ipAddress, port);
