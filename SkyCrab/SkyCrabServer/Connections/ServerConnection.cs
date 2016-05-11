@@ -655,9 +655,11 @@ namespace SkyCrabServer.Connactions
             {
                 foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                 {
-                    ServerPlayer otherServerPlayer;
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                    PlayerReadyMsg.AsyncPostReady(this, serverPlayer.player.Id);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever.");
+                    PlayerReadyMsg.AsyncPostReady(otherServerPlayer.connection, serverPlayer.player.Id);
                 }
             }
             finally
@@ -675,9 +677,11 @@ namespace SkyCrabServer.Connactions
             {
                 foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                 {
-                    ServerPlayer otherServerPlayer;
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                    PlayerNotReadyMsg.AsyncPostNotReady(this, serverPlayer.player.Id);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever.");
+                    PlayerNotReadyMsg.AsyncPostNotReady(otherServerPlayer.connection, serverPlayer.player.Id);
                 }
             }
             finally
@@ -688,17 +692,19 @@ namespace SkyCrabServer.Connactions
 
         private void Chat(ChatMessage chatMessage)
         {
-            chatMessage.PlayerId = serverPlayer.player.Id;
             if (!InRoom)
                 return;
+            chatMessage.PlayerId = serverPlayer.player.Id;
             Globals.dataLock.AcquireReaderLock(-1);
             try
             {
                 foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
                 {
-                    ServerPlayer otherServerPlayer;
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                    ChatMsg.AsyncPostChat(this, chatMessage);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever.");
+                    ChatMsg.AsyncPostChat(otherServerPlayer.connection, chatMessage);
                 }
             }
             finally
