@@ -14,8 +14,8 @@ CREATE TABLE game
   (
     game_id    INTEGER NOT NULL PRIMARY KEY ,
     begin_time TIMESTAMP NOT NULL ,
-    end_time   TIMESTAMP NOT NULL ,
-    game_log CLOB
+    end_time   TIMESTAMP ,
+    game_log CLOB NOT NULL
   ) ;
 CREATE UNIQUE INDEX game__IDX ON game
   (

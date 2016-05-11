@@ -2,6 +2,7 @@
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
+using SkyCrabServer.Databases;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,7 +61,8 @@ namespace SkyCrabServer.ServerClasses
                 foreach (PlayerInRoom playerInRoom in room.Players)
                     if (!playerInRoom.IsReady)
                         return;
-                Game game = new Game(1234, room, false);//TODO
+                UInt32 gameId = GameTable.Create();
+                Game game = new Game(gameId, room, false);
                 foreach (PlayerInRoom playerInRoom in room.Players)
                 {
                     playerInRoom.IsReady = false;

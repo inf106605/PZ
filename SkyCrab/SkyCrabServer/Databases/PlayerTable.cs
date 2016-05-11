@@ -28,7 +28,7 @@ namespace SkyCrabServer.Databases
 
         public static UInt32 Create()
         {
-            lock (Globals.database._lock) //TODO probable databese
+            lock (Globals.database._lock)
             {
                 const string QUERY = "INSERT INTO " + TABLE + " (" + ID + ") VALUES (null)";
                 SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
