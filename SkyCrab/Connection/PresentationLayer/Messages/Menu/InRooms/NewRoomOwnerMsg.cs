@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.NEW_ROOM_OWNER"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class NewRoomOwnerMsg : AbstractMessage
@@ -29,13 +29,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return newOwnerId;
         }
 
-        public static void AsyncPostNewOwner(MessageConnection connection, UInt32 newOwnerId)
+        public static void AsyncPost(MessageConnection connection, UInt32 newOwnerId)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                UInt32Transcoder.Get.Write(connection, writingBlock, newOwnerId);
-            };
-            connection.PostMessage(MessageId.NEW_ROOM_OWNER, messageProcedure);
+                    UInt32Transcoder.Get.Write(connection, writingBlock, newOwnerId);
+            connection.PostNewMessage(MessageId.NEW_ROOM_OWNER, messageProcedure);
         }
     }
 }

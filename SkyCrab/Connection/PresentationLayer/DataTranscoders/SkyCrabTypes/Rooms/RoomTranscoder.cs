@@ -25,20 +25,18 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Room
         public override Room Read(EncryptedConnection connection)
         {
             uint id = UInt32Transcoder.Get.Read(connection);
-            Player owner = PlayerTranscoder.Get.NullableRead(connection);
             string name = LimitedStringTranscoder.Get(LengthLimit.RoomName).Read(connection);
             RoomType roomType = RoomTypeTranscoder.Get.Read(connection);
             RuleSet rules = RuleSetTranscoder.Get.Read(connection);
-            Room data = new Room(id, owner, name, roomType, rules);
+            Room data = new Room(id, name, roomType, rules);
             return data;
         }
 
         public override void Write(EncryptedConnection connection, object writingBlock, Room data)
         {
             UInt32Transcoder.Get.Write(connection, writingBlock, data.Id);
-            PlayerTranscoder.Get.NullableWrite(connection, writingBlock, data.Owner);
             LimitedStringTranscoder.Get(LengthLimit.RoomName).Write(connection, writingBlock, data.Name);
-            RoomTypeTranscoder.Get.Write(connection, writingBlock, data.RoomType);
+            RoomTypeTranscoder.Get.Write(connection, writingBlock, data.Type);
             RuleSetTranscoder.Get.Write(connection, writingBlock, data.Rules);
         }
 

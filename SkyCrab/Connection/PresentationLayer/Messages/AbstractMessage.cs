@@ -3,7 +3,6 @@ using SkyCrab.Connection.Utils;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages
 {
-    
     public abstract class AbstractMessage
     {
 
@@ -13,9 +12,9 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         
         internal abstract object Read(MessageConnection connection);
         
-        protected delegate void AsyncPost(AnswerCallback callback, object state);
+        protected delegate void AsyncPostDelegate(AnswerCallback callback, object state);
 
-        protected static MessageInfo? SyncPost(AsyncPost asyncPost, int timeout)
+        protected static MessageInfo? AsyncPostToSyncPost(AsyncPostDelegate asyncPost, int timeout)
         {
             using (AnswerSynchronizer synchronizer = new AnswerSynchronizer())
             {

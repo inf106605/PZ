@@ -8,8 +8,22 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
 {
     internal sealed class AnswerQueue : IDisposable
     {
-        private Queue<AnswerCallbackWithState?> requests = new Queue<AnswerCallbackWithState?>();
-        private Queue<MessageInfo?> answers = new Queue<MessageInfo?>();
+
+        private struct RequestWithId
+        {
+            public Int16 id;
+            public AnswerCallbackWithState request;
+        }
+
+        private struct AnswerWithId
+        {
+            public Int16 id;
+            public MessageInfo answer;
+        }
+
+
+        private Queue<RequestWithId?> requests = new Queue<RequestWithId?>();
+        private Queue<AnswerWithId?> answers = new Queue<AnswerWithId?>();
         private Semaphore requestSemaphore = new Semaphore(0, int.MaxValue);
         private Semaphore answerSemaphore = new Semaphore(0, int.MaxValue);
         private Task task;
@@ -27,38 +41,61 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
 
         private void RunTaskBody()
         {
+            AnswerWithId? answerWithId = null;
             while (true)
             {
-                requestSemaphore.WaitOne();
-                AnswerCallbackWithState? request;
-                lock (requests)
-                    request = requests.Dequeue();
-                if (!request.HasValue)
-                    return;
-                answerSemaphore.WaitOne();
-                MessageInfo? answer;
-                lock (answers)
-                    answer = answers.Dequeue();
-                if (!answer.HasValue)
+                if (!answerWithId.HasValue)
                 {
-                    SendDummyAnswer(request.Value);
-                    return;
+                    answerSemaphore.WaitOne();
+                    lock (answers)
+                        answerWithId = answers.Dequeue();
+                    if (!answerWithId.HasValue)
+                        return;
                 }
-                Task.Factory.StartNew(() => request.Value.answerCallback.Invoke(answer.Value, request.Value.state)); //TODO detach
+                requestSemaphore.WaitOne(100);
+                RequestWithId? requestWithId;
+                lock (requests)
+                    requestWithId = requests.Dequeue();
+                if (!requestWithId.HasValue)
+                    return;
+                if (requestWithId.Value.id == answerWithId.Value.id)
+                {
+                    AnswerCallback callback = requestWithId.Value.request.answerCallback;
+                    MessageInfo answer = answerWithId.Value.answer;
+                    object state = requestWithId.Value.request.state;
+                    Task.Factory.StartNew(() => callback.Invoke(answer, state));
+                    answerWithId = null;
+                }
+                else if (HalfLess(requestWithId.Value.id, answerWithId.Value.id))
+                {
+                    Console.Error.WriteLine("Received answer with id " + answerWithId.Value.id + " but not answer with ID " + requestWithId.Value.id + "!");
+                    SendDummyAnswer(requestWithId.Value.request);
+                }
+                else
+                {
+                    Console.Error.WriteLine("Answer with ID " + answerWithId.Value.id + " is duplicated!"); //TODO something more?
+                    answerWithId = null;
+                }
             }
         }
 
-        public void AddRequest(AnswerCallbackWithState request)
+        public void AddRequest(Int16 id, AnswerCallbackWithState request)
         {
+            RequestWithId requestWithId = new RequestWithId();
+            requestWithId.id = id;
+            requestWithId.request = request;
             lock (requests)
-                requests.Enqueue(request);
+                requests.Enqueue(requestWithId);
             requestSemaphore.Release();
         }
 
-        public void AddAnswer(MessageInfo answer)
+        public void AddAnswer(Int16 id, MessageInfo answer)
         {
+            AnswerWithId messageInfoWithId = new AnswerWithId();
+            messageInfoWithId.id = id;
+            messageInfoWithId.answer = answer;
             lock (answers)
-                answers.Enqueue(answer);
+                answers.Enqueue(messageInfoWithId);
             answerSemaphore.Release();
         }
 
@@ -73,9 +110,9 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
             if (!task.Wait(100))
                 throw new TaskIsNotRespondingException();
             lock (requests)
-                foreach (AnswerCallbackWithState? request in requests)
-                    if (request.HasValue)
-                        SendDummyAnswer(request.Value);
+                foreach (RequestWithId? requestWithId in requests)
+                    if (requestWithId.HasValue)
+                        SendDummyAnswer(requestWithId.Value.request);
             requestSemaphore.Dispose();
             answerSemaphore.Dispose();
             task.Dispose();
@@ -83,7 +120,15 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
 
         private void SendDummyAnswer(AnswerCallbackWithState request)
         {
-            Task.Factory.StartNew(() => request.answerCallback.Invoke(null, request.state)); //TODO detach
+            Task.Factory.StartNew(() => request.answerCallback.Invoke(null, request.state));
+        }
+
+        private static bool HalfLess(Int16 x, Int16 y)
+        {
+            UInt16 a = (UInt16)((UInt16)(x < 0 ? -x : x) | 0x8000);
+            UInt16 b = (UInt16)((UInt16)(y < 0 ? -y : y) | 0x8000);
+            a -= b;
+            return a >= UInt16.MaxValue / 2;
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Rooms;
+using System;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
 {
@@ -7,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.ROOM"/></para>
     /// <para>Data type: <see cref="Room"/></para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class RoomMsg : AbstractMessage
@@ -29,13 +30,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
             return room;
         }
 
-        public static void AsyncPostRoom(MessageConnection connection, Room room)
+        public static void AsyncPost(Int16 id, MessageConnection connection, Room room)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                RoomTranscoder.Get.Write(connection, writingBlock, room);
-            };
-            connection.PostMessage(MessageId.ROOM, messageProcedure);
+                    RoomTranscoder.Get.Write(connection, writingBlock, room);
+            connection.PostAnswerMessage(id, MessageId.ROOM, messageProcedure);
         }
 
     }

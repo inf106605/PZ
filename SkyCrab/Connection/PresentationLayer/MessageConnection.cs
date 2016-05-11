@@ -27,12 +27,10 @@ namespace SkyCrab.Connection.PresentationLayer
 {
     public class SkyCrabConnectionProtocolVersionException : SkyCrabConnectionException
     {
-
         public SkyCrabConnectionProtocolVersionException(String message) :
             base(message)
         {
         }
-
     }
 
     public class UnknownMessageException : SkyCrabConnectionException
@@ -46,7 +44,14 @@ namespace SkyCrab.Connection.PresentationLayer
     public abstract class MessageConnection : EncryptedConnection
     {
 
-        private static readonly Version version = new Version(9, 0, 0);
+        private struct StateWithId
+        {
+            public Int16 id;
+            public object state;
+        }
+
+
+        private static readonly Version version = new Version(11, 0, 1);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -57,6 +62,7 @@ namespace SkyCrab.Connection.PresentationLayer
         private volatile bool closingListeningTask = false;
         private Semaphore disconnectSemaphore = new Semaphore(0, 1);
         protected bool disconectedOnItsOwn = true;
+        private readonly ISequence messageIdSequence;
 
 
         private int PingTimeout
@@ -113,7 +119,21 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new PlayerLeavedMsg());
             AddMessage(new PlayerReadyMsg());
             AddMessage(new PlayerNotReadyMsg());
+            AddMessage(new NewRoomOwnerMsg());
             AddMessage(new ChatMsg());
+
+            //--- Gane ---
+            AddMessage(new GameStartedMsg());
+            AddMessage(new NextTurnMsg());
+            AddMessage(new NewTilesMsg());
+            AddMessage(new LossTilesMsg());
+            AddMessage(new GainPointsMsg());
+            AddMessage(new ReorderRackTilesMsg());
+            AddMessage(new TurnTimeoutMsg());
+            AddMessage(new PlaceTilesMsg());
+            AddMessage(new ExchangeTilesMsg());
+            AddMessage(new PassMsg());
+            AddMessage(new GameEndedMsg());
         }
 
         private static void AddMessage(AbstractMessage message)
@@ -121,9 +141,10 @@ namespace SkyCrab.Connection.PresentationLayer
             messageTypes.Add(message.Id, message);
         }
 
-        protected MessageConnection(TcpClient tcpClient, int readTimeout) :
+        protected MessageConnection(TcpClient tcpClient, int readTimeout, bool server) :
             base(tcpClient, readTimeout)
         {
+            messageIdSequence = server ? (ISequence)new SecondHalfSequence() : (ISequence)new FirstHalfSequence();
             CheckVersion();
             StartTasks();
         }
@@ -162,9 +183,10 @@ namespace SkyCrab.Connection.PresentationLayer
         {
             try
             {
+                Int16 id = Int16Transcoder.Get.Read(this);
                 MessageId messageId = MessageIdTranscoder.Get.Read(this);
                 #if SHOW_MESSAGES
-                Console.WriteLine("<- " + messageId.ToString());
+                Console.WriteLine("<-" + RemoteEndPoint.Port + " - " + messageId.ToString() + " [" + id + "]");
                 #endif
                 switch (messageId)
                 {
@@ -184,7 +206,7 @@ namespace SkyCrab.Connection.PresentationLayer
                             throw new UnknownMessageException(messageId.ToString());
                         object messageData = null;
                         messageData = message.Read(this);
-                        EnqueueMessage(message, messageData);
+                        EnqueueMessage(id, message, messageData);
                         break;
                 }
             }
@@ -194,13 +216,14 @@ namespace SkyCrab.Connection.PresentationLayer
             return true;
         }
 
-        private void EnqueueMessage(AbstractMessage message, object messageData)
+        private void EnqueueMessage(Int16 id, AbstractMessage message, object messageData)
         {
             MessageInfo messageInfo = new MessageInfo();
+            messageInfo.id = id;
             messageInfo.messageId = message.Id;
             messageInfo.message = messageData;
             if (message.Answer)
-                answerQueue.AddAnswer(messageInfo);
+                answerQueue.AddAnswer(id, messageInfo);
             else
                 messages.Add(messageInfo);
         }
@@ -227,7 +250,7 @@ namespace SkyCrab.Connection.PresentationLayer
                 {
                     if (closing)
                         return;
-                    MessageInfo? messageInfo = PingMsg.SyncPostPing(this, PingTimeout);
+                    MessageInfo? messageInfo = PingMsg.SyncPost(this, PingTimeout);
                     if (!messageInfo.HasValue)
                     {
                         if (closing)
@@ -239,7 +262,7 @@ namespace SkyCrab.Connection.PresentationLayer
                     }
                     else if (messageInfo.Value.messageId != MessageId.PONG)
                     {
-                        throw new SkyCrabConnectionException("Wrong answer to ping!");
+                        throw new SkyCrabConnectionException("Wrong answer to ping! (" + messageInfo.Value.messageId.ToString() + ")");
                     }
                 }
                 catch (Exception e)
@@ -249,23 +272,9 @@ namespace SkyCrab.Connection.PresentationLayer
             }
         }
 
-        protected void AnswerPing(object message)
+        protected void AnswerPing(Int16 id, object message)
         {
-            PongMsg.AsyncPostPong(this);
-        }
-
-        internal void SetAnswerCallback(object writingBlock, AnswerCallback answerCallback, object state)
-        {
-            AnswerCallbackWithState answerCallbackWithState = new AnswerCallbackWithState();
-            answerCallbackWithState.answerCallback = answerCallback;
-            answerCallbackWithState.state = state;
-            AsyncWriteBytes(writingBlock, null, AddAnswerCallbackToQueue, answerCallbackWithState);
-        }
-
-        private void AddAnswerCallbackToQueue(object state)
-        {
-            AnswerCallbackWithState answerCallbackWithState = (AnswerCallbackWithState)state;
-            answerQueue.AddRequest(answerCallbackWithState);
+            PongMsg.AsyncPost(id, this);
         }
 
         private void CheckVersion()
@@ -290,15 +299,49 @@ namespace SkyCrab.Connection.PresentationLayer
 
         public delegate void MessageProcedure(object writingBlock);
 
-        internal void PostMessage(MessageId messageId, MessageProcedure messageProcedure)
+        internal void PostNewMessage(MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
+        {
+            Int16 id = messageIdSequence.Value;
+            PostMessage(id, messageId, messageProcedure, answerCallback, state);
+        }
+
+        internal void PostAnswerMessage(Int16 id, MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
+        {
+            PostMessage(id, messageId, messageProcedure, answerCallback, state);
+        }
+
+        private void PostMessage(Int16 id, MessageId messageId, MessageProcedure messageProcedure, AnswerCallback answerCallback = null, object state = null)
         {
             #if SHOW_MESSAGES
-            Console.WriteLine("-> " + messageId.ToString());
+            Console.WriteLine("->" + RemoteEndPoint.Port + " - " + messageId.ToString() + " [" + id + "]");
             #endif
             object writingBlock = BeginWritingBlock();
+            Int16Transcoder.Get.Write(this, writingBlock, id);
             MessageIdTranscoder.Get.Write(this, writingBlock, messageId);
-            messageProcedure.Invoke(writingBlock);
+            if (messageProcedure != null)
+                messageProcedure.Invoke(writingBlock);
+            if (answerCallback != null)
+                SetAnswerCallback(writingBlock, id, answerCallback, state);
             EndWritingBlock(writingBlock);
+        }
+
+        private void SetAnswerCallback(object writingBlock, Int16 id, AnswerCallback answerCallback, object state)
+        {
+            StateWithId stateWithId = new StateWithId();
+            stateWithId.id = id;
+            stateWithId.state = state;
+            AnswerCallbackWithState answerCallbackWithState = new AnswerCallbackWithState();
+            answerCallbackWithState.answerCallback = answerCallback;
+            answerCallbackWithState.state = stateWithId;
+            AsyncWriteBytes(writingBlock, null, AddAnswerCallbackToQueue, answerCallbackWithState);
+        }
+
+        private void AddAnswerCallbackToQueue(object state)
+        {
+            AnswerCallbackWithState answerCallbackWithState = (AnswerCallbackWithState)state;
+            StateWithId stateWithId = (StateWithId)answerCallbackWithState.state;
+            answerCallbackWithState.state = stateWithId.state;
+            answerQueue.AddRequest(stateWithId.id, answerCallbackWithState);
         }
 
         protected override void StopCreatingMessages()
@@ -326,9 +369,9 @@ namespace SkyCrab.Connection.PresentationLayer
 
         private void ExchangeDisconnectMessages()
         {
-            DisconnectMsg.AsyncPostDisconnect(this);
+            DisconnectMsg.AsyncPost(this);
             disconnectSemaphore.WaitOne(ReadTimeout * 10);
-            ShutdownMsg.AsyncPostShutdown(this);
+            ShutdownMsg.AsyncPost(this);
         }
 
         private void CloseListeningTask()

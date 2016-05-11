@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using System;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
@@ -7,8 +8,8 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
     /// <para>Sender: Client & Server</para>
     /// <para>ID: <see cref="MessageId.PLAYER_NOT_READY"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
-    /// <para>Passible answers: [none]</para>
-    /// <para>Error codes: [none]</para>
+    /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.NOT_IN_ROOM3"/></para>
     /// </summary>
     public sealed class PlayerNotReadyMsg : AbstractMessage
     {
@@ -29,13 +30,16 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return playerId;
         }
 
-        public static void AsyncPostNotReady(MessageConnection connection, UInt32 playerId)
+        public static MessageInfo? SyncPost(MessageConnection connection, UInt32 playerId, int timeout)
+        {
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, playerId, callback, state), timeout);
+        }
+
+        public static void AsyncPost(MessageConnection connection, UInt32 playerId, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
-            };
-            connection.PostMessage(MessageId.PLAYER_NOT_READY, messageProcedure);
+                    UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
+            connection.PostNewMessage(MessageId.PLAYER_NOT_READY, messageProcedure, callback, state);
         }
     }
 }

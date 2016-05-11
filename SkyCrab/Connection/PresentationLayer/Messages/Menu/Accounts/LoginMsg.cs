@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.LOGIN"/></para>
     /// <para>Data type: <see cref="PlayerProfile"/> (login and password only)</para>
-    /// <para>Passible answers: <see cref="LoginOkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="LoginOkMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.SESSION_ALREADY_LOGGED"/>, <see cref="ErrorCode.WRONG_LOGIN_OR_PASSWORD"/>, <see cref="ErrorCode.USER_ALREADY_LOGGED"/></para>
     /// </summary>
     public sealed class LoginMsg : AbstractMessage
@@ -31,19 +31,16 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             return playerProfile;
         }
 
-        public static MessageInfo? SyncPostLogin(MessageConnection connection, PlayerProfile playerProfile, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, PlayerProfile playerProfile, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostLogin(connection, playerProfile, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, playerProfile, callback, state), timeout);
         }
 
-        public static void AsyncPostLogin(MessageConnection connection, PlayerProfile playerProfile, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, PlayerProfile playerProfile, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
-                connection.SetAnswerCallback(writingBlock, callback, state);
-            };
-            connection.PostMessage(MessageId.LOGIN, messageProcedure);
+                    PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
+            connection.PostNewMessage(MessageId.LOGIN, messageProcedure, callback, state);
         }
 
     }

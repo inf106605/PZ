@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.REGISTER"/></para>
     /// <para>Data type: <see cref="PlayerProfile"/> (without nick, registration and lastActivity)</para>
-    /// <para>Passible answers: <see cref="LoginOkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="LoginOkMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.SESSION_ALREADY_LOGGED2"/>, <see cref="ErrorCode.LOGIN_OCCUPIED"/>, <see cref="ErrorCode.EMAIL_OCCUPIED"/></para>
     /// </summary>
     public sealed class RegisterMsg : AbstractMessage
@@ -30,19 +30,16 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             return profile;
         }
         
-        public static MessageInfo? SyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, PlayerProfile playerProfile, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostRegister(connection, playerProfile, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, playerProfile, callback, state), timeout);
         }
 
-        public static void AsyncPostRegister(MessageConnection connection, PlayerProfile playerProfile, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, PlayerProfile playerProfile, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProc = (writingBlock) =>
-            {
-                PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
-                connection.SetAnswerCallback(writingBlock, callback, state);
-            };
-            connection.PostMessage(MessageId.REGISTER, messageProc);
+                    PlayerProfileTranscoder.Get.Write(connection, writingBlock, playerProfile);
+            connection.PostNewMessage(MessageId.REGISTER, messageProc, callback, state);
         }
 
     }

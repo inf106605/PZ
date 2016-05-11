@@ -1,10 +1,12 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
+﻿using System;
+
+namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
 {
     /// <summary>
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.OK"/></para>
     /// <para>Data type: [none]</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// </summary>
     public sealed class OkMsg : AbstractMessage
     {
@@ -25,12 +27,9 @@
             return null;
         }
 
-        public static void AsyncPostOk(MessageConnection connection)
+        public static void AsyncPost(Int16 id, MessageConnection connection)
         {
-            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-            };
-            connection.PostMessage(MessageId.OK, messageProcedure);
+            connection.PostAnswerMessage(id, MessageId.OK, null);
         }
 
     }

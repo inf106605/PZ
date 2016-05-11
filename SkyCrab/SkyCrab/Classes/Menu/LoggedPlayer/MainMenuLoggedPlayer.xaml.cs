@@ -56,7 +56,7 @@ namespace SkyCrab.Classes.Menu
 
         private void Logout_Button_Click(object sender, RoutedEventArgs e)
         {
-            var answer = LogoutMsg.SyncPostLogout(App.clientConn, 1000);
+            var answer = LogoutMsg.SyncPost(App.clientConn, 1000);
 
             if(!answer.HasValue)
             {

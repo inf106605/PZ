@@ -68,7 +68,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             ListFriendFromServer = new List<Player>();
 
-            var getFriendMsgAnswer = GetFriendsMsg.SyncPostGetFriends(App.clientConn, 1000);
+            var getFriendMsgAnswer = GetFriendsMsg.SyncPost(App.clientConn, 1000);
 
             if (!getFriendMsgAnswer.HasValue)
             {

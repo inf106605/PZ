@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Players;
+using System;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
 {
@@ -7,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.LOGIN_OK"/></para>
     /// <para>Data type: <see cref="Player"/> (without password)</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// </summary>
     public sealed class LoginOkMsg : AbstractMessage
     {
@@ -28,13 +29,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts
             return player;
         }
 
-        public static void AsyncPostLoginOk(MessageConnection connection, Player player)
+        public static void AsyncPost(Int16 id, MessageConnection connection, Player player)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                PlayerTranscoder.Get.Write(connection, writingBlock, player);
-            };
-            connection.PostMessage(MessageId.LOGIN_OK, messageProcedure);
+                    PlayerTranscoder.Get.Write(connection, writingBlock, player);
+            connection.PostAnswerMessage(id, MessageId.LOGIN_OK, messageProcedure);
         }
 
     }

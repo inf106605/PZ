@@ -33,7 +33,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             friendPlayer = new FriendPlayer();
             friendPlayer.ClearListBoxSearchingPlayers();
 
-            var getFriendMsgAnswer = FindPlayersMsg.SyncPostFindPlayers(App.clientConn, searchTextBox.Text, 3000);
+            var getFriendMsgAnswer = FindPlayersMsg.SyncPost(App.clientConn, searchTextBox.Text, 3000);
 
             if (!getFriendMsgAnswer.HasValue)
             {
@@ -73,7 +73,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             {
                 if(!friendPlayer.ListPlayers.Contains(item))
                 {
-                    var addFriendMsgAnswer = AddFriendMsg.SyncPostAddFriend(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
+                    var addFriendMsgAnswer = AddFriendMsg.SyncPost(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
 
                     if (!addFriendMsgAnswer.HasValue)
                     {
@@ -119,7 +119,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                     {
                         friendPlayer.AddPlayerToFriend(uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), item.GetType().GetProperty("Nick").GetValue(item,null).ToString());
 
-                        var getFriendMsgAnswer = GetFriendsMsg.SyncPostGetFriends(App.clientConn, 1000);
+                        var getFriendMsgAnswer = GetFriendsMsg.SyncPost(App.clientConn, 1000);
                         if (!getFriendMsgAnswer.HasValue)
                         {
                             MessageBox.Show("Brak odpowiedzi od serwera!");
@@ -177,7 +177,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             {
                 MessageBox.Show(item.GetType().GetProperty("Nick").GetValue(item, null).ToString());
 
-                var deleteFriendMsgAnswer = RemoveFriendMsg.SyncPostRemoveFriend(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
+                var deleteFriendMsgAnswer = RemoveFriendMsg.SyncPost(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
 
                 if (!deleteFriendMsgAnswer.HasValue)
                 {
@@ -223,7 +223,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             friendPlayer.ClearListBoxSearchingPlayers();
 
-            var getFriendMsgAnswer = FindPlayersMsg.SyncPostFindPlayers(App.clientConn, searchTextBox.Text, 3000);
+            var getFriendMsgAnswer = FindPlayersMsg.SyncPost(App.clientConn, searchTextBox.Text, 3000);
 
             if (!getFriendMsgAnswer.HasValue)
             {

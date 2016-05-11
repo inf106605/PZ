@@ -15,7 +15,7 @@
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*"></ColumnDefinition>
-            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+            <ColumnDefinition Width="0.6*"></ColumnDefinition>
             <ColumnDefinition Width="0.3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -55,8 +55,18 @@
                 </Viewbox>
             </UniformGrid>
         </Grid>
-        <Button Name="ButtonForgottenPassword" Grid.Column="0" Grid.Row="2" Content="ZAPOMNIAŁEM HASŁA"  Margin="20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ButtonForgottenPassword_Click"></Button>
-        <Button Name="ButonLoginConfirm" Grid.Column="1" Grid.Row="2" Content="ZALOGUJ" Margin="20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ButonLoginConfirm_Click"></Button>
-        <Button Name="ButtonLoginReturn" Grid.Column="2" Grid.Row="2"  Content="POWRÓT DO MENU" Margin="20" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ButtonLoginReturn_Click"></Button>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Button Name="ButonLoginConfirm"  Content="ZALOGUJ" Margin="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ButonLoginConfirm_Click"></Button>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button Name="ButtonLoginReturn"  Content="POWRÓT DO MENU" Margin="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ButtonLoginReturn_Click"></Button>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

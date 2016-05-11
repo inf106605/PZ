@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.PLAYER_LEAVED"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class PlayerLeavedMsg : AbstractMessage
@@ -20,7 +20,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
 
         internal override bool Answer
         {
-            get { return true; }
+            get { return false; }
         }
 
         internal override object Read(MessageConnection connection)
@@ -29,13 +29,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return playerId;
         }
 
-        public static void AsyncPostLeave(MessageConnection connection, UInt32 playerId)
+        public static void AsyncPost(MessageConnection connection, UInt32 playerId)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
-            };
-            connection.PostMessage(MessageId.PLAYER_LEAVED, messageProcedure);
+                    UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
+            connection.PostNewMessage(MessageId.PLAYER_LEAVED, messageProcedure);
         }
     }
 }

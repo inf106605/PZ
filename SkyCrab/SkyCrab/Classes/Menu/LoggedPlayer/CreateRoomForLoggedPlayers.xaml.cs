@@ -3,6 +3,7 @@ using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
+using SkyCrab.SkyCrabClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,7 +50,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
 
             maxCountPlayersComboBox.ItemsSource = labels;
-            maxCountPlayersComboBox.SelectedIndex = 0;
+            maxCountPlayersComboBox.SelectedIndex = 1;
         }
 
         private void GameAreaButton_Click(object sender, RoutedEventArgs e)
@@ -80,35 +81,37 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                 return;
             }
 
-            if (publicRoomRadioButton.IsChecked.Value == true)
+            if (publicRoomRadioButton.IsChecked == true)
             {
-                room.RoomType = RoomType.PUBLIC;
+                room.Type = RoomType.PUBLIC;
             }
 
-            if(friendsRoomRadioButton.IsChecked.Value == true)
+            if(friendsRoomRadioButton.IsChecked == true)
             {
-                room.RoomType = RoomType.FRIENDS;
+                room.Type = RoomType.FRIENDS;
             }
 
-            if(privateRoomRadioButton.IsChecked.Value == true)
+            if(privateRoomRadioButton.IsChecked == true)
             {
-                room.RoomType = RoomType.PRIVATE;
+                room.Type = RoomType.PRIVATE;
             }
 
             // walidacja czasu gry
 
-            if (int.Parse(TimeLimit.Text) > 0)
+            if (TimeLimit.SelectedValue != null || TimeLimit.Text != null)
             {
-                room.Rules.maxRoundTime.value = uint.Parse(TimeLimit.Text);
-            }
-            else if(TimeLimit.Text == "Brak limitu")
-            {
-                room.Rules.maxRoundTime.value = 0;
-            }
-            else
-            {
-                MessageBox.Show("Nieprawidłowa wartość czasu gry!");
-                return;
+                Regex regex = new Regex(@"^\d+$");
+                Match match = regex.Match(TimeLimit.Text);
+
+                if ((string)TimeLimit.Text == "Brak limitu")
+                    room.Rules.maxTurnTime.value = 0;
+                else if (!match.Success)
+                {
+                    MessageBox.Show("Nieprawidłowa wartość czasu gry!");
+                    return;
+                }
+                else if (int.Parse((string)TimeLimit.Text) > 0)
+                    room.Rules.maxTurnTime.value = uint.Parse((string)TimeLimit.Text);
             }
 
             // przypisanie maksymalnej liczby graczy
@@ -139,7 +142,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             }
 
 
-            var createRoomMsgAnswer = CreateRoomMsg.SyncPostCreateRoom(App.clientConn, room, 1000);
+            var createRoomMsgAnswer = CreateRoomMsg.SyncPost(App.clientConn, room, 1000);
             
 
             if (!createRoomMsgAnswer.HasValue)
@@ -174,7 +177,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             if (answerValue.messageId == MessageId.ROOM)
             {
                 Room answerRoom = (Room)answerValue.message;
-                SkyCrabGlobalVariables.room = answerRoom;
+                SkyCrabGlobalVariables.room = new SkyCrabRoom(answerRoom);
                 Switcher.Switch(new LobbyGameForLoggedPlayer());
             }
         }

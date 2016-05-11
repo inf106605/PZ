@@ -7,7 +7,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.PLAYER_JOINED"/></para>
     /// <para>Data type: <see cref="Player"/></para>
-    /// <para>Passible answers: [none]</para>
+    /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
     public sealed class PlayerJoinedMsg : AbstractMessage
@@ -29,13 +29,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
             return player;
         }
 
-        public static void asycnPostJoined(MessageConnection connection, Player player)
+        public static void asycnPost(MessageConnection connection, Player player)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                PlayerTranscoder.Get.Write(connection, writingBlock, player);
-            };
-            connection.PostMessage(MessageId.PLAYER_JOINED, messageProcedure);
+                    PlayerTranscoder.Get.Write(connection, writingBlock, player);
+            connection.PostNewMessage(MessageId.PLAYER_JOINED, messageProcedure);
         }
     }
 }

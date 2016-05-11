@@ -8,7 +8,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.ADD_FRIEND"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
-    /// <para>Passible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
+    /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED4"/>, <see cref="ErrorCode.FRIEND_ALREADY_ADDED"/>, <see cref="ErrorCode.FOREVER_ALONE"/>, <see cref="ErrorCode.NO_SUCH_PLAYER"/></para>
     /// </summary>
     public sealed class AddFriendMsg : AbstractMessage
@@ -30,19 +30,16 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends
             return playerId;
         }
         
-        public static MessageInfo? SyncPostAddFriend(MessageConnection connection, UInt32 playerId, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, UInt32 playerId, int timeout)
         {
-            return SyncPost((callback, state) => AsyncPostAddFriend(connection, playerId, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, playerId, callback, state), timeout);
         }
 
-        public static void AsyncPostAddFriend(MessageConnection connection, UInt32 playerId, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, UInt32 playerId, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-            {
-                UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
-                connection.SetAnswerCallback(writingBlock, callback, state);
-            };
-            connection.PostMessage(MessageId.ADD_FRIEND, messageProcedure);
+                    UInt32Transcoder.Get.Write(connection, writingBlock, playerId);
+            connection.PostNewMessage(MessageId.ADD_FRIEND, messageProcedure, callback, state);
         }
 
     }
