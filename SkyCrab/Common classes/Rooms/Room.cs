@@ -66,10 +66,7 @@ namespace SkyCrab.Common_classes.Rooms
             {
                 if (ownerId == 0)
                     return null;
-                foreach (PlayerInRoom playerInRoom in players)
-                    if (playerInRoom.Player.Id == ownerId)
-                        return playerInRoom;
-                throw new NoSuchPlayerInRoomException(ownerId);
+                return GetPlayer(ownerId);
             }
         }
 
@@ -136,6 +133,14 @@ namespace SkyCrab.Common_classes.Rooms
             players.AddLast(playerInRoom);
         }
 
+        public PlayerInRoom GetPlayer(UInt32 playerId)
+        {
+            foreach (PlayerInRoom playerInRoom in players)
+                if (playerInRoom.Player.Id == playerId)
+                    return playerInRoom;
+            throw new NoSuchPlayerInRoomException(playerId);
+        }
+
         public void RemovePlayer(uint playerId)
         {
             for (var i = players.First; i != null; i = i.Next)
@@ -156,7 +161,7 @@ namespace SkyCrab.Common_classes.Rooms
                     return true;
             return false;
         }
-        
+
         public void SetPlayerReady(uint playerId, bool ready)
         {
             foreach (PlayerInRoom playerInRoom in players)

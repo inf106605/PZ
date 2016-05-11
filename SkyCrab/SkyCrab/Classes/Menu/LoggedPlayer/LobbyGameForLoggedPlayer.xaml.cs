@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Classes.Game;
+using SkyCrab.Common_classes.Chats;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using System;
@@ -47,8 +48,10 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             // Updating the Label which displays the current second
             playersInLobby = new PlayersInLobby();
             DataContext = playersInLobby;
-
             // Forcing the CommandManager to raise the RequerySuggested event
+
+            ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
+
             CommandManager.InvalidateRequerySuggested();
         }
 
@@ -104,6 +107,39 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         private void ChangeStatusGame_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new WindowGame());
+        }
+
+        private void SendChatMessage_Click(object sender, RoutedEventArgs e)
+        {
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.Message =  WriteChat.Text;
+            var chatMsgAnswer = ChatMsg.SyncPost(App.clientConn, chatMessage, 1000);
+
+            if (!chatMsgAnswer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = chatMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
+            {
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                switch (errorCode)
+                {
+                    case ErrorCode.NOT_IN_ROOM4:
+                        {
+                            MessageBox.Show("Nie ma Cię w pokoju!");
+                            break;
+                        }
+                }
+                return;
+            }
+
+            WriteChat.Text = "";
+
         }
     }
 }

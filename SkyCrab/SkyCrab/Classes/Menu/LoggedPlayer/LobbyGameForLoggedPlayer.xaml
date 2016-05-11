@@ -94,7 +94,7 @@
                     <ListView.View>
                         <GridView AllowsColumnReorder="True">
                             <GridView.Columns>
-                                <GridViewColumn Header="Nick"  DisplayMemberBinding="{Binding Player.Nick}" />
+                                <GridViewColumn Header="Nick"  DisplayMemberBinding="{Binding Nick}" />
                                 <GridViewColumn Header="Status" DisplayMemberBinding="{Binding isReadyStatus}" />
                             </GridView.Columns>
                         </GridView>
@@ -119,7 +119,7 @@
                 <TextBox x:Name="WriteChat" Margin="0 10 0 0"></TextBox></Grid>
         </Grid>
         <Grid Grid.Column="2" Grid.Row="4">
-            <Button Name="SendChatMessage"   Content="WYŚLIJ" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8"></Button>
+            <Button Name="SendChatMessage"   Content="WYŚLIJ" Margin="25" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="SendChatMessage_Click"></Button>
         </Grid>
     </Grid>
 </UserControl>

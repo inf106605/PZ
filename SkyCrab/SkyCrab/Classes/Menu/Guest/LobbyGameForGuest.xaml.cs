@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Classes.Game;
 using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using System;
@@ -137,6 +138,7 @@ namespace SkyCrab.Classes.Menu.Guest
                  }
                  return;
              }
+            WriteChat.Text = "";
         }
     }
 }
