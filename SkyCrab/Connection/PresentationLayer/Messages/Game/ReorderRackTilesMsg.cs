@@ -2,7 +2,7 @@
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Game;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
+namespace SkyCrab.Connection.PresentationLayer.Messages.Game
 {
     /// <summary>
     /// <para>Sender: Server &amp; Client</para>
