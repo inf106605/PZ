@@ -37,7 +37,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             // co 3 sekundy następuje odświeżanie listy graczy w lobby
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
 
         }
@@ -83,6 +83,8 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             if (answerValue.messageId == MessageId.OK)
             {
                 MessageBox.Show("Opuściłeś pokój!");
+                SkyCrabGlobalVariables.room = null;
+                playersInLobby = null;
                 Switcher.Switch(new PlayAsLoggedPlayer());
             }
 
@@ -97,6 +99,11 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             playersInLobby = new PlayersInLobby();
             DataContext = playersInLobby;
+        }
+
+        private void ChangeStatusGame_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new WindowGame());
         }
     }
 }

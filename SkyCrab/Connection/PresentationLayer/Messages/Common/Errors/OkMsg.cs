@@ -27,7 +27,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Common.Errors
             return null;
         }
 
-        public static void AsyncPost(UInt16 id, MessageConnection connection)
+        public static void AsyncPost(Int16 id, MessageConnection connection)
         {
             connection.PostAnswerMessage(id, MessageId.OK, null);
         }

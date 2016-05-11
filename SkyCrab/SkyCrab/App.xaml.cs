@@ -23,7 +23,11 @@ namespace SkyCrab
         {
             try
             {
-                clientConn.Dispose();
+                if (clientConn != null)
+                {
+                    clientConn.Dispose();
+                }
+
                 ClientConnection.DisposeStaticMembers();
             }
             catch (Exception ex)
@@ -69,7 +73,7 @@ namespace SkyCrab
                 
             } catch(Exception ex)
             {
-                MessageBox.Show("Nie udało się połączyć: " + ex.Message);
+                MessageBox.Show("Nie udało się połączyć: " + ex.Message + Environment.NewLine + "Kończę działanie!");
                 try
                 {
                     clientConn.Dispose();
@@ -77,6 +81,8 @@ namespace SkyCrab
                 catch
                 {
                 }
+                clientConn = null;
+                App.Current.Shutdown();
             }
 
         }

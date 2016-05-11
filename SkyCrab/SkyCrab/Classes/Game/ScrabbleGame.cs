@@ -49,7 +49,10 @@ namespace SkyCrab.Classes.Game
         {
             get
             {
-                return "Właściciel pokoju: " + SkyCrabGlobalVariables.room.Owner.Player.Nick;
+                if (SkyCrabGlobalVariables.room.room.Owner != null)
+                    return "Właściciel pokoju: " + SkyCrabGlobalVariables.room.room.Owner.Player.Nick;
+                else
+                    return "";
             }
         }
 

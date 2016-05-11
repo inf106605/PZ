@@ -1,4 +1,9 @@
-﻿using System;
+﻿using SkyCrab.Common_classes;
+using SkyCrab.Common_classes.Rooms;
+using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
+using SkyCrab.SkyCrabClasses;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,7 +27,7 @@ namespace SkyCrab.Classes.Menu.Guest
     /// </summary>
     public partial class CreateRoomForGuest : UserControl
     {
-        ObservableCollection<String> labels;
+        ObservableCollection<String> labels; //  values of selectbox ( count players )
 
         public CreateRoomForGuest()
         {
@@ -31,6 +36,7 @@ namespace SkyCrab.Classes.Menu.Guest
 
         private void PlayAsGuestReturn_Click(object sender, RoutedEventArgs e)
         {
+            SkyCrabGlobalVariables.room = null;
             Switcher.Switch(new PlayAsGuest());
         }
 
@@ -43,36 +49,119 @@ namespace SkyCrab.Classes.Menu.Guest
             }
 
             maxCountPlayersComboBox.ItemsSource = labels;
-            maxCountPlayersComboBox.SelectedIndex = 0;
+            maxCountPlayersComboBox.SelectedIndex = 1;
         }
 
         private void GameAreaButton_Click(object sender, RoutedEventArgs e)
         {
+            Room room = new Room();
 
-            // validation data - room name , time limit , max count players
+            // walidacja nazwy pokoju
 
-            var ifRoomNameCorrect = nameRommTextbox.Text;
-          //  var ifTimeLimitCorrect = Regex.IsMatch("^[0-9]+$", TimeLimit.Tag.ToString());
-            var ifMaxCountPlayersCorrect = maxCountPlayersComboBox.Text;
-
-            if (ifRoomNameCorrect.Length > 15)
+            if (LengthLimit.RoomName.Max < nameRommTextbox.Text.Length)
             {
-                MessageBox.Show("Nazwa pokoju za długa!");
-                nameRommTextbox.Text = "";
+                MessageBox.Show("Nazwa pokoju jest za długa!");
+                return;
             }
-           /* 
-            if(!ifTimeLimitCorrect)
-            {
-                MessageBox.Show("Nieprawidłowa wartość");
-            }
-            */
 
-               Switcher.Switch(new LobbyGameForGuest());
+            if (LengthLimit.RoomName.Min > nameRommTextbox.Text.Length)
+            {
+                MessageBox.Show("Nazwa pokoju jest za krótka!");
+                return;
+            }
+
+            room.Name = nameRommTextbox.Text;
+
+            // wybór rodzaju pokoju
+            
+            room.Type = RoomType.PUBLIC;
+
+
+            // walidacja czasu gry
+
+            if(TimeLimit.SelectedValue !=null || TimeLimit.Text != null)
+            {
+                Regex regex = new Regex(@"^\d+$");
+                Match match = regex.Match(TimeLimit.Text);
+
+                if ((string)TimeLimit.Text == "Brak limitu")
+                    room.Rules.maxTurnTime.value = 0;
+                else if(!match.Success)
+                {
+                    MessageBox.Show("Nieprawidłowa wartość czasu gry!");
+                    return;
+                }
+                else if(int.Parse((string)TimeLimit.Text) > 0)
+                    room.Rules.maxTurnTime.value = uint.Parse((string)TimeLimit.Text);
+            }
+
+            // przypisanie maksymalnej liczby graczy
+
+            if (byte.Parse(maxCountPlayersComboBox.Text) < 1 || byte.Parse(maxCountPlayersComboBox.Text) > 4)
+            {
+                return;
+            }
+
+            room.Rules.maxPlayerCount.value = byte.Parse(maxCountPlayersComboBox.Text);
+
+            if (RulesFive.IsChecked ?? true)
+            {
+                room.Rules.fivesFirst.value = true;
+            }
+            else
+            {
+                room.Rules.fivesFirst.value = false;
+            }
+
+            if (RulesExchange.IsChecked ?? true)
+            {
+                room.Rules.restrictedExchange.value = true;
+            }
+            else
+            {
+                room.Rules.restrictedExchange.value = false;
+            }
+
+
+            var createRoomMsgAnswer = CreateRoomMsg.SyncPost(App.clientConn, room, 1000);
+
+
+            if (!createRoomMsgAnswer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = createRoomMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
+            {
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                switch (errorCode)
+                {
+                    case ErrorCode.ALREADY_IN_ROOM:
+                        {
+                            MessageBox.Show("Juz jesteś w pokoju!");
+                            break;
+                        }
+                    case ErrorCode.INVALID_RULES:
+                        {
+                            MessageBox.Show("Nieznane reguły gry!");
+                            break;
+                        }
+                }
+
+                return;
+            }
+
+            if (answerValue.messageId == MessageId.ROOM)
+            {
+                Room answerRoom = (Room)answerValue.message;
+                SkyCrabGlobalVariables.room = new SkyCrabRoom(answerRoom);
+                Switcher.Switch(new LobbyGameForGuest());
+            }
         }
 
-        private void nameRommTextbox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }

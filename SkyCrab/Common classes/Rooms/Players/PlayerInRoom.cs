@@ -7,7 +7,7 @@ namespace SkyCrab.Common_classes.Rooms.Players
 
         private Player player;
         private bool isReady = false;
-
+        
 
         public Player Player
         {
@@ -19,6 +19,7 @@ namespace SkyCrab.Common_classes.Rooms.Players
             get { return isReady; }
             set { isReady = value; }
         }
+
 
         public PlayerInRoom(Player player)
         {
