@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Rooms;
+using SkyCrab.SkyCrabClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,10 +11,9 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 {
     class ManageRooms
     {
-        public ObservableCollection<Room> ListOfRooms = null; // lista pokoi znajomych
-        public List<Room> ListRoomsFromServer = null; // tymczasowa lista przypisanych danych z serwera - lista pokoi
+        public ObservableCollection<SkyCrabRoom> ListOfRooms = null; // lista pokoi znajomych
 
-        public ObservableCollection<Room> ListRooms // lista pokoi znajomych ( bindowanie )
+        public ObservableCollection<SkyCrabRoom> ListRooms // lista pokoi znajomych ( bindowanie )
         {
             get
             {
@@ -23,14 +23,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
         public ManageRooms()
         {
-            ListOfRooms = new ObservableCollection<Room>();
-            ListRoomsFromServer = new List<Room>();
-        }
-
-
-        public void GetRoomsFromServerToList(Room room)
-        {
-            ListOfRooms.Add(room);
+            ListOfRooms = new ObservableCollection<SkyCrabRoom>();
         }
 
         public void ClearListRooms()

@@ -3,6 +3,7 @@ using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
+using SkyCrab.SkyCrabClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -82,17 +83,17 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             if (publicRoomRadioButton.IsChecked == true)
             {
-                room.RoomType = RoomType.PUBLIC;
+                room.Type = RoomType.PUBLIC;
             }
 
             if(friendsRoomRadioButton.IsChecked == true)
             {
-                room.RoomType = RoomType.FRIENDS;
+                room.Type = RoomType.FRIENDS;
             }
 
             if(privateRoomRadioButton.IsChecked == true)
             {
-                room.RoomType = RoomType.PRIVATE;
+                room.Type = RoomType.PRIVATE;
             }
 
             // walidacja czasu gry
@@ -176,7 +177,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             if (answerValue.messageId == MessageId.ROOM)
             {
                 Room answerRoom = (Room)answerValue.message;
-                SkyCrabGlobalVariables.room = answerRoom;
+                SkyCrabGlobalVariables.room = new SkyCrabRoom(answerRoom);
                 Switcher.Switch(new LobbyGameForLoggedPlayer());
             }
         }

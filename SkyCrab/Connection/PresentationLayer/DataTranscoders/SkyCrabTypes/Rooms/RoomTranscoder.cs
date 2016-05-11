@@ -36,7 +36,7 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Room
         {
             UInt32Transcoder.Get.Write(connection, writingBlock, data.Id);
             LimitedStringTranscoder.Get(LengthLimit.RoomName).Write(connection, writingBlock, data.Name);
-            RoomTypeTranscoder.Get.Write(connection, writingBlock, data.RoomType);
+            RoomTypeTranscoder.Get.Write(connection, writingBlock, data.Type);
             RuleSetTranscoder.Get.Write(connection, writingBlock, data.Rules);
         }
 

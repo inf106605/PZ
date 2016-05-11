@@ -38,7 +38,7 @@ namespace SkyCrab.Common_classes.Rooms
         private uint id;
         private UInt32 ownerId;
         private string name;
-        private RoomType roomType;
+        private RoomType type;
         private readonly RuleSet rules = new RuleSet();
         private LinkedList<PlayerInRoom> players = new LinkedList<PlayerInRoom>();
 
@@ -83,11 +83,10 @@ namespace SkyCrab.Common_classes.Rooms
             }
         }
 
-
-        public RoomType RoomType
+        public RoomType Type
         {
-            get { return roomType; }
-            set { roomType = value; }
+            get { return type; }
+            set { type = value; }
         }
 
         public RuleSet Rules
@@ -95,60 +94,6 @@ namespace SkyCrab.Common_classes.Rooms
             get { return rules; }
         }
 
-
-
-        public string MaxPlayersLimit
-        {
-            get
-            {
-                return rules.maxPlayerCount.value.ToString();
-            }
-        }
-
-        public string MaxTimeLimit
-        {
-            get
-            {
-                if(rules.maxRoundTime.value == 0)
-                {
-                    return "Brak limitu";
-                }
-                else
-                    return rules.maxRoundTime.value.ToString();
-            }
-        }
-
-        public string IsRulesFive
-        {
-            get
-            {
-                if(rules.fivesFirst.value == true)
-                {
-                    return "✓";
-                }
-                else if(rules.fivesFirst.value == false)
-                {
-                    return "-";
-                }
-                return "-";
-            }
-        }
-
-        public string IsRulesExchange
-        {
-            get
-            {
-                if (rules.restrictedExchange.value == true)
-                {
-                    return "✓";
-                }
-                else if (rules.restrictedExchange.value == false)
-                {
-                    return "-";
-                }
-                return "-";
-            }
-        }
 
         public LinkedList<PlayerInRoom> Players
         {
@@ -171,13 +116,13 @@ namespace SkyCrab.Common_classes.Rooms
         {
         }
 
-        public Room(uint id, string name, RoomType roomType, RuleSet rules)
+        public Room(uint id, string name, RoomType type, RuleSet rules)
         {
             this.id = id;
             this.ownerId = 0;
             LengthLimit.RoomName.CheckAndThrow(name);
             this.name = name;
-            this.roomType = roomType;
+            this.type = type;
             this.rules = rules;
         }
 

@@ -17,7 +17,7 @@ namespace SkyCrab.Common_classes.Result
             get { return gameId; }
         }
 
-        public string RoomId
+        public string RoomName
         {
             get { return roomName; }
         }

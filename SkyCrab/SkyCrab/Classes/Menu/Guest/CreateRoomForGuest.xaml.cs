@@ -2,6 +2,7 @@
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
+using SkyCrab.SkyCrabClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -73,7 +74,7 @@ namespace SkyCrab.Classes.Menu.Guest
 
             // wybór rodzaju pokoju
             
-            room.RoomType = RoomType.PUBLIC;
+            room.Type = RoomType.PUBLIC;
 
 
             // walidacja czasu gry
@@ -157,7 +158,7 @@ namespace SkyCrab.Classes.Menu.Guest
             if (answerValue.messageId == MessageId.ROOM)
             {
                 Room answerRoom = (Room)answerValue.message;
-                SkyCrabGlobalVariables.room = answerRoom;
+                SkyCrabGlobalVariables.room = new SkyCrabRoom(answerRoom);
                 Switcher.Switch(new LobbyGameForGuest());
             }
         }

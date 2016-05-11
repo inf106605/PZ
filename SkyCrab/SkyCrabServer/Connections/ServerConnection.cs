@@ -585,9 +585,9 @@ namespace SkyCrabServer.Connactions
 
         private bool RoomTypeMath(Room room)
         {
-            if (room.RoomType == RoomType.PRIVATE)
+            if (room.Type == RoomType.PRIVATE)
                 return false;
-            if (room.RoomType == RoomType.FRIENDS && FriendTable.Exists(room.OwnerId, serverPlayer.player.Id))
+            if (room.Type == RoomType.FRIENDS && FriendTable.Exists(room.OwnerId, serverPlayer.player.Id))
                 return false;
             return true;
         }

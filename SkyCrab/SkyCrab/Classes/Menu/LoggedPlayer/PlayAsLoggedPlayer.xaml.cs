@@ -3,6 +3,7 @@ using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
+using SkyCrab.SkyCrabClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,7 +51,7 @@ namespace SkyCrab.Classes.Menu
 
 
             filterRoom.Name = "";
-            filterRoom.RoomType = RoomType.PUBLIC;
+            filterRoom.Type = RoomType.PUBLIC;
             filterRoom.Rules.fivesFirst.indifferently = true;
            // filterRoom.Rules.fivesFirst.value = true;
            filterRoom.Rules.restrictedExchange.indifferently = true;
@@ -70,10 +71,10 @@ namespace SkyCrab.Classes.Menu
 
             if (answerValue.messageId == MessageId.ROOM_LIST)
             {
-                manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
-                for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
+                List<Room> rooms = (List<Room>)answerValue.message;
+                foreach (Room room in rooms)
                 {
-                    manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
+                    manageRooms.ListOfRooms.Add(new SkyCrabRoom(room));
                 }
             }
 
@@ -118,12 +119,12 @@ namespace SkyCrab.Classes.Menu
             //publiczny
             if (publicRoomRadioButton.IsChecked.Value)
             {
-                filterRoom.RoomType = RoomType.PUBLIC;
+                filterRoom.Type = RoomType.PUBLIC;
             }
             // znajomi
             else if (friendsRoomRadioButton.IsChecked.Value)
             {
-                filterRoom.RoomType = RoomType.FRIENDS;
+                filterRoom.Type = RoomType.FRIENDS;
             }
 
             if (fivesFirst.IsChecked == true)
@@ -225,11 +226,10 @@ namespace SkyCrab.Classes.Menu
 
                 if (answerValue.messageId == MessageId.ROOM_LIST)
                 {
-                    manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
-                    for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
+                    List<Room> rooms = (List<Room>)answerValue.message;
+                    foreach (Room room in rooms)
                     {
-                        //MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
-                        manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
+                        manageRooms.ListOfRooms.Add(new SkyCrabRoom(room));
                     }
                 }
 
@@ -251,11 +251,10 @@ namespace SkyCrab.Classes.Menu
 
                 if (answerValue.messageId == MessageId.ROOM_LIST)
                 {
-                    manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
-                    for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
+                    List<Room> rooms = (List<Room>)answerValue.message;
+                    foreach (Room room in rooms)
                     {
-                        //MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
-                        manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
+                        manageRooms.ListOfRooms.Add(new SkyCrabRoom(room));
                     }
                 }
 
@@ -286,12 +285,12 @@ namespace SkyCrab.Classes.Menu
             //publiczny
             if(publicRoomRadioButton.IsChecked.Value)
             {
-                filterRoom.RoomType = RoomType.PUBLIC;
+                filterRoom.Type = RoomType.PUBLIC;
             }
             // znajomi
             else if (friendsRoomRadioButton.IsChecked.Value)
             {
-                filterRoom.RoomType = RoomType.FRIENDS;
+                filterRoom.Type = RoomType.FRIENDS;
             }
 
             if(fivesFirst.IsChecked == true)
@@ -393,11 +392,10 @@ namespace SkyCrab.Classes.Menu
 
                 if (answerValue.messageId == MessageId.ROOM_LIST)
                 {
-                    manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
-                    for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
+                    List<Room> rooms = (List<Room>)answerValue.message;
+                    foreach (Room room in rooms)
                     {
-                        //MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
-                        manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
+                        manageRooms.ListOfRooms.Add(new SkyCrabRoom(room));
                     }
                 }
 
@@ -419,11 +417,10 @@ namespace SkyCrab.Classes.Menu
 
                 if (answerValue.messageId == MessageId.ROOM_LIST)
                 {
-                    manageRooms.ListRoomsFromServer = (List<Room>)answerValue.message;
-                    for (int i = 0; i < manageRooms.ListRoomsFromServer.Count; i++)
+                    List<Room> rooms = (List<Room>)answerValue.message;
+                    foreach (Room room in rooms)
                     {
-                        //MessageBox.Show("Pokój " + manageRooms.ListRoomsFromServer[i].Name);
-                        manageRooms.ListOfRooms.Add(manageRooms.ListRoomsFromServer[i]);
+                        manageRooms.ListOfRooms.Add(new SkyCrabRoom(room));
                     }
                 }
 
@@ -550,12 +547,14 @@ namespace SkyCrab.Classes.Menu
 
         private void SelectAndJoinToRoom_Click(object sender, RoutedEventArgs e)
         {
+
             lock (SkyCrabGlobalVariables.roomLock)
             {
 
                 foreach (var item in ListRooms.SelectedItems)
                 {
-                    var joinToRoomMsgAnswer = JoinRoomMsg.SyncPostLogout(App.clientConn, uint.Parse(item.GetType().GetProperty("Id").GetValue(item, null).ToString()), 1000);
+                    UInt32 roomId = ((Room)item.GetType().GetField("room").GetValue(item)).Id;
+                    var joinToRoomMsgAnswer = JoinRoomMsg.SyncPostLogout(App.clientConn, roomId, 1000);
 
                     if (!joinToRoomMsgAnswer.HasValue)
                     {
@@ -594,7 +593,7 @@ namespace SkyCrab.Classes.Menu
                     if (answerValue.messageId == MessageId.ROOM)
                     {
                         Room answerRoom = (Room)answerValue.message;
-                        SkyCrabGlobalVariables.room = answerRoom;
+                        SkyCrabGlobalVariables.room = new SkyCrabRoom(answerRoom);
                         Switcher.Switch(new LobbyGameForLoggedPlayer());
                     }
 
