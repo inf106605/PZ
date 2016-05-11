@@ -503,6 +503,7 @@ namespace SkyCrabServer.Connactions
                                 throw new Exception("Whatever.");
                             PlayerLeavedMsg.AsyncPostLeave(otherServerPlayer.connection, serverPlayer.player.Id);
                         }
+                        ClearStatuses();
                     }
                     serverPlayer.room = null;
                 }
@@ -628,6 +629,7 @@ namespace SkyCrabServer.Connactions
 						PlayerJoinedMsg.asycnPostJoined(this, otherServerPlayer.player);
                 }
                 NewRoomOwnerMsg.AsyncPostNewOwner(this, room.OwnerId);
+                ClearStatuses();
             }
             finally
             {
@@ -710,6 +712,19 @@ namespace SkyCrabServer.Connactions
             finally
             {
                 Globals.dataLock.ReleaseReaderLock();
+            }
+        }
+
+        private void ClearStatuses()
+        {
+            foreach (PlayerInRoom playerInRoom in serverPlayer.room.Players)
+            {
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever.");
+                foreach (PlayerInRoom playerInRoom2 in serverPlayer.room.Players)
+                    PlayerNotReadyMsg.AsyncPostNotReady(otherServerPlayer.connection, playerInRoom2.Player.Id);
             }
         }
 
