@@ -94,7 +94,7 @@
                     <ListView.View>
                         <GridView AllowsColumnReorder="True">
                             <GridView.Columns>
-                                <GridViewColumn Header="Nick"  DisplayMemberBinding="{Binding Player.Nick}" />
+                                <GridViewColumn Header="Nick"  DisplayMemberBinding="{Binding Nick}" />
                                 <GridViewColumn Header="Status" DisplayMemberBinding="{Binding isReadyStatus}" />
                             </GridView.Columns>
                         </GridView>

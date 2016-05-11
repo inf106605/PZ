@@ -137,6 +137,7 @@
       <DependentUpon>RankLoggedPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientConnection.cs" />
+    <Compile Include="SkyCrabClasses\SkyCrabPlayerInRoom.cs" />
     <Compile Include="SkyCrabClasses\SkyCrabRoom.cs" />
     <Compile Include="SkyCrabGlobalVariables.cs" />
     <Compile Include="Switcher.cs" />

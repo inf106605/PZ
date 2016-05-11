@@ -111,16 +111,32 @@ namespace SkyCrab.Classes.Menu.Guest
 
         private void SendChatMessage_Click(object sender, RoutedEventArgs e)
         {
-            if (SkyCrabGlobalVariables.player == null)
-            {
                 ChatMessage chatMessage = new ChatMessage();
                 chatMessage.Message = WriteChat.Text;
-                ChatMsg.AsyncPost(App.clientConn, chatMessage, null);  //FIXME
-            }
-            else
+                var chatMsgAnswer = ChatMsg.SyncPost(App.clientConn, chatMessage, 1000);
+
+                if (!chatMsgAnswer.HasValue)
+                {
+                    MessageBox.Show("Brak odpowiedzi od serwera!");
+                    return;
+                }
+
+                var answerValue = chatMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
             {
-                MessageBox.Show("Jesteś zalogowanym graczem, sorry!");
-            }
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                 switch (errorCode)
+                 {
+                      case ErrorCode.NOT_IN_ROOM4:
+                           {
+                                MessageBox.Show("Nie ma Cię w pokoju!");
+                                break;
+                           }
+                 }
+                 return;
+             }
         }
     }
 }

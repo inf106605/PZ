@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Common_classes.Rooms.Players;
+using SkyCrab.SkyCrabClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,10 +14,10 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
     class PlayersInLobby
     {
 
-        public ObservableCollection<PlayerInRoom> listOfPlayers = null; // lista graczy w pokoju
+        public ObservableCollection<SkyCrabPlayerInRoom> listOfPlayers = null; // lista graczy w pokoju
         public ObservableCollection<string> rulesName = null; 
 
-        public ObservableCollection<PlayerInRoom> ListOfPlayers // lista pokoi znajomych ( bindowanie )
+        public ObservableCollection<SkyCrabPlayerInRoom> ListOfPlayers // lista pokoi znajomych ( bindowanie )
         {
             get
             {
@@ -36,7 +37,12 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         {
             if (SkyCrabGlobalVariables.room != null)
             {
-                listOfPlayers = new ObservableCollection<PlayerInRoom>(SkyCrabGlobalVariables.room.room.Players);
+                listOfPlayers = new ObservableCollection<SkyCrabPlayerInRoom>();
+
+                foreach( var item in SkyCrabGlobalVariables.room.room.Players)
+                {
+                    listOfPlayers.Add(new SkyCrabPlayerInRoom(item));
+                }
 
                 rulesName = new ObservableCollection<string>();
 
