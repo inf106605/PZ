@@ -150,6 +150,11 @@ namespace SkyCrab.Classes.Menu.Guest
                             MessageBox.Show("Nieznane reguły gry!");
                             break;
                         }
+                    case ErrorCode.NOT_LOGGED7:
+                        {
+                            MessageBox.Show("Użytkownik nie zalogowany");
+                            break;
+                        }
                 }
 
                 return;

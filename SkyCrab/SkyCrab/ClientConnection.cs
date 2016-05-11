@@ -1,4 +1,5 @@
-﻿using SkyCrab.Classes.Menu.Guest;
+﻿using SkyCrab.Classes.Game;
+using SkyCrab.Classes.Menu.Guest;
 using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes;
 using SkyCrab.Common_classes.Chats;
@@ -87,6 +88,13 @@ namespace SkyCrab
                             SkyCrabGlobalVariables.chatMessages = null;
                             break;
                         }
+
+                    case MessageId.GAME_STARTED:
+                        {
+                            Switcher.Switch(new WindowGame());
+                            break;
+                        }
+
                     default:
                         {
                             DisplayMessageBox("Otrzymano nieobsługiwany komunikat od serwera (" + messageInfo.messageId.ToString() + ")!");

@@ -35,10 +35,18 @@ namespace SkyCrabServer.Connactions
         {
             get
             {
-                if (this.serverPlayer == null)
+                if (serverPlayer == null)
                     return false;
                 else
-                    return this.serverPlayer.player.Profile == null;
+                    return serverPlayer.player.Profile == null;
+            }
+        }
+
+        private bool LoggedAnyway
+        {
+            get
+            {
+                return serverPlayer !=null;
             }
         }
 
@@ -46,10 +54,10 @@ namespace SkyCrabServer.Connactions
         {
             get
             {
-                if (this.serverPlayer == null)
+                if (serverPlayer == null)
                     return false;
                 else
-                    return this.serverPlayer.player.Profile != null;
+                    return serverPlayer.player.Profile != null;
             }
         }
 
@@ -476,7 +484,7 @@ namespace SkyCrabServer.Connactions
 
         private void CreateRoom(Int16 id, Room room)
         {
-            if (!Logged)
+            if (!LoggedAnyway)
             {
                 ErrorMsg.AsyncPost(id, this, ErrorCode.NOT_LOGGED7);
                 return;
@@ -638,7 +646,7 @@ namespace SkyCrabServer.Connactions
 
         private void JoinRoom(Int16 id, UInt32 roomId)
         {
-            if (!Logged)
+            if (!LoggedAnyway)
             {
                 ErrorMsg.AsyncPost(id, this, ErrorCode.NOT_LOGGED8);
                 return;
