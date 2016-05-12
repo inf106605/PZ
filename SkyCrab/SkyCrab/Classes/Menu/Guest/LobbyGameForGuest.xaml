@@ -112,7 +112,7 @@
                 <RowDefinition Height="0.2*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <TextBox x:Name="ReadChat" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
+                <TextBox x:Name="ReadChat" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
                 </TextBox>
             </Grid>
             <Grid Grid.Row="1">

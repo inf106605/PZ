@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Classes.Menu;
+using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
@@ -21,6 +22,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SkyCrab.Classes.Game
 {
@@ -32,6 +34,8 @@ namespace SkyCrab.Classes.Game
         private List<ScrabblePlayers> ScrabblePlayers = null;
 
         private ScrabbleGame scrabbleGame = null;
+        DispatcherTimer dispatcherTimerChat;
+
 
         public WindowGame()
         {
@@ -39,6 +43,21 @@ namespace SkyCrab.Classes.Game
             InitBindingPlayers();
             scrabbleGame = new ScrabbleGame();
             DataContext = scrabbleGame;
+
+            // co 3 sekundy następuje odświeżanie chatu
+            dispatcherTimerChat = new DispatcherTimer();
+            dispatcherTimerChat.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimerChat.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimerChat.Start();
+
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            // Updating the Label which displays the current second
+            ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
+
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private void InitBindingPlayers()
@@ -86,6 +105,7 @@ namespace SkyCrab.Classes.Game
                 SkyCrabGlobalVariables.room = null;
                 SkyCrabGlobalVariables.MessagesLog = "";
                 SkyCrabGlobalVariables.isGame = false;
+                dispatcherTimerChat.Stop();
                 if (SkyCrabGlobalVariables.player.Profile == null)
                 {
                     Switcher.Switch(new MainMenu());
@@ -251,6 +271,45 @@ namespace SkyCrab.Classes.Game
             }
             
             */
+        }
+
+        private void WriteChat_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && WriteChat.Text.Length > 0)
+            {
+
+                if (WriteChat.Text.Length < 1)
+                    return;
+
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.Message = WriteChat.Text;
+                var chatMsgAnswer = ChatMsg.SyncPost(App.clientConn, chatMessage, 1000);
+
+                if (!chatMsgAnswer.HasValue)
+                {
+                    MessageBox.Show("Brak odpowiedzi od serwera!");
+                    return;
+                }
+
+                var answerValue = chatMsgAnswer.Value;
+
+                if (answerValue.messageId == MessageId.ERROR)
+                {
+                    ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                    switch (errorCode)
+                    {
+                        case ErrorCode.NOT_IN_ROOM4:
+                            {
+                                MessageBox.Show("Nie ma Cię w pokoju!");
+                                break;
+                            }
+                    }
+                    return;
+                }
+
+                WriteChat.Text = "";
+            }
         }
     } 
 }
