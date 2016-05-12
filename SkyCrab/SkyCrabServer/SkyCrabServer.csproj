@@ -74,7 +74,9 @@
     <Compile Include="Connections\ConnectionManager.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\FriendTable.cs" />
+    <Compile Include="Databases\GameLog.cs" />
     <Compile Include="Databases\NoSuchRowException.cs" />
+    <Compile Include="Databases\GameTable.cs" />
     <Compile Include="Databases\PlayerTable.cs" />
     <Compile Include="Databases\PlayerProfileTable.cs" />
     <Compile Include="Externals\BCrypt\BCrypt.cs" />

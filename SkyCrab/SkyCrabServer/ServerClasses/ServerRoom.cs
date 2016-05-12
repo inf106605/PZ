@@ -2,6 +2,7 @@
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
+using SkyCrabServer.Databases;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace SkyCrabServer.ServerClasses
                     return;
             if (startGameTimer != null)
                 return;
-            Task.Factory.StartNew(StartGameTimerTaskBody);
+            startGameTimer = Task.Factory.StartNew(StartGameTimerTaskBody);
         }
 
         public void CancelStartingGame()
@@ -38,37 +39,44 @@ namespace SkyCrabServer.ServerClasses
                 return;
             startGameSemaphore.Release();
             startGameTimer.Wait();
-            startGameSemaphore.WaitOne(0);
+            if (startGameSemaphore.WaitOne(0))
+                return;
             startGameTimer = null;
+            return;
         }
 
         private void StartGameTimerTaskBody()
         {
-            if (startGameSemaphore.WaitOne(5000))
+            if (startGameSemaphore.WaitOne(10000))
                 return;
-            Globals.dataLock.AcquireWriterLock(-1);
-            try
-            {
-                foreach (PlayerInRoom playerInRoom in room.Players)
-                    playerInRoom.IsReady = false;
-                StartGame();
-            }
-            finally
-            {
-                Globals.dataLock.ReleaseWriterLock();
-            }
+            Task.Factory.StartNew(StartGame);
         }
 
         private void StartGame()
         {
-            Game game = new Game(1234, room, false);//TODO
-            foreach (PlayerInRoom playerInRoom in room.Players)
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
             {
-                ServerPlayer otherServerPlayer; //Schrödinger Variable
-                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                if (otherServerPlayer == null)  //WTF!?
-                    throw new Exception("Whatever...");
-                GameStartedMsg.AsyncPost(otherServerPlayer.connection, game.Id);
+                startGameTimer = null;
+                foreach (PlayerInRoom playerInRoom in room.Players)
+                    if (!playerInRoom.IsReady)
+                        return;
+                UInt32 gameId = GameTable.Create();
+                Game game = new Game(gameId, room, false);
+                foreach (PlayerInRoom playerInRoom in room.Players)
+                {
+                    playerInRoom.IsReady = false;
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    GameStartedMsg.AsyncPost(otherServerPlayer.connection, game.Id);
+                }
+                GameLog.OnGameStart(game);
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
             }
         }
 
