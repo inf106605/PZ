@@ -150,6 +150,11 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                                 MessageBox.Show("Nie ma Cię w pokoju!");
                                 break;
                             }
+                        case ErrorCode.IN_GAME:
+                            {
+                                MessageBox.Show("Gra się już rozpoczęła!");
+                                break;
+                            }
                     }
 
                     return;
