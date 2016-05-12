@@ -1,5 +1,7 @@
 ﻿using SkyCrab.Classes.Game;
 using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Rooms.Players;
+using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using System;
@@ -26,7 +28,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
     public partial class LobbyGameForLoggedPlayer : UserControl
     {
         PlayersInLobby playersInLobby = null;
-
+        DispatcherTimer dispatcherTimer;
 
         public LobbyGameForLoggedPlayer()
         {
@@ -36,7 +38,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             DataContext = playersInLobby;
             // co 3 sekundy następuje odświeżanie listy graczy w lobby
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
@@ -51,6 +53,12 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             // Forcing the CommandManager to raise the RequerySuggested event
 
             ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
+
+            if (SkyCrabGlobalVariables.isGame)
+            {
+                Switcher.Switch(new WindowGame());
+                dispatcherTimer.Stop();
+            }
 
             CommandManager.InvalidateRequerySuggested();
         }
@@ -88,6 +96,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                 MessageBox.Show("Opuściłeś pokój!");
                 SkyCrabGlobalVariables.room = null;
                 playersInLobby = null;
+                dispatcherTimer.Stop();
                 Switcher.Switch(new PlayAsLoggedPlayer());
             }
 
@@ -106,11 +115,55 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
         private void ChangeStatusGame_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new WindowGame());
-        }
+            if (SkyCrabGlobalVariables.room != null)
+            {
+                PlayerInRoom myPlayer = SkyCrabGlobalVariables.room.room.GetPlayer(SkyCrabGlobalVariables.player.Id);
 
+                MessageInfo? playerReadyMsgAnswer;
+
+                if (!myPlayer.IsReady)
+                {
+                    playerReadyMsgAnswer = PlayerReadyMsg.SyncPost(App.clientConn, myPlayer.Player.Id, 1000);
+                }
+                else
+                {
+                    playerReadyMsgAnswer = PlayerNotReadyMsg.SyncPost(App.clientConn, myPlayer.Player.Id, 1000);
+                }
+
+                if (!playerReadyMsgAnswer.HasValue)
+                {
+                    MessageBox.Show("Brak odpowiedzi od serwera!");
+                    return;
+                }
+
+                var answerValue = playerReadyMsgAnswer.Value;
+
+                if (answerValue.messageId == MessageId.ERROR)
+                {
+                    ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                    switch (errorCode)
+                    {
+                        case ErrorCode.NOT_IN_ROOM2:
+                            {
+                                MessageBox.Show("Nie ma Cię w pokoju!");
+                                break;
+                            }
+                    }
+
+                    return;
+                }
+            }
+
+            else
+                return;
+        }
+        
         private void SendChatMessage_Click(object sender, RoutedEventArgs e)
         {
+            if (WriteChat.Text.Length < 1)
+                return;
+
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.Message =  WriteChat.Text;
             var chatMsgAnswer = ChatMsg.SyncPost(App.clientConn, chatMessage, 1000);
@@ -140,6 +193,14 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
 
             WriteChat.Text = "";
 
+        }
+
+        private void WriteChat_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && WriteChat.Text.Length > 0)
+            {
+                SendChatMessage_Click((object)sender, (KeyEventArgs)e);
+            }
         }
     }
 }
