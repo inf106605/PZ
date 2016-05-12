@@ -9,7 +9,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <para>ID: <see cref="MessageId.JOIN_ROOM"/></para>
     /// <para>Data type: [none]</para>
     /// <para>Possible answers: <see cref="RoomMsg"/>, <see cref="ErrorMsg"/></para>
-    /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED8"/>, <see cref="ErrorCode.NO_SUCH_ROOM"/>, <see cref="ErrorCode.ALREADY_IN_ROOM2"/>, <see cref="ErrorCode.ROOM_IS_FULL"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.NOT_LOGGED8"/>, <see cref="ErrorCode.NO_SUCH_ROOM"/>, <see cref="ErrorCode.ALREADY_IN_ROOM2"/>, <see cref="ErrorCode.GAME_IS_STARTED"/>, <see cref="ErrorCode.ROOM_IS_FULL"/></para>
     /// </summary>
     public sealed class JoinRoomMsg : AbstractMessage
     {

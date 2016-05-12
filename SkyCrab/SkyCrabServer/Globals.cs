@@ -1,5 +1,4 @@
-﻿using SkyCrab.Common_classes.Rooms;
-using SkyCrabServer.Consoles;
+﻿using SkyCrabServer.Consoles;
 using SkyCrabServer.Databases;
 using SkyCrabServer.ServerClasses;
 using SkyCrabServer.ServerLogics;
@@ -23,7 +22,7 @@ namespace SkyCrabServer
         public static readonly ConcurrentDictionary<UInt32, ServerPlayer> players = new ConcurrentDictionary<UInt32, ServerPlayer>();
 
         public static readonly Sequence roomIdSequence = new Sequence();
-        public static readonly ConcurrentDictionary<UInt32, Room> rooms = new ConcurrentDictionary<UInt32, Room>();
+        public static readonly ConcurrentDictionary<UInt32, ServerRoom> rooms = new ConcurrentDictionary<UInt32, ServerRoom>();
 
     }
 }

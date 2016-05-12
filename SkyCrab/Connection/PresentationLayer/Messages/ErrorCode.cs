@@ -42,12 +42,13 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         NOT_LOGGED8             = NOT_LOGGED,
         ALREADY_IN_ROOM2        = ALREADY_IN_ROOM,
         NO_SUCH_ROOM            = 13,
-        ROOM_IS_FULL            = 14,
+        GAME_IS_STARTED         = 14,
+        ROOM_IS_FULL            = 15,
         //LEAVE_ROOM
-        NOT_IN_ROOM             = 15,
+        NOT_IN_ROOM             = 16,
         //PLAYER_READY
         NOT_IN_ROOM2            = NOT_IN_ROOM,
-        IN_GAME                 = 16,
+        IN_GAME                 = 17,
         //PLAYER_NOT_READY
         NOT_IN_ROOM3            = NOT_IN_ROOM,
         IN_GAME2                = IN_GAME,
@@ -55,11 +56,11 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         NOT_IN_ROOM4            = NOT_IN_ROOM,
 
         //REORDER_RACK_TILES
-        NOT_IN_GAME             = 17,
-        INCORRECT_MOVE          = 18,
+        NOT_IN_GAME             = 18,
+        INCORRECT_MOVE          = 19,
         //PLACE_TILES
         NOT_IN_GAME2            = NOT_IN_GAME,
-        NOT_YOUR_TURN           = 19,
+        NOT_YOUR_TURN           = 20,
         INCORRECT_MOVE2         = INCORRECT_MOVE,
         //EXCHANGE_TILES
         NOT_IN_GAME3            = NOT_IN_GAME,
