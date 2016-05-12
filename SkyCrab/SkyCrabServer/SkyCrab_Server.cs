@@ -37,7 +37,7 @@ namespace SkyCrabServer
                 Banners.Banner.PrintBanner(version);
                 try
                 {
-                    using (Globals.serverConsole = new ServerConsole()) //TODO dispose it propely if it is not completion state
+                    using (Globals.serverConsole = new ServerConsole())
                     using (Globals.database = new Database())
                     {
                         bool result = Listener.Listen(ipAddress, port);
@@ -53,6 +53,7 @@ namespace SkyCrabServer
                         Console.Error.WriteLine("Port " + port + " is already occupied!");
                     else
                         Console.Error.WriteLine("Cannot start listening!");
+                    Console.WriteLine();
                     return -1;
                 }
             }

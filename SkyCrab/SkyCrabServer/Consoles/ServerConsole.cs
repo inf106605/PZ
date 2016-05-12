@@ -20,7 +20,8 @@ namespace SkyCrabServer.Consoles
         private object _inputLock = new object();
         private volatile string inputString = "";
         private volatile int lockCounter = 0;
-        private bool closed = false;
+        private volatile bool closed = false;
+        private volatile bool disposing = false;
 
 
         static ServerConsole()
@@ -42,7 +43,10 @@ namespace SkyCrabServer.Consoles
             while (true)
             {
                 GetCommand();
-                if (!InterpretCommand())
+                if (disposing)
+                    break;
+                InterpretCommand();
+                if (closed)
                     break;
             }
         }
@@ -51,6 +55,12 @@ namespace SkyCrabServer.Consoles
         {
             while (true)
             {
+                while (!Console.KeyAvailable)
+                {
+                    if (disposing)
+                        return;
+                    Thread.Sleep(50);
+                }
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                 if (keyInfo.Key == ConsoleKey.Enter)
                     break;
@@ -90,7 +100,7 @@ namespace SkyCrabServer.Consoles
                 (character >= 'a' && character <= 'z');
         }
 
-        private bool InterpretCommand()
+        private void InterpretCommand()
         {
             try
             {
@@ -102,10 +112,7 @@ namespace SkyCrabServer.Consoles
                 if (commands.TryGetValue(upperInputString, out commandAction))
                 {
                     if (commandAction.Invoke())
-                    {
                         closed = true;
-                        return false;
-                    }
                 }
                 else
                 {
@@ -117,7 +124,6 @@ namespace SkyCrabServer.Consoles
             {
                 Unlock();
             }
-            return true;
         }
 
         public void Lock()
@@ -132,7 +138,10 @@ namespace SkyCrabServer.Consoles
             if (--lockCounter == 0)
             {
                 if (closed)
-                    Console.WriteLine();
+                {
+                    if (!disposing)
+                        Console.WriteLine();
+                }
                 else
                     Console.Write("\n" + COMMAND_PROMPT);
                 lock (_inputLock)
@@ -188,9 +197,18 @@ namespace SkyCrabServer.Consoles
 
         public void Dispose()
         {
-            //TODO force closing task
+            StopReadingThread();
             Lock();
             task.Dispose();
+        }
+
+        private void StopReadingThread()
+        {
+            Lock();
+            closed = true;
+            disposing = true;
+            Unlock();
+            task.Wait();
         }
 
     }
