@@ -95,6 +95,7 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
             {
                 MessageBox.Show("Opuściłeś pokój!");
                 SkyCrabGlobalVariables.room = null;
+                SkyCrabGlobalVariables.MessagesLog = "";
                 playersInLobby = null;
                 dispatcherTimer.Stop();
                 Switcher.Switch(new PlayAsLoggedPlayer());

@@ -84,7 +84,7 @@ namespace SkyCrab.Classes.Game
             {
                 MessageBox.Show("Opuściłeś pokój!");
                 SkyCrabGlobalVariables.room = null;
-
+                SkyCrabGlobalVariables.MessagesLog = "";
                 if (SkyCrabGlobalVariables.player.Profile == null)
                 {
                     Switcher.Switch(new MainMenu());

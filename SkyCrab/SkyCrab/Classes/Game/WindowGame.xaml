@@ -202,7 +202,7 @@
                 <ColumnDefinition Width="0.2*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <UniformGrid Grid.Column="1" Columns="1">
-                <Button x:Name="ExitGame" Content="Zakończ grę" Margin="5"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ExitGame_Click"></Button>
+                <Button x:Name="ExitGame" Content="Zakończ grę" Margin="5,5,5,0"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="ExitGame_Click" Height="32" VerticalAlignment="Top"></Button>
             </UniformGrid>
         </Grid>
     </Grid>
