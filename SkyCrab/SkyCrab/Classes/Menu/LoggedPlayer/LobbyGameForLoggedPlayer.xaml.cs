@@ -1,4 +1,4 @@
-﻿using SkyCrab.Classes.Game;
+﻿using SkyCrab.Classes.ScrabbleGameFolder;
 using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;

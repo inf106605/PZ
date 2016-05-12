@@ -1,4 +1,5 @@
-﻿using SkyCrab.Common_classes.Games.Letters;
+﻿using SkyCrab.Classes.ScrabbleGameFolder;
+using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Pouch;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
@@ -8,11 +9,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkyCrab.Common_classes.Games;
 
-namespace SkyCrab.Classes.Game
+namespace SkyCrab.Classes.ScrabbleGameFolder
 {
     class ScrabbleGame 
     {
+        public Game game;
+
         public ScrabbleBoard scrabbleBoard;
         public ScrabbleRack scrabbleRack;
         public Pouch pouch;

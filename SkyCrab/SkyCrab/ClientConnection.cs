@@ -1,4 +1,4 @@
-﻿using SkyCrab.Classes.Game;
+﻿using SkyCrab.Classes.ScrabbleGameFolder;
 using SkyCrab.Classes.Menu.Guest;
 using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes;

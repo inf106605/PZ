@@ -7,8 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using SkyCrab.Common_classes.Games.Tiles;
+using SkyCrab.Classes.ScrabbleGameFolder;
 
-namespace SkyCrab.Classes.Game
+namespace SkyCrab.Classes.ScrabbleGameFolder
 {
 
     class ScrabbleRack : IDropTarget

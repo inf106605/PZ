@@ -1,30 +1,18 @@
 ﻿using SkyCrab.Classes.Menu;
 using SkyCrab.Common_classes.Chats;
-using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Racks;
-using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Menu;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace SkyCrab.Classes.Game
+namespace SkyCrab.Classes.ScrabbleGameFolder
 {
     /// <summary>
     /// Interaction logic for WindowGame.xaml

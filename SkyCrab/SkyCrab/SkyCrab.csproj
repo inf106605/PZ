@@ -59,15 +59,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\Game\ScrabbleBoard.cs" />
-    <Compile Include="Classes\Game\ScrabbleGame.cs" />
-    <Compile Include="Classes\Game\ScrabblePlayers.cs" />
-    <Compile Include="Classes\Game\ScrabbleRack.cs" />
-    <Compile Include="Classes\Game\ScrabbleRackTiles.cs" />
-    <Compile Include="Classes\Game\ScrabbleSquare.cs" />
-    <Compile Include="Classes\Game\ScrabbleTilesSelectedFromBoard.cs" />
-    <Compile Include="Classes\Game\ScrabbleTilesSelectedFromRack.cs" />
-    <Compile Include="Classes\Game\WindowGame.xaml.cs">
+    <Compile Include="Classes\ScrabbleGameFolder\ScrabbleBoard.cs" />
+    <Compile Include="Classes\ScrabbleGameFolder\ScrabbleGame.cs" />
+    <Compile Include="Classes\ScrabbleGameFolder\ScrabblePlayers.cs" />
+    <Compile Include="Classes\ScrabbleGameFolder\ScrabbleRack.cs" />
+    <Compile Include="Classes\ScrabbleGameFolder\ScrabbleRackTiles.cs" />
+    <Compile Include="Classes\ScrabbleGameFolder\ScrabbleSquare.cs" />
+    <Compile Include="Classes\ScrabbleGameFolder\ScrabbleTilesSelectedFromBoard.cs" />
+    <Compile Include="Classes\ScrabbleGameFolder\ScrabbleTilesSelectedFromRack.cs" />
+    <Compile Include="Classes\ScrabbleGameFolder\WindowGame.xaml.cs">
       <DependentUpon>WindowGame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Menu\Guest\About.xaml.cs">
@@ -142,7 +142,7 @@
     <Compile Include="SkyCrabGlobalVariables.cs" />
     <Compile Include="Switcher.cs" />
     <Compile Include="TextConverter.cs" />
-    <Page Include="Classes\Game\WindowGame.xaml">
+    <Page Include="Classes\ScrabbleGameFolder\WindowGame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
