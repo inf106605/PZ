@@ -316,6 +316,7 @@ namespace SkyCrabServer.ServerLogics
         {
             foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
             {
+                playerInRoom.IsReady = false;
                 ServerPlayer otherServerPlayer; //Schrödinger Variable
                 Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                 if (otherServerPlayer == null)  //WTF!?
