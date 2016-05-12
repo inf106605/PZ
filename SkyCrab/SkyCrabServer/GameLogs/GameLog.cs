@@ -1,7 +1,7 @@
 ﻿using SkyCrab.Common_classes.Games;
-using SkyCrab.Common_classes.Rooms.Players;
+using SkyCrabServer.Databases;
 
-namespace SkyCrabServer.Databases
+namespace SkyCrabServer.GameLogs
 {
     class GameLog
     {

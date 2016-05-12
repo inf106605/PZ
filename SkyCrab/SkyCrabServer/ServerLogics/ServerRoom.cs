@@ -1,0 +1,417 @@
+﻿using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Games;
+using SkyCrab.Common_classes.Rooms;
+using SkyCrab.Common_classes.Rooms.Players;
+using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
+using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
+using SkyCrab.Connection.PresentationLayer.Messages.Game;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
+using SkyCrabServer.Databases;
+using SkyCrabServer.GameLogs;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace SkyCrabServer.ServerLogics
+{
+    sealed class ServerRoom
+    {
+
+        public Room room;
+
+        private readonly Semaphore startGameSemaphore = new Semaphore(0, 1);
+        private Task startGameTimer;
+
+
+        public bool InRoom
+        {
+            get
+            {
+                return room != null;
+            }
+        }
+
+
+        public ServerRoom()
+        {
+        }
+
+        public void CreateRoom(ServerPlayer serverPlayer, Int16 id, Room newRoom)
+        {
+            if (!serverPlayer.LoggedAnyway)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_LOGGED7);
+                return;
+            }
+            if (InRoom)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.ALREADY_IN_ROOM);
+                return;
+            }
+            bool rulesAreValid = newRoom.Rules.maxTurnTime.value <= 3600 &&
+                    newRoom.Rules.maxPlayerCount.value <= 4;
+            if (!rulesAreValid)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INVALID_RULES);
+                return;
+            }
+            room = newRoom;
+            room.Id = Globals.roomIdSequence.Value;
+            room.AddPlayer(serverPlayer.player);
+            room.OwnerId = serverPlayer.player.Id;
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                Globals.rooms.TryAdd(room.Id, room);
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
+            }
+            RoomMsg.AsyncPost(id, serverPlayer.connection, room);
+            PlayerJoinedMsg.asycnPost(serverPlayer.connection, serverPlayer.player);
+            NewRoomOwnerMsg.AsyncPost(serverPlayer.connection, serverPlayer.player.Id);
+        }
+
+        public void OnLeaveRoom(ServerPlayer serverPlayer)
+        {
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                if (InRoom)
+                {
+                    serverPlayer.serverRoom.room.RemovePlayer(serverPlayer.player.Id);
+                    if (serverPlayer.serverRoom.room.Players.Count == 0)
+                    {
+                        Room tmp;
+                        Globals.rooms.TryRemove(serverPlayer.serverRoom.room.Id, out tmp);
+                    }
+                    else
+                    {
+                        if (serverPlayer.serverRoom.room.OwnerId == 0)
+                        {
+                            serverPlayer.serverRoom.room.OwnerId = serverPlayer.serverRoom.room.Players.First.Value.Player.Id;
+                            foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
+                            {
+                                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                                if (otherServerPlayer == null)  //WTF!?
+                                    throw new Exception("Whatever...");
+                                NewRoomOwnerMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.serverRoom.room.OwnerId);
+                            }
+                        }
+                        foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
+                        {
+                            playerInRoom.IsReady = false;
+                            ServerPlayer otherServerPlayer; //Schrödinger Variable
+                            Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                            if (otherServerPlayer == null)  //WTF!?
+                                throw new Exception("Whatever...");
+                            PlayerLeavedMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.player.Id);
+                        }
+                    }
+                    ClearStatuses(serverPlayer);
+                    room = null;
+                }
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
+            }
+        }
+
+        public void FindRooms(ServerPlayer serverPlayer, Int16 id, Room roomFilter)
+        {
+            List<Room> foundRooms = new List<Room>();
+            Globals.dataLock.AcquireReaderLock(-1);
+            try
+            {
+                foreach (KeyValuePair<UInt32, Room> pair in Globals.rooms)
+                {
+                    if (RoomMath(serverPlayer.player.Id, pair.Value, roomFilter))
+                    {
+                        foundRooms.Add(pair.Value);
+                        if (foundRooms.Count == ListTranscoder<object>.MAX_COUNT)
+                            break;
+                    }
+                }
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseReaderLock();
+            }
+            RoomListMsg.AsyncPost(id, serverPlayer.connection, foundRooms);
+        }
+
+        public void GetFriendRooms(ServerPlayer serverPlayer, Int16 id)
+        {
+            if (!serverPlayer.LoggedNormally)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_LOGGED6);
+                return;
+            }
+            List<UInt32> friendIds = FriendTable.GetByPlayerId(serverPlayer.player.Id);
+            List<Room> foundRooms = new List<Room>();
+            Globals.dataLock.AcquireReaderLock(-1);
+            try
+            {
+                foreach (UInt32 friendId in friendIds)
+                {
+                    ServerPlayer serverFriend;
+                    if (Globals.players.TryGetValue(friendId, out serverFriend))
+                    {
+                        if (serverFriend.serverRoom != null)
+                        {
+                            if (RoomTypeMath(serverPlayer.player.Id, serverFriend.serverRoom.room))
+                            {
+                                foundRooms.Add(serverFriend.serverRoom.room);
+                                if (foundRooms.Count == ListTranscoder<object>.MAX_COUNT)
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseReaderLock();
+            }
+            RoomListMsg.AsyncPost(id, serverPlayer.connection, foundRooms);
+        }
+
+        public bool RoomMath(UInt32 currentPlayerId, Room room, Room roomFilter)
+        {
+            if (!room.Name.Contains(roomFilter.Name))
+                return false;
+            if (!room.Rules.Math(roomFilter.Rules))
+                return false;
+            if (!RoomTypeMath(currentPlayerId, room))
+                return false;
+            return true;
+        }
+
+        public bool RoomTypeMath(UInt32 currentPlayerId, Room room)
+        {
+            if (room.Type == RoomType.PRIVATE)
+                return false;
+            if (room.Type == RoomType.FRIENDS && FriendTable.Exists(room.OwnerId, currentPlayerId))
+                return false;
+            return true;
+        }
+
+        public void JoinRoom(ServerPlayer serverPlayer, Int16 id, UInt32 roomId)
+        {
+            if (!serverPlayer.LoggedAnyway)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_LOGGED8);
+                return;
+            }
+            if (InRoom)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.ALREADY_IN_ROOM2);
+                return;
+            }
+            Room newRoom;
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                if (!Globals.rooms.TryGetValue(roomId, out newRoom))
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NO_SUCH_ROOM);
+                    return;
+                }
+                if (newRoom.Players.Count >= newRoom.Rules.maxPlayerCount.value)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.ROOM_IS_FULL);
+                    return;
+                }
+                room = newRoom;
+                room.AddPlayer(serverPlayer.player);
+                RoomMsg.AsyncPost(id, serverPlayer.connection, room);
+                foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
+                {
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    PlayerJoinedMsg.asycnPost(otherServerPlayer.connection, serverPlayer.player);
+                    if (serverPlayer.player.Id != otherServerPlayer.player.Id)
+                        PlayerJoinedMsg.asycnPost(serverPlayer.connection, otherServerPlayer.player);
+                }
+                NewRoomOwnerMsg.AsyncPost(serverPlayer.connection, room.OwnerId);
+                ClearStatuses(serverPlayer);
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
+            }
+        }
+
+        public void LeaveRoom(ServerPlayer serverPlayer, Int16 id)
+        {
+            if (!InRoom)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_IN_ROOM);
+                return;
+            }
+            OkMsg.AsyncPost(id, serverPlayer.connection);
+            OnLeaveRoom(serverPlayer);
+        }
+
+        public void PlayerReady(ServerPlayer serverPlayer, Int16 id)
+        {
+            if (!InRoom)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_IN_ROOM2);
+                return;
+            }
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                serverPlayer.serverRoom.room.GetPlayer(serverPlayer.player.Id).IsReady = true;
+                OkMsg.AsyncPost(id, serverPlayer.connection);
+                foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
+                {
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    PlayerReadyMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.player.Id, null);
+                }
+                serverPlayer.serverRoom.CheckAllPlayersReady();
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
+            }
+        }
+
+        public void PlayerNotReady(ServerPlayer serverPlayer, Int16 id)
+        {
+            if (!InRoom)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_IN_ROOM);
+                return;
+            }
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                serverPlayer.serverRoom.room.GetPlayer(serverPlayer.player.Id).IsReady = false;
+                OkMsg.AsyncPost(id, serverPlayer.connection);
+                foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
+                {
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    PlayerNotReadyMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.player.Id, null);
+                }
+                serverPlayer.serverRoom.CancelStartingGame();
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
+            }
+        }
+
+        public void Chat(ServerPlayer serverPlayer, Int16 id, ChatMessage chatMessage)
+        {
+            if (!InRoom)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_IN_ROOM);
+                return;
+            }
+            chatMessage.PlayerId = serverPlayer.player.Id;
+            Globals.dataLock.AcquireReaderLock(-1);
+            try
+            {
+                OkMsg.AsyncPost(id, serverPlayer.connection);
+                foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
+                {
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    ChatMsg.AsyncPost(otherServerPlayer.connection, chatMessage, null);
+                }
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseReaderLock();
+            }
+        }
+
+        private void ClearStatuses(ServerPlayer serverPlayer)
+        {
+            foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
+            {
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever...");
+                foreach (PlayerInRoom playerInRoom2 in serverPlayer.serverRoom.room.Players)
+                    PlayerNotReadyMsg.AsyncPost(otherServerPlayer.connection, playerInRoom2.Player.Id, null);
+            }
+            serverPlayer.serverRoom.CancelStartingGame();
+        }
+
+        private void CheckAllPlayersReady()
+        {
+            if (!room.AllPlayersReady)
+                return;
+            if (startGameTimer != null)
+                return;
+            startGameTimer = Task.Factory.StartNew(StartGameTimerTaskBody);
+        }
+
+        private void CancelStartingGame()
+        {
+            if (startGameTimer == null)
+                return;
+            startGameSemaphore.Release();
+            startGameTimer.Wait();
+            if (startGameSemaphore.WaitOne(0))
+                return;
+            startGameTimer = null;
+            return;
+        }
+
+        private void StartGameTimerTaskBody()
+        {
+            if (startGameSemaphore.WaitOne(10000))
+                return;
+            Task.Factory.StartNew(StartGame);
+        }
+
+        private void StartGame()
+        {
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                startGameTimer = null;
+                if (!room.AllPlayersReady)
+                    return;
+                UInt32 gameId = GameTable.Create();
+                Game game = new Game(gameId, room, false);
+                foreach (PlayerInRoom playerInRoom in room.Players)
+                {
+                    playerInRoom.IsReady = false;
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    GameStartedMsg.AsyncPost(otherServerPlayer.connection, game.Id);
+                }
+                GameLog.OnGameStart(game);
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
+            }
+        }
+
+    }
+}
