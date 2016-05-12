@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Classes.Menu;
+using SkyCrab.Common_classes;
 using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Common_classes.Games.Racks;
@@ -281,6 +282,12 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
         private void WriteChat_KeyDown(object sender, KeyEventArgs e)
         {
+            if (WriteChat.Text.Length > LengthLimit.ChatMessage.Max)
+            {
+                MessageBox.Show("Wiadomość jest za długa!");
+                return;
+            }
+
             if (e.Key == Key.Enter && WriteChat.Text.Length > 0)
             {
 
