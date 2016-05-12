@@ -52,13 +52,13 @@ namespace SkyCrab.Classes.Game
 
         private void ExitGame_Click(object sender, RoutedEventArgs e)
         {
-            if (!SkyCrabGlobalVariables.player.IsGuest)
+            if (SkyCrabGlobalVariables.player.Profile == null)
             {
-                Switcher.Switch(new MainMenuLoggedPlayer());
+                Switcher.Switch(new MainMenu());
             }
             else
             {
-                Switcher.Switch(new MainMenu());
+                Switcher.Switch(new MainMenuLoggedPlayer());
             }
         }
 

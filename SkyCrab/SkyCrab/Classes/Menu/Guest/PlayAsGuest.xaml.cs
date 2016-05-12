@@ -31,7 +31,7 @@ namespace SkyCrab.Classes.Menu
     public partial class PlayAsGuest : UserControl
     {
         ManageRooms manageRooms = null;
-
+        DispatcherTimer dispatcherTimer;
 
         ObservableCollection<String> minTimeLimitLabels;
         ObservableCollection<String> maxTimeLimitLabels;
@@ -81,7 +81,7 @@ namespace SkyCrab.Classes.Menu
             DataContext = manageRooms;
 
             // co 5 sekund następuje odświeżanie listy pokoi graczy
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
             dispatcherTimer.Start();
@@ -298,11 +298,13 @@ namespace SkyCrab.Classes.Menu
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            dispatcherTimer.Stop();
             Switcher.Switch(new MainMenu());
         }
 
         private void RoomCreateButton_Click(object sender, RoutedEventArgs e)
         {
+            dispatcherTimer.Stop();
             Switcher.Switch(new CreateRoomForGuest());
         }
 
@@ -472,6 +474,7 @@ namespace SkyCrab.Classes.Menu
                     {
                         Room answerRoom = (Room)answerValue.message;
                         SkyCrabGlobalVariables.room = new SkyCrabRoom(answerRoom);
+                        dispatcherTimer.Stop();
                         Switcher.Switch(new LobbyGameForGuest());
                     }
 

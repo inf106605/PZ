@@ -96,6 +96,7 @@ namespace SkyCrab.Classes.Menu.Guest
                 MessageBox.Show("Opuściłeś pokój!");
                 SkyCrabGlobalVariables.room = null;
                 playersInLobby = null;
+                dispatcherTimer.Stop();
                 Switcher.Switch(new PlayAsGuest());
             }
 
@@ -160,6 +161,9 @@ namespace SkyCrab.Classes.Menu.Guest
 
         private void SendChatMessage_Click(object sender, RoutedEventArgs e)
         {
+            if (WriteChat.Text.Length < 1)
+                return;
+
                 ChatMessage chatMessage = new ChatMessage();
                 chatMessage.Message = WriteChat.Text;
                 var chatMsgAnswer = ChatMsg.SyncPost(App.clientConn, chatMessage, 1000);
@@ -187,6 +191,14 @@ namespace SkyCrab.Classes.Menu.Guest
                  return;
              }
             WriteChat.Text = "";
+        }
+
+        private void WriteChat_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter && WriteChat.Text.Length > 0)
+            {
+                SendChatMessage_Click((object)sender, (KeyEventArgs)e);
+            }            
         }
     }
 }
