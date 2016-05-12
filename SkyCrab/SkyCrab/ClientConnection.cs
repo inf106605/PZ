@@ -95,7 +95,24 @@ namespace SkyCrab
                             SkyCrabGlobalVariables.GameId = (uint)messageInfo.message;
                             break;
                         }
+                    case MessageId.NEXT_TURN:
+                        {
+                            if(SkyCrabGlobalVariables.player.Id == (uint)messageInfo.message)
+                            {
+                                SkyCrabGlobalVariables.isMyRound = true;
+                            }
+                            else
+                            {
+                                SkyCrabGlobalVariables.isMyRound = false;
+                            }
 
+                            break;
+                        }
+                    case MessageId.TURN_TIMEOUT:
+                        {
+                            SkyCrabGlobalVariables.isMyRound = false;
+                            break;
+                        }
                     default:
                         {
                             DisplayMessageBox("Otrzymano nieobsługiwany komunikat od serwera (" + messageInfo.messageId.ToString() + ")!");

@@ -46,6 +46,19 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             // Updating the Label which displays the current second
             ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
 
+            if(SkyCrabGlobalVariables.isMyRound)
+            {
+                Play.IsEnabled = true;
+                Exchange.IsEnabled = true;
+                Pass.IsEnabled = true;
+            }
+            else
+            {
+                Play.IsEnabled = false;
+                Exchange.IsEnabled = false;
+                Pass.IsEnabled = false;
+            }
+
             CommandManager.InvalidateRequerySuggested();
         }
 

@@ -17,6 +17,7 @@ namespace SkyCrab
         public static String MessagesLog = "";
         public static bool isGame = false;
         public static uint GameId;
+        public static bool isMyRound = false;
         public static readonly object roomLock = new object();
     }
 }
