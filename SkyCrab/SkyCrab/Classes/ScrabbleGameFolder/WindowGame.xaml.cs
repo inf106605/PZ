@@ -1,30 +1,19 @@
 ﻿using SkyCrab.Classes.Menu;
 using SkyCrab.Common_classes.Chats;
-using SkyCrab.Common_classes.Games.Letters;
+using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Common_classes.Games.Racks;
-using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Menu;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace SkyCrab.Classes.Game
+namespace SkyCrab.Classes.ScrabbleGameFolder
 {
     /// <summary>
     /// Interaction logic for WindowGame.xaml
@@ -40,8 +29,8 @@ namespace SkyCrab.Classes.Game
         public WindowGame()
         {
             InitializeComponent();
-            InitBindingPlayers();
             scrabbleGame = new ScrabbleGame();
+            InitBindingPlayers();
             DataContext = scrabbleGame;
 
             // co 3 sekundy następuje odświeżanie chatu
@@ -62,11 +51,15 @@ namespace SkyCrab.Classes.Game
 
         private void InitBindingPlayers()
         {
+
+             PlayerInGame[] playerInGame = scrabbleGame.game.Players;
             ScrabblePlayers = new List<ScrabblePlayers>();
-            ScrabblePlayers.Add(new ScrabblePlayers("pleban325", 60, "0:06:14", 4));
-            ScrabblePlayers.Add(new ScrabblePlayers("paterak195", 45, "0:05:32", 5));
-            ScrabblePlayers.Add(new ScrabblePlayers("sebaalex", 120, "0:06:47", 7));
-            ScrabblePlayers.Add(new ScrabblePlayers("ziomeczek", 15, "0:07:31", 2));
+
+            foreach (var item in playerInGame)
+            {
+                ScrabblePlayers.Add(new ScrabblePlayers(item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
+            }
+
             Rack rack = new Rack(); // klasa piotra , do zrobienia
             ListPlayers.ItemsSource = ScrabblePlayers;
         }

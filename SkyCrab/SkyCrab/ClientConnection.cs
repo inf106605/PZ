@@ -1,4 +1,4 @@
-﻿using SkyCrab.Classes.Game;
+﻿using SkyCrab.Classes.ScrabbleGameFolder;
 using SkyCrab.Classes.Menu.Guest;
 using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes;
@@ -92,6 +92,7 @@ namespace SkyCrab
                     case MessageId.GAME_STARTED:
                         {
                             SkyCrabGlobalVariables.isGame = true;
+                            SkyCrabGlobalVariables.GameId = (uint)messageInfo.message;
                             break;
                         }
 

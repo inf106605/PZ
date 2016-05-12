@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace SkyCrab.Classes.Game
+namespace SkyCrab.Classes.ScrabbleGameFolder
 {
     public class ScrabbleBoard
     {
