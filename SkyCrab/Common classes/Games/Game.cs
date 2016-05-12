@@ -6,6 +6,14 @@ using System;
 
 namespace SkyCrab.Common_classes.Games
 {
+    public class NoSuchPlayerInGameException : SkyCrabException
+    {
+        public NoSuchPlayerInGameException(UInt32 playerId) :
+            base("There is not player with ID " + playerId + " in this game!")
+        {
+        }
+    }
+
     class Game
     {
 
@@ -16,6 +24,7 @@ namespace SkyCrab.Common_classes.Games
         private uint currentPlayerNumber = 0;
         private Pouch.Pouch[] pouches;
         private bool isDummy;
+        private bool isFinished = false;
 
 
         public UInt32 Id
@@ -44,6 +53,18 @@ namespace SkyCrab.Common_classes.Games
             set { currentPlayerNumber = value; }
         }
 
+        public uint ActivePlayersNumber
+        {
+            get
+            {
+                uint result = 0;
+                foreach (PlayerInGame playerInGame in players)
+                    if (!playerInGame.Walkover)
+                        ++result;
+                return result;
+            }
+        }
+
         public PlayerInGame CurrentPlayer
         {
             get { return players[currentPlayerNumber]; }
@@ -59,6 +80,11 @@ namespace SkyCrab.Common_classes.Games
             get { return isDummy; }
         }
 
+        public bool IsFinished
+        {
+            get { return isFinished; }
+        }
+
 
         public Game(UInt32 id, Room room, bool isDummy)
         {
@@ -71,6 +97,19 @@ namespace SkyCrab.Common_classes.Games
                 this.players[i++] = new PlayerInGame(playerInRoom.Player);
             this.pouches = room.Rules.CreatePouches(isDummy);
             this.isDummy = isDummy;
+        }
+
+        public PlayerInGame GetPlayer(UInt32 playerId)
+        {
+            foreach (PlayerInGame playerInGame in players)
+                if (playerInGame.Player.Id == playerId)
+                    return playerInGame;
+            throw new NoSuchPlayerInGameException(playerId);
+        }
+
+        public void FinishGame()
+        {
+            isFinished = true;
         }
 
     }

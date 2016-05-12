@@ -321,6 +321,8 @@ namespace SkyCrabServer.ServerLogics
 
         private void CheckAllPlayersReady()
         {
+            if (serverPlayer.serverGame.InGame)
+                return;
             if (!room.AllPlayersReady)
                 return;
             if (startGameTimer != null)

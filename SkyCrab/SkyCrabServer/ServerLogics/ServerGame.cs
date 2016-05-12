@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Games;
+using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrabServer.Databases;
@@ -22,7 +23,6 @@ namespace SkyCrabServer.ServerLogics
                 return game != null;
             }
         }
-
 
         public ServerGame(ServerPlayer serverPlayer, ServerRoom serverRoom)
         {
@@ -61,7 +61,20 @@ namespace SkyCrabServer.ServerLogics
 
         public void OnQuitGame()
         {
-            //TODO
+            if (!InGame)
+                return;
+            PlayerInGame playerInGame = game.GetPlayer(serverPlayer.player.Id);
+            if (!game.IsFinished)
+                playerInGame.Walkover = true;
+            ScoreTable.Create(game, playerInGame);
+            if (game.ActivePlayersNumber == 0)
+                OnEndGame(game);
+            game = null;
+        }
+
+        private static void OnEndGame(Game game)
+        {
+            GameTable.Finish(game.Id);
         }
 
     }

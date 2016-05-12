@@ -68,23 +68,23 @@ CREATE UNIQUE INDEX "player_profile__IDX_e-mail" ON player_profile
 
 CREATE TABLE score
   (
-    walkover         CHAR (1) NOT NULL ,
-    place            INTEGER NOT NULL ,
-    score            INTEGER NOT NULL ,
-    player_player_id INTEGER NOT NULL ,
-    game_game_id     INTEGER NOT NULL ,
-	PRIMARY KEY ( player_player_id, game_game_id ) ,
-	FOREIGN KEY ( game_game_id ) REFERENCES game ( game_id ) ,
-	FOREIGN KEY ( player_player_id ) REFERENCES player ( player_id )
+    walkover  CHAR (1) NOT NULL ,
+    place     INTEGER NOT NULL ,
+    score     INTEGER NOT NULL ,
+    player_id INTEGER NOT NULL ,
+    game_id   INTEGER NOT NULL ,
+	PRIMARY KEY ( player_id, game_id ) ,
+	FOREIGN KEY ( game_id ) REFERENCES game ( game_id ) ,
+	FOREIGN KEY ( player_id ) REFERENCES player ( player_id )
   ) ;
 CREATE UNIQUE INDEX score__IDX ON score
   (
-    player_player_id ASC , game_game_id ASC
+    player_id ASC , game_id ASC
   )
   ;
   CREATE INDEX score__IDX_player ON score
-    ( player_player_id ASC
+    ( player_id ASC
     ) ;
   CREATE INDEX score__IDX_game ON score
-    ( game_game_id ASC
+    ( game_id ASC
     ) ;

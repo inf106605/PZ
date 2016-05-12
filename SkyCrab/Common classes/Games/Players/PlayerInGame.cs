@@ -12,12 +12,17 @@ namespace SkyCrab.Common_classes.Games.Players
         }
     }
 
+    public sealed class CannotUnwalkoverPlayerException : SkyCrabException
+    {
+    }
+
     class PlayerInGame
     {
 
         private Player player;
         private Rack rack = new Rack();
         private UInt16 points = 0;
+        private bool walkover = false;
 
 
         public Player Player
@@ -33,6 +38,17 @@ namespace SkyCrab.Common_classes.Games.Players
         public UInt16 Points
         {
             get { return points; }
+        }
+
+        public bool Walkover
+        {
+            get { return walkover; }
+            set
+            {
+                if (!value && walkover)
+                    throw new CannotUnwalkoverPlayerException();
+                walkover = value;
+            }
         }
 
 

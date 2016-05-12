@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SQLite;
+using SkyCrab.Common_classes.Games;
 
 namespace SkyCrabServer.Databases
 {
@@ -32,6 +33,15 @@ namespace SkyCrabServer.Databases
             SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
             command.Parameters.Add(new SQLiteParameter("@gameId", gameId));
             command.Parameters.Add(new SQLiteParameter("@log", log));
+            command.ExecuteNonQuery();
+        }
+
+        internal static void Finish(UInt32 gameId)
+        {
+            const string QUERY = "UPDATE " + TABLE + " SET " + END_TIME + "=@endime WHERE " + ID + "=@gameId";
+            SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
+            command.Parameters.Add(new SQLiteParameter("@gameId", gameId));
+            command.Parameters.Add(new SQLiteParameter("@endime", DateTime.Now));
             command.ExecuteNonQuery();
         }
 

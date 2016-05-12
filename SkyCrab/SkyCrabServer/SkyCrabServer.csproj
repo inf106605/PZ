@@ -75,6 +75,7 @@
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\FriendTable.cs" />
     <Compile Include="Databases\DatabaseInfoTable.cs" />
+    <Compile Include="Databases\ScoreTable.cs" />
     <Compile Include="GameLogs\GameLog.cs" />
     <Compile Include="Databases\NoSuchRowException.cs" />
     <Compile Include="Databases\GameTable.cs" />
