@@ -262,6 +262,8 @@ namespace SkyCrabServer.ServerLogics
         {
             if (!LoggedAnyway)
                 return;
+            if (LoggedNormally)
+                PlayerProfileTable.UpdateLastActivity(player.Id);
             serverRoom.OnLeaveRoom();
             Globals.dataLock.AcquireWriterLock(-1);
             try

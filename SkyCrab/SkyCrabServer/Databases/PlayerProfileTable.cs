@@ -205,5 +205,14 @@ namespace SkyCrabServer.Databases
             return player;
         }
 
+        public static void UpdateLastActivity(UInt32 playerId)
+        {
+            const string QUERY = "UPDATE " + TABLE + " SET " + LAST_ACT_DATA + "=@lastActivity WHERE " + PLAYER_ID + "=@playerId";
+            SQLiteCommand command = new SQLiteCommand(QUERY, Globals.database.connection);
+            command.Parameters.Add(new SQLiteParameter("@playerId", playerId));
+            command.Parameters.Add(new SQLiteParameter("@lastActivity", DateTime.Now));
+            command.ExecuteNonQuery();
+        }
+
     }
 }
