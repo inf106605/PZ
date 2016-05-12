@@ -3,7 +3,7 @@ using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Menu;
 using System;
 using System.Collections.Generic;

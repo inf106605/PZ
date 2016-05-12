@@ -4,7 +4,7 @@ using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using System;
 using System.Collections.Generic;
 using System.Linq;

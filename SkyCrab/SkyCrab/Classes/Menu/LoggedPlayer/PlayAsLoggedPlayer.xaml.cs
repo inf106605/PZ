@@ -1,7 +1,6 @@
 ﻿using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.SkyCrabClasses;
 using System;

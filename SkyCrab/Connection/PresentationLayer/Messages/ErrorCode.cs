@@ -20,6 +20,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         NOT_LOGGED2             = NOT_LOGGED,
         NICK_IS_TOO_SHITTY      = 6,
         EMAIL_OCCUPIED2         = EMAIL_OCCUPIED,
+
         //GET_FRIENDS
         NOT_LOGGED3             = NOT_LOGGED,
         //ADD_FRIEND
@@ -30,6 +31,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         //REMOVE_FRIEND
         NOT_LOGGED5             = NOT_LOGGED,
         NO_SUCH_FRIEND          = 10,
+
         //GET_FRIEND_ROOMS
         NOT_LOGGED6             = NOT_LOGGED,
         //CREATE_ROOM
@@ -49,6 +51,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         NOT_IN_ROOM3            = NOT_IN_ROOM,
         //CHAT
         NOT_IN_ROOM4            = NOT_IN_ROOM,
+
         //REORDER_RACK_TILES
         NOT_IN_GAME             = 16,
         INCORRECT_MOVE          = 17,

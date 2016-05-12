@@ -16,7 +16,6 @@ using SkyCrab.Menu;
 using SkyCrab.Classes.Menu.Guest;
 using System.Collections.ObjectModel;
 using SkyCrab.Connection.PresentationLayer.Messages;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Classes.Menu.LoggedPlayer;

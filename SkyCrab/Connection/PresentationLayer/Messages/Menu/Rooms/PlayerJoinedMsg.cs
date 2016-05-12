@@ -1,7 +1,7 @@
 ﻿using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Players;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
+namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
 {
     /// <summary>
     /// <para>Sender: Client</para>

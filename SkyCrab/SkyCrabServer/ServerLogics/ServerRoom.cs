@@ -6,7 +6,6 @@ using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrabServer.Databases;
 using SkyCrabServer.GameLogs;

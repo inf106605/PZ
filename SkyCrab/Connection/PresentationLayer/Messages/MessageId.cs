@@ -34,7 +34,6 @@
         ROOM_LIST           = 20,
         CREATE_ROOM         = 21,
         ROOM                = 22,
-        //InRooms
         JOIN_ROOM           = 23,
         LEAVE_ROOM          = 24,
         PLAYER_JOINED       = 25,

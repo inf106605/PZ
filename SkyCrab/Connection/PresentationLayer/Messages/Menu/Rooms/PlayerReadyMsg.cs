@@ -2,7 +2,7 @@
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using System;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms
+namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
 {
     /// <summary>
     /// <para>Sender: Client &amp; Server</para>

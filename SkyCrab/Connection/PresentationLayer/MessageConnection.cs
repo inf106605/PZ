@@ -13,7 +13,6 @@ using SkyCrab.Connection.PresentationLayer.Messages.Common.Pings;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
-using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Connection.SessionLayer;
 using SkyCrab.Connection.Utils;
@@ -52,7 +51,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(12, 0, 0);
+        private static readonly Version version = new Version(12, 0, 1);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -114,7 +113,6 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new RoomListMsg());
             AddMessage(new CreateRoomMsg());
             AddMessage(new RoomMsg());
-            //InRooms
             AddMessage(new JoinRoomMsg());
             AddMessage(new LeaveRoomMsg());
             AddMessage(new PlayerJoinedMsg());
