@@ -1,14 +1,11 @@
 ﻿using SkyCrab.Common_classes.Chats;
-using SkyCrab.Common_classes.Games;
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
-using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrabServer.Databases;
-using SkyCrabServer.GameLogs;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -75,53 +72,6 @@ namespace SkyCrabServer.ServerLogics
             RoomMsg.AsyncPost(id, serverPlayer.connection, room);
             PlayerJoinedMsg.asycnPost(serverPlayer.connection, serverPlayer.player);
             NewRoomOwnerMsg.AsyncPost(serverPlayer.connection, serverPlayer.player.Id);
-        }
-
-        public void OnLeaveRoom()
-        {
-            Globals.dataLock.AcquireWriterLock(-1);
-            try
-            {
-                if (InRoom)
-                {
-                    serverPlayer.serverRoom.room.RemovePlayer(serverPlayer.player.Id);
-                    if (serverPlayer.serverRoom.room.Players.Count == 0)
-                    {
-                        Room tmp;
-                        Globals.rooms.TryRemove(serverPlayer.serverRoom.room.Id, out tmp);
-                    }
-                    else
-                    {
-                        if (serverPlayer.serverRoom.room.OwnerId == 0)
-                        {
-                            serverPlayer.serverRoom.room.OwnerId = serverPlayer.serverRoom.room.Players.First.Value.Player.Id;
-                            foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
-                            {
-                                ServerPlayer otherServerPlayer; //Schrödinger Variable
-                                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                                if (otherServerPlayer == null)  //WTF!?
-                                    throw new Exception("Whatever...");
-                                NewRoomOwnerMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.serverRoom.room.OwnerId);
-                            }
-                        }
-                        foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
-                        {
-                            playerInRoom.IsReady = false;
-                            ServerPlayer otherServerPlayer; //Schrödinger Variable
-                            Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                            if (otherServerPlayer == null)  //WTF!?
-                                throw new Exception("Whatever...");
-                            PlayerLeavedMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.player.Id);
-                        }
-                    }
-                    ClearStatuses();
-                    room = null;
-                }
-            }
-            finally
-            {
-                Globals.dataLock.ReleaseWriterLock();
-            }
         }
 
         public void FindRooms(Int16 id, Room roomFilter)
@@ -269,6 +219,11 @@ namespace SkyCrabServer.ServerLogics
                 ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_IN_ROOM2);
                 return;
             }
+            if (serverPlayer.serverGame.InGame)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.IN_GAME);
+                return;
+            }
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
@@ -295,6 +250,11 @@ namespace SkyCrabServer.ServerLogics
             if (!InRoom)
             {
                 ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_IN_ROOM);
+                return;
+            }
+            if (serverPlayer.serverGame.InGame)
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.IN_GAME2);
                 return;
             }
             Globals.dataLock.AcquireWriterLock(-1);
@@ -387,26 +347,53 @@ namespace SkyCrabServer.ServerLogics
             Task.Factory.StartNew(StartGame);
         }
 
-        private void StartGame()
+        public void StartGame()
         {
+            serverPlayer.serverGame.StartGame();
+            startGameTimer = null;
+        }
+
+        public void OnLeaveRoom()
+        {
+            serverPlayer.serverGame.OnQuitGame();
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
-                startGameTimer = null;
-                if (!room.AllPlayersReady)
-                    return;
-                UInt32 gameId = GameTable.Create();
-                Game game = new Game(gameId, room, false);
-                foreach (PlayerInRoom playerInRoom in room.Players)
+                if (InRoom)
                 {
-                    playerInRoom.IsReady = false;
-                    ServerPlayer otherServerPlayer; //Schrödinger Variable
-                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                    if (otherServerPlayer == null)  //WTF!?
-                        throw new Exception("Whatever...");
-                    GameStartedMsg.AsyncPost(otherServerPlayer.connection, game.Id);
+                    serverPlayer.serverRoom.room.RemovePlayer(serverPlayer.player.Id);
+                    if (serverPlayer.serverRoom.room.Players.Count == 0)
+                    {
+                        Room tmp;
+                        Globals.rooms.TryRemove(serverPlayer.serverRoom.room.Id, out tmp);
+                    }
+                    else
+                    {
+                        if (serverPlayer.serverRoom.room.OwnerId == 0)
+                        {
+                            serverPlayer.serverRoom.room.OwnerId = serverPlayer.serverRoom.room.Players.First.Value.Player.Id;
+                            foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
+                            {
+                                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                                if (otherServerPlayer == null)  //WTF!?
+                                    throw new Exception("Whatever...");
+                                NewRoomOwnerMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.serverRoom.room.OwnerId);
+                            }
+                        }
+                        foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
+                        {
+                            playerInRoom.IsReady = false;
+                            ServerPlayer otherServerPlayer; //Schrödinger Variable
+                            Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                            if (otherServerPlayer == null)  //WTF!?
+                                throw new Exception("Whatever...");
+                            PlayerLeavedMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.player.Id);
+                        }
+                    }
+                    ClearStatuses();
+                    room = null;
                 }
-                GameLog.OnGameStart(game);
             }
             finally
             {

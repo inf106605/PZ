@@ -17,6 +17,7 @@ namespace SkyCrabServer.ServerLogics
         public Player player;
         public readonly ServerFriend serverFriend;
         public readonly ServerRoom serverRoom;
+        public readonly ServerGame serverGame;
 
 
         public bool LoggedAsGuest
@@ -55,6 +56,7 @@ namespace SkyCrabServer.ServerLogics
             this.connection = connection;
             this.serverFriend = new ServerFriend(this);
             this.serverRoom = new ServerRoom(this);
+            this.serverGame = new ServerGame(this, serverRoom);
         }
 
         public void LoginAsGuest(Int16 id)

@@ -47,17 +47,19 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         NOT_IN_ROOM             = 15,
         //PLAYER_READY
         NOT_IN_ROOM2            = NOT_IN_ROOM,
+        IN_GAME                 = 16,
         //PLAYER_NOT_READY
         NOT_IN_ROOM3            = NOT_IN_ROOM,
+        IN_GAME2                = IN_GAME,
         //CHAT
         NOT_IN_ROOM4            = NOT_IN_ROOM,
 
         //REORDER_RACK_TILES
-        NOT_IN_GAME             = 16,
-        INCORRECT_MOVE          = 17,
+        NOT_IN_GAME             = 17,
+        INCORRECT_MOVE          = 18,
         //PLACE_TILES
         NOT_IN_GAME2            = NOT_IN_GAME,
-        NOT_YOUR_TURN           = 18,
+        NOT_YOUR_TURN           = 19,
         INCORRECT_MOVE2         = INCORRECT_MOVE,
         //EXCHANGE_TILES
         NOT_IN_GAME3            = NOT_IN_GAME,

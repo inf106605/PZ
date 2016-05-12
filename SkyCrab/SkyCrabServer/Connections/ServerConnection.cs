@@ -177,7 +177,6 @@ namespace SkyCrabServer.Connactions
 
         protected override void DoDispose()
         {
-            serverPlayer.serverRoom.OnLeaveRoom();
             serverPlayer.OnLogout();
             base.DoDispose();
         }

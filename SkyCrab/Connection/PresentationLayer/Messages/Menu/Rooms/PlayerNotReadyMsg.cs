@@ -9,7 +9,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms
     /// <para>ID: <see cref="MessageId.PLAYER_NOT_READY"/></para>
     /// <para>Data type: <see cref="UInt32"/> (player ID)</para>
     /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
-    /// <para>Error codes: <see cref="ErrorCode.NOT_IN_ROOM3"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.NOT_IN_ROOM3"/>, <see cref="ErrorCode.IN_GAME2"/></para>
     /// </summary>
     public sealed class PlayerNotReadyMsg : AbstractMessage
     {
