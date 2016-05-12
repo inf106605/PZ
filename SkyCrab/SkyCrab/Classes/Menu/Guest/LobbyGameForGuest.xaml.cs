@@ -20,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using SkyCrab.Common_classes;
 
 namespace SkyCrab.Classes.Menu.Guest
 {
@@ -167,6 +168,13 @@ namespace SkyCrab.Classes.Menu.Guest
 
         private void SendChatMessage_Click(object sender, RoutedEventArgs e)
         {
+
+            if (WriteChat.Text.Length > LengthLimit.ChatMessage.Max)
+            {
+                MessageBox.Show("Wiadomość jest za długa!");
+                return;
+            }
+
             if (WriteChat.Text.Length < 1)
                 return;
 

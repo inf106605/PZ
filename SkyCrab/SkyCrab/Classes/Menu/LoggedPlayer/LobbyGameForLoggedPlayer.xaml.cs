@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Classes.ScrabbleGameFolder;
+using SkyCrab.Common_classes;
 using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
@@ -167,6 +168,13 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
         
         private void SendChatMessage_Click(object sender, RoutedEventArgs e)
         {
+
+            if (WriteChat.Text.Length > LengthLimit.ChatMessage.Max)
+            {
+                MessageBox.Show("Wiadomość jest za długa!");
+                return;
+            }
+
             if (WriteChat.Text.Length < 1)
                 return;
 
