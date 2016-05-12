@@ -92,44 +92,40 @@ namespace SkyCrabServer.Connactions
                     //room
 
                     case MessageId.CREATE_ROOM:
-                        serverPlayer.serverRoom.CreateRoom(serverPlayer, id, (Room)messageInfo.message);
+                        serverPlayer.serverRoom.CreateRoom(id, (Room)messageInfo.message);
                         break;
 
                     case MessageId.FIND_ROOMS:
-                        serverPlayer.serverRoom.FindRooms(serverPlayer, id, (Room)messageInfo.message);
+                        serverPlayer.serverRoom.FindRooms(id, (Room)messageInfo.message);
                         break;
 
                     case MessageId.GET_FRIEND_ROOMS:
-                        serverPlayer.serverRoom.GetFriendRooms(serverPlayer, id);
+                        serverPlayer.serverRoom.GetFriendRooms(id);
                         break;
 
                     //in rooms
 
                     case MessageId.JOIN_ROOM:
-                        serverPlayer.serverRoom.JoinRoom(serverPlayer, id, (UInt32)messageInfo.message);
+                        serverPlayer.serverRoom.JoinRoom(id, (UInt32)messageInfo.message);
                         break;
 
                     case MessageId.LEAVE_ROOM:
-                        serverPlayer.serverRoom.LeaveRoom(serverPlayer, id);
+                        serverPlayer.serverRoom.LeaveRoom(id);
                         break;
 
                     case MessageId.PLAYER_READY:
-                        serverPlayer.serverRoom.PlayerReady(serverPlayer, id);
+                        serverPlayer.serverRoom.PlayerReady(id);
                         break;
 
                     case MessageId.PLAYER_NOT_READY:
-                        serverPlayer.serverRoom.PlayerNotReady(serverPlayer, id);
+                        serverPlayer.serverRoom.PlayerNotReady(id);
                         break;
 
                     case MessageId.CHAT:
-                        serverPlayer.serverRoom.Chat(serverPlayer, id, (ChatMessage)messageInfo.message);
+                        serverPlayer.serverRoom.Chat(id, (ChatMessage)messageInfo.message);
                         break;
 
                     //GAME
-					
-                    case MessageId.GAME_STARTED:
-                        //TODO
-                        break;
                         
                     case MessageId.NEXT_TURN:
                         //TODO
@@ -181,7 +177,7 @@ namespace SkyCrabServer.Connactions
 
         protected override void DoDispose()
         {
-            serverPlayer.serverRoom.OnLeaveRoom(serverPlayer);
+            serverPlayer.serverRoom.OnLeaveRoom();
             serverPlayer.OnLogout();
             base.DoDispose();
         }

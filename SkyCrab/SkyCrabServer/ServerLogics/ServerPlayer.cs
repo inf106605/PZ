@@ -54,7 +54,7 @@ namespace SkyCrabServer.ServerLogics
         {
             this.connection = connection;
             this.serverFriend = new ServerFriend(this);
-            this.serverRoom = new ServerRoom();
+            this.serverRoom = new ServerRoom(this);
         }
 
         public void LoginAsGuest(Int16 id)
@@ -262,7 +262,7 @@ namespace SkyCrabServer.ServerLogics
         {
             if (!LoggedAnyway)
                 return;
-            serverRoom.OnLeaveRoom(this);
+            serverRoom.OnLeaveRoom();
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {

@@ -20,6 +20,7 @@ namespace SkyCrabServer.ServerLogics
     sealed class ServerRoom
     {
 
+        private readonly ServerPlayer serverPlayer;
         public Room room;
 
         private readonly Semaphore startGameSemaphore = new Semaphore(0, 1);
@@ -35,11 +36,12 @@ namespace SkyCrabServer.ServerLogics
         }
 
 
-        public ServerRoom()
+        public ServerRoom(ServerPlayer serverPlayer)
         {
+            this.serverPlayer = serverPlayer;
         }
 
-        public void CreateRoom(ServerPlayer serverPlayer, Int16 id, Room newRoom)
+        public void CreateRoom(Int16 id, Room newRoom)
         {
             if (!serverPlayer.LoggedAnyway)
             {
@@ -76,7 +78,7 @@ namespace SkyCrabServer.ServerLogics
             NewRoomOwnerMsg.AsyncPost(serverPlayer.connection, serverPlayer.player.Id);
         }
 
-        public void OnLeaveRoom(ServerPlayer serverPlayer)
+        public void OnLeaveRoom()
         {
             Globals.dataLock.AcquireWriterLock(-1);
             try
@@ -113,7 +115,7 @@ namespace SkyCrabServer.ServerLogics
                             PlayerLeavedMsg.AsyncPost(otherServerPlayer.connection, serverPlayer.player.Id);
                         }
                     }
-                    ClearStatuses(serverPlayer);
+                    ClearStatuses();
                     room = null;
                 }
             }
@@ -123,7 +125,7 @@ namespace SkyCrabServer.ServerLogics
             }
         }
 
-        public void FindRooms(ServerPlayer serverPlayer, Int16 id, Room roomFilter)
+        public void FindRooms(Int16 id, Room roomFilter)
         {
             List<Room> foundRooms = new List<Room>();
             Globals.dataLock.AcquireReaderLock(-1);
@@ -131,7 +133,7 @@ namespace SkyCrabServer.ServerLogics
             {
                 foreach (KeyValuePair<UInt32, Room> pair in Globals.rooms)
                 {
-                    if (RoomMath(serverPlayer.player.Id, pair.Value, roomFilter))
+                    if (RoomMath(pair.Value, roomFilter))
                     {
                         foundRooms.Add(pair.Value);
                         if (foundRooms.Count == ListTranscoder<object>.MAX_COUNT)
@@ -146,7 +148,7 @@ namespace SkyCrabServer.ServerLogics
             RoomListMsg.AsyncPost(id, serverPlayer.connection, foundRooms);
         }
 
-        public void GetFriendRooms(ServerPlayer serverPlayer, Int16 id)
+        public void GetFriendRooms(Int16 id)
         {
             if (!serverPlayer.LoggedNormally)
             {
@@ -165,7 +167,7 @@ namespace SkyCrabServer.ServerLogics
                     {
                         if (serverFriend.serverRoom != null)
                         {
-                            if (RoomTypeMath(serverPlayer.player.Id, serverFriend.serverRoom.room))
+                            if (RoomTypeMath(serverFriend.serverRoom.room))
                             {
                                 foundRooms.Add(serverFriend.serverRoom.room);
                                 if (foundRooms.Count == ListTranscoder<object>.MAX_COUNT)
@@ -182,27 +184,27 @@ namespace SkyCrabServer.ServerLogics
             RoomListMsg.AsyncPost(id, serverPlayer.connection, foundRooms);
         }
 
-        public bool RoomMath(UInt32 currentPlayerId, Room room, Room roomFilter)
+        public bool RoomMath(Room room, Room roomFilter)
         {
             if (!room.Name.Contains(roomFilter.Name))
                 return false;
             if (!room.Rules.Math(roomFilter.Rules))
                 return false;
-            if (!RoomTypeMath(currentPlayerId, room))
+            if (!RoomTypeMath(room))
                 return false;
             return true;
         }
 
-        public bool RoomTypeMath(UInt32 currentPlayerId, Room room)
+        public bool RoomTypeMath(Room room)
         {
             if (room.Type == RoomType.PRIVATE)
                 return false;
-            if (room.Type == RoomType.FRIENDS && FriendTable.Exists(room.OwnerId, currentPlayerId))
+            if (room.Type == RoomType.FRIENDS && FriendTable.Exists(room.OwnerId, serverPlayer.player.Id))
                 return false;
             return true;
         }
 
-        public void JoinRoom(ServerPlayer serverPlayer, Int16 id, UInt32 roomId)
+        public void JoinRoom(Int16 id, UInt32 roomId)
         {
             if (!serverPlayer.LoggedAnyway)
             {
@@ -242,7 +244,7 @@ namespace SkyCrabServer.ServerLogics
                         PlayerJoinedMsg.asycnPost(serverPlayer.connection, otherServerPlayer.player);
                 }
                 NewRoomOwnerMsg.AsyncPost(serverPlayer.connection, room.OwnerId);
-                ClearStatuses(serverPlayer);
+                ClearStatuses();
             }
             finally
             {
@@ -250,7 +252,7 @@ namespace SkyCrabServer.ServerLogics
             }
         }
 
-        public void LeaveRoom(ServerPlayer serverPlayer, Int16 id)
+        public void LeaveRoom(Int16 id)
         {
             if (!InRoom)
             {
@@ -258,10 +260,10 @@ namespace SkyCrabServer.ServerLogics
                 return;
             }
             OkMsg.AsyncPost(id, serverPlayer.connection);
-            OnLeaveRoom(serverPlayer);
+            OnLeaveRoom();
         }
 
-        public void PlayerReady(ServerPlayer serverPlayer, Int16 id)
+        public void PlayerReady(Int16 id)
         {
             if (!InRoom)
             {
@@ -289,7 +291,7 @@ namespace SkyCrabServer.ServerLogics
             }
         }
 
-        public void PlayerNotReady(ServerPlayer serverPlayer, Int16 id)
+        public void PlayerNotReady(Int16 id)
         {
             if (!InRoom)
             {
@@ -317,7 +319,7 @@ namespace SkyCrabServer.ServerLogics
             }
         }
 
-        public void Chat(ServerPlayer serverPlayer, Int16 id, ChatMessage chatMessage)
+        public void Chat(Int16 id, ChatMessage chatMessage)
         {
             if (!InRoom)
             {
@@ -344,7 +346,7 @@ namespace SkyCrabServer.ServerLogics
             }
         }
 
-        private void ClearStatuses(ServerPlayer serverPlayer)
+        private void ClearStatuses()
         {
             foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
             {
