@@ -11,7 +11,7 @@ namespace SkyCrabServer
     class SkyCrab_Server
     {
 
-        private static readonly Version version = new Version(0, 3, 6);
+        private static readonly Version version = new Version(0, 3, 7);
 
 
         static int Main(string[] args)
@@ -21,20 +21,19 @@ namespace SkyCrabServer
                 PrintHelp();
                 return 0;
             }
+            
+            IPAddress ipAddress;
+            int port;
+            if (!GetAddressAndPort(args, out ipAddress, out port))
+                return -1;
+            
+            Banners.Banner.PrintBanner(version);
 
             FileStream lockFile;
             if (!CreateLockFile(out lockFile))
                 return -1;
             using (lockFile)
             {
-
-                IPAddress ipAddress;
-                int port;
-                if (!GetAddressAndPort(args, out ipAddress, out port))
-                    return -1;
-
-
-                Banners.Banner.PrintBanner(version);
                 try
                 {
                     using (Globals.serverConsole = new ServerConsole())
