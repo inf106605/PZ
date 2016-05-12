@@ -1,10 +1,12 @@
-﻿using SkyCrab.Common_classes.Games;
+﻿using System;
+using SkyCrab.Common_classes.Games;
 using SkyCrabServer.Databases;
 
 namespace SkyCrabServer.GameLogs
 {
     class GameLog
     {
+
         public static void OnGameStart(Game game)
         {
             string log = RoomName(game) +
@@ -34,5 +36,12 @@ namespace SkyCrabServer.GameLogs
                 players += "\tplayer #" + (i + 1) + ":\t" + game.Players[i].Player.Nick + "\n";
             return players;
         }
+
+        public static void OnChoosePlayer(Game game)
+        {
+            string log = "FIRST PLAYER:\n\tplayer #" + (game.CurrentPlayerNumber+1) + "\n";
+            GameTable.AddToLog(game.Id, log);
+        }
+
     }
 }
