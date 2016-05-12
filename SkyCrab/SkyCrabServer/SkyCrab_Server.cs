@@ -11,7 +11,7 @@ namespace SkyCrabServer
     class SkyCrab_Server
     {
 
-        private static readonly Version version = new Version(0, 3, 5);
+        private static readonly Version version = new Version(0, 3, 6);
 
 
         static int Main(string[] args)
@@ -46,6 +46,15 @@ namespace SkyCrabServer
                         else
                             return -1;
                     }
+                }
+                catch (DatabaseVersionIsIncorrectException e)
+                {
+                    if (e.currentDatabaseVersion == null)
+                        Console.Error.WriteLine("Incorrect database version!\nVersion '" + Database.VERSION + "' is expected.");
+                    else
+                        Console.Error.WriteLine("Incorrect database version '" + e.currentDatabaseVersion + "'!\nVersion '" + Database.VERSION + "' is expected.");
+                    Console.WriteLine();
+                    return -1;
                 }
                 catch (SocketException e)
                 {

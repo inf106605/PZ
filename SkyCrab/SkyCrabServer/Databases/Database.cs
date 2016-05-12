@@ -7,6 +7,8 @@ namespace SkyCrabServer.Databases
     sealed class Database : IDisposable
     {
 
+        public const string VERSION = "1.1.0";
+
         private const string FILE_NAME = "Database.sqlite";
 
         //TODO do property at least
@@ -30,8 +32,13 @@ namespace SkyCrabServer.Databases
                 if (!fileExists)
                     CreateFile();
                 CreateConnection();
+                if (fileExists)
+                    ValidateVersion();
                 if (!fileExists)
+                {
                     CreateTables();
+                    CreateDatabaseInfo();
+                }
             }
             finally
             {
@@ -43,6 +50,11 @@ namespace SkyCrabServer.Databases
         {
             Globals.serverConsole.WriteLine("Creating database file...");
             SQLiteConnection.CreateFile(FILE_NAME);
+        }
+
+        private void ValidateVersion()
+        {
+            DatabaseInfoTable.ValidateVersion(connection, VERSION);
         }
 
         private void CreateConnection()
@@ -59,10 +71,9 @@ namespace SkyCrabServer.Databases
             command.ExecuteNonQuery();
         }
 
-        public void Dispose()
+        private void CreateDatabaseInfo()
         {
-            Globals.serverConsole.WriteLine("Disconnecting with database...");
-            connection.Close();
+            DatabaseInfoTable.Create(connection, VERSION);
         }
 
         public UInt32 GetLastInssertedId()
@@ -80,6 +91,12 @@ namespace SkyCrabServer.Databases
             {
                 reader.Close();
             }
+        }
+
+        public void Dispose()
+        {
+            Globals.serverConsole.WriteLine("Disconnecting with database...");
+            connection.Close();
         }
 
     }

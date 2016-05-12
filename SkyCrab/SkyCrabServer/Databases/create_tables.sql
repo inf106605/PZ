@@ -1,3 +1,10 @@
+CREATE TABLE database_info
+  (
+    lock char(1) not null PRIMARY KEY ,
+	ver VARCHAR2 (10) NOT NULL ,
+    CHECK (lock='X')
+  ) ;
+
 CREATE TABLE friend
   (
     player_id INTEGER NOT NULL ,
