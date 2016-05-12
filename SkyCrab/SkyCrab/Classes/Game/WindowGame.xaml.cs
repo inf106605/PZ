@@ -2,6 +2,8 @@
 using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
+using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.InRooms;
 using SkyCrab.Menu;
 using System;
 using System.Collections.Generic;
@@ -52,13 +54,45 @@ namespace SkyCrab.Classes.Game
 
         private void ExitGame_Click(object sender, RoutedEventArgs e)
         {
-            if (SkyCrabGlobalVariables.player.Profile == null)
+            var joinToRoomMsgAnswer = LeaveRoomMsg.SyncPost(App.clientConn, 1000);
+
+            if (!joinToRoomMsgAnswer.HasValue)
             {
-                Switcher.Switch(new MainMenu());
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
             }
-            else
+
+            var answerValue = joinToRoomMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
             {
-                Switcher.Switch(new MainMenuLoggedPlayer());
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                switch (errorCode)
+                {
+                    case ErrorCode.NOT_IN_ROOM:
+                        {
+                            MessageBox.Show("Nie ma Cię w pokoju!");
+                            break;
+                        }
+                }
+
+                return;
+            }
+
+            if (answerValue.messageId == MessageId.OK)
+            {
+                MessageBox.Show("Opuściłeś pokój!");
+                SkyCrabGlobalVariables.room = null;
+
+                if (SkyCrabGlobalVariables.player.Profile == null)
+                {
+                    Switcher.Switch(new MainMenu());
+                }
+                else
+                {
+                    Switcher.Switch(new MainMenuLoggedPlayer());
+                }
             }
         }
 
