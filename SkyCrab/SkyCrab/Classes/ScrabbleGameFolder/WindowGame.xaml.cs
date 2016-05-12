@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Classes.Menu;
 using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
@@ -28,8 +29,8 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         public WindowGame()
         {
             InitializeComponent();
-            InitBindingPlayers();
             scrabbleGame = new ScrabbleGame();
+            InitBindingPlayers();
             DataContext = scrabbleGame;
 
             // co 3 sekundy następuje odświeżanie chatu
@@ -50,11 +51,15 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
         private void InitBindingPlayers()
         {
+
+             PlayerInGame[] playerInGame = scrabbleGame.game.Players;
             ScrabblePlayers = new List<ScrabblePlayers>();
-            ScrabblePlayers.Add(new ScrabblePlayers("pleban325", 60, "0:06:14", 4));
-            ScrabblePlayers.Add(new ScrabblePlayers("paterak195", 45, "0:05:32", 5));
-            ScrabblePlayers.Add(new ScrabblePlayers("sebaalex", 120, "0:06:47", 7));
-            ScrabblePlayers.Add(new ScrabblePlayers("ziomeczek", 15, "0:07:31", 2));
+
+            foreach (var item in playerInGame)
+            {
+                ScrabblePlayers.Add(new ScrabblePlayers(item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
+            }
+
             Rack rack = new Rack(); // klasa piotra , do zrobienia
             ListPlayers.ItemsSource = ScrabblePlayers;
         }

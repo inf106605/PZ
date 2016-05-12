@@ -23,6 +23,8 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
         public ScrabbleGame()
         {
+            game = new Game(SkyCrabGlobalVariables.GameId, SkyCrabGlobalVariables.room.room, true);
+
             scrabbleBoard = new ScrabbleBoard(); 
             scrabbleRack = new ScrabbleRack();
             scrabbleRack = new ScrabbleRack();

@@ -92,6 +92,7 @@ namespace SkyCrab
                     case MessageId.GAME_STARTED:
                         {
                             SkyCrabGlobalVariables.isGame = true;
+                            SkyCrabGlobalVariables.GameId = (uint)messageInfo.message;
                             break;
                         }
 
