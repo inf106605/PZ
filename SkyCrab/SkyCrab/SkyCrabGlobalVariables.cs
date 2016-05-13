@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Games.Pouches;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.SkyCrabClasses;
 using System;
@@ -16,6 +17,8 @@ namespace SkyCrab
         public static ChatMessage chatMessages;
         public static String MessagesLog = "";
         public static bool isGame = false;
+        public static bool isGetNewTile = false; // zmienna pomocnicza przy otrzymaniu od serwera komunikatu NEW_TILE
+        public static DrawedLetters newTile;
         public static uint GameId;
         public static bool isMyRound = false;
         public static readonly object roomLock = new object();

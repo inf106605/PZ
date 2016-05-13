@@ -16,24 +16,14 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
     class ScrabbleGame 
     {
         public Game game;
-
         public ScrabbleBoard scrabbleBoard;
         public ScrabbleRack scrabbleRack;
-        public Pouch pouch;
 
         public ScrabbleGame()
         {
             game = new Game(SkyCrabGlobalVariables.GameId, SkyCrabGlobalVariables.room.room, true);
-
             scrabbleBoard = new ScrabbleBoard(); 
             scrabbleRack = new ScrabbleRack();
-            scrabbleRack = new ScrabbleRack();
-            pouch = new Pouch(0,PolishTileSet.instance.Letters);
-            for(int i=0; i < 7;i++)
-            {
-                TileOnRack temp = new TileOnRack(pouch.DrawRandowmTile());
-                RackTiles.Add(new ScrabbleRackTiles(temp));
-            }
         }
 
        public ObservableCollection<ScrabbleSquare> Squares {

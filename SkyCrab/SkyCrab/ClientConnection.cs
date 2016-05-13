@@ -12,6 +12,8 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using SkyCrab.Connection.PresentationLayer.Messages.Game;
+using SkyCrab.Common_classes.Games.Pouches;
 
 namespace SkyCrab
 {
@@ -95,6 +97,13 @@ namespace SkyCrab
                             SkyCrabGlobalVariables.GameId = (uint)messageInfo.message;
                             break;
                         }
+
+                    case MessageId.GAME_ENDED:
+                        {
+                            SkyCrabGlobalVariables.isGame = false;
+                            break;
+                        }
+                    
                     case MessageId.NEXT_TURN:
                         {
                             if(SkyCrabGlobalVariables.player.Id == (uint)messageInfo.message)
@@ -113,6 +122,36 @@ namespace SkyCrab
                             SkyCrabGlobalVariables.isMyRound = false;
                             break;
                         }
+                 
+                    case MessageId.NEW_TILES:
+                        {
+                            DrawedLetters newTiles = (DrawedLetters)messageInfo.message;
+                            SkyCrabGlobalVariables.newTile = new DrawedLetters();
+                            SkyCrabGlobalVariables.newTile = newTiles;
+                            SkyCrabGlobalVariables.isGetNewTile = true;
+                            break;
+                        }
+
+                    case MessageId.EXCHANGE_TILES:
+                        {
+                            break;
+                        }
+
+                    case MessageId.GAIN_POINTS:
+                        {
+                            break;
+                        }
+
+                    case MessageId.PLACE_TILES:
+                        {
+                            break;
+                        }
+
+                    case MessageId.PASS:
+                    {   
+                            break;
+                    }
+                    
                     default:
                         {
                             DisplayMessageBox("Otrzymano nieobsługiwany komunikat od serwera (" + messageInfo.messageId.ToString() + ")!");

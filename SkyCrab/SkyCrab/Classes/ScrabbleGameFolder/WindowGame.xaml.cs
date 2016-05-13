@@ -3,7 +3,9 @@ using SkyCrab.Common_classes;
 using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Common_classes.Games.Racks;
+using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Connection.PresentationLayer.Messages;
+using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Menu;
 using System;
@@ -60,8 +62,21 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 Pass.IsEnabled = false;
             }
 
+            if(SkyCrabGlobalVariables.isGetNewTile)
+            {
+                for(int i = 0; i < SkyCrabGlobalVariables.newTile.letters.Count;i++)
+                {
+                    TileOnRack temp = new TileOnRack(new Tile(SkyCrabGlobalVariables.newTile.letters[i]));
+                    scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
+                } 
+
+                SkyCrabGlobalVariables.isGetNewTile = false;
+            }
+
             CommandManager.InvalidateRequerySuggested();
         }
+
+  
 
         private void InitBindingPlayers()
         {
@@ -209,11 +224,13 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             //MessageBox.Show("Zostało: " + scrabbleGame.pouch.Count + " płytek!");
 
-            if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count > scrabbleGame.pouch.Count)
+            /*
+
+            if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count > scrabbleGame.game.Puoches[0].Count)
             {
-                for(int i=0; i < scrabbleGame.pouch.Count; i++)
+                for(int i=0; i < scrabbleGame.game.Puoches[0].Count; i++)
                 {
-                    TileOnRack temp = new TileOnRack(scrabbleGame.pouch.DrawRandowmTile());
+                    TileOnRack temp = new TileOnRack(scrabbleGame.game.Puoches[0].DrawRandowmTile());
                     scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
                 }
             }
@@ -222,14 +239,15 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             {
                 for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
                 {
-                    TileOnRack temp = new TileOnRack(scrabbleGame.pouch.DrawRandowmTile());
+                    TileOnRack temp = new TileOnRack(scrabbleGame.game.Puoches[0].DrawRandowmTile());
                     scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
                 }
             }
+            */
 
             // Aktualizacja ilości pozostałych płytek
 
-            LeftTilesInPouch.Text = "Pozostało " + scrabbleGame.pouch.Count + " płytek";
+            LeftTilesInPouch.Text = "Pozostało " + scrabbleGame.game.Puoches[0].Count + " płytek";
 
         }
 
@@ -239,7 +257,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             // sprawdzanie czy ilość zaznaczonych płytek nie przekracza ilości pozostałych płytek w woreczku
 
-            if(listViewRack.SelectedItems.Count > scrabbleGame.pouch.Count)
+            if(listViewRack.SelectedItems.Count > scrabbleGame.game.Puoches[0].Count)
             {
                 MessageBox.Show("Nie ma aż tylu płytek w woreczku do wymiany!");
                 return;
@@ -264,7 +282,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
             {
-                TileOnRack temp = new TileOnRack(scrabbleGame.pouch.DrawRandowmTile());
+                TileOnRack temp = new TileOnRack(scrabbleGame.game.Puoches[0].DrawRandowmTile());
                 scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
             }
             
@@ -322,6 +340,45 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 }
 
                 WriteChat.Text = "";
+            }
+        }
+
+        private void Pass_Click(object sender, RoutedEventArgs e)
+        {
+
+            var passMsgAnswer = PassMsg.SyncPost(App.clientConn,1000);
+
+
+            if (!passMsgAnswer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = passMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
+            {
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                switch (errorCode)
+                {
+                    case ErrorCode.NOT_IN_GAME4:
+                        {
+                            MessageBox.Show("Nie ma Cię w grze!");
+                            break;
+                        }
+                    case ErrorCode.NOT_YOUR_TURN3:
+                        {
+                            MessageBox.Show("Kolejka innego gracza!");
+                            break;
+                        }
+                }
+                return;
+            }
+            if(answerValue.messageId == MessageId.OK)
+            {
+                SkyCrabGlobalVariables.isMyRound = false;
             }
         }
     } 

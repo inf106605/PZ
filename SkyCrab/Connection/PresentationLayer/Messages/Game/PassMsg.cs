@@ -1,4 +1,5 @@
-﻿using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
+﻿using SkyCrab.Connection.PresentationLayer.MessageConnections;
+using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Game
 {
@@ -27,9 +28,14 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Game
             return null;
         }
 
-        public static void AsyncPost(MessageConnection connection)
+        public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
-            connection.PostNewMessage(MessageId.PASS, null);
+            connection.PostNewMessage(MessageId.PASS, null,callback,state);
+        }
+
+        public static MessageInfo? SyncPost(MessageConnection connection, int timeout)
+        {
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, callback, state), timeout);
         }
     }
 }
