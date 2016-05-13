@@ -11,12 +11,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Connection", "Connection\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyCrabServer", "SkyCrabServer\SkyCrabServer.csproj", "{BF3973F0-1C7D-4206-92F9-DF18DDF298D7}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Dictionary", "Dictionary\Dictionary.shproj", "{51432074-4934-45E3-A82E-595B43046B3F}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common classes\Common classes.projitems*{1db02aca-bcb6-4082-9848-3b5cc330b91e}*SharedItemsImports = 13
 		Connection\Connection.projitems*{6879bdad-9ae3-4307-83c2-24ef92cf63a5}*SharedItemsImports = 13
 		Common classes\Common classes.projitems*{97775c9f-bccc-4303-b9be-3236be43e1cc}*SharedItemsImports = 4
 		Connection\Connection.projitems*{97775c9f-bccc-4303-b9be-3236be43e1cc}*SharedItemsImports = 4
+		Dictionary\Dictionary.projitems*{51432074-4934-45e3-a82e-595b43046b3f}*SharedItemsImports = 13
 		Common classes\Common classes.projitems*{bf3973f0-1c7d-4206-92f9-df18ddf298d7}*SharedItemsImports = 4
 		Connection\Connection.projitems*{bf3973f0-1c7d-4206-92f9-df18ddf298d7}*SharedItemsImports = 4
 	EndGlobalSection
