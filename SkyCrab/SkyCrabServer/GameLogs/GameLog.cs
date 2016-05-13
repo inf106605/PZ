@@ -55,5 +55,11 @@ namespace SkyCrabServer.GameLogs
             GameTable.AddToLog(game.Id, log);
         }
 
+        public static void OnPass(Game game)
+        {
+            string log = "PASS:\n\tplayer #" + (game.CurrentPlayerNumber + 1) + "\n";
+            GameTable.AddToLog(game.Id, log);
+        }
+
     }
 }

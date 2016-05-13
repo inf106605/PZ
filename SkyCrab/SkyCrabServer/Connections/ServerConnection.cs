@@ -126,18 +126,6 @@ namespace SkyCrabServer.Connactions
                         break;
 
                     //GAME
-                        
-                    case MessageId.NEXT_TURN:
-                        //TODO
-                        break;
-						
-                    case MessageId.NEW_TILES:
-						//TODO
-						break;
-						
-                    case MessageId.LOSS_TILES:
-						//TODO
-						break;
 						
                     case MessageId.GAIN_POINTS:
 						//TODO
@@ -160,7 +148,7 @@ namespace SkyCrabServer.Connactions
 						break;
 						
                     case MessageId.PASS:
-						//TODO
+                        serverPlayer.serverGame.Pass(id);
 						break;
 						
                     case MessageId.GAME_ENDED:

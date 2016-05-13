@@ -14,6 +14,10 @@ namespace SkyCrab.Common_classes.Games
         }
     }
 
+    public class ThereIsNoAnyActivwePlayerException : SkyCrabException
+    {
+    }
+
     class Game
     {
 
@@ -105,6 +109,23 @@ namespace SkyCrab.Common_classes.Games
                 if (playerInGame.Player.Id == playerId)
                     return playerInGame;
             throw new NoSuchPlayerInGameException(playerId);
+        }
+
+        public void SwitchToNextPlayer()
+        {
+            for (uint i = currentPlayerNumber + 1; i != players.Length; ++i)
+                if (!players[i].Walkover)
+                {
+                    currentPlayerNumber = i;
+                    return;
+                }
+            for (uint i = 0; i != currentPlayerNumber + 1; ++i)
+                if (!players[i].Walkover)
+                {
+                    currentPlayerNumber = i;
+                    return;
+                }
+            throw new ThereIsNoAnyActivwePlayerException();
         }
 
         public void FinishGame()
