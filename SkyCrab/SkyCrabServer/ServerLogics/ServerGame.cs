@@ -163,6 +163,7 @@ namespace SkyCrabServer.ServerLogics
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_YOUR_TURN3);
                     return;
                 }
+                OkMsg.AsyncPost(id, serverPlayer.connection);
                 GameLog.OnPass(game);
                 game.SwitchToNextPlayer();
                 SendNextTurn();
