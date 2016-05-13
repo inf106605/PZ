@@ -1,11 +1,14 @@
 ﻿using SkyCrab.Common_classes.Games;
+using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Players;
+using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrabServer.Databases;
 using SkyCrabServer.GameLogs;
 using System;
+using System.Collections.Generic;
 
 namespace SkyCrabServer.ServerLogics
 {
@@ -66,6 +69,9 @@ namespace SkyCrabServer.ServerLogics
         private void InitializeGame()
         {
             ChooseFirstPlayer();
+            for (uint i = 0; i != game.Players.Length; ++i)
+                FillRack(i);
+            GameLog.OnChoosePlayer(game);
             //TODO
         }
 
@@ -81,7 +87,34 @@ namespace SkyCrabServer.ServerLogics
                     throw new Exception("Whatever...");
                 NextTurnMsg.AsyncPost(otherServerPlayer.connection, game.CurrentPlayer.Player.Id);
             }
-            GameLog.OnChoosePlayer(game);
+        }
+
+        private void FillRack(uint playerNumber)
+        {
+            PlayerInGame playerInGame = game.Players[playerNumber];
+            int tilesToDraw = Rack.IntendedTilesCount - playerInGame.Rack.Tiles.Count;
+            List<Letter> drawedLetter = new List<Letter>();
+            List<Letter> blanks = new List<Letter>();
+            for (int i = 0; i != tilesToDraw; ++i)
+            {
+                Tile drawedTile = game.Puoches[0].DrawRandowmTile();
+                playerInGame.Rack.PutTile(drawedTile);
+                drawedLetter.Add(drawedTile.Letter);
+                blanks.Add(LetterSet.BLANK);
+            }
+            foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+            {
+                playerInRoom.IsReady = false;
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever...");
+                if (playerInRoom.Player.Id == playerInGame.Player.Id)
+                    NewTilesMsg.AsyncPost(otherServerPlayer.connection, drawedLetter);
+                else
+                    NewTilesMsg.AsyncPost(otherServerPlayer.connection, blanks);
+            }
+            GameLog.OnDrawLetters(game, playerNumber, drawedLetter);
         }
 
         public void OnQuitGame()

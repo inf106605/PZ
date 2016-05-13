@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using SkyCrab.Common_classes.Games;
+using SkyCrab.Common_classes.Games.Letters;
+using SkyCrab.Common_classes.Games.Players;
 using SkyCrabServer.Databases;
 
 namespace SkyCrabServer.GameLogs
@@ -11,8 +14,7 @@ namespace SkyCrabServer.GameLogs
         {
             string log = RoomName(game) +
                     Rules(game) +
-                    Players(game) +
-                    "\n";
+                    Players(game);
             GameTable.AddToLog(game.Id, log);
         }
 
@@ -40,6 +42,16 @@ namespace SkyCrabServer.GameLogs
         public static void OnChoosePlayer(Game game)
         {
             string log = "FIRST PLAYER:\n\tplayer #" + (game.CurrentPlayerNumber+1) + "\n";
+            GameTable.AddToLog(game.Id, log);
+        }
+
+        public static void OnDrawLetters(Game game, uint playerNumber, List<Letter> letters)
+        {
+            string log = "DRAW:\n\tplayer #" + (playerNumber + 1) + "\n\t";
+            foreach (Letter letter in letters)
+                log += "\'" + letter.character + "\', ";
+            log = log.Substring(0, log.Length - 2);
+            log += '\n';
             GameTable.AddToLog(game.Id, log);
         }
 

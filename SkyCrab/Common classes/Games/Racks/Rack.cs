@@ -144,6 +144,7 @@ namespace SkyCrab.Common_classes.Games.Racks
             foreach (Tile tile in tiles)
             {
                 TileOnRack tileOnRack = new TileOnRack(tile, currentLeft);
+                tilesOnRack.AddLast(tileOnRack);
                 if (tileAfter == null)
                     this.tiles.AddLast(tileOnRack);
                 else
