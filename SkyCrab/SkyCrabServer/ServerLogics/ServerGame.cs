@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Common_classes.Games;
 using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Players;
+using SkyCrab.Common_classes.Games.Pouches;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Common_classes.Rooms.Players;
@@ -93,13 +94,13 @@ namespace SkyCrabServer.ServerLogics
         {
             PlayerInGame playerInGame = game.Players[playerNumber];
             int tilesToDraw = Rack.IntendedTilesCount - playerInGame.Rack.Tiles.Count;
-            List<Letter> drawedLetter = new List<Letter>();
+            List<Letter> letters = new List<Letter>();
             List<Letter> blanks = new List<Letter>();
             for (int i = 0; i != tilesToDraw; ++i)
             {
                 Tile drawedTile = game.Puoches[0].DrawRandowmTile();
                 playerInGame.Rack.PutTile(drawedTile);
-                drawedLetter.Add(drawedTile.Letter);
+                letters.Add(drawedTile.Letter);
                 blanks.Add(LetterSet.BLANK);
             }
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
@@ -109,12 +110,15 @@ namespace SkyCrabServer.ServerLogics
                 Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                 if (otherServerPlayer == null)  //WTF!?
                     throw new Exception("Whatever...");
+                DrawedLetters drawedLetters = new DrawedLetters();
+                drawedLetters.playerId = playerInGame.Player.Id;
                 if (playerInRoom.Player.Id == playerInGame.Player.Id)
-                    NewTilesMsg.AsyncPost(otherServerPlayer.connection, drawedLetter);
+                    drawedLetters.letters = letters;
                 else
-                    NewTilesMsg.AsyncPost(otherServerPlayer.connection, blanks);
+                    drawedLetters.letters = blanks;
+                NewTilesMsg.AsyncPost(otherServerPlayer.connection, drawedLetters);
             }
-            GameLog.OnDrawLetters(game, playerNumber, drawedLetter);
+            GameLog.OnDrawLetters(game, playerNumber, letters);
         }
 
         public void OnQuitGame()

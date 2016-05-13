@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Games\Letters\PolishLetterSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Players\PlayerInGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Players\PlayerPoints.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Pouches\DrawedLetters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Pouches\Pouch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\Rack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\TileOnRack.cs" />
