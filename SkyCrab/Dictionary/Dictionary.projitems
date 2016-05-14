@@ -6,14 +6,12 @@
     <SharedGUID>51432074-4934-45e3-a82e-595b43046b3f</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>SkyCrab.Dictionary</Import_RootNamespace>
+    <Import_RootNamespace>SkyCrab.Dictionaries</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Dictionary.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)coder.cpp" />
-    <None Include="$(MSBuildThisFileDirectory)decoder.cpp" />
     <None Include="$(MSBuildThisFileDirectory)dictionaries\polish.dict">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

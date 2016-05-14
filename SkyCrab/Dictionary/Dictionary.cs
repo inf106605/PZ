@@ -1,16 +1,105 @@
-﻿namespace SkyCrab.Dictionary
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace SkyCrab.Dictionaries
 {
     public sealed class Dictionary
     {
 
-        private Dictionary()
+        private static readonly Dictionary<string, Dictionary> dictionaries = new Dictionary<string, Dictionary>();
+
+
+        private Dictionary(string language)
         {
-            //TODO
+            const string DIRECTORY = "./dictionaries/";
+            const string EXTENSION = ".dict";
+            string filePath = DIRECTORY + language + EXTENSION;
+            LoadWords(filePath);
+        }
+
+        private void LoadWords(string filePath)
+        {
+            using (StreamReader file = new StreamReader(filePath))
+            using (StreamWriter outputFile = new StreamWriter(filePath+".out"))
+            {
+                string line;
+                string previousWord = "";
+                while ((line = file.ReadLine()) != null)
+                {
+                    if (line == "")
+                        continue;
+                    string word;
+                    int repeatedLetters = GetNumberFromBegining(line, out word);
+                    string decompresedWord = previousWord.Substring(0, repeatedLetters) + word;
+                    outputFile.WriteLine(decompresedWord);
+                    previousWord = decompresedWord;
+                }
+            }
+        }
+
+        private static int GetNumberFromBegining(string line, out string word)
+        {
+            int result = 0;
+            int i;
+            for (i = 0; line[i] >= '0' && line[i] <= '9'; ++i)
+            {
+                result *= 10;
+                result += line[i] - '0';
+            }
+            word = line.Substring(i);
+            return result;
+        }
+
+        public static void Compress(string inputFilePath, string outputFilePath)
+        {
+            using (StreamReader inputFile = new StreamReader(inputFilePath))
+            using (StreamWriter outputFile = new StreamWriter(outputFilePath))
+            {
+                string previousWord = " ";
+                string word;
+                while ((word = inputFile.ReadLine()) != null)
+                {
+                    if (word == "")
+                        continue;
+                    string cuttedWord;
+                    int repeatedLetters = commonStart(word, out cuttedWord, previousWord);
+                    string compesedWord = (repeatedLetters == 0 ? "" : "" + repeatedLetters) + cuttedWord;
+                    outputFile.WriteLine(compesedWord);
+                    previousWord = word;
+                }
+            }
+        }
+
+        private static int commonStart(string wholeWord, out string cuttedWord, string previousWord)
+        {
+	        int max = Math.Min(wholeWord.Length, previousWord.Length);
+            int i = 0;
+	        for (i = 0;; ++i)
+	        {
+		        if (i == max)
+			        break;
+		        if (wholeWord[i] != previousWord[i])
+			        break;
+	        }
+            cuttedWord = wholeWord.Substring(i);
+	        return i;
         }
 
         public static Dictionary GetPolish()
         {
-            //TODO
+            return GetDictionary("polish");
+        }
+
+        private static Dictionary GetDictionary(string language)
+        {
+            Dictionary dictionary;
+            if (!dictionaries.TryGetValue(language, out dictionary))
+            {
+                dictionary = new Dictionary(language);
+                dictionaries.Add(language, dictionary);
+            }
+            return dictionary;
         }
 
         public bool IsWordWalid(string word)
