@@ -7,10 +7,21 @@ namespace SkyCrab.Dictionaries
     public sealed class Dictionary
     {
 
-        private static readonly Dictionary<string, Dictionary> dictionaries = new Dictionary<string, Dictionary>();
+        public enum Language
+        {
+            POLISH
+        }
 
-        private HashSet<string> words = new HashSet<string>();
 
+        private static readonly Dictionary<Language, string> languageNames = new Dictionary<Language, string>();
+
+        private readonly HashSet<string> words = new HashSet<string>();
+
+
+        static Dictionary()
+        {
+            languageNames.Add(POLISH, "polish");
+        }
 
         public uint WordsCount
         {
@@ -18,11 +29,13 @@ namespace SkyCrab.Dictionaries
         }
 
 
-        private Dictionary(string language)
+        public Dictionary(Language language)
         {
             const string DIRECTORY = "./dictionaries/";
             const string EXTENSION = ".dict";
-            string filePath = DIRECTORY + language + EXTENSION;
+            string languageName;
+            languageNames.TryGetValue(language, out languageName);
+            string filePath = DIRECTORY + languageNames + EXTENSION;
             LoadWords(filePath);
         }
 
@@ -96,22 +109,6 @@ namespace SkyCrab.Dictionaries
 	        }
             cuttedWord = wholeWord.Substring(i);
 	        return i;
-        }
-
-        public static Dictionary GetPolish()
-        {
-            return GetDictionary("polish");
-        }
-
-        private static Dictionary GetDictionary(string language)
-        {
-            Dictionary dictionary;
-            if (!dictionaries.TryGetValue(language, out dictionary))
-            {
-                dictionary = new Dictionary(language);
-                dictionaries.Add(language, dictionary);
-            }
-            return dictionary;
         }
 
         public bool IsWordWalid(string word)
