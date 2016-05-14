@@ -49,7 +49,18 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             // Updating the Label which displays the current second
             ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
 
-            if(SkyCrabGlobalVariables.isMyRound)
+            if(SkyCrabGlobalVariables.isGetNewTile)
+            {
+                for(int i = 0; i < SkyCrabGlobalVariables.newTile.letters.Count;i++)
+                {
+                    TileOnRack temp = new TileOnRack(new Tile(SkyCrabGlobalVariables.newTile.letters[i]));
+                    scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
+                } 
+
+                SkyCrabGlobalVariables.isGetNewTile = false;
+            }
+
+            if (SkyCrabGlobalVariables.isMyRound)
             {
                 Play.IsEnabled = true;
                 Exchange.IsEnabled = true;
@@ -60,17 +71,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 Play.IsEnabled = false;
                 Exchange.IsEnabled = false;
                 Pass.IsEnabled = false;
-            }
-
-            if(SkyCrabGlobalVariables.isGetNewTile)
-            {
-                for(int i = 0; i < SkyCrabGlobalVariables.newTile.letters.Count;i++)
-                {
-                    TileOnRack temp = new TileOnRack(new Tile(SkyCrabGlobalVariables.newTile.letters[i]));
-                    scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
-                } 
-
-                SkyCrabGlobalVariables.isGetNewTile = false;
             }
 
             CommandManager.InvalidateRequerySuggested();
@@ -263,6 +263,17 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 return;
             }
 
+            // weryfikacja czy w woreczku jest 7 lub mniej płytek dla reguły Wymiany
+
+            if(scrabbleGame.game.Puoches[0].Count <= 7)
+            {
+                if(SkyCrabGlobalVariables.room.room.Rules.restrictedExchange.value)
+                {
+                    MessageBox.Show("Nie można już dokonać wymiany!");
+                    return;
+                }
+            }
+
             // dodanie zaznaczonych płytek do tymczasowej listy
 
             foreach (var item in listViewRack.SelectedItems)
@@ -277,7 +288,35 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             {
                 scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
             }
-            
+
+            // komunikat do wymiany płytek
+
+           /* var chatMsgAnswer = ExchangeTilesMsg.SyncPost(Ap)
+
+            if (!chatMsgAnswer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = chatMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
+            {
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                switch (errorCode)
+                {
+                    case ErrorCode.NOT_IN_ROOM4:
+                        {
+                            MessageBox.Show("Nie ma Cię w pokoju!");
+                            break;
+                        }
+                }
+                return;
+            }
+            */
+
             // losowanie płytek z woreczka
 
             for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)

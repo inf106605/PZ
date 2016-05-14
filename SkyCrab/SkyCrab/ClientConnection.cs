@@ -126,9 +126,15 @@ namespace SkyCrab
                     case MessageId.NEW_TILES:
                         {
                             DrawedLetters newTiles = (DrawedLetters)messageInfo.message;
-                            SkyCrabGlobalVariables.newTile = new DrawedLetters();
-                            SkyCrabGlobalVariables.newTile = newTiles;
-                            SkyCrabGlobalVariables.isGetNewTile = true;
+                            if (newTiles.playerId == SkyCrabGlobalVariables.player.Id)
+                            {
+                                SkyCrabGlobalVariables.newTile = new DrawedLetters();
+                                SkyCrabGlobalVariables.newTile = newTiles;
+                                if (SkyCrabGlobalVariables.newTile.playerId == SkyCrabGlobalVariables.player.Id)
+                                    SkyCrabGlobalVariables.isGetNewTile = true;
+                                else
+                                    SkyCrabGlobalVariables.isGetNewTile = false;
+                            }
                             break;
                         }
 
