@@ -1,14 +1,12 @@
 ﻿using SkyCrab.Common_classes.Games.Racks;
-using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Game;
-using System.Collections.Generic;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Game
 {
     /// <summary>
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.LOSS_TILES"/></para>
-    /// <para>Data type: <see cref="List{T}"/> of <see cref="TileWithNumber"/>s</para>
+    /// <para>Data type: <see cref="LostLetters"/>s</para>
     /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
@@ -27,14 +25,14 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Game
 
         internal override object Read(MessageConnection connection)
         {
-            List<TileWithNumber> tiles = ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Read(connection);
-            return tiles;
+            LostLetters lostLetters = LostTilesTranscoder.Get.Read(connection);
+            return lostLetters;
         }
 
-        public static void AsyncPost(MessageConnection connection, List<TileWithNumber> tiles)
+        public static void AsyncPost(MessageConnection connection, LostLetters lostLetters)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-                    ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Write(connection, writingBlock, tiles);
+                    LostTilesTranscoder.Get.Write(connection, writingBlock, lostLetters);
             connection.PostNewMessage(MessageId.LOSS_TILES, messageProcedure);
         }
     }

@@ -75,7 +75,6 @@ namespace SkyCrabServer.ServerLogics
             ChooseFirstPlayer();
             DrawTilesForAllPlayers();
             SendNextTurn();
-            //TODO
         }
 
         private void ChooseFirstPlayer()
@@ -92,20 +91,7 @@ namespace SkyCrabServer.ServerLogics
                 FillRack(i);
         }
 
-        private void SendNextTurn()
-        {
-            foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
-            {
-                playerInRoom.IsReady = false;
-                ServerPlayer otherServerPlayer; //Schrödinger Variable
-                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                if (otherServerPlayer == null)  //WTF!?
-                    throw new Exception("Whatever...");
-                NextTurnMsg.AsyncPost(otherServerPlayer.connection, game.CurrentPlayer.Player.Id);
-            }
-        }
-
-        private void FillRack(uint playerNumber)
+        private List<Letter> FillRack(uint playerNumber)
         {
             PlayerInGame playerInGame = game.Players[playerNumber];
             int tilesToDraw = Rack.IntendedTilesCount - playerInGame.Rack.Tiles.Count;
@@ -134,6 +120,7 @@ namespace SkyCrabServer.ServerLogics
                     drawedLetters.letters = blanks;
                 NewTilesMsg.AsyncPost(otherServerPlayer.connection, drawedLetters);
             }
+            return letters;
         }
 
         public void OnQuitGame()
@@ -147,6 +134,82 @@ namespace SkyCrabServer.ServerLogics
             if (game.ActivePlayersNumber == 0)
                 OnEndGame(game);
             game = null;
+        }
+
+        public void ExchangeTiles(Int16 id, List<TileWithNumber> tiles)
+        {
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                if (!InGame)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_IN_GAME3);
+                    return;
+                }
+                if (game.CurrentPlayer.Player.Id != serverPlayer.player.Id)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_YOUR_TURN2);
+                    return;
+                }
+                if (game.Puoches[0].Count >= tiles.Count)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
+                    return;
+                }
+                if (serverRoom.room.Rules.restrictedExchange.value && game.Puoches[0].Count <= Rack.IntendedTilesCount)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
+                    return;
+                }
+                if (!HasTiles(tiles))
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
+                    return;
+                }
+                OkMsg.AsyncPost(id, serverPlayer.connection);
+                RemoveTiles(tiles);
+                List<Letter> newLetters = FillRack(game.CurrentPlayerNumber);
+                GameLog.OnExchange(game, tiles, newLetters);
+                SwitchToNextPlayer();
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
+            }
+        }
+
+        private bool HasTiles(List<TileWithNumber> tiles)
+        {
+            //TODO check number
+            PlayerInGame playerInGame = game.CurrentPlayer;
+            List<Letter> allTilesLetters = new List<Letter>();
+            foreach (TileOnRack tileOnRack in playerInGame.Rack.Tiles)
+                allTilesLetters.Add(tileOnRack.Tile.Letter);
+            foreach (TileWithNumber tileWithNumber in tiles)
+                if (!allTilesLetters.Remove(tileWithNumber.tile.Letter))
+                    return false;
+            return true;
+        }
+
+        private void RemoveTiles(List<TileWithNumber> tiles)
+        {
+            //TODO take number into account
+            Rack rack = game.CurrentPlayer.Rack;
+            foreach (TileWithNumber tileWithNumber in tiles)
+                foreach (TileOnRack tileOnRack in rack.Tiles)
+                    if (tileOnRack.Tile.Letter == tileWithNumber.tile.Letter)
+                        rack.TakeOff(tileOnRack);
+            foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+            {
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever...");
+                LostLetters lostTiles = new LostLetters();
+                lostTiles.playerId = serverPlayer.player.Id;
+                lostTiles.letters = tiles;
+                LossTilesMsg.AsyncPost(otherServerPlayer.connection, lostTiles);
+            }
         }
 
         public void Pass(Int16 id)
@@ -166,8 +229,7 @@ namespace SkyCrabServer.ServerLogics
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);
                 GameLog.OnPass(game);
-                game.SwitchToNextPlayer();
-                SendNextTurn();
+                SwitchToNextPlayer();
             }
             finally
             {
@@ -178,6 +240,25 @@ namespace SkyCrabServer.ServerLogics
         private static void OnEndGame(Game game)
         {
             GameTable.Finish(game.Id);
+        }
+
+        private void SwitchToNextPlayer()
+        {
+            game.SwitchToNextPlayer();
+            SendNextTurn();
+        }
+
+        private void SendNextTurn()
+        {
+            foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+            {
+                playerInRoom.IsReady = false;
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever...");
+                NextTurnMsg.AsyncPost(otherServerPlayer.connection, game.CurrentPlayer.Player.Id);
+            }
         }
 
     }

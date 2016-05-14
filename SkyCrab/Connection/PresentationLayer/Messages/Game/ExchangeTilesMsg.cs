@@ -10,7 +10,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Game
     /// <summary>
     /// <para>Sender: Client</para>
     /// <para>ID: <see cref="MessageId.EXCHANGE_TILES"/></para>
-    /// <para>Data type: <see cref="TileWithNumber"/></para>
+    /// <para>Data type: <see cref="List{T}"/> of <see cref="TileWithNumber"/>s</para>
     /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
     /// <para>Error codes: <see cref="ErrorCode.NOT_IN_GAME3"/>, <see cref="ErrorCode.NOT_YOUR_TURN2"/>, <see cref="ErrorCode.INCORRECT_MOVE3"/></para>
     /// </summary>

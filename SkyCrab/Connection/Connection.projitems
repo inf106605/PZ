@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\UInt8Transcoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\NativeTypes\VersionTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\ErrorCodeTranscoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Game\LostTilesTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Game\DrawedTilesTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Game\TilesToPlaceTranscoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\DataTranscoders\SkyCrabTypes\Game\TileWithNumberTranscoder.cs" />
