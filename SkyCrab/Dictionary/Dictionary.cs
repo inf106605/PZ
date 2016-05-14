@@ -9,6 +9,14 @@ namespace SkyCrab.Dictionaries
 
         private static readonly Dictionary<string, Dictionary> dictionaries = new Dictionary<string, Dictionary>();
 
+        private HashSet<string> words = new HashSet<string>();
+
+
+        public uint WordsCount
+        {
+            get { return (uint)words.Count; }
+        }
+
 
         private Dictionary(string language)
         {
@@ -21,7 +29,6 @@ namespace SkyCrab.Dictionaries
         private void LoadWords(string filePath)
         {
             using (StreamReader file = new StreamReader(filePath))
-            using (StreamWriter outputFile = new StreamWriter(filePath+".out"))
             {
                 string line;
                 string previousWord = "";
@@ -32,7 +39,7 @@ namespace SkyCrab.Dictionaries
                     string word;
                     int repeatedLetters = GetNumberFromBegining(line, out word);
                     string decompresedWord = previousWord.Substring(0, repeatedLetters) + word;
-                    outputFile.WriteLine(decompresedWord);
+                    AddWord(decompresedWord);
                     previousWord = decompresedWord;
                 }
             }
@@ -49,6 +56,11 @@ namespace SkyCrab.Dictionaries
             }
             word = line.Substring(i);
             return result;
+        }
+
+        private void AddWord(string word)
+        {
+            words.Add(word);
         }
 
         public static void Compress(string inputFilePath, string outputFilePath)
@@ -104,8 +116,7 @@ namespace SkyCrab.Dictionaries
 
         public bool IsWordWalid(string word)
         {
-            //TODO
-            return true;
+            return words.Contains(word);
         }
 
     }
