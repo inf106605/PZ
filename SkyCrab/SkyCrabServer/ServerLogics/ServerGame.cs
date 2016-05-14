@@ -40,7 +40,7 @@ namespace SkyCrabServer.ServerLogics
         }
 
         
-        public void OnStartGame()
+        public void StartGame()
         {
             Globals.dataLock.AcquireWriterLock(-1);
             try
@@ -58,6 +58,7 @@ namespace SkyCrabServer.ServerLogics
                     Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                     if (otherServerPlayer == null)  //WTF!?
                         throw new Exception("Whatever...");
+                    otherServerPlayer.serverGame.game = game;
                     GameStartedMsg.AsyncPost(otherServerPlayer.connection, game.Id);
                 }
                 GameLog.OnGameStart(game);

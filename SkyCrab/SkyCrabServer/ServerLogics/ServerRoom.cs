@@ -359,7 +359,7 @@ namespace SkyCrabServer.ServerLogics
 
         public void StartGame()
         {
-            serverPlayer.serverGame.OnStartGame();
+            serverPlayer.serverGame.StartGame();
             startGameTimer = null;
         }
 

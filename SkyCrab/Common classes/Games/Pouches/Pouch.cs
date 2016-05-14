@@ -180,10 +180,9 @@ namespace SkyCrab.Common_classes.Games.Pouch
                 LetterCount letterCount = tiles[i];
                 if (number < letterCount.count)
                 {
-                    Tile tile = new Tile(letterCount.letter);
                     --letterCount.count;
                     --count;
-                    return tile;
+                    return new Tile(letterCount.letter);
                 }
                 else
                 {
