@@ -136,7 +136,7 @@ namespace SkyCrabServer.ServerLogics
             game = null;
         }
 
-        public void ExchangeTiles(Int16 id, List<TileWithNumber> tiles)
+        public void ExchangeTiles(Int16 id, List<LetterWithNumber> letters)
         {
             Globals.dataLock.AcquireWriterLock(-1);
             try
@@ -151,7 +151,7 @@ namespace SkyCrabServer.ServerLogics
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_YOUR_TURN2);
                     return;
                 }
-                if (game.Puoches[0].Count >= tiles.Count)
+                if (game.Puoches[0].Count >= letters.Count)
                 {
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
                     return;
@@ -161,15 +161,15 @@ namespace SkyCrabServer.ServerLogics
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
                     return;
                 }
-                if (!HasTiles(tiles))
+                if (!HasTiles(letters))
                 {
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
                     return;
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);
-                RemoveTiles(tiles);
+                RemoveTiles(letters);
                 List<Letter> newLetters = FillRack(game.CurrentPlayerNumber);
-                GameLog.OnExchange(game, tiles, newLetters);
+                GameLog.OnExchange(game, letters, newLetters);
                 SwitchToNextPlayer();
             }
             finally
@@ -178,26 +178,26 @@ namespace SkyCrabServer.ServerLogics
             }
         }
 
-        private bool HasTiles(List<TileWithNumber> tiles)
+        private bool HasTiles(List<LetterWithNumber> letters)
         {
             //TODO check number
             PlayerInGame playerInGame = game.CurrentPlayer;
             List<Letter> allTilesLetters = new List<Letter>();
             foreach (TileOnRack tileOnRack in playerInGame.Rack.Tiles)
                 allTilesLetters.Add(tileOnRack.Tile.Letter);
-            foreach (TileWithNumber tileWithNumber in tiles)
-                if (!allTilesLetters.Remove(tileWithNumber.tile.Letter))
+            foreach (LetterWithNumber letterWithNumber in letters)
+                if (!allTilesLetters.Remove(letterWithNumber.letter))
                     return false;
             return true;
         }
 
-        private void RemoveTiles(List<TileWithNumber> tiles)
+        private void RemoveTiles(List<LetterWithNumber> letters)
         {
             //TODO take number into account
             Rack rack = game.CurrentPlayer.Rack;
-            foreach (TileWithNumber tileWithNumber in tiles)
+            foreach (LetterWithNumber letterWithNumber in letters)
                 foreach (TileOnRack tileOnRack in rack.Tiles)
-                    if (tileOnRack.Tile.Letter == tileWithNumber.tile.Letter)
+                    if (tileOnRack.Tile.Letter == letterWithNumber.letter)
                         rack.TakeOff(tileOnRack);
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
@@ -207,7 +207,7 @@ namespace SkyCrabServer.ServerLogics
                     throw new Exception("Whatever...");
                 LostLetters lostTiles = new LostLetters();
                 lostTiles.playerId = serverPlayer.player.Id;
-                lostTiles.letters = tiles;
+                lostTiles.letters = letters;
                 LossTilesMsg.AsyncPost(otherServerPlayer.connection, lostTiles);
             }
         }

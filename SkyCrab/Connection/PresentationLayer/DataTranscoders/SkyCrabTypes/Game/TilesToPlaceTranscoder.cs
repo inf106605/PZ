@@ -21,14 +21,14 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Game
         public override TilesToPlace Read(EncryptedConnection connection)
         {
             TilesToPlace data = new TilesToPlace();
-            data.tilesFromRack = ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Read(connection);
+            data.tilesFromRack = ListTranscoder<LetterWithNumber>.Get(LetterWithNumberTranscoder.Get).Read(connection);
             data.tilesToPlace = ListTranscoder<TileOnBoard>.Get(TileOnBoardTranscoder.Get).Read(connection);
             return data;
         }
 
         public override void Write(EncryptedConnection connection, object writingBlock, TilesToPlace data)
         {
-            ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Write(connection, writingBlock, data.tilesFromRack);
+            ListTranscoder<LetterWithNumber>.Get(LetterWithNumberTranscoder.Get).Write(connection, writingBlock, data.tilesFromRack);
             ListTranscoder<TileOnBoard>.Get(TileOnBoardTranscoder.Get).Write(connection, writingBlock, data.tilesToPlace);
         }
 

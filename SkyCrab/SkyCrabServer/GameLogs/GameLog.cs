@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using SkyCrab.Common_classes.Games;
 using SkyCrab.Common_classes.Games.Letters;
-using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrabServer.Databases;
 
@@ -62,11 +61,11 @@ namespace SkyCrabServer.GameLogs
             GameTable.AddToLog(game.Id, log);
         }
 
-        public static void OnExchange(Game game, List<TileWithNumber> lostTiles, List<Letter> newLetters)
+        public static void OnExchange(Game game, List<LetterWithNumber> lostTiles, List<Letter> newLetters)
         {
             string log = "EXCHANGE:\n\tplayer #" + (game.CurrentPlayerNumber + 1) + "\n";
-            foreach (TileWithNumber tileWithNumber in lostTiles)
-                log += "\'" + tileWithNumber.tile.Letter.character + "\', ";
+            foreach (LetterWithNumber letterWithNumber in lostTiles)
+                log += "\'" + letterWithNumber.letter.character + "\', ";
             log = log.Substring(0, log.Length - 2);
             log += '\n';
             foreach (Letter letter in newLetters)

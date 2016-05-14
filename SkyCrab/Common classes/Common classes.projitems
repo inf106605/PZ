@@ -27,7 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\LostLetters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\Rack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\TileOnRack.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\TileWithNumber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Racks\LetterWithNumber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\LetterCount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\PolishTileSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Tiles\Tile.cs" />

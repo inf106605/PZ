@@ -21,14 +21,14 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Game
         {
             LostLetters data = new LostLetters();
             data.playerId = UInt32Transcoder.Get.Read(connection);
-            data.letters = ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Read(connection);
+            data.letters = ListTranscoder<LetterWithNumber>.Get(LetterWithNumberTranscoder.Get).Read(connection);
             return data;
         }
 
         public override void Write(EncryptedConnection connection, object writingBlock, LostLetters data)
         {
             UInt32Transcoder.Get.Write(connection, writingBlock, data.playerId);
-            ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Write(connection, writingBlock, data.letters);
+            ListTranscoder<LetterWithNumber>.Get(LetterWithNumberTranscoder.Get).Write(connection, writingBlock, data.letters);
         }
 
     }

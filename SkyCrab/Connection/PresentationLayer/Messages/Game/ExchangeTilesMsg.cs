@@ -29,20 +29,20 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Game
 
         internal override object Read(MessageConnection connection)
         {
-            List<TileWithNumber> tiles = ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Read(connection);
+            List<LetterWithNumber> tiles = ListTranscoder<LetterWithNumber>.Get(LetterWithNumberTranscoder.Get).Read(connection);
             return tiles;
         }
 
-        public static void AsyncPost(MessageConnection connection, List<TileWithNumber> tiles, AnswerCallback callback, object state = null)
+        public static void AsyncPost(MessageConnection connection, List<LetterWithNumber> letters, AnswerCallback callback, object state = null)
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-                    ListTranscoder<TileWithNumber>.Get(TileWithNumberTranscoder.Get).Write(connection, writingBlock, tiles);
+                    ListTranscoder<LetterWithNumber>.Get(LetterWithNumberTranscoder.Get).Write(connection, writingBlock, letters);
             connection.PostNewMessage(MessageId.EXCHANGE_TILES, messageProcedure,callback,state);
         }
 
-        public static MessageInfo? SyncPost(MessageConnection connection, List<TileWithNumber> tiles, int timeout)
+        public static MessageInfo? SyncPost(MessageConnection connection, List<LetterWithNumber> letters, int timeout)
         {
-            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, tiles, callback, state), timeout);
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, letters, callback, state), timeout);
         }
 
     }

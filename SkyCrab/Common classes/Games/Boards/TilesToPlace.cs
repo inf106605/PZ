@@ -5,7 +5,7 @@ namespace SkyCrab.Common_classes.Games.Boards
 {
     public struct TilesToPlace
     {
-        public List<TileWithNumber> tilesFromRack;
+        public List<LetterWithNumber> tilesFromRack;
         public List<TileOnBoard> tilesToPlace;
     }
 }
