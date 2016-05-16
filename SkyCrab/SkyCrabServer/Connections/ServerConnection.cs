@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.Common_classes.Rooms;
 using SkyCrab.Connection.AplicationLayer;
@@ -6,6 +7,7 @@ using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrabServer.ServerLogics;
 using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 
 namespace SkyCrabServer.Connactions
@@ -144,7 +146,7 @@ namespace SkyCrabServer.Connactions
 						break;
 						
                     case MessageId.EXCHANGE_TILES:
-						//TODO
+                        serverPlayer.serverGame.ExchangeTiles(id, (List<LetterWithNumber>)messageInfo.message);
 						break;
 						
                     case MessageId.PASS:
