@@ -28,14 +28,15 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Game
             return null;
         }
 
+        public static MessageInfo? SyncPost(MessageConnection connection, int timeout)
+        {
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, callback, state), timeout);
+        }
+
         public static void AsyncPost(MessageConnection connection, AnswerCallback callback, object state = null)
         {
             connection.PostNewMessage(MessageId.PASS, null,callback,state);
         }
 
-        public static MessageInfo? SyncPost(MessageConnection connection, int timeout)
-        {
-            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, callback, state), timeout);
-        }
     }
 }

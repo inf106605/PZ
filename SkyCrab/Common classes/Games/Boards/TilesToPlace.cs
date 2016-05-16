@@ -1,11 +1,13 @@
 ﻿using SkyCrab.Common_classes.Games.Racks;
+using System;
 using System.Collections.Generic;
 
 namespace SkyCrab.Common_classes.Games.Boards
 {
     public struct TilesToPlace
     {
-        public List<LetterWithNumber> tilesFromRack;
+        public UInt32 playerId;
+        public List<LetterWithNumber> lettersFromRack;
         public List<TileOnBoard> tilesToPlace;
     }
 }

@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\StandardBoard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\TileOnBoard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\TilesToPlace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Games\Boards\WordOnBoard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Game.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Letters\Letter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Games\Letters\LetterSet.cs" />

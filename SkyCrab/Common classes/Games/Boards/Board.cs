@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Common_classes.Games.Tiles;
 using System.Collections.Generic;
+using System;
 
 namespace SkyCrab.Common_classes.Games.Boards
 {
@@ -23,7 +24,7 @@ namespace SkyCrab.Common_classes.Games.Boards
 
     }
 
-    public abstract class Board
+    public abstract class Board : ICloneable
     {
 
         public abstract bool Rectangle { get; }
@@ -34,6 +35,10 @@ namespace SkyCrab.Common_classes.Games.Boards
         public abstract IList<PositionOnBoard> Squares { get; }
 
         public abstract PositionOnBoard StartSquare { get; }
+
+        public abstract uint Count { get; }
+
+        public abstract bool IsEmpty { get; }
 
 
         public abstract bool IsSquare(PositionOnBoard position);
@@ -47,7 +52,22 @@ namespace SkyCrab.Common_classes.Games.Boards
 
         public abstract void PutTile(Tile tile, PositionOnBoard position);
 
+        public TileOnBoard GetTileOnBoard(PositionOnBoard position)
+        {
+            TileOnBoard tileOnBoard = new TileOnBoard();
+            tileOnBoard.tile = GetTile(position);
+            if (tileOnBoard.tile == null)
+                return null;
+            tileOnBoard.position = position;
+            return tileOnBoard;
+        }
+
         public abstract Tile GetTile(PositionOnBoard position);
+
+        public string getSquareID(WordOnBoard wordOnBoard)
+        {
+            return getSquareID(wordOnBoard.position, wordOnBoard.horizonatal);
+        }
 
         public abstract string getSquareID(PositionOnBoard position, bool horizontal);
 
@@ -60,6 +80,8 @@ namespace SkyCrab.Common_classes.Games.Boards
             else
                 return number + letter;
         }
+
+        public abstract object Clone();
 
     }
 }

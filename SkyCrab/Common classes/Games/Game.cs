@@ -6,7 +6,11 @@ using System;
 
 namespace SkyCrab.Common_classes.Games
 {
-    public class NoSuchPlayerInGameException : SkyCrabException
+    public sealed class FirstPlayerNotSelectedException : SkyCrabException
+    {
+    }
+
+    public sealed class NoSuchPlayerInGameException : SkyCrabException
     {
         public NoSuchPlayerInGameException(UInt32 playerId) :
             base("There is not player with ID " + playerId + " in this game!")
@@ -14,7 +18,7 @@ namespace SkyCrab.Common_classes.Games
         }
     }
 
-    public class ThereIsNoAnyActivwePlayerException : SkyCrabException
+    public class ThereIsNoAnyActivePlayerException : SkyCrabException
     {
     }
 
@@ -25,10 +29,13 @@ namespace SkyCrab.Common_classes.Games
         private Room room;
         private Board board;
         private PlayerInGame[] players;
-        private uint currentPlayerNumber = 0;
+        private uint firstPlayerNumber = uint.MaxValue;
+        private uint currentPlayerNumber = uint.MaxValue;
         private Pouch.Pouch[] pouches;
         private bool isDummy;
         private bool isFinished = false;
+        private uint turnNumber = 0;
+        private uint fullRoundNumber = 0;
 
 
         public UInt32 Id
@@ -51,10 +58,19 @@ namespace SkyCrab.Common_classes.Games
             get { return players; }
         }
 
+        public uint FirstPlayerNumber
+        {
+            get { return firstPlayerNumber; }
+        }
+
         public uint CurrentPlayerNumber
         {
             get { return currentPlayerNumber; }
-            set { currentPlayerNumber = value; }
+            set {
+                if (currentPlayerNumber == uint.MaxValue)
+                    firstPlayerNumber = value;
+                currentPlayerNumber = value;
+            }
         }
 
         public uint ActivePlayersNumber
@@ -69,9 +85,25 @@ namespace SkyCrab.Common_classes.Games
             }
         }
 
+        public PlayerInGame FirstPlayer
+        {
+            get
+            {
+                if (firstPlayerNumber == uint.MaxValue)
+                    return null;
+                else
+                    return players[firstPlayerNumber];
+            }
+        }
+
         public PlayerInGame CurrentPlayer
         {
-            get { return players[currentPlayerNumber]; }
+            get {
+                if (currentPlayerNumber == uint.MaxValue)
+                    return null;
+                else
+                    return players[currentPlayerNumber];
+            }
         }
 
         public Pouch.Pouch[] Puoches
@@ -87,6 +119,16 @@ namespace SkyCrab.Common_classes.Games
         public bool IsFinished
         {
             get { return isFinished; }
+        }
+
+        public uint TurnNumber
+        {
+            get { return turnNumber; }
+        }
+
+        public uint FullRoundNumber
+        {
+            get { return fullRoundNumber; }
         }
 
 
@@ -113,25 +155,36 @@ namespace SkyCrab.Common_classes.Games
 
         public void SwitchToNextPlayer()
         {
+            if (currentPlayerNumber == uint.MaxValue)
+                throw new FirstPlayerNotSelectedException();
+            ++turnNumber;
             for (uint i = currentPlayerNumber + 1; i != players.Length; ++i)
+            {
+                if (i == firstPlayerNumber)
+                    ++fullRoundNumber;
                 if (!players[i].Walkover)
                 {
                     currentPlayerNumber = i;
                     return;
                 }
+            }
             for (uint i = 0; i != currentPlayerNumber + 1; ++i)
+            {
+                if (i == firstPlayerNumber)
+                    ++fullRoundNumber;
                 if (!players[i].Walkover)
                 {
                     currentPlayerNumber = i;
                     return;
                 }
-            throw new ThereIsNoAnyActivwePlayerException();
+            }
+            throw new ThereIsNoAnyActivePlayerException();
         }
 
         public void FinishGame()
         {
             isFinished = true;
         }
-
+        
     }
 }

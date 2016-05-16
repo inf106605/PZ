@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.Common_classes.Rooms;
@@ -142,8 +143,8 @@ namespace SkyCrabServer.Connactions
 						break;
 						
                     case MessageId.PLACE_TILES:
-						//TODO
-						break;
+                        serverPlayer.serverGame.PlaceTiles(id, (TilesToPlace)messageInfo.message);
+                        break;
 						
                     case MessageId.EXCHANGE_TILES:
                         serverPlayer.serverGame.ExchangeTiles(id, (List<LetterWithNumber>)messageInfo.message);
