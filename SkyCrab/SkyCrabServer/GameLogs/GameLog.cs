@@ -64,15 +64,15 @@ namespace SkyCrabServer.GameLogs
 
         public static void OnExchange(Game game, List<LetterWithNumber> lostTiles, List<Letter> newLetters)
         {
-            string log = "EXCHANGE:\n\tplayer #" + (game.CurrentPlayerNumber + 1) + "\n";
+            string log = "EXCHANGE:\n\tplayer #" + (game.CurrentPlayerNumber + 1) + "\n\t";
             foreach (LetterWithNumber letterWithNumber in lostTiles)
                 log += "\'" + letterWithNumber.letter.character + "\', ";
             log = log.Substring(0, log.Length - 2);
-            log += '\n';
+            log += "\n\t";
             foreach (Letter letter in newLetters)
                 log += "\'" + letter.character + "\', ";
             log = log.Substring(0, log.Length - 2);
-            log += '\n';
+            log += "\n";
             GameTable.AddToLog(game.Id, log);
         }
 

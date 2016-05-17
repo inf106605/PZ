@@ -24,9 +24,13 @@
             return !(position1 == position2);
         }
 
-        public bool Equals(PositionOnBoard position)
+        public override bool Equals(object position)
         {
-            return this == position;
+            if (position == null)
+                return false;
+            if (position.GetType() != typeof(PositionOnBoard))
+                return false;
+            return this == (PositionOnBoard)position;
         }
 
         public override int GetHashCode()

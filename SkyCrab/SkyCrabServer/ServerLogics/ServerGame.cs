@@ -473,7 +473,7 @@ namespace SkyCrabServer.ServerLogics
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_YOUR_TURN2);
                     return;
                 }
-                if (game.Puoches[0].Count >= letters.Count)
+                if (game.Puoches[0].Count <= letters.Count)
                 {
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
                     return;
@@ -520,7 +520,10 @@ namespace SkyCrabServer.ServerLogics
             foreach (LetterWithNumber letterWithNumber in letters)
                 foreach (TileOnRack tileOnRack in rack.Tiles)
                     if (tileOnRack.Tile.Letter == letterWithNumber.letter)
+                    {
                         rack.TakeOff(tileOnRack);
+                        break;
+                    }
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
                 ServerPlayer otherServerPlayer; //Schrödinger Variable
