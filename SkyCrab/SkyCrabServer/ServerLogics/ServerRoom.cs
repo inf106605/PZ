@@ -352,7 +352,12 @@ namespace SkyCrabServer.ServerLogics
 
         private void StartGameTimerTaskBody()
         {
-            if (startGameSemaphore.WaitOne(10000))
+            #if DEBUG
+            const int GAME_START_TIMEOUT = 1000;
+            #else
+            const int GAME_START_TIMEOUT = 10000;
+            #endif
+            if (startGameSemaphore.WaitOne(GAME_START_TIMEOUT))
                 return;
             Task.Factory.StartNew(StartGame);
         }
