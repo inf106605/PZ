@@ -98,12 +98,12 @@ namespace SkyCrabServer.ServerLogics
         private void DrawTilesForAllPlayers()
         {
             for (uint i = game.CurrentPlayerNumber; i != game.Players.Length; ++i)
-                FillRack(i);
+                FillRack(i, true);
             for (uint i = 0; i != game.CurrentPlayerNumber; ++i)
-                FillRack(i);
+                FillRack(i, true);
         }
 
-        private List<Letter> FillRack(uint playerNumber)
+        private List<Letter> FillRack(uint playerNumber, bool addToLog)
         {
             PlayerInGame playerInGame = game.Players[playerNumber];
             int tilesToDraw = Rack.IntendedTilesCount - playerInGame.Rack.Tiles.Count;
@@ -116,7 +116,8 @@ namespace SkyCrabServer.ServerLogics
                 letters.Add(drawedTile.Letter);
                 blanks.Add(LetterSet.BLANK);
             }
-            GameLog.OnDrawLetters(game, playerNumber, letters);
+            if (addToLog)
+                GameLog.OnDrawLetters(game, playerNumber, letters);
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
                 playerInRoom.IsReady = false;
@@ -210,7 +211,7 @@ namespace SkyCrabServer.ServerLogics
                 uint points;
                 DoPlaceTiles(tilesToPlace, out wordOnBoard, out points);
                 GameLog.OnPlaceTiles(game, wordOnBoard, points);
-                List<Letter> newLetters = FillRack(game.CurrentPlayerNumber);
+                List<Letter> newLetters = FillRack(game.CurrentPlayerNumber, true);
                 SwitchToNextPlayer();
             }
             finally
@@ -490,7 +491,7 @@ namespace SkyCrabServer.ServerLogics
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);
                 RemoveTiles(letters);
-                List<Letter> newLetters = FillRack(game.CurrentPlayerNumber);
+                List<Letter> newLetters = FillRack(game.CurrentPlayerNumber, false);
                 GameLog.OnExchange(game, letters, newLetters);
                 SwitchToNextPlayer();
             }
