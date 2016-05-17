@@ -237,7 +237,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 letterWithNumber.letter = scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Letter;
                 TileOnBoard tileOnBoard = new TileOnBoard();
                 tileOnBoard.tile = scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile;
-                tileOnBoard.position = new PositionOnBoard(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column);
+                tileOnBoard.position = new PositionOnBoard(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row);
                 tilesToPlace.lettersFromRack.Add(letterWithNumber);
                 tilesToPlace.tilesToPlace.Add(tileOnBoard);
             }
