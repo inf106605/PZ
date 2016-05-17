@@ -127,10 +127,15 @@ namespace SkyCrab.Common_classes.Games.Pouch
 
         public void InsertAnyTile()
         {
+            InsertAnyTiles(1);
+        }
+
+        public void InsertAnyTiles(uint insertedCount)
+        {
             if (!dummy)
                 throw new PouchHasToBeDummyToUseThisMethodException();
-            ++tiles[0].count;
-            ++count;
+            tiles[0].count += insertedCount;
+            count += insertedCount;
         }
 
         public Tile DrawTileWithLetter(Letter letter)
