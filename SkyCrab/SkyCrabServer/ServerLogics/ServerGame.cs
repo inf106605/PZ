@@ -206,7 +206,7 @@ namespace SkyCrabServer.ServerLogics
                     return;
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);
-                RemoveTiles(tilesToPlace.lettersFromRack);
+                RemoveTiles(tilesToPlace.lettersFromRack, false);
                 WordOnBoard wordOnBoard;
                 uint points;
                 DoPlaceTiles(tilesToPlace, out wordOnBoard, out points);
@@ -490,7 +490,7 @@ namespace SkyCrabServer.ServerLogics
                     return;
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);
-                RemoveTiles(letters);
+                RemoveTiles(letters, true);
                 List<Letter> newLetters = FillRack(game.CurrentPlayerNumber, false);
                 InsertTilesToPouch(letters);
                 GameLog.OnExchange(game, letters, newLetters);
@@ -515,7 +515,7 @@ namespace SkyCrabServer.ServerLogics
             return true;
         }
 
-        private void RemoveTiles(List<LetterWithNumber> letters)
+        private void RemoveTiles(List<LetterWithNumber> letters, bool backToPouch)
         {
             //TODO take number into account
             Rack rack = game.CurrentPlayer.Rack;
@@ -542,6 +542,7 @@ namespace SkyCrabServer.ServerLogics
                     throw new Exception("Whatever...");
                 LostLetters lostTiles = new LostLetters();
                 lostTiles.playerId = serverPlayer.player.Id;
+                lostTiles.backToPouch = backToPouch;
                 if (serverPlayer.player.Id == otherServerPlayer.player.Id)
                     lostTiles.letters = letters;
                 else
