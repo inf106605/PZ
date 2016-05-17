@@ -522,8 +522,17 @@ namespace SkyCrabServer.ServerLogics
                     if (tileOnRack.Tile.Letter == letterWithNumber.letter)
                     {
                         rack.TakeOff(tileOnRack);
+                        game.Puoches[0].InsertTile(tileOnRack.Tile.Letter);
                         break;
                     }
+            List<LetterWithNumber> blanks = new List<LetterWithNumber>();
+            foreach (LetterWithNumber letterWithNumber in letters)
+            {
+                LetterWithNumber blank = new LetterWithNumber();
+                blank.number = letterWithNumber.number;
+                blank.letter = LetterSet.BLANK;
+                blanks.Add(blank);
+            }
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
                 ServerPlayer otherServerPlayer; //Schrödinger Variable
@@ -532,7 +541,10 @@ namespace SkyCrabServer.ServerLogics
                     throw new Exception("Whatever...");
                 LostLetters lostTiles = new LostLetters();
                 lostTiles.playerId = serverPlayer.player.Id;
-                lostTiles.letters = letters;
+                if (serverPlayer.player.Id == otherServerPlayer.player.Id)
+                    lostTiles.letters = letters;
+                else
+                    lostTiles.letters = blanks;
                 LossTilesMsg.AsyncPost(otherServerPlayer.connection, lostTiles);
             }
         }
