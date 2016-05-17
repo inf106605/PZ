@@ -492,6 +492,7 @@ namespace SkyCrabServer.ServerLogics
                 OkMsg.AsyncPost(id, serverPlayer.connection);
                 RemoveTiles(letters);
                 List<Letter> newLetters = FillRack(game.CurrentPlayerNumber, false);
+                InsertTilesToPouch(letters);
                 GameLog.OnExchange(game, letters, newLetters);
                 SwitchToNextPlayer();
             }
@@ -523,7 +524,6 @@ namespace SkyCrabServer.ServerLogics
                     if (tileOnRack.Tile.Letter == letterWithNumber.letter)
                     {
                         rack.TakeOff(tileOnRack);
-                        game.Puoches[0].InsertTile(tileOnRack.Tile.Letter);
                         break;
                     }
             List<LetterWithNumber> blanks = new List<LetterWithNumber>();
@@ -548,6 +548,12 @@ namespace SkyCrabServer.ServerLogics
                     lostTiles.letters = blanks;
                 LossTilesMsg.AsyncPost(otherServerPlayer.connection, lostTiles);
             }
+        }
+
+        private void InsertTilesToPouch(List<LetterWithNumber> letters)
+        {
+            foreach (LetterWithNumber letterWithNumber in letters)
+                game.Puoches[0].InsertTile(letterWithNumber.letter);
         }
 
         public void Pass(Int16 id)
