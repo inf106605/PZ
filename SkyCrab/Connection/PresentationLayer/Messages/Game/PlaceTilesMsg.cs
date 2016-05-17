@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Game;
+using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 
 namespace SkyCrab.Connection.PresentationLayer.Messages.Game
@@ -28,6 +29,18 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Game
         {
             TilesToPlace tilesToPlace = TilesToPlaceTranscoder.Get.Read(connection);
             return tilesToPlace;
+        }
+
+        public static MessageInfo? SyncPost(MessageConnection connection, TilesToPlace tilesToPlace, int timeout)
+        {
+            return AsyncPostToSyncPost((callback, state) => AsyncPost(connection, tilesToPlace, callback, state), timeout);
+        }
+
+        public static void AsyncPost(MessageConnection connection, TilesToPlace tilesToPlace, AnswerCallback callback, object state = null)
+        {
+            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
+                    TilesToPlaceTranscoder.Get.Write(connection, writingBlock, tilesToPlace);
+            connection.PostNewMessage(MessageId.PLACE_TILES, messageProcedure, callback, state);
         }
 
         public static void AsyncPost(MessageConnection connection, TilesToPlace tilesToPlace)

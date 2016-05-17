@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Common_classes.Games.Tiles;
 using System.Collections.Generic;
+using System;
 
 namespace SkyCrab.Common_classes.Games.Boards
 {
@@ -10,17 +11,18 @@ namespace SkyCrab.Common_classes.Games.Boards
 
         private static readonly SquareType[][] squareTypes = new SquareType[8][]
                 {
-					new SquareType[8] { SquareType.word3,   SquareType.normal,  SquareType.normal,  SquareType.letter2, SquareType.normal,  SquareType.normal,  SquareType.normal,  SquareType.word3 },
-					new SquareType[8] { SquareType.normal,  SquareType.word2,   SquareType.normal,  SquareType.normal,  SquareType.normal,  SquareType.letter3, SquareType.normal,  SquareType.normal },
-					new SquareType[8] { SquareType.normal,  SquareType.normal,  SquareType.word2,   SquareType.normal,  SquareType.normal,  SquareType.normal,  SquareType.letter2, SquareType.normal },
-					new SquareType[8] { SquareType.letter2, SquareType.normal,  SquareType.normal,  SquareType.word2,   SquareType.normal,  SquareType.normal,  SquareType.normal,  SquareType.letter2 },
-					new SquareType[8] { SquareType.normal,  SquareType.normal,  SquareType.normal,  SquareType.normal,  SquareType.word2,   SquareType.normal,  SquareType.normal,  SquareType.normal },
-					new SquareType[8] { SquareType.normal,  SquareType.letter3, SquareType.normal,  SquareType.normal,  SquareType.normal,  SquareType.letter3, SquareType.normal,  SquareType.normal },
-					new SquareType[8] { SquareType.normal,  SquareType.normal,  SquareType.letter2, SquareType.normal,  SquareType.normal,  SquareType.normal,  SquareType.letter2, SquareType.normal },
-					new SquareType[8] { SquareType.word3,   SquareType.normal,  SquareType.normal,  SquareType.letter2, SquareType.normal,  SquareType.normal,  SquareType.normal,  SquareType.start }
+					new SquareType[8] { SquareType.WORD3,   SquareType.NORMAL,  SquareType.NORMAL,  SquareType.LETTER2, SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL,  SquareType.WORD3 },
+					new SquareType[8] { SquareType.NORMAL,  SquareType.WORD2,   SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL,  SquareType.LETTER3, SquareType.NORMAL,  SquareType.NORMAL },
+					new SquareType[8] { SquareType.NORMAL,  SquareType.NORMAL,  SquareType.WORD2,   SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL,  SquareType.LETTER2, SquareType.NORMAL },
+					new SquareType[8] { SquareType.LETTER2, SquareType.NORMAL,  SquareType.NORMAL,  SquareType.WORD2,   SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL,  SquareType.LETTER2 },
+					new SquareType[8] { SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL,  SquareType.WORD2,   SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL },
+					new SquareType[8] { SquareType.NORMAL,  SquareType.LETTER3, SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL,  SquareType.LETTER3, SquareType.NORMAL,  SquareType.NORMAL },
+					new SquareType[8] { SquareType.NORMAL,  SquareType.NORMAL,  SquareType.LETTER2, SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL,  SquareType.LETTER2, SquareType.NORMAL },
+					new SquareType[8] { SquareType.WORD3,   SquareType.NORMAL,  SquareType.NORMAL,  SquareType.LETTER2, SquareType.NORMAL,  SquareType.NORMAL,  SquareType.NORMAL,  SquareType.START }
 				};
 
         private Tile[][] tiles;
+        private uint count = 0;
 
 
         static StandardBoard()
@@ -76,13 +78,35 @@ namespace SkyCrab.Common_classes.Games.Boards
         {
             get { return StartSquare_; }
         }
-        
+
+        public override uint Count
+        {
+            get { return Count; }
+        }
+
+        public override bool IsEmpty
+        {
+            get { return Count == 0; }
+        }
+
 
         public StandardBoard()
         {
             tiles = new Tile[15][];
             for (uint i = 0; i != 15; ++i)
                 tiles[i] = new Tile[15];
+        }
+
+        private StandardBoard(StandardBoard board)
+        {
+            tiles = new Tile[15][];
+            for (uint i = 0; i != 15; ++i)
+            {
+                tiles[i] = new Tile[15];
+                for (uint j = 0; j != 15; ++j)
+                    tiles[i][j] = board.tiles[i][j];
+            }
+            count = board.count;
         }
 
         public static bool IsSquare_(PositionOnBoard position)
@@ -114,6 +138,7 @@ namespace SkyCrab.Common_classes.Games.Boards
             if (GetTile(position) != null)
                 throw new SquareOnBoardIsOccupiedException();
             tiles[position.x][position.y] = tile;
+            ++count;
         }
 
         public override Tile GetTile(PositionOnBoard position)
@@ -131,6 +156,11 @@ namespace SkyCrab.Common_classes.Games.Boards
         public override string getSquareID(PositionOnBoard position, bool horizontal)
         {
             return getSquareID_(position, horizontal);
+        }
+
+        public override object Clone()
+        {
+            return new StandardBoard(this);
         }
 
     }

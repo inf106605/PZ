@@ -2,12 +2,12 @@
 {
     public enum SquareType : byte
     {
-        normal  = 0,
-        start   = 1,
-        letter2 = 2,
-        letter3 = 3,
-        word2   = 4,
-        word3   = 5
+        NORMAL  = 0,
+        START   = 1,
+        LETTER2 = 2,
+        LETTER3 = 3,
+        WORD2   = 4,
+        WORD3   = 5
     }
 	
 }

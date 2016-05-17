@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SkyCrab.Common_classes.Games;
+using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrabServer.Databases;
@@ -72,6 +73,18 @@ namespace SkyCrabServer.GameLogs
                 log += "\'" + letter.character + "\', ";
             log = log.Substring(0, log.Length - 2);
             log += '\n';
+            GameTable.AddToLog(game.Id, log);
+        }
+
+        public static void OnWrongMove(Game game, WordOnBoard wordOnBoard)
+        {
+            string log = "WRONG MOVE:\n\tplayer #" + (game.CurrentPlayerNumber + 1) + "\n\t" + game.Board.getSquareID(wordOnBoard) + " " + wordOnBoard.word + "\n";
+            GameTable.AddToLog(game.Id, log);
+        }
+
+        public static void OnPlaceTiles(Game game, WordOnBoard wordOnBoard, uint points)
+        {
+            string log = "PLACE TILES:\n\tplayer #" + (game.CurrentPlayerNumber + 1) + "\n\t" + game.Board.getSquareID(wordOnBoard) + " " + wordOnBoard.word + "\n\t" + points + "\n";
             GameTable.AddToLog(game.Id, log);
         }
 

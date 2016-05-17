@@ -12,11 +12,20 @@ using SkyCrabServer.Databases;
 using SkyCrabServer.GameLogs;
 using System;
 using System.Collections.Generic;
+using SkyCrab.Common_classes.Games.Boards;
 
 namespace SkyCrabServer.ServerLogics
 {
     class ServerGame
     {
+
+        private enum Orientation
+        {
+            HORIZONTAL,
+            VERTICAL,
+            NONE
+        }
+
 
         private static readonly Random rand = new Random();
 
@@ -39,7 +48,10 @@ namespace SkyCrabServer.ServerLogics
             this.serverRoom = serverRoom;
         }
 
-        
+        public ServerGame() : base()
+        {
+        }
+
         public void StartGame()
         {
             Globals.dataLock.AcquireWriterLock(-1);
@@ -134,6 +146,316 @@ namespace SkyCrabServer.ServerLogics
             if (game.ActivePlayersNumber == 0)
                 OnEndGame(game);
             game = null;
+        }
+
+        public void PlaceTiles(Int16 id, TilesToPlace tilesToPlace)
+        {
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                if (!InGame)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_IN_GAME2);
+                    return;
+                }
+                if (game.CurrentPlayer.Player.Id != serverPlayer.player.Id)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_YOUR_TURN);
+                    return;
+                }
+                if (tilesToPlace.lettersFromRack.Count == 0 || tilesToPlace.lettersFromRack.Count != tilesToPlace.tilesToPlace.Count)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    return;
+                }
+                if (serverRoom.room.Rules.fivesFirst.value && game.Board.IsEmpty && tilesToPlace.lettersFromRack.Count < (5 - game.FullRoundNumber))
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    return;
+                }
+                if (!AreTheSameLetters(tilesToPlace))
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    return;
+                }
+                if (!HasTiles(tilesToPlace.lettersFromRack))
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    return;
+                }
+                if (GetTilesOrientation(tilesToPlace.tilesToPlace) == Orientation.NONE)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    return;
+                }
+                try
+                {
+                    WordOnBoard wrongWordOnBoard;
+                    if (!IsMoveCorrect(tilesToPlace.tilesToPlace, out wrongWordOnBoard))
+                    {
+                        ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2); //TODO send incorrect words
+                        GameLog.OnWrongMove(game, wrongWordOnBoard);
+                        SwitchToNextPlayer();
+                        return;
+                    }
+                }
+                catch (Exception)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    return;
+                }
+                OkMsg.AsyncPost(id, serverPlayer.connection);
+                RemoveTiles(tilesToPlace.lettersFromRack);
+                WordOnBoard wordOnBoard;
+                uint points;
+                DoPlaceTiles(tilesToPlace, out wordOnBoard, out points);
+                GameLog.OnPlaceTiles(game, wordOnBoard, points);
+                List<Letter> newLetters = FillRack(game.CurrentPlayerNumber);
+                SwitchToNextPlayer();
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
+            }
+        }
+
+        private Orientation GetTilesOrientation(List<TileOnBoard> tilesToPlace)
+        {
+            int minX = int.MaxValue, maxX = int.MinValue;
+            int minY = int.MaxValue, maxY = int.MinValue;
+            foreach (TileOnBoard tileOnBoard in tilesToPlace)
+            {
+                minX = Math.Min(minX, tileOnBoard.position.x);
+                maxX = Math.Max(maxX, tileOnBoard.position.x);
+                minY = Math.Min(minY, tileOnBoard.position.y);
+                maxY = Math.Max(maxY, tileOnBoard.position.y);
+            }
+            if (minX != maxX && minY != maxY)
+                return Orientation.NONE;
+            else if (minX == maxX)
+                return Orientation.VERTICAL;
+            else
+                return Orientation.HORIZONTAL;
+        }
+
+        private bool AreTheSameLetters(TilesToPlace tilesToPlace)
+        {
+            tilesToPlace.lettersFromRack.Sort((letter1, letter2) =>
+                    {
+                        if (letter1.letter.character == letter2.letter.character)
+                            return 0;
+                        else if (letter1.letter.character < letter2.letter.character)
+                            return -1;
+                        else
+                            return 1;
+                    });
+            tilesToPlace.tilesToPlace.Sort((tile1, tile2) =>
+                    {
+                        if (tile1.tile.Letter.character == tile2.tile.Letter.character)
+                            return 0;
+                        else if (tile1.tile.Letter.character < tile2.tile.Letter.character)
+                            return -1;
+                        else
+                            return 1;
+                    });
+            for (int i = 0; i != tilesToPlace.lettersFromRack.Count; ++i)
+                if (tilesToPlace.lettersFromRack[i].letter.character != tilesToPlace.tilesToPlace[i].tile.Letter.character)
+                    return false;
+            return true;
+        }
+
+        private bool IsMoveCorrect(List<TileOnBoard> tilesToPlace, out WordOnBoard wordOnBoard)
+        {
+            Board boardCopy = (Board)game.Board.Clone();
+            foreach (TileOnBoard tileOnBoard in tilesToPlace)
+                boardCopy.PutTile(tileOnBoard);
+            int minX = int.MaxValue, maxX = int.MinValue;
+            int minY = int.MaxValue, maxY = int.MinValue;
+            foreach (TileOnBoard tileOnBoard in tilesToPlace)
+            {
+                minX = Math.Min(minX, tileOnBoard.position.x);
+                maxX = Math.Max(maxX, tileOnBoard.position.x);
+                minY = Math.Min(minY, tileOnBoard.position.y);
+                maxY = Math.Max(maxY, tileOnBoard.position.y);
+            }
+            ++maxX;
+            ++maxY;
+            for (int i = minX; i != maxX; ++i)
+                for (int j = minY; j != maxY; ++j)
+                    if (boardCopy.GetTile(new PositionOnBoard(i, j)) == null)
+                    {
+                        wordOnBoard = null;
+                        return false;
+                    }
+            bool horizontal = GetTilesOrientation(tilesToPlace) == Orientation.HORIZONTAL;
+            if (!CheckWord(boardCopy, tilesToPlace[0].position, horizontal, out wordOnBoard))
+                return false;
+            horizontal = !horizontal;
+            WordOnBoard additionalWordOnBoard;
+            for (int i = minX; i != maxX; ++i)
+                for (int j = minY; j != maxY; ++j)
+                    if (!CheckWord(boardCopy, new PositionOnBoard(i, j), horizontal, out additionalWordOnBoard))
+                        return false;
+            return true;
+        }
+
+        private static bool CheckWord(Board board, PositionOnBoard position, bool horizontal, out WordOnBoard wordOnBoard)
+        {
+            wordOnBoard = GetWord(board, position, horizontal);
+            if (wordOnBoard.word.Length == 1)
+                return true;
+            return Globals.dictionary.IsWordWalid(wordOnBoard.word);
+        }
+
+        private static WordOnBoard GetWord(Board board, PositionOnBoard position, bool horizontal)
+        {
+            WordOnBoard wordOnBoard = new WordOnBoard();
+            wordOnBoard.position = position;
+            wordOnBoard.horizonatal = horizontal;
+            wordOnBoard.word = "";
+            List<TileOnBoard> tiles = GetTiles(board, position, horizontal);
+            foreach (TileOnBoard tileOnBoard in tiles)
+                wordOnBoard.word += tileOnBoard.tile.Letter.character;
+            return wordOnBoard;
+        }
+
+        private void DoPlaceTiles(TilesToPlace tilesToPlace, out WordOnBoard wordOnBoard, out uint points)
+        {
+            foreach (TileOnBoard tileOnBoard in tilesToPlace.tilesToPlace)
+                game.Board.PutTile(tileOnBoard);
+            tilesToPlace.playerId = serverPlayer.player.Id;
+            foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+            {
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever...");
+                PlaceTilesMsg.AsyncPost(otherServerPlayer.connection, tilesToPlace);
+            }
+            bool horizontal = GetTilesOrientation(tilesToPlace.tilesToPlace) == Orientation.HORIZONTAL;
+            wordOnBoard = GetWord(game.Board, tilesToPlace.tilesToPlace[0].position, horizontal);
+            points = CountPoints(wordOnBoard, tilesToPlace.tilesToPlace, horizontal);
+            horizontal = !horizontal;
+            foreach (TileOnBoard tileOnBoard in tilesToPlace.tilesToPlace)
+            {
+                WordOnBoard additionalWordOnBoard = GetWord(game.Board, tileOnBoard.position, horizontal);
+                points += CountPoints(additionalWordOnBoard, tilesToPlace.tilesToPlace, horizontal);
+            }
+            PlayerPoints playerPoints = new PlayerPoints();
+            playerPoints.playerId = serverPlayer.player.Id;
+            playerPoints.points = (int)points;
+            foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+            {
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever...");
+                GainPointsMsg.AsyncPost(otherServerPlayer.connection, playerPoints);
+            }
+        }
+
+        private uint CountPoints(WordOnBoard wordOnBoard, List<TileOnBoard> tilesToPlace, bool horizontal)
+        {
+            List<TileOnBoard> tiles = GetTiles(game.Board, wordOnBoard.position, horizontal);
+            uint points = 0;
+            uint wordMultiplier = 1;
+            foreach (TileOnBoard tileOnBoard in tiles)
+            {
+                uint letterPoints = tileOnBoard.tile.Letter.points;
+                uint letterMultiplier = 1;
+                SquareType squareType = game.Board.GetSquareType(tileOnBoard.position);
+                if (squareType != SquareType.START && squareType != SquareType.NORMAL)
+                    foreach (TileOnBoard tileToPlace in tilesToPlace)
+                        if (tileToPlace.position == tileOnBoard.position)
+                        {
+                            switch (squareType)
+                            {
+                                case SquareType.LETTER2:
+                                    letterMultiplier = 2;
+                                    break;
+                                case SquareType.LETTER3:
+                                    letterMultiplier = 3;
+                                    break;
+                                case SquareType.WORD2:
+                                    wordMultiplier *= 2;
+                                    break;
+                                case SquareType.WORD3:
+                                    wordMultiplier *= 3;
+                                    break;
+                            }
+                        }
+                points += letterPoints * letterMultiplier;
+            }
+            points *= wordMultiplier;
+            return points;
+        }
+
+        private static List<TileOnBoard> GetTiles(Board board, PositionOnBoard position, bool horizontal)
+        {
+            if (horizontal)
+                return GetHorizontalTiles(board, position);
+            else
+                return GetVerticalTiles(board, position);
+        }
+
+        private static List<TileOnBoard> GetHorizontalTiles(Board board, PositionOnBoard position)
+        {
+            try
+            {
+                do
+                    --position.x;
+                while (board.GetTile(position) != null);
+            }
+            catch (NoSuchSquareOnBoardException)
+            {
+            }
+            List<TileOnBoard> tilesOnBoard = new List<TileOnBoard>();
+            try
+            {
+                while (true)
+                {
+                    ++position.x;
+                    TileOnBoard tile = board.GetTileOnBoard(position);
+                    if (tile == null)
+                        break;
+                    else
+                        tilesOnBoard.Add(tile);
+                }
+            }
+            catch (NoSuchSquareOnBoardException)
+            {
+            }
+            return tilesOnBoard;
+        }
+
+        private static List<TileOnBoard> GetVerticalTiles(Board board, PositionOnBoard position)
+        {
+            try
+            {
+                do
+                    --position.y;
+                while (board.GetTile(position) != null);
+            }
+            catch (NoSuchSquareOnBoardException)
+            {
+            }
+            List<TileOnBoard> tilesOnBoard = new List<TileOnBoard>();
+            try
+            {
+                while (true)
+                {
+                    ++position.y;
+                    TileOnBoard tile = board.GetTileOnBoard(position);
+                    if (tile == null)
+                        break;
+                    else
+                        tilesOnBoard.Add(tile);
+                }
+            }
+            catch (NoSuchSquareOnBoardException)
+            {
+            }
+            return tilesOnBoard;
         }
 
         public void ExchangeTiles(Int16 id, List<LetterWithNumber> letters)

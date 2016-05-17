@@ -1,4 +1,5 @@
-﻿using SkyCrabServer.Connactions;
+﻿using SkyCrab.Dictionaries;
+using SkyCrabServer.Connactions;
 using SkyCrabServer.Consoles;
 using SkyCrabServer.Databases;
 using System;
@@ -11,7 +12,7 @@ namespace SkyCrabServer
     class SkyCrab_Server
     {
 
-        private static readonly Version version = new Version(0, 3, 11);
+        private static readonly Version version = new Version(0, 3, 12);
 
 
         static int Main(string[] args)
@@ -39,6 +40,7 @@ namespace SkyCrabServer
                     using (Globals.serverConsole = new ServerConsole())
                     using (Globals.database = new Database())
                     {
+                        LoadDictionary();                        
                         bool result = Listener.Listen(ipAddress, port);
                         if (result)
                             return 0;
@@ -139,6 +141,20 @@ namespace SkyCrabServer
                 return false;
             }
             return true;
+        }
+
+        private static void LoadDictionary()
+        {
+            Globals.serverConsole.Lock();
+            try
+            {
+                Globals.serverConsole.WriteLine("Loading dictionary...");
+                Globals.dictionary = new Dictionary(Dictionary.Language.POLISH);
+            }
+            finally
+            {
+                Globals.serverConsole.Unlock();
+            }
         }
 
     }

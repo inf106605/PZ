@@ -52,7 +52,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         {
             get
             {
-                return squareType == SquareType.letter3;
+                return squareType == SquareType.LETTER3;
             }
         }
 
@@ -60,7 +60,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         {
             get
             {
-                return squareType == SquareType.word3;
+                return squareType == SquareType.WORD3;
             }
         }
 
@@ -68,7 +68,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         {
             get
             {
-                return squareType == SquareType.word2 || squareType == SquareType.start;
+                return squareType == SquareType.WORD2 || squareType == SquareType.START;
             }
         }
 
@@ -77,7 +77,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             get
             {
 
-                return squareType == SquareType.letter2;
+                return squareType == SquareType.LETTER2;
 
             }
         }
@@ -87,7 +87,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             get
             {
 
-                return squareType == SquareType.word3;
+                return squareType == SquareType.WORD3;
 
             }
         }
@@ -97,7 +97,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             get
             {
 
-                return squareType == SquareType.normal;
+                return squareType == SquareType.NORMAL;
             }
         }
 

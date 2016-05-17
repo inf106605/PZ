@@ -20,7 +20,7 @@ namespace SkyCrab.Dictionaries
 
         static Dictionary()
         {
-            languageNames.Add(POLISH, "polish");
+            languageNames.Add(Language.POLISH, "polish");
         }
 
         public uint WordsCount
@@ -35,7 +35,7 @@ namespace SkyCrab.Dictionaries
             const string EXTENSION = ".dict";
             string languageName;
             languageNames.TryGetValue(language, out languageName);
-            string filePath = DIRECTORY + languageNames + EXTENSION;
+            string filePath = DIRECTORY + languageName + EXTENSION;
             LoadWords(filePath);
         }
 
