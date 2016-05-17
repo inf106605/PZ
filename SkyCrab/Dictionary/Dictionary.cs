@@ -73,6 +73,7 @@ namespace SkyCrab.Dictionaries
 
         private void AddWord(string word)
         {
+            word = word.ToUpper();
             words.Add(word);
         }
 
@@ -113,6 +114,7 @@ namespace SkyCrab.Dictionaries
 
         public bool IsWordWalid(string word)
         {
+            word = word.ToUpper();
             return words.Contains(word);
         }
 

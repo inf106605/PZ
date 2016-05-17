@@ -164,6 +164,8 @@ namespace SkyCrabServer.ServerLogics
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_YOUR_TURN);
                     return;
                 }
+                //TODO do not allow first word to be 1-letter
+                //TODO check if new word is connecting to any of previous ones
                 if (tilesToPlace.lettersFromRack.Count == 0 || tilesToPlace.lettersFromRack.Count != tilesToPlace.tilesToPlace.Count)
                 {
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);

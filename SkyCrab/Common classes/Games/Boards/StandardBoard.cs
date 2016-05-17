@@ -81,12 +81,12 @@ namespace SkyCrab.Common_classes.Games.Boards
 
         public override uint Count
         {
-            get { return Count; }
+            get { return count; }
         }
 
         public override bool IsEmpty
         {
-            get { return Count == 0; }
+            get { return count == 0; }
         }
 
 

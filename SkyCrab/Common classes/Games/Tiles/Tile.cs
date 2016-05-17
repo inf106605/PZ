@@ -55,5 +55,10 @@ namespace SkyCrab.Common_classes.Games.Tiles
             return ReferenceEquals(letter, LetterSet.BLANK);
         }
 
+        public override string ToString()
+        {
+            return typeof(Tile).Name + (blank ? "(blank)" : "") + ": " + letter;
+        }
+
     }
 }

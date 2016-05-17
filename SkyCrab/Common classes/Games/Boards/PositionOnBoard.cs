@@ -38,6 +38,11 @@
             return x * 111 + y;
         }
 
+        public override string ToString()
+        {
+            return "(" + x + ", " + y + ")";
+        }
+
     }
 	
 }

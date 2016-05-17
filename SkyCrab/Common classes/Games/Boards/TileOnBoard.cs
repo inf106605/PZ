@@ -8,5 +8,10 @@ namespace SkyCrab.Common_classes.Games.Boards
         public Tile tile;
         public PositionOnBoard position;
 
+        public override string ToString()
+        {
+            return tile + " at " + position;
+        }
+
     }
 }
