@@ -65,6 +65,22 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             }
 
+            if(SkyCrabGlobalVariables.isPlacedTilesByPlayers)
+            {
+                for (int i = 0; i < SkyCrabGlobalVariables.TilesToPlaceByPlayers.tilesToPlace.Count; i++)
+                {
+                    int x = SkyCrabGlobalVariables.TilesToPlaceByPlayers.tilesToPlace[i].position.x;
+                    int y = SkyCrabGlobalVariables.TilesToPlaceByPlayers.tilesToPlace[i].position.y;
+                    int PositionInBoardList = ((StandardBoard.RightBottom_.y+1) * y) + x;
+                    string name = SkyCrabGlobalVariables.TilesToPlaceByPlayers.tilesToPlace[i].tile.Letter.character.ToString();
+                    int value = (int)SkyCrabGlobalVariables.TilesToPlaceByPlayers.tilesToPlace[i].tile.Letter.points;
+
+                    scrabbleGame.scrabbleBoard.SetScrabbleSquare(PositionInBoardList,x,y, name , value);
+                }
+                SkyCrabGlobalVariables.isPlacedTilesByPlayers = false;
+            }
+
+
             if(SkyCrabGlobalVariables.anotherPlayersGetNewTile)
             {
                 scrabbleGame.game.Puoches[0].RemoveAnyTiles(SkyCrabGlobalVariables.anotherPlayersGetNewTileCount);
@@ -229,6 +245,10 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 MessageBox.Show("Nie zaznaczono odpowiedniej liczby płytek lub pól");
                 return;
             }
+
+            // w przypadku kiedy występuje blank
+
+            //for(int i=0; i < )
 
 
             for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)

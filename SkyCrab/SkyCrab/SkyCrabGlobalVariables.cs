@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Common_classes.Games.Pouches;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Players;
@@ -25,6 +26,8 @@ namespace SkyCrab
         public static uint GameId;
         public static bool isMyRound = false;
         public static LostLetters lostLetters = new LostLetters(); // zmienna do której są dopisywane płytki 
+        public static bool isPlacedTilesByPlayers = false;  // zmienna, która sygnalizuje wyłożenie przez innego gracza płytek
+        public static TilesToPlace TilesToPlaceByPlayers; // zmienna która przechowuje płytki przesłane przez innego gracza
         public static readonly object roomLock = new object();
     }
 }
