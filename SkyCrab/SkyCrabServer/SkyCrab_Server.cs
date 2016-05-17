@@ -12,7 +12,7 @@ namespace SkyCrabServer
     class SkyCrab_Server
     {
 
-        private static readonly Version version = new Version(0, 3, 12);
+        private static readonly Version version = new Version(0, 3, 13);
 
 
         static int Main(string[] args)

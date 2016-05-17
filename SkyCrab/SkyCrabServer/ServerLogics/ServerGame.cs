@@ -136,19 +136,6 @@ namespace SkyCrabServer.ServerLogics
             return letters;
         }
 
-        public void OnQuitGame()
-        {
-            if (!InGame)
-                return;
-            PlayerInGame playerInGame = game.GetPlayer(serverPlayer.player.Id);
-            if (!game.IsFinished)
-                playerInGame.Walkover = true;
-            ScoreTable.Create(game, playerInGame);
-            if (game.ActivePlayersNumber == 0)
-                OnEndGame(game);
-            game = null;
-        }
-
         public void PlaceTiles(Int16 id, TilesToPlace tilesToPlace)
         {
             Globals.dataLock.AcquireWriterLock(-1);
@@ -619,6 +606,21 @@ namespace SkyCrabServer.ServerLogics
             {
                 Globals.dataLock.ReleaseWriterLock();
             }
+        }
+
+        public void OnQuitGame()
+        {
+            if (!InGame)
+                return;
+            PlayerInGame playerInGame = game.GetPlayer(serverPlayer.player.Id);
+            if (!game.IsFinished)
+                playerInGame.Walkover = true;
+            ScoreTable.Create(game, playerInGame);
+            if (game.ActivePlayersNumber == 0)
+                OnEndGame(game);
+            else if (game.CurrentPlayer.Player.Id == serverPlayer.player.Id)
+                SwitchToNextPlayer();
+            game = null;
         }
 
         private static void OnEndGame(Game game)
