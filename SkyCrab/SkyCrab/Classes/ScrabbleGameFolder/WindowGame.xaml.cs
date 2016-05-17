@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Classes.Menu;
 using SkyCrab.Common_classes;
 using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
@@ -254,10 +255,13 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         private void Exchange_Click(object sender, RoutedEventArgs e)
         {
             ScrabbleTilesSelectedFromRack scrabbleTilesSelectedFromRack = new ScrabbleTilesSelectedFromRack();
+            
+            // utworzenie listy do przetrzymywania płytek, które chce się wymienić
+            List<LetterWithNumber> letterWithNumber = new List<LetterWithNumber>();
 
             // sprawdzanie czy ilość zaznaczonych płytek nie przekracza ilości pozostałych płytek w woreczku
 
-            if(listViewRack.SelectedItems.Count > scrabbleGame.game.Puoches[0].Count)
+            if (listViewRack.SelectedItems.Count > scrabbleGame.game.Puoches[0].Count)
             {
                 MessageBox.Show("Nie ma aż tylu płytek w woreczku do wymiany!");
                 return;
@@ -280,18 +284,23 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             {
                 var scrabbleTileFromRack = scrabbleGame.scrabbleRack.SearchIdTile((ScrabbleRackTiles)item);
                 scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Add(scrabbleTileFromRack);
+                LetterWithNumber tempLetter = new LetterWithNumber();
+                TileOnRack tileOnRackTemp = (TileOnRack)item.GetType().GetProperty("tile").GetValue(item);
+                tempLetter.letter = tileOnRackTemp.Tile.Letter;
+                letterWithNumber.Add(tempLetter);
+
             }
 
             // usunięcie płytek ze stojaka 
 
-            for(int i =0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            for (int i =0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
             {
                 scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
             }
 
             // komunikat do wymiany płytek
 
-           /* var chatMsgAnswer = ExchangeTilesMsg.SyncPost(Ap)
+            var chatMsgAnswer = ExchangeTilesMsg.SyncPost(App.clientConn, letterWithNumber, 1000);
 
             if (!chatMsgAnswer.HasValue)
             {
@@ -307,15 +316,38 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
                 switch (errorCode)
                 {
-                    case ErrorCode.NOT_IN_ROOM4:
+                    case ErrorCode.NOT_IN_GAME3:
                         {
-                            MessageBox.Show("Nie ma Cię w pokoju!");
+                            MessageBox.Show("Nie ma Cię w grze!");
+                            break;
+                        }
+                    case ErrorCode.NOT_YOUR_TURN2:
+                        {
+                            MessageBox.Show("To nie jest Twoja kolejka!");
+                            break;
+                        }
+                    case ErrorCode.INCORRECT_MOVE2:
+                        {
+                            MessageBox.Show("Nieprawidłowy ruch!");
                             break;
                         }
                 }
                 return;
             }
-            */
+
+            if(answerValue.messageId == MessageId.OK)
+            {
+                List<LetterWithNumber> getFromServerLetterWithNumber = new List<LetterWithNumber>();
+                getFromServerLetterWithNumber = (List<LetterWithNumber>)answerValue.message;
+
+                for (int i = 0; i < getFromServerLetterWithNumber.Count; i++)
+                {
+                    TileOnRack tileOnRackTemp = new TileOnRack(new Tile(getFromServerLetterWithNumber[i].letter));
+                    scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(tileOnRackTemp));
+                }
+            }
+            
+            /*
 
             // losowanie płytek z woreczka
 
@@ -324,6 +356,8 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 TileOnRack temp = new TileOnRack(scrabbleGame.game.Puoches[0].DrawRandowmTile());
                 scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
             }
+
+            */
             
             /*
                         
