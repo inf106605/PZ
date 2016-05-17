@@ -1,6 +1,7 @@
 ﻿using SkyCrab.Classes.Menu;
 using SkyCrab.Common_classes;
 using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Common_classes.Games.Letters;
 using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Common_classes.Games.Racks;
@@ -167,6 +168,9 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             // symulacja wyłożenia płytek
             ScrabbleTilesSelectedFromRack scrabbleTilesSelectedFromRack = new ScrabbleTilesSelectedFromRack();
             ScrabbleTilesSelectedFromBoard scrabbleTilesSelectedFromBoard = new ScrabbleTilesSelectedFromBoard();
+            TilesToPlace tilesToPlace = new TilesToPlace(); // obiekt klasy służącej do przesłania pozycji wykładanej płytki na plansżę, oraz wartości danej płytki
+            tilesToPlace.lettersFromRack = new List<LetterWithNumber>();
+            tilesToPlace.tilesToPlace = new List<TileOnBoard>();
 
             foreach (var item in listViewRack.SelectedItems)
             {
@@ -226,20 +230,72 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 return;
             }
 
-            // KONIEC WALIDACJI
 
-
-            // ustawienie płytek na planszy
-
-            for(int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+            for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
             {
-                scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column , scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
+                LetterWithNumber letterWithNumber = new LetterWithNumber();
+                letterWithNumber.letter = scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Letter;
+                TileOnBoard tileOnBoard = new TileOnBoard();
+                tileOnBoard.tile = scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile;
+                tileOnBoard.position = new PositionOnBoard(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column);
+                tilesToPlace.lettersFromRack.Add(letterWithNumber);
+                tilesToPlace.tilesToPlace.Add(tileOnBoard);
             }
 
-            // usunięcie płytek ze stojaka
 
-            for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
-                 scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
+            var placeTilesMsgAnswer = PlaceTilesMsg.SyncPost(App.clientConn, tilesToPlace, 1000);
+
+            if (!placeTilesMsgAnswer.HasValue)
+            {
+                MessageBox.Show("Brak odpowiedzi od serwera!");
+                return;
+            }
+
+            var answerValue = placeTilesMsgAnswer.Value;
+
+            if (answerValue.messageId == MessageId.ERROR)
+            {
+                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                switch (errorCode)
+                {
+                    case ErrorCode.NOT_IN_GAME2:
+                        {
+                            MessageBox.Show("Nie ma Cię w grze!");
+                            break;
+                        }
+                    case ErrorCode.NOT_YOUR_TURN:
+                        {
+                            MessageBox.Show("To nie jest Twoja kolejka!");
+                            break;
+                        }
+                    case ErrorCode.INCORRECT_MOVE2:
+                        {
+                            MessageBox.Show("Nieprawidłowy ruch!");
+                            break;
+                        }
+                }
+                return;
+            }
+
+            if (answerValue.messageId == MessageId.OK)
+            {
+                // KONIEC WALIDACJI
+
+
+                // ustawienie płytek na planszy
+
+                for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+                {
+                    scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
+                }
+
+                // usunięcie płytek ze stojaka
+
+                for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+                    scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
+            }
+
 
             // uzupełnienie stojaka o ilość wyłożonych płytek. W przeciwnym przypadku jeżeli jest 
             //ich mniej w woreczku to wyciągnięcie pozostałych
@@ -269,8 +325,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             // Aktualizacja ilości pozostałych płytek
 
-
-            LeftTilesInPouch.Text = "Pozostało " + scrabbleGame.game.Puoches[0].Count + " płytek";
 
         }
 
