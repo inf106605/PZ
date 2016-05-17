@@ -9,42 +9,22 @@ namespace SkyCrab.Common_classes.Games.Pouch
 
     public class NoSuchLetterEntryInPouchException : SkyCrabException
     {
-
-        public NoSuchLetterEntryInPouchException() :
-            base()
-        {
-        }
-
     }
 
     public class NoSuchTileInPouchException : SkyCrabException
     {
-
-        public NoSuchTileInPouchException() :
-            base()
-        {
-        }
-
     }
 
     public class PouchHasToNotBeDummyToUseThisMethodException : SkyCrabException
     {
-
-        public PouchHasToNotBeDummyToUseThisMethodException() :
-            base()
-        {
-        }
-
     }
 
     public class PouchHasToBeDummyToUseThisMethodException : SkyCrabException
     {
+    }
 
-        public PouchHasToBeDummyToUseThisMethodException() :
-            base()
-        {
-        }
-
+    public sealed class NotEnoughTilesException : SkyCrabException
+    {
     }
 
 
@@ -116,7 +96,7 @@ namespace SkyCrab.Common_classes.Games.Pouch
             for (uint i = 0; i != tiles.Length; ++i)
             {
                 LetterCount letterCount = tiles[i];
-                if (letterCount.letter.character == letter.character)
+                if (letterCount.letter == letter)
                 {
                     ++letterCount.count;
                     ++count;
@@ -144,7 +124,7 @@ namespace SkyCrab.Common_classes.Games.Pouch
             for (uint i = 0; i != tiles.Length; ++i)
             {
                 LetterCount letterCount = tiles[i];
-                if (ReferenceEquals(letterCount.letter, letter))
+                if (letterCount.letter == letter)
                 {
                     if (letterCount.count == 0)
                         throw new NoSuchTileInPouchException();
@@ -155,6 +135,22 @@ namespace SkyCrab.Common_classes.Games.Pouch
                 }
             }
             throw new NoSuchLetterEntryInPouchException();
+        }
+
+        public void RemoveAnyTile()
+        {
+            RemoveAnyTiles(1);
+        }
+
+        public void RemoveAnyTiles(uint removedCount)
+        {
+            if (!dummy)
+                throw new PouchHasToBeDummyToUseThisMethodException();
+            LetterCount letterCount = tiles[0];
+            if (letterCount.count < removedCount)
+                throw new NotEnoughTilesException();
+            --letterCount.count;
+            --count;
         }
 
         public Tile DrawRandowmTile()
