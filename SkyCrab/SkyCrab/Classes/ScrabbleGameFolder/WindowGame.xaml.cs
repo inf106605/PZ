@@ -294,6 +294,11 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                             MessageBox.Show("Nieprawidłowy ruch!");
                             break;
                         }
+                    default:
+                        {
+                            MessageBox.Show("Nieznany błąd: " + errorCode);
+                            break;
+                        }
                 }
                 return;
             }

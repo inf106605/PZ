@@ -153,35 +153,44 @@ namespace SkyCrabServer.ServerLogics
                 }
                 if ((game.Board.IsEmpty ? tilesToPlace.lettersFromRack.Count < 2 : tilesToPlace.lettersFromRack.Count == 0) || tilesToPlace.lettersFromRack.Count != tilesToPlace.tilesToPlace.Count)
                 {
-                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.TOO_LESS_TILES);
                     return;
                 }
                 if (serverRoom.room.Rules.fivesFirst.value && game.Board.IsEmpty && tilesToPlace.lettersFromRack.Count < (5 - game.FullRoundNumber))
                 {
-                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
-                    return;
-                }
-                if (!AreTheSameLetters(tilesToPlace))
-                {
-                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.FIVES_FIRST_VIOLATION);
                     return;
                 }
                 if (!HasTiles(tilesToPlace.lettersFromRack))
                 {
-                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.LETTERS_NOT_FROM_RACK);
+                    return;
+                }
+                if (!AreTheSameLetters(tilesToPlace))
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.LETTERS_NOT_MATH);
                     return;
                 }
                 if (GetTilesOrientation(tilesToPlace.tilesToPlace) == Orientation.NONE)
                 {
-                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.WORD_NOT_IN_LINE);
+                    return;
+                }
+                if (!IsInStartingSquare(tilesToPlace.tilesToPlace))
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_IN_STARTING_SQUARE);
+                    return;
+                }
+                if (!IsAdjancent(tilesToPlace.tilesToPlace))
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_ADJANCENT);
                     return;
                 }
                 try
                 {
                     WordOnBoard wrongWordOnBoard;
-                    if (!IsMoveCorrect(tilesToPlace.tilesToPlace, out wrongWordOnBoard))
+                    if (!IsMoveCorrect(id, tilesToPlace.tilesToPlace, out wrongWordOnBoard))
                     {
-                        ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2); //TODO send incorrect words
                         GameLog.OnWrongMove(game, wrongWordOnBoard);
                         SwitchToNextPlayer();
                         return;
@@ -252,47 +261,65 @@ namespace SkyCrabServer.ServerLogics
             return true;
         }
 
-        private bool IsMoveCorrect(List<TileOnBoard> tilesToPlace, out WordOnBoard wordOnBoard)
+        private bool IsInStartingSquare(List<TileOnBoard> tilesToPlace)
         {
             if (game.Board.IsEmpty)
             {
                 foreach (TileOnBoard tileOnBoard in tilesToPlace)
                     if (game.Board.GetSquareType(tileOnBoard.position) == SquareType.START)
-                        goto first_tile_ok;
-                wordOnBoard = null;
+                        return true;
                 return false;
-                first_tile_ok:;
             }
-            else
+            return true;
+        }
+
+        private bool IsAdjancent(List<TileOnBoard> tilesToPlace)
+        {
+            if (!game.Board.IsEmpty)
             {
                 foreach (TileOnBoard tileOnBoard in tilesToPlace)
                 {
+                    PositionOnBoard position = new PositionOnBoard();
+                    position.x = tileOnBoard.position.x - 1;
+                    position.y = tileOnBoard.position.y;
                     try
                     {
-                        PositionOnBoard position = new PositionOnBoard();
-                        position.x = tileOnBoard.position.x - 1;
-                        position.y = tileOnBoard.position.y;
                         if (game.Board.GetTile(position) != null)
-                            goto tile_adjacency_ok;
-                        ++position.x;
-                        --position.y;
-                        if (game.Board.GetTile(position) != null)
-                            goto tile_adjacency_ok;
-                        ++position.x;
-                        ++position.y;
-                        if (game.Board.GetTile(position) != null)
-                            goto tile_adjacency_ok;
-                        --position.x;
-                        ++position.y;
-                        if (game.Board.GetTile(position) != null)
-                            goto tile_adjacency_ok;
+                            return true;
                     }
-                    catch (NoSuchSquareOnBoardException) {}
+                    catch (NoSuchSquareOnBoardException) { }
+                    ++position.x;
+                    --position.y;
+                    try
+                    {
+                        if (game.Board.GetTile(position) != null)
+                            return true;
+                    }
+                    catch (NoSuchSquareOnBoardException) { }
+                    ++position.x;
+                    ++position.y;
+                    try
+                    {
+                        if (game.Board.GetTile(position) != null)
+                            return true;
+                    }
+                    catch (NoSuchSquareOnBoardException) { }
+                    --position.x;
+                    ++position.y;
+                    try
+                    {
+                        if (game.Board.GetTile(position) != null)
+                            return true;
+                    }
+                    catch (NoSuchSquareOnBoardException) { }
                 }
-                wordOnBoard = null;
                 return false;
-                tile_adjacency_ok:;
             }
+            return true;
+        }
+
+        private bool IsMoveCorrect(Int16 id, List<TileOnBoard> tilesToPlace, out WordOnBoard wordOnBoard)
+        {
             Board boardCopy = (Board)game.Board.Clone();
             foreach (TileOnBoard tileOnBoard in tilesToPlace)
                 boardCopy.PutTile(tileOnBoard);
@@ -312,17 +339,24 @@ namespace SkyCrabServer.ServerLogics
                     if (boardCopy.GetTile(new PositionOnBoard(i, j)) == null)
                     {
                         wordOnBoard = null;
+                        ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_CONTINUOUS);
                         return false;
                     }
             bool horizontal = GetTilesOrientation(tilesToPlace) == Orientation.HORIZONTAL;
             if (!CheckWord(boardCopy, tilesToPlace[0].position, horizontal, out wordOnBoard))
+            {
+                ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORECT_WORD); //TODO send incorrect words
                 return false;
+            }
             horizontal = !horizontal;
             WordOnBoard additionalWordOnBoard;
             for (int i = minX; i != maxX; ++i)
                 for (int j = minY; j != maxY; ++j)
                     if (!CheckWord(boardCopy, new PositionOnBoard(i, j), horizontal, out additionalWordOnBoard))
+                    {
+                        ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORECT_WORD); //TODO send incorrect words //TODO check all?
                         return false;
+                    }
             return true;
         }
 

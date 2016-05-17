@@ -52,10 +52,12 @@ namespace SkyCrab.Connection.PresentationLayer.MessageConnections
                     if (!answerWithId.HasValue)
                         return;
                 }
-                requestSemaphore.WaitOne(100);
                 RequestWithId? requestWithId;
-                lock (requests)
-                    requestWithId = requests.Dequeue();
+                if (requestSemaphore.WaitOne(100))
+                    lock (requests)
+                        requestWithId = requests.Dequeue();
+                else
+                    requestWithId = null;
                 if (!requestWithId.HasValue)
                     return;
                 if (requestWithId.Value.id == answerWithId.Value.id)
