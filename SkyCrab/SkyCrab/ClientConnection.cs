@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrab.Common_classes.Games.Pouches;
 using SkyCrab.Common_classes.Games.Racks;
+using SkyCrab.Common_classes.Games.Boards;
 
 namespace SkyCrab
 {
@@ -155,6 +156,9 @@ namespace SkyCrab
 
                     case MessageId.PLACE_TILES:
                         {
+                            SkyCrabGlobalVariables.TilesToPlaceByPlayers = (TilesToPlace)messageInfo.message;
+                            if(SkyCrabGlobalVariables.TilesToPlaceByPlayers.playerId != SkyCrabGlobalVariables.player.Id)
+                                 SkyCrabGlobalVariables.isPlacedTilesByPlayers = true;
                             break;
                         }
 
