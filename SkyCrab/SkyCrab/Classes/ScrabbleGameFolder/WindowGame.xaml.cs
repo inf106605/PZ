@@ -50,26 +50,36 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             // Updating the Label which displays the current second
             ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
 
-            if(SkyCrabGlobalVariables.isGetNewTile)
+            LeftTilesInPouch.Text = "Pozostało: " + scrabbleGame.game.Puoches[0].Count + " płytki";
+
+            if (SkyCrabGlobalVariables.isGetNewTile)
             {
                 for(int i = 0; i < SkyCrabGlobalVariables.newTile.letters.Count;i++)
                 {
                     TileOnRack temp = new TileOnRack(new Tile(SkyCrabGlobalVariables.newTile.letters[i]));
                     scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(temp));
-                } 
-
+                }
+                scrabbleGame.game.Puoches[0].RemoveAnyTiles((uint)SkyCrabGlobalVariables.newTile.letters.Count);
                 SkyCrabGlobalVariables.isGetNewTile = false;
+
+            }
+
+            if(SkyCrabGlobalVariables.anotherPlayersGetNewTile)
+            {
+                scrabbleGame.game.Puoches[0].RemoveAnyTiles(SkyCrabGlobalVariables.anotherPlayersGetNewTileCount);
+                SkyCrabGlobalVariables.anotherPlayersGetNewTileCount = 0;
+                SkyCrabGlobalVariables.anotherPlayersGetNewTile = false;
             }
 
             if(SkyCrabGlobalVariables.lostLetters.letters != null)
             {
-                if(SkyCrabGlobalVariables.lostLetters.playerId != SkyCrabGlobalVariables.player.Id) // aktualizacja woreczka u graczy o podanym ID - woreczek gracza który dokonał wymiany jest aktualizowany od razu
+                if (SkyCrabGlobalVariables.lostLetters.backToPouch)
                 {
                     scrabbleGame.game.Puoches[0].InsertAnyTiles((uint)SkyCrabGlobalVariables.lostLetters.letters.Count);
                 }
-
                 SkyCrabGlobalVariables.lostLetters.letters = null;
             }
+
 
             if (SkyCrabGlobalVariables.isMyRound)
             {
@@ -85,6 +95,8 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             }
 
             CommandManager.InvalidateRequerySuggested();
+
+
         }
 
   
@@ -153,7 +165,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             // symulacja wyłożenia płytek
-
             ScrabbleTilesSelectedFromRack scrabbleTilesSelectedFromRack = new ScrabbleTilesSelectedFromRack();
             ScrabbleTilesSelectedFromBoard scrabbleTilesSelectedFromBoard = new ScrabbleTilesSelectedFromBoard();
 
@@ -257,6 +268,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             */
 
             // Aktualizacja ilości pozostałych płytek
+
 
             LeftTilesInPouch.Text = "Pozostało " + scrabbleGame.game.Puoches[0].Count + " płytek";
 

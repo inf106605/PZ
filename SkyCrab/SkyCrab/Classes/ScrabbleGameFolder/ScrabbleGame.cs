@@ -52,6 +52,14 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             }
         }
 
+        public string PouchesLeftTiles
+        {
+            get
+            {
+                return "Pozostało " + game.Puoches[0].Count + " płytki";
+            }
+        }
+
         public string RoomName
         {
             get

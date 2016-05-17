@@ -19,7 +19,9 @@ namespace SkyCrab
         public static String MessagesLog = "";
         public static bool isGame = false;
         public static bool isGetNewTile = false; // zmienna pomocnicza przy otrzymaniu od serwera komunikatu NEW_TILE
-        public static DrawedLetters newTile;
+        public static bool anotherPlayersGetNewTile = false;
+        public static uint anotherPlayersGetNewTileCount = 0;
+        public static DrawedLetters newTile; // nowe płytki zwrócone przez serwer
         public static uint GameId;
         public static bool isMyRound = false;
         public static LostLetters lostLetters = new LostLetters(); // zmienna do której są dopisywane płytki 

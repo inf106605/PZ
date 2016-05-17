@@ -29,5 +29,22 @@ namespace SkyCrab.Common_classes.Games.Tiles
             }
         }
 
+        public uint Count
+        {
+            get
+            {
+                return CountLetters(Vowels) + CountLetters(Consonants) + CountLetters(Blanks);
+            }
+        }
+
+        
+        private static uint CountLetters(LetterCount[] letterCounts)
+        {
+            uint count = 0;
+            foreach(LetterCount letterCount in letterCounts)
+                count += letterCount.count;
+            return count;
+        }
+
     }
 }

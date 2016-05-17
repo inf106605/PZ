@@ -31,7 +31,7 @@ namespace SkyCrab.Common_classes.Rooms.Rules
             Pouch[] pouches = new Pouch[1];
             if (dummy)
             {
-                pouches[0] = new Pouch(0, (uint)PolishTileSet.instance.Letters.Length);
+                pouches[0] = new Pouch(0, (uint)PolishTileSet.instance.Count);
             }
             else
             {

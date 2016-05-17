@@ -149,8 +149,8 @@ namespace SkyCrab.Common_classes.Games.Pouch
             LetterCount letterCount = tiles[0];
             if (letterCount.count < removedCount)
                 throw new NotEnoughTilesException();
-            --letterCount.count;
-            --count;
+            letterCount.count -= removedCount;
+            count -= removedCount;
         }
 
         public Tile DrawRandowmTile()

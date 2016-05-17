@@ -129,12 +129,16 @@ namespace SkyCrab
                             DrawedLetters newTiles = (DrawedLetters)messageInfo.message;
                             if (newTiles.playerId == SkyCrabGlobalVariables.player.Id)
                             {
-                                SkyCrabGlobalVariables.newTile = new DrawedLetters();
                                 SkyCrabGlobalVariables.newTile = newTiles;
                                 if (SkyCrabGlobalVariables.newTile.playerId == SkyCrabGlobalVariables.player.Id)
                                     SkyCrabGlobalVariables.isGetNewTile = true;
                                 else
                                     SkyCrabGlobalVariables.isGetNewTile = false;
+                            }
+                            else if(newTiles.playerId != SkyCrabGlobalVariables.player.Id)
+                            {
+                                SkyCrabGlobalVariables.anotherPlayersGetNewTile = true;
+                                SkyCrabGlobalVariables.anotherPlayersGetNewTileCount = (uint)newTiles.letters.Count;
                             }
                             break;
                         }

@@ -94,7 +94,7 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
-                    <TextBlock x:Name="LeftTilesInPouch" TextAlignment="Left" Text="Pozostało 93 płytek"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
+                    <TextBlock x:Name="LeftTilesInPouch" TextAlignment="Left" Text=""  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
                 </Grid>
                 <Grid Grid.Column="1">
                     <TextBlock x:Name="OwnerRoom" TextAlignment="Center" Text="{Binding OwnerRoom}"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
