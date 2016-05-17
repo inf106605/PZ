@@ -20,5 +20,10 @@ namespace SkyCrab.Common_classes.Games.Tiles
             return new LetterCount(letter, count);
         }
 
+        public override string ToString()
+        {
+            return count + " of " + letter;
+        }
+
     }
 }

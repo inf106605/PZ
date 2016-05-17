@@ -38,6 +38,11 @@
             return (int)character * 111 + (int)points;
         }
 
+        public override string ToString()
+        {
+            return typeof(Letter).Name + " '" + character + "'";
+        }
+
     }
 
 }

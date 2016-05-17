@@ -116,10 +116,11 @@ namespace SkyCrab.Common_classes.Games.Pouch
             for (uint i = 0; i != tiles.Length; ++i)
             {
                 LetterCount letterCount = tiles[i];
-                if (ReferenceEquals(letterCount.letter, letter))
+                if (letterCount.letter.character == letter.character)
                 {
                     ++letterCount.count;
                     ++count;
+                    return;
                 }
             }
             throw new NoSuchLetterEntryInPouchException();
