@@ -1,5 +1,6 @@
 ﻿using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Games.Pouches;
+using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.SkyCrabClasses;
 using System;
@@ -21,6 +22,7 @@ namespace SkyCrab
         public static DrawedLetters newTile;
         public static uint GameId;
         public static bool isMyRound = false;
+        public static LostLetters lostLetters = new LostLetters(); // zmienna do której są dopisywane płytki 
         public static readonly object roomLock = new object();
     }
 }

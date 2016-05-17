@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrab.Common_classes.Games.Pouches;
+using SkyCrab.Common_classes.Games.Racks;
 
 namespace SkyCrab
 {
@@ -155,6 +156,11 @@ namespace SkyCrab
 
                     case MessageId.PASS:
                     {   
+                            break;
+                    }
+                    case MessageId.LOSS_TILES:
+                    {
+                            SkyCrabGlobalVariables.lostLetters = (LostLetters)messageInfo.message;
                             break;
                     }
                     

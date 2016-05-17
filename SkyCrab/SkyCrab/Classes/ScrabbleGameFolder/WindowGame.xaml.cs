@@ -61,6 +61,16 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 SkyCrabGlobalVariables.isGetNewTile = false;
             }
 
+            if(SkyCrabGlobalVariables.lostLetters.letters != null)
+            {
+                if(SkyCrabGlobalVariables.lostLetters.playerId != SkyCrabGlobalVariables.player.Id) // aktualizacja woreczka u graczy o podanym ID - woreczek gracza który dokonał wymiany jest aktualizowany od razu
+                {
+                    scrabbleGame.game.Puoches[0].InsertAnyTiles((uint)SkyCrabGlobalVariables.lostLetters.letters.Count);
+                }
+
+                SkyCrabGlobalVariables.lostLetters.letters = null;
+            }
+
             if (SkyCrabGlobalVariables.isMyRound)
             {
                 Play.IsEnabled = true;
@@ -337,7 +347,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             if(answerValue.messageId == MessageId.OK)
             {
-                List<LetterWithNumber> getFromServerLetterWithNumber = new List<LetterWithNumber>();
+               /* List<LetterWithNumber> getFromServerLetterWithNumber = new List<LetterWithNumber>();
                 getFromServerLetterWithNumber = (List<LetterWithNumber>)answerValue.message;
 
                 for (int i = 0; i < getFromServerLetterWithNumber.Count; i++)
@@ -345,6 +355,8 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                     TileOnRack tileOnRackTemp = new TileOnRack(new Tile(getFromServerLetterWithNumber[i].letter));
                     scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(tileOnRackTemp));
                 }
+
+            */
             }
             
             /*
