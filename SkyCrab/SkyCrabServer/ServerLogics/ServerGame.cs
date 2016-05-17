@@ -164,9 +164,7 @@ namespace SkyCrabServer.ServerLogics
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_YOUR_TURN);
                     return;
                 }
-                //TODO do not allow first word to be 1-letter
-                //TODO check if new word is connecting to any of previous ones
-                if (tilesToPlace.lettersFromRack.Count == 0 || tilesToPlace.lettersFromRack.Count != tilesToPlace.tilesToPlace.Count)
+                if ((game.Board.IsEmpty ? tilesToPlace.lettersFromRack.Count < 2 : tilesToPlace.lettersFromRack.Count == 0) || tilesToPlace.lettersFromRack.Count != tilesToPlace.tilesToPlace.Count)
                 {
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE2);
                     return;
@@ -269,6 +267,45 @@ namespace SkyCrabServer.ServerLogics
 
         private bool IsMoveCorrect(List<TileOnBoard> tilesToPlace, out WordOnBoard wordOnBoard)
         {
+            if (game.Board.IsEmpty)
+            {
+                foreach (TileOnBoard tileOnBoard in tilesToPlace)
+                    if (game.Board.GetSquareType(tileOnBoard.position) == SquareType.START)
+                        goto first_tile_ok;
+                wordOnBoard = null;
+                return false;
+                first_tile_ok:;
+            }
+            else
+            {
+                foreach (TileOnBoard tileOnBoard in tilesToPlace)
+                {
+                    try
+                    {
+                        PositionOnBoard position = new PositionOnBoard();
+                        position.x = tileOnBoard.position.x - 1;
+                        position.y = tileOnBoard.position.y;
+                        if (game.Board.GetTile(position) != null)
+                            goto tile_adjacency_ok;
+                        ++position.x;
+                        --position.y;
+                        if (game.Board.GetTile(position) != null)
+                            goto tile_adjacency_ok;
+                        ++position.x;
+                        ++position.y;
+                        if (game.Board.GetTile(position) != null)
+                            goto tile_adjacency_ok;
+                        --position.x;
+                        ++position.y;
+                        if (game.Board.GetTile(position) != null)
+                            goto tile_adjacency_ok;
+                    }
+                    catch (NoSuchSquareOnBoardException) {}
+                }
+                wordOnBoard = null;
+                return false;
+                tile_adjacency_ok:;
+            }
             Board boardCopy = (Board)game.Board.Clone();
             foreach (TileOnBoard tileOnBoard in tilesToPlace)
                 boardCopy.PutTile(tileOnBoard);
