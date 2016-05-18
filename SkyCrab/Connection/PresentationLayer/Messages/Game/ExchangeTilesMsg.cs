@@ -12,7 +12,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Game
     /// <para>ID: <see cref="MessageId.EXCHANGE_TILES"/></para>
     /// <para>Data type: <see cref="List{T}"/> of <see cref="TileWithNumber"/>s</para>
     /// <para>Possible answers: <see cref="OkMsg"/>, <see cref="ErrorMsg"/></para>
-    /// <para>Error codes: <see cref="ErrorCode.NOT_IN_GAME3"/>, <see cref="ErrorCode.NOT_YOUR_TURN2"/>, <see cref="ErrorCode.INCORRECT_MOVE3"/></para>
+    /// <para>Error codes: <see cref="ErrorCode.NOT_IN_GAME3"/>, <see cref="ErrorCode.NOT_YOUR_TURN2"/>, <see cref="ErrorCode.TOO_LESS_TILES2"/>, <see cref="ErrorCode.LETTERS_NOT_FROM_RACK2"/>, <see cref="ErrorCode.TOO_LESS_POUCH_LETTERS"/>, <see cref="ErrorCode.RESTR_EXCH_VIOLATION"/></para>
     /// </summary>
     public sealed class ExchangeTilesMsg : AbstractMessage
     {

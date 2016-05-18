@@ -534,19 +534,24 @@ namespace SkyCrabServer.ServerLogics
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_YOUR_TURN2);
                     return;
                 }
+                if (letters.Count == 0)
+                {
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.TOO_LESS_TILES2);
+                    return;
+                }
                 if (game.Puoches[0].Count < letters.Count)
                 {
-                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.TOO_LESS_POUCH_LETTERS);
                     return;
                 }
                 if (serverRoom.room.Rules.restrictedExchange.value && game.Puoches[0].Count <= Rack.IntendedTilesCount)
                 {
-                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.RESTR_EXCH_VIOLATION);
                     return;
                 }
                 if (!HasTiles(letters))
                 {
-                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORRECT_MOVE3);
+                    ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.LETTERS_NOT_FROM_RACK2);
                     return;
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);

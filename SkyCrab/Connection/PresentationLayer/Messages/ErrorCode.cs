@@ -74,7 +74,10 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         //EXCHANGE_TILES
         NOT_IN_GAME3            = NOT_IN_GAME,
         NOT_YOUR_TURN2          = NOT_YOUR_TURN,
-        INCORRECT_MOVE3         = INCORRECT_MOVE,
+        TOO_LESS_TILES2         = TOO_LESS_TILES,
+        LETTERS_NOT_FROM_RACK2  = LETTERS_NOT_FROM_RACK,
+        TOO_LESS_POUCH_LETTERS  = 30,
+        RESTR_EXCH_VIOLATION    = 31,
         //PASS
         NOT_IN_GAME4            = NOT_IN_GAME,
         NOT_YOUR_TURN3          = NOT_YOUR_TURN
