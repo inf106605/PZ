@@ -186,7 +186,7 @@ namespace SkyCrab
                             LostLetters lostLetters = (LostLetters)messageInfo.message;
 
                             foreach (var lossTile in lostLetters.letters)
-                                SkyCrabGlobalVariables.game.CurrentPlayer.Rack.TakeOff(new TileOnRack(new Tile(lossTile.letter)));
+                                SkyCrabGlobalVariables.game.CurrentPlayer.Rack.TakeOff(lossTile.letter);
 
                             SkyCrabGlobalVariables.lostLetters = lostLetters;
                             break;
