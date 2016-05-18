@@ -58,32 +58,24 @@ namespace SkyCrabServer.ServerLogics
 
         public void StartGame()
         {
-            Globals.dataLock.AcquireWriterLock(-1);
-            try
+            if (!serverRoom.InRoom)
+                return;
+            if (!serverRoom.room.AllPlayersReady)
+                return;
+            UInt32 gameId = GameTable.Create();
+            game = new Game(gameId, serverRoom.room, false);
+            foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
-                if (!serverRoom.InRoom)
-                    return;
-                if (!serverRoom.room.AllPlayersReady)
-                    return;
-                UInt32 gameId = GameTable.Create();
-                game = new Game(gameId, serverRoom.room, false);
-                foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
-                {
-                    playerInRoom.IsReady = false;
-                    ServerPlayer otherServerPlayer; //Schrödinger Variable
-                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
-                    if (otherServerPlayer == null)  //WTF!?
-                        throw new Exception("Whatever...");
-                    otherServerPlayer.serverGame.game = game;
-                    GameStartedMsg.AsyncPost(otherServerPlayer.connection, game.Id);
-                }
-                GameLog.OnGameStart(game);
-                InitializeGame();
+                playerInRoom.IsReady = false;
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever...");
+                otherServerPlayer.serverGame.game = game;
+                GameStartedMsg.AsyncPost(otherServerPlayer.connection, game.Id);
             }
-            finally
-            {
-                Globals.dataLock.ReleaseWriterLock();
-            }
+            GameLog.OnGameStart(game);
+            InitializeGame();
         }
 
         private void InitializeGame()
@@ -688,6 +680,7 @@ namespace SkyCrabServer.ServerLogics
 
         private void OnEndGame()
         {
+            game.Room.InGame = false;
             GameTable.Finish(game.Id);
         }
 
@@ -779,7 +772,8 @@ namespace SkyCrabServer.ServerLogics
         {
             if (turnTimeoutTimer != null)
                 return;
-            turnTimeoutTimer = Task.Factory.StartNew(TurnTimerTaskBody);
+            uint turnNumber = game.TurnNumber;
+            turnTimeoutTimer = Task.Factory.StartNew(() => TurnTimerTaskBody(turnNumber));
         }
 
         private void StopTurnTimer()
@@ -794,18 +788,22 @@ namespace SkyCrabServer.ServerLogics
             return;
         }
 
-        private void TurnTimerTaskBody()
+        private void TurnTimerTaskBody(uint turnNumber)
         {
             if (turnTimeoutSemaphore.WaitOne((int)serverRoom.room.Rules.maxTurnTime.value * 1000))
                 return;
-            Task.Factory.StartNew(OnTurnTimeout);
+            Task.Factory.StartNew(() => OnTurnTimeout(turnNumber));
         }
 
-        public void OnTurnTimeout()
+        public void OnTurnTimeout(uint turnNumber)
         {
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
+                if (!InGame)
+                    return;
+                if (game.TurnNumber != turnNumber)
+                    return;
                 TurnTimeoutMsg.AsyncPost(serverPlayer.connection);
                 SwitchToNextPlayer(true);
             }
