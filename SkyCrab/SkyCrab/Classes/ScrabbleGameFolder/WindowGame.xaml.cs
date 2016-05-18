@@ -36,7 +36,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         {
             InitializeComponent();
             scrabbleGame = new ScrabbleGame();
-            InitBindingPlayers();
+            //InitBindingPlayers();
             DataContext = scrabbleGame;
 
             // co 3 sekundy następuje odświeżanie chatu
@@ -52,25 +52,11 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             // Updating the Label which displays the current second
             ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
 
-            ScrabblePlayers.Clear(); // czyszczenie listy graczy
+            // aktualizowanie listy graczy 
 
-            // dodawanie graczy z ich aktualnym stanem punktowym
-            
+            InitBindingPlayers();
 
             LeftTilesInPouch.Text = "Pozostało: " + scrabbleGame.game.Puoches[0].Count + " płytki";
-
-            if (SkyCrabGlobalVariables.gainPoints)
-            {
-
-                if (SkyCrabGlobalVariables.game != null)
-                {
-                    foreach (var player in SkyCrabGlobalVariables.game.Players)
-                        ScrabblePlayers.Add(new ScrabblePlayers(player.Player.Nick, player.Points, "", player.Rack.Tiles.Count));
-                }
-
-                SkyCrabGlobalVariables.gainPoints = false;
-
-            }
 
             if (SkyCrabGlobalVariables.isGetNewTile)
             {
@@ -142,7 +128,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
              PlayerInGame[] playerInGame = scrabbleGame.game.Players;
             ScrabblePlayers = new List<ScrabblePlayers>();
 
-            foreach (var item in playerInGame)
+            foreach (var item in SkyCrabGlobalVariables.game.Players)
             {
                 ScrabblePlayers.Add(new ScrabblePlayers(item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
             }
