@@ -12,6 +12,7 @@ using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Menu;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -51,7 +52,25 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             // Updating the Label which displays the current second
             ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
 
+            ScrabblePlayers.Clear(); // czyszczenie listy graczy
+
+            // dodawanie graczy z ich aktualnym stanem punktowym
+            
+
             LeftTilesInPouch.Text = "Pozostało: " + scrabbleGame.game.Puoches[0].Count + " płytki";
+
+            if (SkyCrabGlobalVariables.gainPoints)
+            {
+
+                if (SkyCrabGlobalVariables.game != null)
+                {
+                    foreach (var player in SkyCrabGlobalVariables.game.Players)
+                        ScrabblePlayers.Add(new ScrabblePlayers(player.Player.Nick, player.Points, "", player.Rack.Tiles.Count));
+                }
+
+                SkyCrabGlobalVariables.gainPoints = false;
+
+            }
 
             if (SkyCrabGlobalVariables.isGetNewTile)
             {
@@ -116,7 +135,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
         }
 
-  
 
         private void InitBindingPlayers()
         {
@@ -129,7 +147,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 ScrabblePlayers.Add(new ScrabblePlayers(item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
             }
 
-            Rack rack = new Rack(); // klasa piotra , do zrobienia
             ListPlayers.ItemsSource = ScrabblePlayers;
         }
 
@@ -279,9 +296,40 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
                 switch (errorCode)
                 {
+                    case ErrorCode.LETTERS_NOT_FROM_RACK:
+                        {
+                            MessageBox.Show("Próbujesz zdjąć nieistniejące płytki");
+                            break;
+                        }
+                    case ErrorCode.LETTERS_NOT_MATH:
+                        {
+                            MessageBox.Show("Błąd wykładania płytek na planszy");
+                            break;
+                        }
+                    case ErrorCode.WORD_NOT_IN_LINE:
+                        {
+                            MessageBox.Show("Słowa nie są ułożone w jednej linii!");
+                            break;
+                        }
+                    case ErrorCode.NOT_IN_STARTING_SQUARE:
+                        {
+                            MessageBox.Show("Musisz wyłożyć płytki tak aby przechodziły przez środek planszy!");
+                            break;
+                        }
+
                     case ErrorCode.NOT_IN_GAME2:
                         {
                             MessageBox.Show("Nie ma Cię w grze!");
+                            break;
+                        }
+                    case ErrorCode.TOO_LESS_TILES:
+                        {
+                            MessageBox.Show("Położono za mało płytek");
+                            break;
+                        }
+                    case ErrorCode.FIVES_FIRST_VIOLATION:
+                        {
+                            MessageBox.Show("Wyłozono za mało płytek");
                             break;
                         }
                     case ErrorCode.NOT_YOUR_TURN:
@@ -292,6 +340,21 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                     case ErrorCode.INCORRECT_MOVE2:
                         {
                             MessageBox.Show("Nieprawidłowy ruch!");
+                            break;
+                        }
+                    case ErrorCode.NOT_ADJANCENT:
+                        {
+                            MessageBox.Show("Płytki nie przylegają do siebie!");
+                            break;
+                        }
+                    case ErrorCode.NOT_CONTINUOUS:
+                        {
+                            MessageBox.Show("Płytki nie są ułożone w sposób ciągły!");
+                            break;
+                        }
+                    case ErrorCode.INCORECT_WORD:
+                        {
+                            MessageBox.Show("Niepoprawne słowo!");
                             break;
                         }
                     default:
@@ -392,12 +455,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             }
 
-            // usunięcie płytek ze stojaka 
-
-            for (int i =0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
-            {
-                scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
-            }
 
             // komunikat do wymiany płytek
 
@@ -438,16 +495,25 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             if(answerValue.messageId == MessageId.OK)
             {
-               /* List<LetterWithNumber> getFromServerLetterWithNumber = new List<LetterWithNumber>();
-                getFromServerLetterWithNumber = (List<LetterWithNumber>)answerValue.message;
 
-                for (int i = 0; i < getFromServerLetterWithNumber.Count; i++)
+                // usunięcie płytek ze stojaka 
+
+                for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
                 {
-                    TileOnRack tileOnRackTemp = new TileOnRack(new Tile(getFromServerLetterWithNumber[i].letter));
-                    scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(tileOnRackTemp));
+                    scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
                 }
 
-            */
+
+                /* List<LetterWithNumber> getFromServerLetterWithNumber = new List<LetterWithNumber>();
+                 getFromServerLetterWithNumber = (List<LetterWithNumber>)answerValue.message;
+
+                 for (int i = 0; i < getFromServerLetterWithNumber.Count; i++)
+                 {
+                     TileOnRack tileOnRackTemp = new TileOnRack(new Tile(getFromServerLetterWithNumber[i].letter));
+                     scrabbleGame.RackTiles.Add(new ScrabbleRackTiles(tileOnRackTemp));
+                 }
+
+             */
             }
             
             /*

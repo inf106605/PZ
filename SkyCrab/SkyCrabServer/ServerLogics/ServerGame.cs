@@ -409,7 +409,7 @@ namespace SkyCrabServer.ServerLogics
             }
             PlayerPoints playerPoints = new PlayerPoints();
             playerPoints.playerId = serverPlayer.player.Id;
-            playerPoints.points = (int)points;
+            playerPoints.points = (Int16)points;
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
                 ServerPlayer otherServerPlayer; //Schrödinger Variable

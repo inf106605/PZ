@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Chats;
+using SkyCrab.Common_classes.Games;
 using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Common_classes.Games.Pouches;
 using SkyCrab.Common_classes.Games.Racks;
@@ -24,6 +25,8 @@ namespace SkyCrab
         public static uint anotherPlayersGetNewTileCount = 0;
         public static DrawedLetters newTile; // nowe płytki zwrócone przez serwer
         public static uint GameId;
+        public static Game game; // klasa korzystająca z funkcji dostarczanych przez serwer, między innymi potrzebna do bindowania aktualnej listy graczy z punktami
+        public static bool gainPoints = false;
         public static bool isMyRound = false;
         public static LostLetters lostLetters = new LostLetters(); // zmienna do której są dopisywane płytki 
         public static bool isPlacedTilesByPlayers = false;  // zmienna, która sygnalizuje wyłożenie przez innego gracza płytek

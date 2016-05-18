@@ -16,6 +16,9 @@ using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrab.Common_classes.Games.Pouches;
 using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Boards;
+using SkyCrab.Common_classes.Games;
+using SkyCrab.Common_classes.Games.Tiles;
+using SkyCrab.Common_classes.Games.Players;
 
 namespace SkyCrab
 {
@@ -95,6 +98,7 @@ namespace SkyCrab
 
                     case MessageId.GAME_STARTED:
                         {
+                            SkyCrabGlobalVariables.game = new Game((uint)messageInfo.message, SkyCrabGlobalVariables.room.room, true);
                             SkyCrabGlobalVariables.isGame = true;
                             SkyCrabGlobalVariables.GameId = (uint)messageInfo.message;
                             break;
@@ -103,11 +107,14 @@ namespace SkyCrab
                     case MessageId.GAME_ENDED:
                         {
                             SkyCrabGlobalVariables.isGame = false;
+                            SkyCrabGlobalVariables.game = null;
                             break;
                         }
                     
                     case MessageId.NEXT_TURN:
                         {
+                            SkyCrabGlobalVariables.game.CurrentPlayerId = (uint)messageInfo.message;
+
                             if(SkyCrabGlobalVariables.player.Id == (uint)messageInfo.message)
                             {
                                 SkyCrabGlobalVariables.isMyRound = true;
@@ -128,6 +135,11 @@ namespace SkyCrab
                     case MessageId.NEW_TILES:
                         {
                             DrawedLetters newTiles = (DrawedLetters)messageInfo.message;
+
+                            foreach (var item in newTiles.letters)
+                                SkyCrabGlobalVariables.game.GetPlayer(newTiles.playerId).Rack.PutTile(new Tile(item));
+
+                           
                             if (newTiles.playerId == SkyCrabGlobalVariables.player.Id)
                             {
                                 SkyCrabGlobalVariables.newTile = newTiles;
@@ -149,8 +161,11 @@ namespace SkyCrab
                             break;
                         }
 
-                    case MessageId.GAIN_POINTS:
+                    case MessageId.GAIN_POINTS: // aktualizacja punktów graczy
                         {
+                            SkyCrabGlobalVariables.gainPoints = true;
+                            PlayerPoints playerPoints = (PlayerPoints)messageInfo.message;
+                            SkyCrabGlobalVariables.game.GetPlayer(playerPoints.playerId).GainPoints(playerPoints.points);
                             break;
                         }
 
@@ -168,7 +183,12 @@ namespace SkyCrab
                     }
                     case MessageId.LOSS_TILES:
                     {
-                            SkyCrabGlobalVariables.lostLetters = (LostLetters)messageInfo.message;
+                            LostLetters lostLetters = (LostLetters)messageInfo.message;
+
+                            foreach (var lossTile in lostLetters.letters)
+                                SkyCrabGlobalVariables.game.CurrentPlayer.Rack.TakeOff(new TileOnRack(new Tile(lossTile.letter)));
+
+                            SkyCrabGlobalVariables.lostLetters = lostLetters;
                             break;
                     }
                     
