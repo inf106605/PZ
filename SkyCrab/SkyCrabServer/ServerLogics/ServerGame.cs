@@ -431,6 +431,8 @@ namespace SkyCrabServer.ServerLogics
 
         private Int16 CountPoints(WordOnBoard wordOnBoard, List<TileOnBoard> tilesToPlace, bool horizontal)
         {
+            if (wordOnBoard.word.Length < 2)
+                return 0;
             List<TileOnBoard> tiles = GetTiles(game.Board, wordOnBoard.position, horizontal);
             Int16 points = 0;
             Int16 wordMultiplier = 1;
@@ -464,6 +466,7 @@ namespace SkyCrabServer.ServerLogics
             points *= wordMultiplier;
             if (tilesToPlace.Count == Rack.IntendedTilesCount)
                 points += 50;
+            Console.WriteLine(wordOnBoard.word + " - " + points);
             return points;
         }
 
