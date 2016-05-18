@@ -111,7 +111,16 @@ namespace SkyCrabServer.ServerLogics
         private List<Letter> FillRack(uint playerNumber, bool addToLog)
         {
             PlayerInGame playerInGame = game.Players[playerNumber];
-            int tilesToDraw = Rack.IntendedTilesCount - playerInGame.Rack.Tiles.Count;
+            uint tilesToDraw = (uint)(Rack.IntendedTilesCount - playerInGame.Rack.Tiles.Count);
+            if (tilesToDraw > game.Puoches[0].Count)
+            {
+                tilesToDraw = game.Puoches[0].Count;
+                if (tilesToDraw == 0 && playerInGame.Rack.Tiles.Count == 0)
+                {
+                    EndGame();
+                    return new List<Letter>();
+                }
+            }
             List<Letter> letters = new List<Letter>();
             List<Letter> blanks = new List<Letter>();
             for (int i = 0; i != tilesToDraw; ++i)
@@ -212,8 +221,9 @@ namespace SkyCrabServer.ServerLogics
                 Int16 points;
                 DoPlaceTiles(tilesToPlace, out wordOnBoard, out points);
                 GameLog.OnPlaceTiles(game, wordOnBoard, points);
-                List<Letter> newLetters = FillRack(game.CurrentPlayerNumber, true);
-                SwitchToNextPlayer(false);
+                FillRack(game.CurrentPlayerNumber, true);
+                if (serverPlayer.serverGame.InGame)
+                    SwitchToNextPlayer(false);
             }
             finally
             {
@@ -744,7 +754,14 @@ namespace SkyCrabServer.ServerLogics
                     throw new Exception("Whatever...");
                 GameEndedMsg.AsyncPost(serverPlayer.connection);
             }
-            OnEndGame();
+            foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+            {
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever...");
+                otherServerPlayer.serverGame.OnQuitGame();
+            }
         }
 
         private void StartTurnTimerWithAdequatePlayer()
