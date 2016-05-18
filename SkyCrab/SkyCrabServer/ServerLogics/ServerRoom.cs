@@ -63,7 +63,7 @@ namespace SkyCrabServer.ServerLogics
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
-                Globals.rooms.TryAdd(room.Id, this);
+                Globals.rooms.TryAdd(room.Id, room);
             }
             finally
             {
@@ -80,14 +80,14 @@ namespace SkyCrabServer.ServerLogics
             Globals.dataLock.AcquireReaderLock(-1);
             try
             {
-                foreach (KeyValuePair<UInt32, ServerRoom> pair in Globals.rooms)
+                foreach (KeyValuePair<UInt32, Room> pair in Globals.rooms)
                 {
-                    ServerRoom foundServerRoom = pair.Value;
-                    if (foundServerRoom.serverPlayer.serverGame.InGame)
+                    Room foundRoom = pair.Value;
+                    if (foundRoom.InGame)
                         continue;
-                    if (!RoomMath(foundServerRoom.room, roomFilter))
+                    if (!RoomMath(foundRoom, roomFilter))
                         continue;
-                    foundRooms.Add(foundServerRoom.room);
+                    foundRooms.Add(foundRoom);
                     if (foundRooms.Count == ListTranscoder<object>.MAX_COUNT)
                         break;
                 }
@@ -167,26 +167,26 @@ namespace SkyCrabServer.ServerLogics
                 ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.ALREADY_IN_ROOM2);
                 return;
             }
-            ServerRoom newServerRoom;
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
-                if (!Globals.rooms.TryGetValue(roomId, out newServerRoom))
+                Room newRoom;
+                if (!Globals.rooms.TryGetValue(roomId, out newRoom))
                 {
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NO_SUCH_ROOM);
                     return;
                 }
-                if (newServerRoom.serverPlayer.serverGame.InGame)
+                if (newRoom.InGame)
                 {
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.GAME_IS_STARTED);
                     return;
                 }
-                if (newServerRoom.room.Players.Count >= newServerRoom.room.Rules.maxPlayerCount.value)
+                if (newRoom.Players.Count >= newRoom.Rules.maxPlayerCount.value)
                 {
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.ROOM_IS_FULL);
                     return;
                 }
-                room = newServerRoom.room;
+                room = newRoom;
                 room.AddPlayer(serverPlayer.player);
                 RoomMsg.AsyncPost(id, serverPlayer.connection, room);
                 foreach (PlayerInRoom playerInRoom in serverPlayer.serverRoom.room.Players)
@@ -364,8 +364,17 @@ namespace SkyCrabServer.ServerLogics
 
         public void StartGame()
         {
-            serverPlayer.serverGame.StartGame();
-            startGameTimer = null;
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                room.InGame = true;
+                serverPlayer.serverGame.StartGame();
+                startGameTimer = null;
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
+            }
         }
 
         public void OnLeaveRoom()
@@ -379,7 +388,7 @@ namespace SkyCrabServer.ServerLogics
                     serverPlayer.serverRoom.room.RemovePlayer(serverPlayer.player.Id);
                     if (serverPlayer.serverRoom.room.Players.Count == 0)
                     {
-                        ServerRoom tmp;
+                        Room tmp;
                         Globals.rooms.TryRemove(serverPlayer.serverRoom.room.Id, out tmp);
                     }
                     else

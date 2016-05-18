@@ -41,6 +41,7 @@ namespace SkyCrab.Common_classes.Rooms
         private RoomType type;
         private readonly RuleSet rules = new RuleSet();
         private LinkedList<PlayerInRoom> players = new LinkedList<PlayerInRoom>();
+        private bool inGame = false;
 
 
         public uint Id
@@ -89,6 +90,12 @@ namespace SkyCrab.Common_classes.Rooms
         public RuleSet Rules
         {
             get { return rules; }
+        }
+
+        public bool InGame
+        {
+            get { return inGame; }
+            set { inGame = value; }
         }
 
 
