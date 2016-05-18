@@ -23,6 +23,7 @@ namespace SkyCrab.Common_classes.Games.Players
         private Rack rack = new Rack();
         private UInt16 points = 0;
         private bool walkover = false;
+        private UInt16 passCount = 0;
 
 
         public Player Player
@@ -51,6 +52,11 @@ namespace SkyCrab.Common_classes.Games.Players
             }
         }
 
+        public UInt16 PassCount
+        {
+            get { return passCount; }
+        }
+
 
         public PlayerInGame(Player player)
         {
@@ -62,6 +68,16 @@ namespace SkyCrab.Common_classes.Games.Players
             if (newPoints < 0 && -newPoints > points)
                 throw new NegativePointsException(points, newPoints);
             points = (UInt16)((Int16)points + newPoints);
+        }
+
+        public void ResetPassCount()
+        {
+            passCount = 0;
+        }
+
+        public void IncrementPassCount()
+        {
+            ++passCount;
         }
 
     }

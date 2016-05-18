@@ -197,7 +197,7 @@ namespace SkyCrabServer.ServerLogics
                     if (!IsMoveCorrect(id, tilesToPlace.tilesToPlace, out wrongWordOnBoard))
                     {
                         GameLog.OnWrongMove(game, wrongWordOnBoard);
-                        SwitchToNextPlayer();
+                        SwitchToNextPlayer(false);
                         return;
                     }
                 }
@@ -209,11 +209,11 @@ namespace SkyCrabServer.ServerLogics
                 OkMsg.AsyncPost(id, serverPlayer.connection);
                 RemoveTiles(tilesToPlace.lettersFromRack, false);
                 WordOnBoard wordOnBoard;
-                uint points;
+                Int16 points;
                 DoPlaceTiles(tilesToPlace, out wordOnBoard, out points);
                 GameLog.OnPlaceTiles(game, wordOnBoard, points);
                 List<Letter> newLetters = FillRack(game.CurrentPlayerNumber, true);
-                SwitchToNextPlayer();
+                SwitchToNextPlayer(false);
             }
             finally
             {
@@ -385,7 +385,7 @@ namespace SkyCrabServer.ServerLogics
             return wordOnBoard;
         }
 
-        private void DoPlaceTiles(TilesToPlace tilesToPlace, out WordOnBoard wordOnBoard, out uint points)
+        private void DoPlaceTiles(TilesToPlace tilesToPlace, out WordOnBoard wordOnBoard, out Int16 points)
         {
             foreach (TileOnBoard tileOnBoard in tilesToPlace.tilesToPlace)
                 game.Board.PutTile(tileOnBoard);
@@ -407,9 +407,14 @@ namespace SkyCrabServer.ServerLogics
                 WordOnBoard additionalWordOnBoard = GetWord(game.Board, tileOnBoard.position, horizontal);
                 points += CountPoints(additionalWordOnBoard, tilesToPlace.tilesToPlace, horizontal);
             }
+            PostGainPoints(serverPlayer.player.Id, points);
+        }
+
+        private void PostGainPoints(UInt32 playerId, Int16 gainedPoints)
+        {
             PlayerPoints playerPoints = new PlayerPoints();
             playerPoints.playerId = serverPlayer.player.Id;
-            playerPoints.points = (int)points;
+            playerPoints.points = gainedPoints;
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
                 ServerPlayer otherServerPlayer; //Schrödinger Variable
@@ -420,11 +425,11 @@ namespace SkyCrabServer.ServerLogics
             }
         }
 
-        private uint CountPoints(WordOnBoard wordOnBoard, List<TileOnBoard> tilesToPlace, bool horizontal)
+        private Int16 CountPoints(WordOnBoard wordOnBoard, List<TileOnBoard> tilesToPlace, bool horizontal)
         {
             List<TileOnBoard> tiles = GetTiles(game.Board, wordOnBoard.position, horizontal);
-            uint points = 0;
-            uint wordMultiplier = 1;
+            Int16 points = 0;
+            Int16 wordMultiplier = 1;
             foreach (TileOnBoard tileOnBoard in tiles)
             {
                 uint letterPoints = tileOnBoard.tile.Letter.points;
@@ -450,9 +455,11 @@ namespace SkyCrabServer.ServerLogics
                                     break;
                             }
                         }
-                points += letterPoints * letterMultiplier;
+                points += (Int16)(letterPoints * letterMultiplier);
             }
             points *= wordMultiplier;
+            if (tilesToPlace.Count == Rack.IntendedTilesCount)
+                points += 50;
             return points;
         }
 
@@ -564,7 +571,7 @@ namespace SkyCrabServer.ServerLogics
                 List<Letter> newLetters = FillRack(game.CurrentPlayerNumber, false);
                 InsertTilesToPouch(letters);
                 GameLog.OnExchange(game, letters, newLetters);
-                SwitchToNextPlayer();
+                SwitchToNextPlayer(false);
             }
             finally
             {
@@ -644,7 +651,7 @@ namespace SkyCrabServer.ServerLogics
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);
                 GameLog.OnPass(game);
-                SwitchToNextPlayer();
+                SwitchToNextPlayer(true);
             }
             finally
             {
@@ -661,23 +668,38 @@ namespace SkyCrabServer.ServerLogics
                 playerInGame.Walkover = true;
             ScoreTable.Create(game, playerInGame);
             if (game.ActivePlayersNumber == 0)
-                OnEndGame(game);
+                OnEndGame();
             else if (game.CurrentPlayer.Player.Id == serverPlayer.player.Id)
-                SwitchToNextPlayer();
+                SwitchToNextPlayer(true);
             game = null;
         }
 
-        private static void OnEndGame(Game game)
+        private void OnEndGame()
         {
             GameTable.Finish(game.Id);
         }
 
-        private void SwitchToNextPlayer()
+        private void SwitchToNextPlayer(bool pass)
         {
             StopTurnTimer();
-            game.SwitchToNextPlayer();
-            SendNextTurn();
-            StartTurnTimerWithAdequatePlayer();
+            game.SwitchToNextPlayer(pass);
+            if (IsGameEndedByPassing())
+            {
+                EndGame();
+            }
+            else
+            {
+                SendNextTurn();
+                StartTurnTimerWithAdequatePlayer();
+            }
+        }
+
+        private bool IsGameEndedByPassing()
+        {
+            foreach (PlayerInGame playerInGame in game.Players)
+                if (!playerInGame.Walkover && playerInGame.PassCount < 2)
+                    return false;
+            return true;
         }
 
         private void SendNextTurn()
@@ -691,6 +713,36 @@ namespace SkyCrabServer.ServerLogics
                     throw new Exception("Whatever...");
                 NextTurnMsg.AsyncPost(otherServerPlayer.connection, game.CurrentPlayer.Player.Id);
             }
+        }
+
+        private void EndGame()
+        {
+            foreach (PlayerInGame playerInGame in game.Players)
+            {
+                Int16 pointDiff = 0;
+                if (playerInGame.Rack.Tiles.Count == 0)
+                {
+                    foreach (PlayerInGame otherPlayerInGame in game.Players)
+                        pointDiff += (Int16)otherPlayerInGame.Rack.PointSum;
+                }
+                else
+                {
+                    pointDiff = (Int16)(-(Int16)playerInGame.Rack.PointSum);
+                }
+                if (pointDiff + playerInGame.Points < 0)
+                    pointDiff = (Int16)(-(Int16)playerInGame.Points);
+                playerInGame.GainPoints(pointDiff);
+                PostGainPoints(playerInGame.Player.Id, pointDiff);
+            }
+            foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+            {
+                ServerPlayer otherServerPlayer; //Schrödinger Variable
+                Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                if (otherServerPlayer == null)  //WTF!?
+                    throw new Exception("Whatever...");
+                GameEndedMsg.AsyncPost(serverPlayer.connection);
+            }
+            OnEndGame();
         }
 
         private void StartTurnTimerWithAdequatePlayer()
@@ -736,7 +788,7 @@ namespace SkyCrabServer.ServerLogics
             try
             {
                 TurnTimeoutMsg.AsyncPost(serverPlayer.connection);
-                SwitchToNextPlayer();
+                SwitchToNextPlayer(true);
             }
             finally
             {

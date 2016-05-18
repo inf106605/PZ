@@ -1,12 +1,9 @@
-﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
-using System;
-
-namespace SkyCrab.Connection.PresentationLayer.Messages.Game
+﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Game
 {
     /// <summary>
     /// <para>Sender: Server</para>
     /// <para>ID: <see cref="MessageId.GAME_ENDED"/></para>
-    /// <para>Data type: <see cref="UInt32"/> (winner ID)</para>
+    /// <para>Data type: [none]</para>
     /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
@@ -25,15 +22,12 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Game
 
         internal override object Read(MessageConnection connection)
         {
-            UInt32 winnerId = UInt32Transcoder.Get.Read(connection);
-            return winnerId;
+            return null;
         }
 
-        public static void AsyncPost(MessageConnection connection, UInt32 winnerId)
+        public static void AsyncPost(MessageConnection connection)
         {
-            MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
-                    UInt32Transcoder.Get.Write(connection, writingBlock, winnerId);
-            connection.PostNewMessage(MessageId.GAME_ENDED, messageProcedure);
+            connection.PostNewMessage(MessageId.GAME_ENDED, null);
         }
     }
 }

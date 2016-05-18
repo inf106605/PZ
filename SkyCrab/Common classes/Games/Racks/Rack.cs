@@ -1,4 +1,5 @@
 ﻿using SkyCrab.Common_classes.Games.Tiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -47,6 +48,17 @@ namespace SkyCrab.Common_classes.Games.Racks
         public LinkedList<TileOnRack> Tiles
         {
             get { return tiles; }
+        }
+
+        public UInt16 PointSum
+        {
+            get
+            {
+                UInt16 pointSum = 0;
+                foreach (TileOnRack tileOnRack in tiles)
+                    pointSum += (UInt16)tileOnRack.Tile.Letter.points;
+                return pointSum;
+            }
         }
 
 

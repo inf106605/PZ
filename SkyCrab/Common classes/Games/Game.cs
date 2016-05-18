@@ -189,10 +189,14 @@ namespace SkyCrab.Common_classes.Games
             throw new NoSuchPlayerInGameException(playerId);
         }
 
-        public void SwitchToNextPlayer()
+        public void SwitchToNextPlayer(bool pass)
         {
             if (currentPlayerNumber == uint.MaxValue)
                 throw new FirstPlayerNotSelectedException();
+            if (pass)
+                CurrentPlayer.IncrementPassCount();
+            else
+                CurrentPlayer.ResetPassCount();
             ++turnNumber;
             for (uint i = currentPlayerNumber + 1; i != players.Length; ++i)
             {
