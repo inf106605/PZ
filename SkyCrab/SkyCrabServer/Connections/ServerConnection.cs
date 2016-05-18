@@ -138,10 +138,6 @@ namespace SkyCrabServer.Connactions
 						//TODO
 						break;
 						
-                    case MessageId.TURN_TIMEOUT:
-						//TODO
-						break;
-						
                     case MessageId.PLACE_TILES:
                         serverPlayer.serverGame.PlaceTiles(id, (TilesToPlace)messageInfo.message);
                         break;

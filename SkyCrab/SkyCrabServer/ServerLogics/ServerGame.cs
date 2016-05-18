@@ -13,6 +13,8 @@ using SkyCrabServer.GameLogs;
 using System;
 using System.Collections.Generic;
 using SkyCrab.Common_classes.Games.Boards;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace SkyCrabServer.ServerLogics
 {
@@ -32,6 +34,8 @@ namespace SkyCrabServer.ServerLogics
         private readonly ServerPlayer serverPlayer;
         private readonly ServerRoom serverRoom;
         public Game game;
+        private Task turnTimeoutTimer;
+        private Semaphore turnTimeoutSemaphore = new Semaphore(0, 1);
 
 
         public bool InGame
@@ -87,6 +91,7 @@ namespace SkyCrabServer.ServerLogics
             ChooseFirstPlayer();
             DrawTilesForAllPlayers();
             SendNextTurn();
+            StartTurnTimerWithAdequatePlayer();
         }
 
         private void ChooseFirstPlayer()
@@ -669,8 +674,10 @@ namespace SkyCrabServer.ServerLogics
 
         private void SwitchToNextPlayer()
         {
+            StopTurnTimer();
             game.SwitchToNextPlayer();
             SendNextTurn();
+            StartTurnTimerWithAdequatePlayer();
         }
 
         private void SendNextTurn()
@@ -683,6 +690,57 @@ namespace SkyCrabServer.ServerLogics
                 if (otherServerPlayer == null)  //WTF!?
                     throw new Exception("Whatever...");
                 NextTurnMsg.AsyncPost(otherServerPlayer.connection, game.CurrentPlayer.Player.Id);
+            }
+        }
+
+        private void StartTurnTimerWithAdequatePlayer()
+        {
+            if (serverRoom.room.Rules.maxTurnTime.value == 0)
+                return;
+            ServerPlayer otherServerPlayer; //Schrödinger Variable
+            Globals.players.TryGetValue(game.CurrentPlayer.Player.Id, out otherServerPlayer);
+            if (otherServerPlayer == null)  //WTF!?
+                throw new Exception("Whatever...");
+            otherServerPlayer.serverGame.StartTurnTimer();
+        }
+
+        private void StartTurnTimer()
+        {
+            if (turnTimeoutTimer != null)
+                return;
+            turnTimeoutTimer = Task.Factory.StartNew(TurnTimerTaskBody);
+        }
+
+        private void StopTurnTimer()
+        {
+            if (turnTimeoutTimer == null)
+                return;
+            turnTimeoutSemaphore.Release();
+            turnTimeoutTimer.Wait();
+            if (turnTimeoutSemaphore.WaitOne(0))
+                return;
+            turnTimeoutTimer = null;
+            return;
+        }
+
+        private void TurnTimerTaskBody()
+        {
+            if (turnTimeoutSemaphore.WaitOne((int)serverRoom.room.Rules.maxTurnTime.value * 1000))
+                return;
+            Task.Factory.StartNew(OnTurnTimeout);
+        }
+
+        public void OnTurnTimeout()
+        {
+            Globals.dataLock.AcquireWriterLock(-1);
+            try
+            {
+                TurnTimeoutMsg.AsyncPost(serverPlayer.connection);
+                SwitchToNextPlayer();
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseWriterLock();
             }
         }
 
