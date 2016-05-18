@@ -18,7 +18,19 @@ namespace SkyCrab.Common_classes.Games
         }
     }
 
+    public sealed class NoThatManyPlayersInGameException : SkyCrabException
+    {
+        public NoThatManyPlayersInGameException(uint playerNumber) :
+            base("There is less than " + playerNumber + " players in this game!")
+        {
+        }
+    }
+
     public class ThereIsNoAnyActivePlayerException : SkyCrabException
+    {
+    }
+
+    public class PlayerDidWalkoverException : SkyCrabException
     {
     }
 
@@ -67,6 +79,10 @@ namespace SkyCrab.Common_classes.Games
         {
             get { return currentPlayerNumber; }
             set {
+                if (value > players.Length)
+                    throw new NoThatManyPlayersInGameException(value);
+                if (players[value].Walkover)
+                    throw new PlayerDidWalkoverException();
                 if (currentPlayerNumber == uint.MaxValue)
                     firstPlayerNumber = value;
                 currentPlayerNumber = value;
@@ -103,6 +119,26 @@ namespace SkyCrab.Common_classes.Games
                     return null;
                 else
                     return players[currentPlayerNumber];
+            }
+        }
+
+        public UInt32 CurrentPlayerId
+        {
+            get
+            {
+                if (currentPlayerNumber == uint.MaxValue)
+                    throw new FirstPlayerNotSelectedException();
+                return CurrentPlayer.Player.Id;
+            }
+            set
+            {
+                for (uint i = 0; i != players.Length; ++i)
+                    if (players[i].Player.Id == value)
+                    {
+                        CurrentPlayerNumber = i;
+                        return;
+                    }
+                throw new NoSuchPlayerInGameException(value);
             }
         }
 
