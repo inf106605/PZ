@@ -82,7 +82,7 @@ namespace SkyCrabServer.GameLogs
             GameTable.AddToLog(game.Id, log);
         }
 
-        public static void OnPlaceTiles(Game game, WordOnBoard wordOnBoard, uint points)
+        public static void OnPlaceTiles(Game game, WordOnBoard wordOnBoard, Int16 points)
         {
             string log = "PLACE TILES:\n\tplayer #" + (game.CurrentPlayerNumber + 1) + "\n\t" + game.Board.getSquareID(wordOnBoard) + " " + wordOnBoard.word + "\n\t" + points + "\n";
             GameTable.AddToLog(game.Id, log);

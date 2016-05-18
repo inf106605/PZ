@@ -1,4 +1,6 @@
-﻿using SkyCrab.Common_classes.Games.Tiles;
+﻿using SkyCrab.Common_classes.Games.Letters;
+using SkyCrab.Common_classes.Games.Tiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,6 +51,17 @@ namespace SkyCrab.Common_classes.Games.Racks
             get { return tiles; }
         }
 
+        public UInt16 PointSum
+        {
+            get
+            {
+                UInt16 pointSum = 0;
+                foreach (TileOnRack tileOnRack in tiles)
+                    pointSum += (UInt16)tileOnRack.Tile.Letter.points;
+                return pointSum;
+            }
+        }
+
 
         public Rack()
         {
@@ -78,6 +91,22 @@ namespace SkyCrab.Common_classes.Games.Racks
                 ++i;
             }
             throw new NoSuchTileOnRackException();
+        }
+
+        public TileOnRack PutLetter(Letter letter, float position = float.PositiveInfinity)
+        {
+            return PutLetters(new Letter[] { letter }).First.Value;
+        }
+
+        public LinkedList<TileOnRack> PutLetters(ICollection<Letter> letters, float position = float.PositiveInfinity)
+        {
+            Tile[] tiles = new Tile[letters.Count];
+            int i = 0;
+            foreach (Letter letter in letters)
+            {
+                tiles[i++] = new Tile(letter);
+            }
+            return PutTiles(tiles, position);
         }
 
         public TileOnRack PutTile(Tile tile, float position = float.PositiveInfinity)
@@ -269,28 +298,42 @@ namespace SkyCrab.Common_classes.Games.Racks
             }
         }
 
-        public void TakeOff(TileOnRack tile)
+        public void TakeOff(IEnumerable<Letter> letters)
         {
-            TakeOff(new TileOnRack[] { tile });
+            foreach (Letter letter in letters)
+                TakeOff(letter);
         }
 
-        public void TakeOff(IEnumerable<TileOnRack> tiles)
+        public void TakeOff(Letter letter)
         {
-            foreach (TileOnRack tileToTakeOff in tiles)
-            {
-                var i = this.tiles.First;
-                while (i != null)
+            foreach (TileOnRack tileOnRack in tiles)
+                if (tileOnRack.Tile.Letter.character == letter.character)
                 {
-                    if (ReferenceEquals(i.Value, tileToTakeOff))
-                    {
-                        this.tiles.Remove(i);
-                        goto next_tile;
-                    }
-                    i = i.Next;
+                    TakeOff(tileOnRack);
+                    return;
                 }
-                throw new NoSuchTileOnRackException();
-                next_tile:;
+            throw new NoSuchTileOnRackException();
+        }
+
+        public void TakeOff(IEnumerable<TileOnRack> tilesToTakeOff)
+        {
+            foreach (TileOnRack tileToTakeOff in tilesToTakeOff)
+                TakeOff(tileToTakeOff);
+        }
+
+        public void TakeOff(TileOnRack tileToTakeOff)
+        {
+            var i = this.tiles.First;
+            while (i != null)
+            {
+                if (ReferenceEquals(i.Value, tileToTakeOff))
+                {
+                    this.tiles.Remove(i);
+                    return;
+                }
+                i = i.Next;
             }
+            throw new NoSuchTileOnRackException();
         }
 
     }
