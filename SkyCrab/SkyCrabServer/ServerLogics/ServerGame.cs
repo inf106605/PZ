@@ -466,7 +466,6 @@ namespace SkyCrabServer.ServerLogics
             points *= wordMultiplier;
             if (tilesToPlace.Count == Rack.IntendedTilesCount)
                 points += 50;
-            Console.WriteLine(wordOnBoard.word + " - " + points);
             return points;
         }
 
