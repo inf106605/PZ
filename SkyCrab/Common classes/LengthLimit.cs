@@ -26,6 +26,7 @@
         private static readonly LengthLimit roomName = new LengthLimit(0, 50);
         private static readonly LengthLimit searchPhraze = new LengthLimit(0, 100);
         private static readonly LengthLimit chatMessage = new LengthLimit(1, 1000);
+        private static readonly LengthLimit word = new LengthLimit(2, 16);
 
         public static LengthLimit Login {
             get { return login; }
@@ -59,6 +60,11 @@
         public static LengthLimit ChatMessage
         {
             get { return chatMessage; }
+        }
+
+        public static LengthLimit Word
+        {
+            get { return word; }
         }
 
 

@@ -1,18 +1,18 @@
-﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Game
+﻿namespace SkyCrab.Connection.PresentationLayer.Messages.Game.Informations
 {
     /// <summary>
     /// <para>Sender: Server</para>
-    /// <para>ID: <see cref="MessageId.TURN_TIMEOUT"/></para>
+    /// <para>ID: <see cref="MessageId.GAME_ENDED"/></para>
     /// <para>Data type: [none]</para>
     /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
-    public sealed class TurnTimeoutMsg : AbstractMessage
+    public sealed class GameEndedMsg : AbstractMessage
     {
 
         public override MessageId Id
         {
-            get { return MessageId.TURN_TIMEOUT; }
+            get { return MessageId.GAME_ENDED; }
         }
 
         internal override bool Answer
@@ -27,7 +27,7 @@
 
         public static void AsyncPost(MessageConnection connection)
         {
-            connection.PostNewMessage(MessageId.TURN_TIMEOUT, null);
+            connection.PostNewMessage(MessageId.GAME_ENDED, null);
         }
     }
 }

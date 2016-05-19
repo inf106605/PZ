@@ -5,7 +5,7 @@ using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 using System.Collections.Generic;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Game
+namespace SkyCrab.Connection.PresentationLayer.Messages.Game.Commands
 {
     /// <summary>
     /// <para>Sender: Client</para>

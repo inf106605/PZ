@@ -10,7 +10,8 @@ using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Connections;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Pings;
-using SkyCrab.Connection.PresentationLayer.Messages.Game;
+using SkyCrab.Connection.PresentationLayer.Messages.Game.Commands;
+using SkyCrab.Connection.PresentationLayer.Messages.Game.Informations;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
@@ -51,7 +52,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(18, 0, 0);
+        private static readonly Version version = new Version(19, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -122,18 +123,23 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new NewRoomOwnerMsg());
             AddMessage(new ChatMsg());
 
-            //--- Gane ---
-            AddMessage(new GameStartedMsg());
-            AddMessage(new NextTurnMsg());
-            AddMessage(new NewTilesMsg());
-            AddMessage(new LossTilesMsg());
-            AddMessage(new GainPointsMsg());
-            AddMessage(new ReorderRackTilesMsg());
-            AddMessage(new TurnTimeoutMsg());
+            //--- Game ---
+            //Commands
             AddMessage(new PlaceTilesMsg());
             AddMessage(new ExchangeTilesMsg());
             AddMessage(new PassMsg());
+            //Informations
+            AddMessage(new GameStartedMsg());
             AddMessage(new GameEndedMsg());
+            AddMessage(new NextTurnMsg());
+            AddMessage(new NewTilesMsg());
+            AddMessage(new LossTilesMsg());
+            AddMessage(new PointsChangedMsg());
+            AddMessage(new ReorderRackTilesMsg());
+            AddMessage(new PlayerPlacedTilesMsg());
+            AddMessage(new PlayerExchangedMsg());
+            AddMessage(new PlayerPassedMsg());
+            AddMessage(new TimeoutOccerredMsg());
         }
 
         private static void AddMessage(AbstractMessage message)

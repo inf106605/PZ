@@ -7,7 +7,6 @@ using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Common_classes.Rooms.Players;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
-using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrabServer.Databases;
 using SkyCrabServer.GameLogs;
 using System;
@@ -15,6 +14,8 @@ using System.Collections.Generic;
 using SkyCrab.Common_classes.Games.Boards;
 using System.Threading.Tasks;
 using System.Threading;
+using SkyCrab.Connection.PresentationLayer.Messages.Game.Informations;
+using SkyCrab.Connection.PresentationLayer.Messages.Game.Commands;
 
 namespace SkyCrabServer.ServerLogics
 {
@@ -192,12 +193,12 @@ namespace SkyCrabServer.ServerLogics
                     ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_ADJANCENT);
                     return;
                 }
+                WordOnBoard wordOnBoard;
                 try
                 {
-                    WordOnBoard wrongWordOnBoard;
-                    if (!IsMoveCorrect(id, tilesToPlace.tilesToPlace, out wrongWordOnBoard))
+                    if (!IsMoveCorrect(id, tilesToPlace.tilesToPlace, out wordOnBoard))
                     {
-                        GameLog.OnWrongMove(game, wrongWordOnBoard);
+                        GameLog.OnWrongMove(game, wordOnBoard);
                         SwitchToNextPlayer(false);
                         return;
                     }
@@ -208,10 +209,17 @@ namespace SkyCrabServer.ServerLogics
                     return;
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);
+                foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+                {
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    PlayerPlacedTilesMsg.AsyncPost(otherServerPlayer.connection, wordOnBoard);
+                }
                 RemoveTiles(tilesToPlace.lettersFromRack, false);
-                WordOnBoard wordOnBoard;
                 Int16 points;
-                DoPlaceTiles(tilesToPlace, out wordOnBoard, out points);
+                DoPlaceTiles(tilesToPlace, wordOnBoard, out points);
                 GameLog.OnPlaceTiles(game, wordOnBoard, points);
                 FillRack(game.CurrentPlayerNumber, true);
                 if (serverPlayer.serverGame.InGame)
@@ -387,7 +395,7 @@ namespace SkyCrabServer.ServerLogics
             return wordOnBoard;
         }
 
-        private void DoPlaceTiles(TilesToPlace tilesToPlace, out WordOnBoard wordOnBoard, out Int16 points)
+        private void DoPlaceTiles(TilesToPlace tilesToPlace, WordOnBoard wordOnBoard, out Int16 points)
         {
             foreach (TileOnBoard tileOnBoard in tilesToPlace.tilesToPlace)
                 game.Board.PutTile(tileOnBoard);
@@ -401,7 +409,6 @@ namespace SkyCrabServer.ServerLogics
                 PlaceTilesMsg.AsyncPost(otherServerPlayer.connection, tilesToPlace);
             }
             bool horizontal = GetTilesOrientation(tilesToPlace.tilesToPlace) == Orientation.HORIZONTAL;
-            wordOnBoard = GetWord(game.Board, tilesToPlace.tilesToPlace[0].position, horizontal);
             points = CountPoints(wordOnBoard, tilesToPlace.tilesToPlace, horizontal);
             horizontal = !horizontal;
             foreach (TileOnBoard tileOnBoard in tilesToPlace.tilesToPlace)
@@ -417,7 +424,7 @@ namespace SkyCrabServer.ServerLogics
             PlayerPoints playerPoints = new PlayerPoints();
             playerPoints.playerId = serverPlayer.player.Id;
 
-            playerPoints.points = gainedPoints;
+            playerPoints.pointsDifference = gainedPoints;
 
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
@@ -425,7 +432,7 @@ namespace SkyCrabServer.ServerLogics
                 Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                 if (otherServerPlayer == null)  //WTF!?
                     throw new Exception("Whatever...");
-                GainPointsMsg.AsyncPost(otherServerPlayer.connection, playerPoints);
+                PointsChangedMsg.AsyncPost(otherServerPlayer.connection, playerPoints);
             }
         }
 
@@ -578,6 +585,14 @@ namespace SkyCrabServer.ServerLogics
                     return;
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);
+                foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+                {
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    PlayerExchangedMsg.AsyncPost(otherServerPlayer.connection, (byte)letters.Count);
+                }
                 RemoveTiles(letters, true);
                 List<Letter> newLetters = FillRack(game.CurrentPlayerNumber, false);
                 InsertTilesToPouch(letters);
@@ -676,6 +691,14 @@ namespace SkyCrabServer.ServerLogics
                 }
                 OkMsg.AsyncPost(id, serverPlayer.connection);
                 GameLog.OnPass(game);
+                foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+                {
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    PlayerPassedMsg.AsyncPost(otherServerPlayer.connection);
+                }
                 SwitchToNextPlayer(true);
             }
             finally
@@ -831,7 +854,14 @@ namespace SkyCrabServer.ServerLogics
                     return;
                 if (game.TurnNumber != turnNumber)
                     return;
-                TurnTimeoutMsg.AsyncPost(serverPlayer.connection);
+                foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+                {
+                    ServerPlayer otherServerPlayer; //Schrödinger Variable
+                    Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                    if (otherServerPlayer == null)  //WTF!?
+                        throw new Exception("Whatever...");
+                    TimeoutOccerredMsg.AsyncPost(otherServerPlayer.connection);
+                }
                 SwitchToNextPlayer(true);
             }
             finally

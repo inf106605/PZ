@@ -1,21 +1,21 @@
 ﻿using SkyCrab.Common_classes.Games.Players;
 using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Game;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Game
+namespace SkyCrab.Connection.PresentationLayer.Messages.Game.Informations
 {
     /// <summary>
     /// <para>Sender: Server</para>
-    /// <para>ID: <see cref="MessageId.GAIN_POINTS"/></para>
-    /// <para>Data type: <see cref="PlayerPoints"/> (room ID)</para>
+    /// <para>ID: <see cref="MessageId.POINTS_CHANGED"/></para>
+    /// <para>Data type: <see cref="PlayerPoints"/></para>
     /// <para>Possible answers: [none]</para>
     /// <para>Error codes: [none]</para>
     /// </summary>
-    public sealed class GainPointsMsg : AbstractMessage
+    public sealed class PointsChangedMsg : AbstractMessage
     {
 
         public override MessageId Id
         {
-            get { return MessageId.GAIN_POINTS; }
+            get { return MessageId.POINTS_CHANGED; }
         }
 
         internal override bool Answer
@@ -33,7 +33,7 @@ namespace SkyCrab.Connection.PresentationLayer.Messages.Game
         {
             MessageConnection.MessageProcedure messageProcedure = (writingBlock) =>
                     PlayerPointsTranscoder.Get.Write(connection, writingBlock, playerPoints);
-            connection.PostNewMessage(MessageId.GAIN_POINTS, messageProcedure);
+            connection.PostNewMessage(MessageId.POINTS_CHANGED, messageProcedure);
         }
     }
 }

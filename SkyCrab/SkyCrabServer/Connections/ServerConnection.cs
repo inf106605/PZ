@@ -130,10 +130,6 @@ namespace SkyCrabServer.Connactions
 
                     //GAME
 						
-                    case MessageId.GAIN_POINTS:
-						//TODO
-						break;
-						
                     case MessageId.REORDER_RACK_TILES:
 						//TODO
 						break;
@@ -148,10 +144,6 @@ namespace SkyCrabServer.Connactions
 						
                     case MessageId.PASS:
                         serverPlayer.serverGame.Pass(id);
-						break;
-						
-                    case MessageId.GAME_ENDED:
-						//TODO
 						break;
 						
                     //Unknown

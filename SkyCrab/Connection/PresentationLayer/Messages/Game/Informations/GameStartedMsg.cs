@@ -1,7 +1,7 @@
 ﻿using SkyCrab.Connection.PresentationLayer.DataTranscoders.NativeTypes;
 using System;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Game
+namespace SkyCrab.Connection.PresentationLayer.Messages.Game.Informations
 {
     /// <summary>
     /// <para>Sender: Server</para>

@@ -3,7 +3,7 @@ using SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Game;
 using SkyCrab.Connection.PresentationLayer.MessageConnections;
 using SkyCrab.Connection.PresentationLayer.Messages.Common.Errors;
 
-namespace SkyCrab.Connection.PresentationLayer.Messages.Game
+namespace SkyCrab.Connection.PresentationLayer.Messages.Game.Commands
 {
     /// <summary>
     /// <para>Sender: Server &amp; Client</para>
