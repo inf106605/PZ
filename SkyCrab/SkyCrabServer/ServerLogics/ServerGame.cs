@@ -598,6 +598,20 @@ namespace SkyCrabServer.ServerLogics
             return true;
         }
 
+        private void RemoveAllTiles(bool backToPouch)
+        {
+            List<LetterWithNumber> letters = new List<LetterWithNumber>();
+            byte i = 0;
+            foreach (TileOnRack tileOnRack in game.CurrentPlayer.Rack.Tiles)
+            {
+                LetterWithNumber letterWithNumber = new LetterWithNumber();
+                letterWithNumber.letter = tileOnRack.Tile.Letter;
+                letterWithNumber.number = i++;
+                letters.Add(letterWithNumber);
+            }
+            RemoveTiles(letters, backToPouch);
+        }
+
         private void RemoveTiles(List<LetterWithNumber> letters, bool backToPouch)
         {
             //TODO take number into account
@@ -674,9 +688,15 @@ namespace SkyCrabServer.ServerLogics
                 playerInGame.Walkover = true;
             ScoreTable.Create(game, playerInGame);
             if (game.ActivePlayersNumber == 0)
+            {
                 OnEndGame();
+            }
             else if (game.CurrentPlayer.Player.Id == serverPlayer.player.Id)
+            {
+                if (!game.IsFinished)
+                    RemoveAllTiles(true);
                 SwitchToNextPlayer(true);
+            }
             game = null;
         }
 
