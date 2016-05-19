@@ -2,6 +2,10 @@
 
 namespace SkyCrab.Common_classes.Games.Letters
 {
+    public sealed class NoSuchLetterException : SkyCrabException
+    {
+    }
+
     class PolishLetterSet : LetterSet
     {
 
@@ -40,10 +44,24 @@ namespace SkyCrab.Common_classes.Games.Letters
 
         private static readonly Letter[] letters = new Letter[33] { A, A_OGONEK, B, C, C_ACUTE, D, E, E_OGONEK, F, G, H, I, J, K, L, L_STROKE, M, N, N_ACUTE, O, O_ACUTE, P, R, S, S_ACUTE, T, U, W, Y, Z, Z_ACUTE, Z_DOT, BLANK };
 
-		
+
+        public static IList<Letter> _Letters
+        {
+            get { return letters; }
+        }
+
         public override IList<Letter> Letters
         {
             get { return letters; }
+        }
+
+
+        public static Letter GetLetter(char character)
+        {
+            foreach (Letter letter in letters)
+                if (letter.character == character)
+                    return letter;
+            throw new NoSuchLetterException();
         }
 
     }
