@@ -126,6 +126,7 @@ namespace SkyCrab
                             if (SkyCrabGlobalVariables.player.Id == (uint)messageInfo.message)
                             {
                                 SkyCrabGlobalVariables.isMyRound = true;
+                                SkyCrabGlobalVariables.myMaxTurnTime = TimeSpan.FromSeconds(SkyCrabGlobalVariables.game.Room.Rules.maxTurnTime.value);
                             }
                             else
                             {
@@ -137,6 +138,7 @@ namespace SkyCrab
                     case MessageId.TURN_TIMEOUT:
                         {
                             SkyCrabGlobalVariables.isMyRound = false;
+                            SkyCrabGlobalVariables.timeSpanMyRound = false;
                             break;
                         }
                  

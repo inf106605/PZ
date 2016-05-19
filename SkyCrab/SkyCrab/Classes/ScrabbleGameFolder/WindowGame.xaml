@@ -100,7 +100,7 @@
 
                 </Grid>
                 <Grid Grid.Column="2">
-                    <TextBlock TextAlignment="Right" Text="Czas: 0:57:16"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
+                    <TextBlock x:Name="LeftTimeMyRound" TextAlignment="Right" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
                 </Grid>
             </Grid>
             <ListBox Background="Black" x:Name="scrabbleBoard" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Squares}" SelectionMode="Extended">

@@ -28,6 +28,8 @@ namespace SkyCrab
         public static Game game; // klasa korzystająca z funkcji dostarczanych przez serwer, między innymi potrzebna do bindowania aktualnej listy graczy z punktami
         public static bool gainPoints = false;
         public static bool isMyRound = false;
+        public static bool timeSpanMyRound = false;
+        public static TimeSpan myMaxTurnTime; // wyświetlanie czasu w formacie hh:mm:ss w oknie gry
         public static LostLetters lostLetters = new LostLetters(); // zmienna do której są dopisywane płytki 
         public static bool isPlacedTilesByPlayers = false;  // zmienna, która sygnalizuje wyłożenie przez innego gracza płytek
         public static TilesToPlace TilesToPlaceByPlayers; // zmienna która przechowuje płytki przesłane przez innego gracza
