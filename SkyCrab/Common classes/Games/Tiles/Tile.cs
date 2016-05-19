@@ -39,7 +39,7 @@ namespace SkyCrab.Common_classes.Games.Tiles
         /// <summary> Letter or ampty blank. </summary>
         public Tile(Letter letter)
         {
-            this.blank = ReferenceEquals(letter, LetterSet.BLANK);
+            this.blank = letter == LetterSet.BLANK;
             this.letter = letter;
         }
 
