@@ -139,6 +139,9 @@
     <Compile Include="Classes\Menu\LoggedPlayer\RankLoggedPlayer.xaml.cs">
       <DependentUpon>RankLoggedPlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\ScrabbleGameFolder\WindowGameResult.xaml.cs">
+      <DependentUpon>WindowGameResult.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ClientConnection.cs" />
     <Compile Include="SkyCrabClasses\SkyCrabPlayerInRoom.cs" />
     <Compile Include="SkyCrabClasses\SkyCrabRoom.cs" />
@@ -226,6 +229,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Classes\Menu\LoggedPlayer\RankLoggedPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\ScrabbleGameFolder\WindowGameResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

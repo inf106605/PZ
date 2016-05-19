@@ -1,4 +1,6 @@
 ﻿using SkyCrab.Classes.Menu;
+using SkyCrab.Classes.Menu.Guest;
+using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes;
 using SkyCrab.Common_classes.Chats;
 using SkyCrab.Common_classes.Games.Boards;
@@ -49,6 +51,16 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
+            if(!SkyCrabGlobalVariables.isGame || SkyCrabGlobalVariables.game == null)
+            {
+                dispatcherTimerChat.Stop();
+                if (SkyCrabGlobalVariables.player.IsGuest)
+                    Switcher.Switch(new LobbyGameForGuest());
+                else
+                    Switcher.Switch(new LobbyGameForLoggedPlayer());
+                return;
+            }
+
             // Updating the Label which displays the current second
             ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
             ReadChat.SelectionStart = ReadChat.Text.Length; // przewijanie scrollbara automatycznie w dół - 1
@@ -116,7 +128,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 Exchange.IsEnabled = false;
                 Pass.IsEnabled = false;
             }
-
+            
             CommandManager.InvalidateRequerySuggested();
 
 
@@ -125,15 +137,27 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
         private void InitBindingPlayers()
         {
+            if (SkyCrabGlobalVariables.game == null) return;
 
              PlayerInGame[] playerInGame = scrabbleGame.game.Players;
             ScrabblePlayers = new List<ScrabblePlayers>();
+            int maxLength = 0;
 
             foreach (var item in SkyCrabGlobalVariables.game.Players)
             {
-                ScrabblePlayers.Add(new ScrabblePlayers(item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
+                if(item.Walkover)
+                    ScrabblePlayers.Add(new ScrabblePlayers("( ✖ ) " + item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
+                else
+                    ScrabblePlayers.Add(new ScrabblePlayers(item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
+
+                if (item.Player.Nick.Length > maxLength)
+                    maxLength = item.Player.Nick.Length;
+
             }
 
+            //dynamiczne ustawienie szerokości kolumny z nickiem gracza
+            
+            minPlayerHeaderLength.Width = 12*maxLength + 5;
             ListPlayers.ItemsSource = ScrabblePlayers;
         }
 

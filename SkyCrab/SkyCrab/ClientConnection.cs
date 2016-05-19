@@ -62,7 +62,10 @@ namespace SkyCrab
                     case MessageId.PLAYER_LEAVED:
                         {
                             lock(SkyCrabGlobalVariables.roomLock)
+                            {
                                 SkyCrabGlobalVariables.room.room.RemovePlayer((uint)messageInfo.message);
+                                SkyCrabGlobalVariables.game.GetPlayer((uint)messageInfo.message).Walkover = true;
+                            }
                             break;
                         }
 
@@ -81,7 +84,9 @@ namespace SkyCrab
                     case MessageId.NEW_ROOM_OWNER:
                         {
                             lock(SkyCrabGlobalVariables.roomLock)
+                            {
                                 SkyCrabGlobalVariables.room.room.OwnerId = (UInt32)messageInfo.message;
+                            }
                             break;
                         }
                     case MessageId.CHAT:
@@ -106,8 +111,11 @@ namespace SkyCrab
 
                     case MessageId.GAME_ENDED:
                         {
+                            SkyCrabGlobalVariables.room.room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
+                            SkyCrabGlobalVariables.game.Room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
                             SkyCrabGlobalVariables.isGame = false;
                             SkyCrabGlobalVariables.game = null;
+
                             break;
                         }
                     
@@ -115,7 +123,7 @@ namespace SkyCrab
                         {
                             SkyCrabGlobalVariables.game.CurrentPlayerId = (uint)messageInfo.message;
 
-                            if(SkyCrabGlobalVariables.player.Id == (uint)messageInfo.message)
+                            if (SkyCrabGlobalVariables.player.Id == (uint)messageInfo.message)
                             {
                                 SkyCrabGlobalVariables.isMyRound = true;
                             }
@@ -135,6 +143,18 @@ namespace SkyCrab
                     case MessageId.NEW_TILES:
                         {
                             DrawedLetters newTiles = (DrawedLetters)messageInfo.message;
+                            /*
+                            String formWord = "";
+
+                            if (newTiles.letters.Count == 1)
+                                formWord = " nową płytkę";
+                            if (newTiles.letters.Count >= 2 && newTiles.letters.Count <= 4)
+                                formWord = " nowe płytki";
+                            else
+                                formWord = " nowych płytek";
+
+                            SkyCrabGlobalVariables.MessagesLog += "[ Gracz  " + SkyCrabGlobalVariables.game.GetPlayer(newTiles.playerId).Player.Nick + " otrzymał " + newTiles.letters.Count + " " + formWord +  " . ]" + Environment.NewLine;
+                            */
 
                             foreach (var item in newTiles.letters)
                                 SkyCrabGlobalVariables.game.GetPlayer(newTiles.playerId).Rack.PutTile(new Tile(item));
@@ -172,7 +192,8 @@ namespace SkyCrab
                     case MessageId.PLACE_TILES:
                         {
                             SkyCrabGlobalVariables.TilesToPlaceByPlayers = (TilesToPlace)messageInfo.message;
-                            if(SkyCrabGlobalVariables.TilesToPlaceByPlayers.playerId != SkyCrabGlobalVariables.player.Id)
+                            SkyCrabGlobalVariables.MessagesLog += "[ Gracz " + SkyCrabGlobalVariables.game.GetPlayer(SkyCrabGlobalVariables.TilesToPlaceByPlayers.playerId).Player.Nick + " położył " + SkyCrabGlobalVariables.TilesToPlaceByPlayers.tilesToPlace.Count + "płytki na planszy. ]" + Environment.NewLine;
+                            if (SkyCrabGlobalVariables.TilesToPlaceByPlayers.playerId != SkyCrabGlobalVariables.player.Id)
                                  SkyCrabGlobalVariables.isPlacedTilesByPlayers = true;
                             break;
                         }

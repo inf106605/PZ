@@ -6,5 +6,5 @@
         xmlns:local="clr-namespace:SkyCrab"
         mc:Ignorable="d"
         xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-        Title="SkyCrab" MinHeight="480" MinWidth="640">
+        Title="SkyCrab" MinHeight="600" MinWidth="750">
 </Window>

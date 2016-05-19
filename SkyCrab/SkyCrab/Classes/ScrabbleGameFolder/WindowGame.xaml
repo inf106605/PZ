@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SkyCrab.Classes.ScrabbleGameFolder"
               xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              mc:Ignorable="d" 
-  d:DesignHeight="480" d:DesignWidth="640">
+  d:DesignHeight="700" d:DesignWidth="700">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -45,7 +45,7 @@
                     <ListView.View>
                         <GridView AllowsColumnReorder="True">
                             <GridView.Columns>
-                                <GridViewColumn Header="Gracz"  DisplayMemberBinding="{Binding PlayerName}" />
+                                <GridViewColumn x:Name="minPlayerHeaderLength" Header="Gracz"  DisplayMemberBinding="{Binding PlayerName}" />
                                 <GridViewColumn Header="Punkty"  DisplayMemberBinding="{Binding PlayerPoints}" />
                                 <GridViewColumn Header="Ilość płytek" DisplayMemberBinding="{Binding PlayerTiles}" />
                             </GridView.Columns>
