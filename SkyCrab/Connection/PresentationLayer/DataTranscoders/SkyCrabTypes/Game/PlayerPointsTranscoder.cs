@@ -21,14 +21,14 @@ namespace SkyCrab.Connection.PresentationLayer.DataTranscoders.SkyCrabTypes.Game
         {
             PlayerPoints data = new PlayerPoints();
             data.playerId = UInt32Transcoder.Get.Read(connection);
-            data.points = Int16Transcoder.Get.Read(connection);
+            data.pointsDifference = Int16Transcoder.Get.Read(connection);
             return data;
         }
 
         public override void Write(EncryptedConnection connection, object writingBlock, PlayerPoints data)
         {
             UInt32Transcoder.Get.Write(connection, writingBlock, data.playerId);
-            Int16Transcoder.Get.Write(connection, writingBlock, data.points);
+            Int16Transcoder.Get.Write(connection, writingBlock, data.pointsDifference);
         }
 
     }
