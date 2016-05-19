@@ -441,8 +441,10 @@ namespace SkyCrabServer.ServerLogics
                 uint letterPoints = tileOnBoard.tile.Letter.points;
                 uint letterMultiplier = 1;
                 SquareType squareType = game.Board.GetSquareType(tileOnBoard.position);
-                if (squareType != SquareType.START && squareType != SquareType.NORMAL)
+                if (squareType != SquareType.NORMAL)
+                {
                     foreach (TileOnBoard tileToPlace in tilesToPlace)
+                    {
                         if (tileToPlace.position == tileOnBoard.position)
                         {
                             switch (squareType)
@@ -453,6 +455,7 @@ namespace SkyCrabServer.ServerLogics
                                 case SquareType.LETTER3:
                                     letterMultiplier = 3;
                                     break;
+                                case SquareType.START:
                                 case SquareType.WORD2:
                                     wordMultiplier *= 2;
                                     break;
@@ -461,6 +464,8 @@ namespace SkyCrabServer.ServerLogics
                                     break;
                             }
                         }
+                    }
+                }
                 points += (Int16)(letterPoints * letterMultiplier);
             }
             points *= wordMultiplier;
