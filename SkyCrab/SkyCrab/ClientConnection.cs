@@ -19,6 +19,7 @@ using SkyCrab.Common_classes.Games.Boards;
 using SkyCrab.Common_classes.Games;
 using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Common_classes.Games.Players;
+using System.Collections.Generic;
 
 namespace SkyCrab
 {
@@ -54,6 +55,7 @@ namespace SkyCrab
                         {
                            lock(SkyCrabGlobalVariables.roomLock)
                             {
+                                SkyCrabGlobalVariables.MessagesLog += " [ Gracz: " + ((Player)messageInfo.message).Nick + " dołączył do pokoju. ]" + Environment.NewLine;
                                 SkyCrabGlobalVariables.room.room.AddPlayer((Player)messageInfo.message);
                             }
                             break;
@@ -63,6 +65,8 @@ namespace SkyCrab
                         {
                             lock(SkyCrabGlobalVariables.roomLock)
                             {
+                                if(SkyCrabGlobalVariables.game != null)
+                                     SkyCrabGlobalVariables.MessagesLog += " [ Gracz: " + SkyCrabGlobalVariables.game.GetPlayer((uint)messageInfo.message).Player.Nick + " opuścił pokój. ]" + Environment.NewLine;
                                 SkyCrabGlobalVariables.room.room.RemovePlayer((uint)messageInfo.message);
                                 SkyCrabGlobalVariables.game.GetPlayer((uint)messageInfo.message).Walkover = true;
                             }
@@ -103,6 +107,7 @@ namespace SkyCrab
 
                     case MessageId.GAME_STARTED:
                         {
+                            SkyCrabGlobalVariables.MessagesLog += ">> ROZPOCZĘCIE NOWEJ GRY <<" + Environment.NewLine;
                             SkyCrabGlobalVariables.game = new Game((uint)messageInfo.message, SkyCrabGlobalVariables.room.room, true);
                             SkyCrabGlobalVariables.isGame = true;
                             SkyCrabGlobalVariables.GameId = (uint)messageInfo.message;
@@ -111,6 +116,35 @@ namespace SkyCrab
 
                     case MessageId.GAME_ENDED:
                         {
+                            SkyCrabGlobalVariables.MessagesLog += ">> ZAKOŃCZENIE GRY <<" + Environment.NewLine;
+                            SkyCrabGlobalVariables.MessagesLog += "Wyniki graczy: " + Environment.NewLine;
+
+                            List<PlayerInGame> playerInGame = new List<PlayerInGame>(SkyCrabGlobalVariables.game.Players);
+                            playerInGame.Sort((player1, player2) =>
+                            {
+                                if(player1.Walkover != player2.Walkover)
+                                {
+                                    return player1.Walkover ? 1:-1;
+                                }
+                                else
+                                {
+                                    if (player1.Points == player2.Points)
+                                        return 0;
+
+                                    else
+                                    {
+                                        return player1.Points > player2.Points ? -1 : 1; // -1 element wcześniejszy , 1 element późniejszy
+                                    }
+                                }
+                            });
+
+                            foreach (var player in playerInGame)
+                            {
+                                SkyCrabGlobalVariables.MessagesLog += player.Player.Nick + " : " + player.Points;
+                                if (player.Walkover)
+                                    SkyCrabGlobalVariables.MessagesLog += " (WALKOWER)";
+                                SkyCrabGlobalVariables.MessagesLog += Environment.NewLine;
+                            }
                             SkyCrabGlobalVariables.room.room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
                             SkyCrabGlobalVariables.game.Room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
                             SkyCrabGlobalVariables.isGame = false;
@@ -135,8 +169,10 @@ namespace SkyCrab
 
                             break;
                         }
-                    case MessageId.TURN_TIMEOUT:
+                    case MessageId.TIMEOUT_OCCURRED:
                         {
+                            // wiadomości na czacie
+
                             SkyCrabGlobalVariables.isMyRound = false;
                             SkyCrabGlobalVariables.timeSpanMyRound = false;
                             break;
@@ -183,22 +219,63 @@ namespace SkyCrab
                             break;
                         }
 
-                    case MessageId.GAIN_POINTS: // aktualizacja punktów graczy
+                    case MessageId.PLAYER_PLACED_TILES:
+                        {
+                            WordOnBoard wordOnBoard = (WordOnBoard)messageInfo.message;
+
+                            SkyCrabGlobalVariables.MessagesLog += "[ Gracz: " + SkyCrabGlobalVariables.game.CurrentPlayer.Player.Nick + " ułożył słowo: " + wordOnBoard.word 
+                                + " na pozycji "+ SkyCrabGlobalVariables.game.Board.getSquareID(wordOnBoard) + ". ]" + Environment.NewLine;
+                          
+                            break;
+                        }
+
+                    case MessageId.PLAYER_EXCHAN_TILES:
+                        {
+                            byte countTiles = (byte)messageInfo.message;
+                            string formsWord = "";
+                            if(countTiles==1)
+                            {
+                                formsWord = "płytkę";
+                            }
+                            else if (countTiles >= 2 && countTiles <= 4)
+                            {
+                                formsWord = "płytki";
+                            }
+                            else
+                                formsWord = "płytek";
+
+                            SkyCrabGlobalVariables.MessagesLog += "[ Gracz: " + SkyCrabGlobalVariables.game.CurrentPlayer.Player.Nick + " wymienił "+ countTiles.ToString() + " " + formsWord + ". ]" + Environment.NewLine;
+                            break;
+                        }
+
+                    case MessageId.PLAYER_PASSED:
+                        {
+                            SkyCrabGlobalVariables.MessagesLog += "[ Gracz: " + SkyCrabGlobalVariables.game.CurrentPlayer.Player.Nick + " spasował. ]" + Environment.NewLine;
+                            break;
+                        }
+
+                    case MessageId.POINTS_CHANGED: // aktualizacja punktów graczy
                         {
                             SkyCrabGlobalVariables.gainPoints = true;
                             PlayerPoints playerPoints = (PlayerPoints)messageInfo.message;
-                            SkyCrabGlobalVariables.game.GetPlayer(playerPoints.playerId).GainPoints(playerPoints.points);
+                            SkyCrabGlobalVariables.game.GetPlayer(playerPoints.playerId).GainPoints(playerPoints.pointsDifference);
                             break;
                         }
 
                     case MessageId.PLACE_TILES:
                         {
                             SkyCrabGlobalVariables.TilesToPlaceByPlayers = (TilesToPlace)messageInfo.message;
-                            SkyCrabGlobalVariables.MessagesLog += "[ Gracz " + SkyCrabGlobalVariables.game.GetPlayer(SkyCrabGlobalVariables.TilesToPlaceByPlayers.playerId).Player.Nick + " położył " + SkyCrabGlobalVariables.TilesToPlaceByPlayers.tilesToPlace.Count + "płytki na planszy. ]" + Environment.NewLine;
+                            //SkyCrabGlobalVariables.MessagesLog += "[ Gracz " + SkyCrabGlobalVariables.game.GetPlayer(SkyCrabGlobalVariables.TilesToPlaceByPlayers.playerId).Player.Nick + " położył " + SkyCrabGlobalVariables.TilesToPlaceByPlayers.tilesToPlace.Count + " płytki na planszy. ]" + Environment.NewLine;
                             if (SkyCrabGlobalVariables.TilesToPlaceByPlayers.playerId != SkyCrabGlobalVariables.player.Id)
                                  SkyCrabGlobalVariables.isPlacedTilesByPlayers = true;
                             break;
                         }
+
+                    case MessageId.REORDER_RACK_TILES:
+                         {
+                            break;
+                         }
+                    
 
                     case MessageId.PASS:
                     {   

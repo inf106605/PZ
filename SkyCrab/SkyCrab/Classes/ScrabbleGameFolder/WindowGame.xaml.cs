@@ -10,6 +10,7 @@ using SkyCrab.Common_classes.Games.Racks;
 using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
+using SkyCrab.Connection.PresentationLayer.Messages.Game.Commands;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Menu;
 using System;
@@ -146,10 +147,15 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             foreach (var item in SkyCrabGlobalVariables.game.Players)
             {
-                if(item.Walkover)
-                    ScrabblePlayers.Add(new ScrabblePlayers("( ✖ ) " + item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
+                if (item.Walkover)
+                    ScrabblePlayers.Add(new ScrabblePlayers("✖ " + item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
                 else
-                    ScrabblePlayers.Add(new ScrabblePlayers(item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
+                {
+                    if(SkyCrabGlobalVariables.game.CurrentPlayer.Player == item.Player)
+                         ScrabblePlayers.Add(new ScrabblePlayers("☞ " + item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
+                    else
+                        ScrabblePlayers.Add(new ScrabblePlayers(item.Player.Nick, item.Points, "0:00", item.Rack.Tiles.Count));
+                }
 
                 if (item.Player.Nick.Length > maxLength)
                     maxLength = item.Player.Nick.Length;
