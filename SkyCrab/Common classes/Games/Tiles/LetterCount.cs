@@ -2,7 +2,7 @@
 
 namespace SkyCrab.Common_classes.Games.Tiles
 {
-    public struct LetterCount
+    public class LetterCount
     {
 		
         public Letter letter;
