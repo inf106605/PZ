@@ -263,6 +263,8 @@ namespace SkyCrabServer.ServerLogics
                     });
             tilesToPlace.tilesToPlace.Sort((tile1, tile2) =>
                     {
+                        if (tile1.tile.Blank != tile2.tile.Blank)
+                            return tile1.tile.Blank ? -1 : 1;
                         if (tile1.tile.Letter.character == tile2.tile.Letter.character)
                             return 0;
                         else if (tile1.tile.Letter.character < tile2.tile.Letter.character)
@@ -271,7 +273,7 @@ namespace SkyCrabServer.ServerLogics
                             return 1;
                     });
             for (int i = 0; i != tilesToPlace.lettersFromRack.Count; ++i)
-                if (tilesToPlace.lettersFromRack[i].letter.character != tilesToPlace.tilesToPlace[i].tile.Letter.character)
+                if ((tilesToPlace.lettersFromRack[i].letter.character == ' ' && tilesToPlace.tilesToPlace[i].tile.Blank) || (tilesToPlace.lettersFromRack[i].letter.character != tilesToPlace.tilesToPlace[i].tile.Letter.character))
                     return false;
             return true;
         }
