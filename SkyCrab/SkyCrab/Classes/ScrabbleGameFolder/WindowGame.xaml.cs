@@ -33,7 +33,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         private ScrabbleGame scrabbleGame = null;
         DispatcherTimer dispatcherTimerChat;
 
-
         public WindowGame()
         {
             InitializeComponent();
@@ -121,6 +120,8 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 Play.IsEnabled = true;
                 Exchange.IsEnabled = true;
                 Pass.IsEnabled = true;
+                SkyCrabGlobalVariables.myMaxTurnTime = SkyCrabGlobalVariables.myMaxTurnTime.Subtract(TimeSpan.FromSeconds(1));
+                LeftTimeMyRound.Text = "Pozostały czas: " + SkyCrabGlobalVariables.myMaxTurnTime.ToString(@"hh\:mm\:ss");
             }
             else
             {
