@@ -119,6 +119,7 @@ namespace SkyCrabServer.ServerLogics
             for (int i = 0; i != tilesToDraw; ++i)
             {
                 Tile drawedTile = game.Puoches[0].DrawRandowmTile();
+                //drawedTile = new Tile(PolishLetterSet.BLANK);
                 playerInGame.Rack.PutTile(drawedTile);
                 letters.Add(drawedTile.Letter);
                 blanks.Add(LetterSet.BLANK);

@@ -288,13 +288,26 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
             {
-                LetterWithNumber letterWithNumber = new LetterWithNumber();
-                letterWithNumber.letter = scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Letter;
-                TileOnBoard tileOnBoard = new TileOnBoard();
-                tileOnBoard.tile = scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile;
-                tileOnBoard.position = new PositionOnBoard(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row);
-                tilesToPlace.lettersFromRack.Add(letterWithNumber);
-                tilesToPlace.tilesToPlace.Add(tileOnBoard);
+                if (!scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank)
+                {
+                    LetterWithNumber letterWithNumber = new LetterWithNumber();
+                    letterWithNumber.letter = scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Letter;
+                    TileOnBoard tileOnBoard = new TileOnBoard();
+                    tileOnBoard.tile = scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile;
+                    tileOnBoard.position = new PositionOnBoard(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row);
+                    tilesToPlace.lettersFromRack.Add(letterWithNumber);
+                    tilesToPlace.tilesToPlace.Add(tileOnBoard);
+                }
+                else
+                {
+                    LetterWithNumber letterWithNumber = new LetterWithNumber();
+                    letterWithNumber.letter = PolishLetterSet.GetLetter('A');
+                    TileOnBoard tileOnBoard = new TileOnBoard();
+                    tileOnBoard.tile = new Tile(true, letterWithNumber.letter);
+                    tileOnBoard.position = new PositionOnBoard(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row);
+                    tilesToPlace.lettersFromRack.Add(letterWithNumber);
+                    tilesToPlace.tilesToPlace.Add(tileOnBoard);
+                }
             }
 
 
