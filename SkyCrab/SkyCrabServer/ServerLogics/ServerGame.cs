@@ -850,6 +850,7 @@ namespace SkyCrabServer.ServerLogics
             Globals.dataLock.AcquireWriterLock(-1);
             try
             {
+                turnTimeoutTimer = null;
                 if (!InGame)
                     return;
                 if (game.TurnNumber != turnNumber)
