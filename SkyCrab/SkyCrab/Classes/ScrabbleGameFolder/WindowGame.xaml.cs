@@ -428,7 +428,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                     if(!scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank)
                         scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
                     else
-                        scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, defineBlankValue, 1);
+                        scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, defineBlankValue, 0);
                 }
 
                 // usunięcie płytek ze stojaka
