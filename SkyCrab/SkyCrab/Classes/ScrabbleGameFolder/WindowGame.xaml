@@ -103,7 +103,7 @@
                     <TextBlock x:Name="LeftTimeMyRound" TextAlignment="Right" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="WrapWithOverflow"></TextBlock>
                 </Grid>
             </Grid>
-            <ListBox Background="Black" x:Name="scrabbleBoard" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Squares}" SelectionMode="Extended">
+            <ListBox Background="Black" x:Name="scrabbleBoard" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Squares}" SelectionMode="Extended" Visibility="Visible">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid IsItemsHost="True" Rows="15" Columns="15" />
@@ -169,6 +169,47 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <Grid x:Name="DialogReplacement" Visibility="Hidden" Grid.Row="3" Grid.Column="1">
+                <Grid Background="Black" Opacity="0.5"/>
+
+                <Border
+            MinWidth="250"
+            Background="DarkGoldenrod" 
+            BorderBrush="Black" 
+            BorderThickness="1" 
+            CornerRadius="0,65,0,65" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center">
+
+                    <StackPanel>
+
+                        <Button x:Name="btnClose" 
+                            Margin="8" 
+                            HorizontalAlignment="Left" 
+                            Height="20" Width="20" 
+                            Content="X" FontSize="12" 
+                            FontFamily="Georgia" FontWeight="Bold" 
+                            Foreground="WhiteSmoke" Background="Red" 
+                            Click="mbox_cancel" />
+
+                        <StackPanel HorizontalAlignment="Center" Margin="0,-22,0,0">
+
+                            <Label FontFamily="Cambria" Content="Zdefiniuj wartość blanka" 
+                               FontWeight="Bold" FontSize="20" />
+                            <TextBox x:Name="DefineBlankTextBox" FontSize="14" MaxWidth="100" FontWeight="Bold" Foreground="Black"></TextBox>
+
+                        </StackPanel>
+
+                        <Button HorizontalAlignment="Right" x:Name="YesButton" 
+                        Width="80" Margin="8" 
+                        Padding="3,0,3,0" 
+                        Content="ZATWIERDŹ" Background="Olive" 
+                        Foreground="White" 
+                        Click="mbox_ok"/>
+
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>

@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -33,6 +34,8 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
         private ScrabbleGame scrabbleGame = null;
         DispatcherTimer dispatcherTimerChat;
+        string defineBlankValue = "";
+        int isExistBlankCounter = 0;
 
         public WindowGame()
         {
@@ -229,13 +232,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Add(scrabbleTileFromRack);
             }
 
-            /*
-            for(int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
-            {
-                MessageBox.Show( scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].id + " " + scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name + " " + scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value);
-
-            }
-            */
 
             foreach (var item in scrabbleBoard.SelectedItems)
             {
@@ -281,9 +277,32 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 return;
             }
 
-            // w przypadku kiedy występuje blank
+            bool existBlankOnRack = false;
 
-            //for(int i=0; i < )
+            for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count;i++)
+            {
+                if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank)
+                    existBlankOnRack = true;
+            }
+
+
+            if(existBlankOnRack)
+            {
+                
+                if (isExistBlankCounter == 0)
+                {
+                    DialogReplacement.Visibility = Visibility.Visible;
+                    scrabbleBoard.Visibility = Visibility.Hidden;
+                    return;
+                }
+
+                else
+                {
+                    DialogReplacement.Visibility = Visibility.Hidden;
+                    scrabbleBoard.Visibility = Visibility.Visible;
+                    existBlankOnRack = false;
+                }
+            }
 
 
             for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
@@ -301,9 +320,9 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 else
                 {
                     LetterWithNumber letterWithNumber = new LetterWithNumber();
-                    letterWithNumber.letter = PolishLetterSet.GetLetter('A');
+                    letterWithNumber.letter = LetterSet.BLANK;
                     TileOnBoard tileOnBoard = new TileOnBoard();
-                    tileOnBoard.tile = new Tile(true, letterWithNumber.letter);
+                    tileOnBoard.tile = new Tile(true, PolishLetterSet.GetLetter(char.Parse(defineBlankValue)));
                     tileOnBoard.position = new PositionOnBoard(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row);
                     tilesToPlace.lettersFromRack.Add(letterWithNumber);
                     tilesToPlace.tilesToPlace.Add(tileOnBoard);
@@ -406,7 +425,10 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
                 for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
                 {
-                    scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
+                    if(!scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank)
+                        scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
+                    else
+                        scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, defineBlankValue, 1);
                 }
 
                 // usunięcie płytek ze stojaka
@@ -653,6 +675,23 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             {
                 SkyCrabGlobalVariables.isMyRound = false;
             }
+        }
+
+        private void mbox_ok(object sender, RoutedEventArgs e)
+        {
+            if (DefineBlankTextBox.Text.Length > 0)
+            {
+                defineBlankValue = DefineBlankTextBox.Text;
+                isExistBlankCounter++;
+                Play_Click(sender, e);
+            }
+
+        }
+
+        private void mbox_cancel(object sender, RoutedEventArgs e)
+        {
+            /*DialogReplacement.Visibility = System.Windows.Visibility.Hidden;
+            scrabbleBoard.Visibility = System.Windows.Visibility.Visible;*/
         }
     } 
 }
