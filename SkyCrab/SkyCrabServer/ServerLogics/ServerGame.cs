@@ -119,7 +119,6 @@ namespace SkyCrabServer.ServerLogics
             for (int i = 0; i != tilesToDraw; ++i)
             {
                 Tile drawedTile = game.Puoches[0].DrawRandowmTile();
-                //drawedTile = new Tile(PolishLetterSet.BLANK);
                 playerInGame.Rack.PutTile(drawedTile);
                 letters.Add(drawedTile.Letter);
                 blanks.Add(LetterSet.BLANK);
@@ -274,7 +273,7 @@ namespace SkyCrabServer.ServerLogics
                             return 1;
                     });
             for (int i = 0; i != tilesToPlace.lettersFromRack.Count; ++i)
-                if ((tilesToPlace.lettersFromRack[i].letter.character == ' ' && tilesToPlace.tilesToPlace[i].tile.Blank) || (tilesToPlace.lettersFromRack[i].letter.character != tilesToPlace.tilesToPlace[i].tile.Letter.character))
+                if ((tilesToPlace.lettersFromRack[i].letter.character != tilesToPlace.tilesToPlace[i].tile.Letter.character) && (tilesToPlace.lettersFromRack[i].letter.character != ' ' || !tilesToPlace.tilesToPlace[i].tile.Blank))
                     return false;
             return true;
         }
@@ -372,7 +371,7 @@ namespace SkyCrabServer.ServerLogics
                 for (int j = minY; j != maxY; ++j)
                     if (!CheckWord(boardCopy, new PositionOnBoard(i, j), horizontal, out additionalWordOnBoard))
                     {
-                        ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORECT_WORD); //TODO send incorrect words //TODO check all?
+                        ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORECT_WORD); //TODO send incorrect words //TODO check all if wrong one is found? (to send all incorrect)
                         return false;
                     }
             return true;
