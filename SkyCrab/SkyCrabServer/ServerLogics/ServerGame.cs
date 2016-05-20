@@ -380,9 +380,10 @@ namespace SkyCrabServer.ServerLogics
         private static bool CheckWord(Board board, PositionOnBoard position, bool horizontal, out WordOnBoard wordOnBoard)
         {
             wordOnBoard = GetWord(board, position, horizontal);
-            if (wordOnBoard.word.Length == 1)
+            string word = wordOnBoard.word.Replace("[", "").Replace("]", "");
+            if (word.Length == 1)
                 return true;
-            return Globals.dictionary.IsWordWalid(wordOnBoard.word);
+            return Globals.dictionary.IsWordWalid(word);
         }
 
         private static WordOnBoard GetWord(Board board, PositionOnBoard position, bool horizontal)
