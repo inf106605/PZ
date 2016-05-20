@@ -393,7 +393,10 @@ namespace SkyCrabServer.ServerLogics
             wordOnBoard.word = "";
             List<TileOnBoard> tiles = GetTiles(board, position, horizontal);
             foreach (TileOnBoard tileOnBoard in tiles)
-                wordOnBoard.word += tileOnBoard.tile.Letter.character;
+                if (tileOnBoard.tile.Blank)
+                    wordOnBoard.word += "[" + tileOnBoard.tile.Letter.character + "]";
+                else
+                    wordOnBoard.word += tileOnBoard.tile.Letter.character;
             return wordOnBoard;
         }
 
