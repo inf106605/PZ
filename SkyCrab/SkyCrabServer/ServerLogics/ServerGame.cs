@@ -448,7 +448,7 @@ namespace SkyCrabServer.ServerLogics
             Int16 wordMultiplier = 1;
             foreach (TileOnBoard tileOnBoard in tiles)
             {
-                uint letterPoints = tileOnBoard.tile.Letter.points;
+                uint letterPoints = PolishLetterSet.GetLetter(tileOnBoard.tile.Letter.character).points;
                 uint letterMultiplier = 1;
                 SquareType squareType = game.Board.GetSquareType(tileOnBoard.position);
                 if (squareType != SquareType.NORMAL)
@@ -476,7 +476,8 @@ namespace SkyCrabServer.ServerLogics
                         }
                     }
                 }
-                points += (Int16)(letterPoints * letterMultiplier);
+                if (!tileOnBoard.tile.Blank)
+                    points += (Int16)(letterPoints * letterMultiplier);
             }
             points *= wordMultiplier;
             if (tilesToPlace.Count == Rack.IntendedTilesCount)
