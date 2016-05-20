@@ -2,7 +2,7 @@
 
 namespace SkyCrab.Common_classes.Games.Racks
 {
-    public struct LetterWithNumber
+    public class LetterWithNumber
     {
 
         public Letter letter;

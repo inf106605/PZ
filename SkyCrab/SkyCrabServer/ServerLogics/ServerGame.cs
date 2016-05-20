@@ -614,14 +614,35 @@ namespace SkyCrabServer.ServerLogics
 
         private bool HasTiles(List<LetterWithNumber> letters)
         {
-            //TODO check number
+            letters.Sort((letter1, letter2) =>
+                    {
+                        if (letter1.number == letter2.number)
+                            return 0;
+                        else
+                            return letter1.number < letter2.number ? 1 : -1;
+                    });
             PlayerInGame playerInGame = game.CurrentPlayer;
             List<Letter> allTilesLetters = new List<Letter>();
             foreach (TileOnRack tileOnRack in playerInGame.Rack.Tiles)
                 allTilesLetters.Add(tileOnRack.Tile.Letter);
+            for (uint i = 0; i != letters.Count; ++i)
+            {
+                LetterWithNumber letterWithNumber = letters[(int)i];
+                if (letterWithNumber.number == 0)
+                    continue;
+                if (allTilesLetters.Count < letterWithNumber.number)
+                    return false;
+                if (allTilesLetters[letterWithNumber.number - 1] != letterWithNumber.letter)
+                    return false;
+                allTilesLetters.RemoveAt((int)i - 1);
+            }
             foreach (LetterWithNumber letterWithNumber in letters)
+            {
+                if (letterWithNumber.number != 0)
+                    continue;
                 if (!allTilesLetters.Remove(letterWithNumber.letter))
                     return false;
+            }
             return true;
         }
 
@@ -633,7 +654,7 @@ namespace SkyCrabServer.ServerLogics
             {
                 LetterWithNumber letterWithNumber = new LetterWithNumber();
                 letterWithNumber.letter = tileOnRack.Tile.Letter;
-                letterWithNumber.number = i++;
+                letterWithNumber.number = ++i;
                 letters.Add(letterWithNumber);
             }
             RemoveTiles(letters, backToPouch);
@@ -641,15 +662,33 @@ namespace SkyCrabServer.ServerLogics
 
         private void RemoveTiles(List<LetterWithNumber> letters, bool backToPouch)
         {
-            //TODO take number into account
+            letters.Sort((letter1, letter2) =>
+                    {
+                        if (letter1.number == letter2.number)
+                            return 0;
+                        else
+                            return letter1.number < letter2.number ? 1 : -1;
+                    });
             Rack rack = game.CurrentPlayer.Rack;
             foreach (LetterWithNumber letterWithNumber in letters)
-                foreach (TileOnRack tileOnRack in rack.Tiles)
-                    if (tileOnRack.Tile.Letter == letterWithNumber.letter)
-                    {
-                        rack.TakeOff(tileOnRack);
-                        break;
-                    }
+                if (letterWithNumber.number != 0)
+                {
+                    byte number = letterWithNumber.number;
+                    foreach (TileOnRack tileOnRack in rack.Tiles)
+                        if (--number == 0)
+                        {
+                            rack.TakeOff(tileOnRack);
+                            break;
+                        }
+                }
+            foreach (LetterWithNumber letterWithNumber in letters)
+                if (letterWithNumber.number == 0)
+                    foreach (TileOnRack tileOnRack in rack.Tiles)
+                        if (tileOnRack.Tile.Letter == letterWithNumber.letter)
+                        {
+                            rack.TakeOff(tileOnRack);
+                            break;
+                        }
             List<LetterWithNumber> blanks = new List<LetterWithNumber>();
             foreach (LetterWithNumber letterWithNumber in letters)
             {
