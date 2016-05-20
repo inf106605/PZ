@@ -69,6 +69,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Game\Commands\ExchangeTilesMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Game\Commands\PassMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Game\Commands\PlaceTilesMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Game\Informations\PlayerFailedToPlaceTiles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Game\Informations\PlayerPlacedTilesMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Game\Informations\PlayerExchangedMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Game\Informations\PointsChangedMsg.cs" />

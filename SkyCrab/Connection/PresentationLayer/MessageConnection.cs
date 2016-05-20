@@ -52,7 +52,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(19, 0, 0);
+        private static readonly Version version = new Version(20, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -136,6 +136,7 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new LossTilesMsg());
             AddMessage(new PointsChangedMsg());
             AddMessage(new ReorderRackTilesMsg());
+            AddMessage(new PlayerFailedToPlaceTilesMsg());
             AddMessage(new PlayerPlacedTilesMsg());
             AddMessage(new PlayerExchangedMsg());
             AddMessage(new PlayerPassedMsg());

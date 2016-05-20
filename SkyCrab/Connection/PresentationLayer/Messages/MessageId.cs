@@ -56,9 +56,10 @@
         LOSS_TILES          = 38,
         POINTS_CHANGED      = 39,
         REORDER_RACK_TILES  = 40,
-        PLAYER_PLACED_TILES = 41,
-        PLAYER_EXCHAN_TILES = 42,
-        PLAYER_PASSED       = 43,
-        TIMEOUT_OCCURRED    = 44
+        PLAYER_FAILED       = 41,
+        PLAYER_PLACED_TILES = 42,
+        PLAYER_EXCHAN_TILES = 43,
+        PLAYER_PASSED       = 44,
+        TIMEOUT_OCCURRED    = 45
     }
 }

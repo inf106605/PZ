@@ -198,6 +198,14 @@ namespace SkyCrabServer.ServerLogics
                 {
                     if (!IsMoveCorrect(id, tilesToPlace.tilesToPlace, out wordOnBoard))
                     {
+                        foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
+                        {
+                            ServerPlayer otherServerPlayer; //Schrödinger Variable
+                            Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
+                            if (otherServerPlayer == null)  //WTF!?
+                                throw new Exception("Whatever...");
+                            PlayerFailedToPlaceTilesMsg.AsyncPost(otherServerPlayer.connection, wordOnBoard);
+                        }
                         GameLog.OnWrongMove(game, wordOnBoard);
                         SwitchToNextPlayer(false);
                         return;

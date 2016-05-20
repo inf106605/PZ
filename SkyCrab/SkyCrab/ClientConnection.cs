@@ -229,6 +229,16 @@ namespace SkyCrab
                             break;
                         }
 
+                    case MessageId.PLAYER_FAILED:
+                        {
+                            WordOnBoard wordOnBoard = (WordOnBoard)messageInfo.message;
+
+                            SkyCrabGlobalVariables.MessagesLog += "[ Gracz: " + SkyCrabGlobalVariables.game.CurrentPlayer.Player.Nick + " próbował ułożyć błędne słowo: " + wordOnBoard.word
+                                + " na pozycji " + SkyCrabGlobalVariables.game.Board.getSquareID(wordOnBoard) + ". ]" + Environment.NewLine;
+
+                            break;
+                        }
+
                     case MessageId.PLAYER_EXCHAN_TILES:
                         {
                             byte countTiles = (byte)messageInfo.message;
