@@ -44,7 +44,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         {
             get
             {
-                return Value != 0 ? true : false;
+                return Value != 0 || (Value == 0 && Tile != null) ? true : false;
             }
         }
 

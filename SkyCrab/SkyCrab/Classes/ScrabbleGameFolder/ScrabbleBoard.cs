@@ -27,6 +27,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             squares[PositionListBox] = new ScrabbleSquare(Columns, Rows, NameTiles, ValuesTiles);
         }
 
+
         public ScrabbleBoard()
         {
             squares = new ObservableCollection<ScrabbleSquare>();
