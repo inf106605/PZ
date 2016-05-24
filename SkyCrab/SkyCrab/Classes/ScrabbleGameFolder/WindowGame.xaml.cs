@@ -72,7 +72,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             // aktualizowanie listy graczy 
             InitBindingPlayers();
 
-            LeftTilesInPouch.Text = "Pozostało: " + scrabbleGame.game.Puoches[0].Count + " płytki";
+            LeftTilesInPouch.Text = "Pozostało płytek: " + scrabbleGame.game.Puoches[0].Count;
 
             if (SkyCrabGlobalVariables.isGetNewTile)
             {
@@ -125,13 +125,18 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 Exchange.IsEnabled = true;
                 Pass.IsEnabled = true;
                 SkyCrabGlobalVariables.myMaxTurnTime = SkyCrabGlobalVariables.myMaxTurnTime.Subtract(TimeSpan.FromSeconds(1));
-                LeftTimeMyRound.Text = "Pozostały czas: " + SkyCrabGlobalVariables.myMaxTurnTime.ToString(@"hh\:mm\:ss");
+                if(SkyCrabGlobalVariables.game.Room.Rules.maxTurnTime.value == 0)
+                    LeftTimeMyRound.Text = "Pozostały czas: " +  Environment.NewLine + "Brak limitu";
+                else
+                    LeftTimeMyRound.Text = "Pozostały czas: " + SkyCrabGlobalVariables.myMaxTurnTime.ToString(@"hh\:mm\:ss");
             }
             else
             {
                 Play.IsEnabled = false;
                 Exchange.IsEnabled = false;
                 Pass.IsEnabled = false;
+                TimeSpan tempTimeSpan = TimeSpan.FromSeconds(SkyCrabGlobalVariables.game.Room.Rules.maxTurnTime.value);
+                LeftTimeMyRound.Text = "Pozostały czas: " + tempTimeSpan.ToString(@"hh\:mm\:ss");
             }
             
             CommandManager.InvalidateRequerySuggested();
@@ -146,6 +151,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
              PlayerInGame[] playerInGame = scrabbleGame.game.Players;
             ScrabblePlayers = new List<ScrabblePlayers>();
+
             int maxLength = 0;
 
             foreach (var item in SkyCrabGlobalVariables.game.Players)
@@ -166,7 +172,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             }
 
             //dynamiczne ustawienie szerokości kolumny z nickiem gracza
-            
             minPlayerHeaderLength.Width = 12*maxLength + 5;
             ListPlayers.ItemsSource = ScrabblePlayers;
         }

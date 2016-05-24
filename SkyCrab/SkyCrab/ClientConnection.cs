@@ -65,7 +65,7 @@ namespace SkyCrab
                         {
                             lock(SkyCrabGlobalVariables.roomLock)
                             {
-                                if(SkyCrabGlobalVariables.game != null)
+                                if(SkyCrabGlobalVariables.game != null && SkyCrabGlobalVariables.game.Players != null)
                                      SkyCrabGlobalVariables.MessagesLog += " [ " + SkyCrabGlobalVariables.game.GetPlayer((uint)messageInfo.message).Player.Nick + " opuścił pokój. ]" + Environment.NewLine;
                                 SkyCrabGlobalVariables.room.room.RemovePlayer((uint)messageInfo.message);
                                 SkyCrabGlobalVariables.game.GetPlayer((uint)messageInfo.message).Walkover = true;
@@ -118,49 +118,50 @@ namespace SkyCrab
                         {
                             SkyCrabGlobalVariables.MessagesLog += ">> ZAKOŃCZENIE GRY <<" + Environment.NewLine;
                             SkyCrabGlobalVariables.MessagesLog += "Wyniki graczy: " + Environment.NewLine;
-
-                            List<PlayerInGame> playerInGame = new List<PlayerInGame>(SkyCrabGlobalVariables.game.Players);
-                            playerInGame.Sort((player1, player2) =>
+                            if (SkyCrabGlobalVariables.game.Players != null)
                             {
-                                if(player1.Walkover != player2.Walkover)
+                                List<PlayerInGame> playerInGame = new List<PlayerInGame>(SkyCrabGlobalVariables.game.Players);
+                                playerInGame.Sort((player1, player2) =>
                                 {
-                                    return player1.Walkover ? 1:-1;
-                                }
-                                else
-                                {
-                                    if (player1.Points == player2.Points)
-                                        return 0;
-
+                                    if (player1.Walkover != player2.Walkover)
+                                    {
+                                        return player1.Walkover ? 1 : -1;
+                                    }
                                     else
                                     {
-                                        return player1.Points > player2.Points ? -1 : 1; // -1 element wcześniejszy , 1 element późniejszy
-                                    }
-                                }
-                            });
+                                        if (player1.Points == player2.Points)
+                                            return 0;
 
-                            uint currentPlace = 0;
-                            uint currentPoints = uint.MaxValue;
-                            foreach (var player in playerInGame)
-                            {
-                                if (!player.Walkover)
+                                        else
+                                        {
+                                            return player1.Points > player2.Points ? -1 : 1; // -1 element wcześniejszy , 1 element późniejszy
+                                    }
+                                    }
+                                });
+
+                                uint currentPlace = 0;
+                                uint currentPoints = uint.MaxValue;
+                                foreach (var player in playerInGame)
                                 {
-                                    if (player.Points != currentPoints)
+                                    if (!player.Walkover)
                                     {
-                                        ++currentPlace;
-                                        currentPoints = player.Points;
+                                        if (player.Points != currentPoints)
+                                        {
+                                            ++currentPlace;
+                                            currentPoints = player.Points;
+                                        }
+                                        SkyCrabGlobalVariables.MessagesLog += currentPlace + ") ";
                                     }
-                                    SkyCrabGlobalVariables.MessagesLog += currentPlace + ") ";
+                                    SkyCrabGlobalVariables.MessagesLog += player.Player.Nick + " : " + player.Points;
+                                    if (player.Walkover)
+                                        SkyCrabGlobalVariables.MessagesLog += " (WALKOWER)";
+                                    SkyCrabGlobalVariables.MessagesLog += Environment.NewLine;
                                 }
-                                SkyCrabGlobalVariables.MessagesLog += player.Player.Nick + " : " + player.Points;
-                                if (player.Walkover)
-                                    SkyCrabGlobalVariables.MessagesLog += " (WALKOWER)";
-                                SkyCrabGlobalVariables.MessagesLog += Environment.NewLine;
+                                SkyCrabGlobalVariables.room.room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
+                                SkyCrabGlobalVariables.game.Room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
+                                SkyCrabGlobalVariables.isGame = false;
+                                SkyCrabGlobalVariables.game = null;
                             }
-                            SkyCrabGlobalVariables.room.room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
-                            SkyCrabGlobalVariables.game.Room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
-                            SkyCrabGlobalVariables.isGame = false;
-                            SkyCrabGlobalVariables.game = null;
-
                             break;
                         }
                     
