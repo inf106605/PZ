@@ -178,6 +178,17 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
         private void ExitGame_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Czy chcesz opuścić pokój rozgrywki ? ", "Opuszczanie pokoju rozgrywki", MessageBoxButton.YesNoCancel);
+            switch (result)
+            {
+                case MessageBoxResult.OK:
+                    break;
+                case MessageBoxResult.No:
+                    return;
+                case MessageBoxResult.Cancel:
+                    return;
+            }
+
             var joinToRoomMsgAnswer = LeaveRoomMsg.SyncPost(App.clientConn, 1000);
 
             if (!joinToRoomMsgAnswer.HasValue)
