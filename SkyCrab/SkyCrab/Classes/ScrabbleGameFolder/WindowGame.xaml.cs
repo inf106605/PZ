@@ -356,6 +356,12 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             if (answerValue.messageId == MessageId.ERROR)
             {
+                for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+                {
+                    if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank && isExistBlankCounter == 1)
+                        --isExistBlankCounter;
+                }
+
                 ErrorCode errorCode = (ErrorCode)answerValue.message;
 
                 switch (errorCode)
@@ -695,6 +701,17 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         {
             if (DefineBlankTextBox.Text.Length > 0)
             {
+                if(DefineBlankTextBox.Text.Length > 1)
+                {
+                    MessageBox.Show("Proszę podać jedną wartość!");
+                    return;
+                }
+
+                if(Char.IsLetter(DefineBlankTextBox.Text[0]))
+                {
+                    defineBlankValue = DefineBlankTextBox.Text;
+                }
+
                 defineBlankValue = DefineBlankTextBox.Text;
                 isExistBlankCounter++;
                 Play_Click(sender, e);
