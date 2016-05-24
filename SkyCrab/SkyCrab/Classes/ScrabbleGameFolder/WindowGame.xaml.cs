@@ -35,7 +35,10 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
         private ScrabbleGame scrabbleGame = null;
         DispatcherTimer dispatcherTimerChat;
         string defineBlankValue = "";
+        string defineBlankTwoValue = "";
         int isExistBlankCounter = 0;
+        int isExistBlankTwoCounter = 0;
+        int countBlank;
 
         public WindowGame()
         {
@@ -292,18 +295,22 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             }
 
             bool existBlankOnRack = false;
+            countBlank = 0;
 
             for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count;i++)
             {
                 if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank)
+                {
                     existBlankOnRack = true;
+                    ++countBlank;
+                }
             }
 
 
             if(existBlankOnRack)
             {
                 
-                if (isExistBlankCounter == 0)
+                if (isExistBlankCounter == 0 || countBlank == 2)
                 {
                     DialogReplacement.Visibility = Visibility.Visible;
                     scrabbleBoard.Visibility = Visibility.Hidden;
@@ -360,7 +367,9 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 {
                     if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank && isExistBlankCounter == 1)
                         --isExistBlankCounter;
-                }
+                    if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank && isExistBlankTwoCounter == 1)
+                        --isExistBlankTwoCounter;
+                } 
 
                 ErrorCode errorCode = (ErrorCode)answerValue.message;
 
@@ -709,13 +718,23 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
                 if(Char.IsLetter(DefineBlankTextBox.Text[0]))
                 {
-                    defineBlankValue = DefineBlankTextBox.Text;
+                    defineBlankValue = DefineBlankTextBox.Text.ToUpper();
+                }
+                else
+                {
+                    MessageBox.Show("Podana wartość nie jest literą. Spróbuj wpisać ponownie!");
+                    return;
                 }
 
-                defineBlankValue = DefineBlankTextBox.Text;
-                isExistBlankCounter++;
+                if (countBlank == 2 && isExistBlankCounter == 1)
+                    isExistBlankTwoCounter++;
+                
+                if(isExistBlankTwoCounter!=1)
+                    isExistBlankCounter++;
+               
                 Play_Click(sender, e);
             }
+
 
         }
 
