@@ -843,6 +843,7 @@ namespace SkyCrabServer.ServerLogics
                 playerInGame.GainPoints(pointDiff);
                 PostGainPoints(playerInGame.Player.Id, pointDiff);
             }
+			game.FinishGame();
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
                 ServerPlayer otherServerPlayer; //Schrödinger Variable
