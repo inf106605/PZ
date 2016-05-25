@@ -310,7 +310,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             if(existBlankOnRack)
             {
                 
-                if (isExistBlankCounter == 0 || countBlank == 2)
+                if(isExistBlankCounter == 0 || (isExistBlankTwoCounter == 0 && isExistBlankCounter == 1 && countBlank == 2))
                 {
                     DialogReplacement.Visibility = Visibility.Visible;
                     scrabbleBoard.Visibility = Visibility.Hidden;
@@ -325,6 +325,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 }
             }
 
+            int tempCountBlanks = 0;
 
             for(int i=0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
             {
@@ -340,10 +341,14 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 }
                 else
                 {
+                    ++tempCountBlanks;
                     LetterWithNumber letterWithNumber = new LetterWithNumber();
                     letterWithNumber.letter = LetterSet.BLANK;
                     TileOnBoard tileOnBoard = new TileOnBoard();
-                    tileOnBoard.tile = new Tile(true, PolishLetterSet.GetLetter(char.Parse(defineBlankValue)));
+                    if(tempCountBlanks == 1 )
+                        tileOnBoard.tile = new Tile(true, PolishLetterSet.GetLetter(char.Parse(defineBlankValue)));
+                    else if(tempCountBlanks == 2)
+                        tileOnBoard.tile = new Tile(true, PolishLetterSet.GetLetter(char.Parse(defineBlankTwoValue)));
                     tileOnBoard.position = new PositionOnBoard(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row);
                     tilesToPlace.lettersFromRack.Add(letterWithNumber);
                     tilesToPlace.tilesToPlace.Add(tileOnBoard);
@@ -363,13 +368,28 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
             if (answerValue.messageId == MessageId.ERROR)
             {
+                bool existBlank = false;
+
                 for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
                 {
-                    if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank && isExistBlankCounter == 1)
-                        --isExistBlankCounter;
-                    if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank && isExistBlankTwoCounter == 1)
-                        --isExistBlankTwoCounter;
+                    if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank)
+                    {
+                        existBlank = true;
+                    }
                 } 
+
+                if(existBlank)
+                {
+                    if(isExistBlankCounter == 1 && isExistBlankTwoCounter == 0)
+                    {
+                        --isExistBlankCounter;
+                    }
+                    if(isExistBlankCounter == 1 && isExistBlankTwoCounter == 1)
+                    {
+                        --isExistBlankCounter;
+                        --isExistBlankTwoCounter;
+                    }
+                }
 
                 ErrorCode errorCode = (ErrorCode)answerValue.message;
 
@@ -449,7 +469,33 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             {
                 // KONIEC WALIDACJI
 
+                // jeśli ułożyłem 1 blanka , to muszę zrobić dekrementację licznika, żeby w razie kiedy wylosuję go po raz drugi, mógł sobie przypisać 
 
+                bool existBlank = false;
+
+                for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
+                {
+                    if (scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank)
+                    {
+                        existBlank = true;
+                    }
+                }
+
+                if (existBlank)
+                {
+                    if (isExistBlankCounter == 1 && isExistBlankTwoCounter == 0) // działający fragment
+                    {
+                        --isExistBlankCounter;
+                    }
+                    if (isExistBlankCounter == 1 && isExistBlankTwoCounter == 1)
+                    {
+                        --isExistBlankCounter;
+                        --isExistBlankTwoCounter;
+                    }
+                }
+
+                //**************************************************************************************************************************************
+                
                 // ustawienie płytek na planszy
 
                 for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
@@ -466,6 +512,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                     scrabbleGame.scrabbleRack.RemoveTile(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Id);
             }
 
+            
 
             // uzupełnienie stojaka o ilość wyłożonych płytek. W przeciwnym przypadku jeżeli jest 
             //ich mniej w woreczku to wyciągnięcie pozostałych
@@ -719,19 +766,24 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 if(Char.IsLetter(DefineBlankTextBox.Text[0]))
                 {
                     defineBlankValue = DefineBlankTextBox.Text.ToUpper();
+                    DefineBlankTextBox.Text = "";
                 }
                 else
                 {
                     MessageBox.Show("Podana wartość nie jest literą. Spróbuj wpisać ponownie!");
+                    DefineBlankTextBox.Text = "";
                     return;
                 }
 
-                if (countBlank == 2 && isExistBlankCounter == 1)
+                if (countBlank == 2 && isExistBlankTwoCounter==0 && isExistBlankCounter == 1)
+                {
+                    defineBlankValue = DefineBlankTextBox.Text.ToUpper();
                     isExistBlankTwoCounter++;
+                }
                 
-                if(isExistBlankTwoCounter!=1)
+                if(isExistBlankTwoCounter==0) // wykona się w pierwszym przypadku
                     isExistBlankCounter++;
-               
+
                 Play_Click(sender, e);
             }
 
