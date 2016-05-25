@@ -799,8 +799,14 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
         private void mbox_cancel(object sender, RoutedEventArgs e)
         {
-            /*DialogReplacement.Visibility = System.Windows.Visibility.Hidden;
-            scrabbleBoard.Visibility = System.Windows.Visibility.Visible;*/
+            isExistBlankCounter = 0;
+            isExistBlankTwoCounter = 0;
+            DefineBlankTextBox.Text = "";
+            defineBlankValue = "";
+            defineBlankTwoValue = "";
+
+            DialogReplacement.Visibility = System.Windows.Visibility.Hidden;
+            scrabbleBoard.Visibility = System.Windows.Visibility.Visible;
         }
     } 
 }
