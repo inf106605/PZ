@@ -73,6 +73,7 @@ CREATE TABLE score
     score     INTEGER NOT NULL ,
     player_id INTEGER NOT NULL ,
     game_id   INTEGER NOT NULL ,
+	PRIMARY KEY ( player_id, game_id ) ,
 	FOREIGN KEY ( game_id ) REFERENCES game ( game_id ) ,
 	FOREIGN KEY ( player_id ) REFERENCES player ( player_id )
   ) ;

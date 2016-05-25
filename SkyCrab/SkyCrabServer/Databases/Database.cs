@@ -7,7 +7,7 @@ namespace SkyCrabServer.Databases
     sealed class Database : IDisposable
     {
 
-        public const string VERSION = "1.2.1";
+        public const string VERSION = "1.2.0";
 
         private const string FILE_NAME = "Database.sqlite";
 
