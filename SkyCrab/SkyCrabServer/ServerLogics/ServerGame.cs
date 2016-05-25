@@ -367,7 +367,7 @@ namespace SkyCrabServer.ServerLogics
                         ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.NOT_CONTINUOUS);
                         return false;
                     }
-            bool horizontal = GetTilesOrientation(tilesToPlace) == Orientation.HORIZONTAL;
+            bool horizontal = GetTilesOrientation(tilesToPlace) == Orientation.HORIZONTAL; //TODO FIXME wrong orientation when player put only one tile
             if (!CheckWord(boardCopy, tilesToPlace[0].position, horizontal, out wordOnBoard))
             {
                 ErrorMsg.AsyncPost(id, serverPlayer.connection, ErrorCode.INCORECT_WORD); //TODO send incorrect words
@@ -849,7 +849,7 @@ namespace SkyCrabServer.ServerLogics
                 Globals.players.TryGetValue(playerInRoom.Player.Id, out otherServerPlayer);
                 if (otherServerPlayer == null)  //WTF!?
                     throw new Exception("Whatever...");
-                GameEndedMsg.AsyncPost(serverPlayer.connection);
+                GameEndedMsg.AsyncPost(otherServerPlayer.connection);
             }
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
