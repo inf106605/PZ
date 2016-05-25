@@ -495,17 +495,22 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
                 }
 
                 //**************************************************************************************************************************************
-                
-                // ustawienie płytek na planszy
 
+                // ustawienie płytek na planszy
+                int countBlanks = 0;
                 for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
                 {
-                    if(!scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank)
+                    if (!scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].tile.Tile.Blank)
                         scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Name, int.Parse(scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack[i].Value));
                     else
-                        scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, defineBlankValue, 0);
+                    {
+                        countBlanks++;
+                        if(countBlanks==1)
+                            scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, defineBlankValue, 0);
+                        else if(countBlanks==2)
+                            scrabbleGame.scrabbleBoard.SetScrabbleSquare(scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].PositionInListBox, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Column, scrabbleTilesSelectedFromBoard.scrabbleTilesSelectedFromBoard[i].Row, defineBlankTwoValue, 0);
+                    }
                 }
-
                 // usunięcie płytek ze stojaka
 
                 for (int i = 0; i < scrabbleTilesSelectedFromRack.scrabbleTilesSelectedFromRack.Count; i++)
@@ -765,7 +770,10 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
                 if(Char.IsLetter(DefineBlankTextBox.Text[0]))
                 {
-                    defineBlankValue = DefineBlankTextBox.Text.ToUpper();
+                    if (isExistBlankCounter == 0)
+                        defineBlankValue = DefineBlankTextBox.Text.ToUpper();
+                    else if (isExistBlankCounter == 1)
+                        defineBlankTwoValue = DefineBlankTextBox.Text.ToUpper();
                     DefineBlankTextBox.Text = "";
                 }
                 else
@@ -777,7 +785,6 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
 
                 if (countBlank == 2 && isExistBlankTwoCounter==0 && isExistBlankCounter == 1)
                 {
-                    defineBlankValue = DefineBlankTextBox.Text.ToUpper();
                     isExistBlankTwoCounter++;
                 }
                 
