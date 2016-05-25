@@ -69,7 +69,6 @@ CREATE UNIQUE INDEX "player_profile__IDX_e-mail" ON player_profile
 CREATE TABLE score
   (
     walkover  CHAR (1) NOT NULL ,
-    place     INTEGER NOT NULL ,
     score     INTEGER NOT NULL ,
     player_id INTEGER NOT NULL ,
     game_id   INTEGER NOT NULL ,
