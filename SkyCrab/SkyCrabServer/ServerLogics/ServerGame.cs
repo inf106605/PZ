@@ -423,12 +423,12 @@ namespace SkyCrabServer.ServerLogics
                 PlaceTilesMsg.AsyncPost(otherServerPlayer.connection, tilesToPlace);
             }
             bool horizontal = GetTilesOrientation(tilesToPlace.tilesToPlace) == Orientation.HORIZONTAL;
-            points = CountPoints(wordOnBoard, tilesToPlace.tilesToPlace, horizontal);
+            points = CountPoints(wordOnBoard, tilesToPlace.tilesToPlace, horizontal, true);
             horizontal = !horizontal;
             foreach (TileOnBoard tileOnBoard in tilesToPlace.tilesToPlace)
             {
                 WordOnBoard additionalWordOnBoard = GetWord(game.Board, tileOnBoard.position, horizontal);
-                points += CountPoints(additionalWordOnBoard, tilesToPlace.tilesToPlace, horizontal);
+                points += CountPoints(additionalWordOnBoard, tilesToPlace.tilesToPlace, horizontal, false);
             }
             PostGainPoints(serverPlayer.player.Id, points);
         }
@@ -450,7 +450,7 @@ namespace SkyCrabServer.ServerLogics
             }
         }
 
-        private Int16 CountPoints(WordOnBoard wordOnBoard, List<TileOnBoard> tilesToPlace, bool horizontal)
+        private Int16 CountPoints(WordOnBoard wordOnBoard, List<TileOnBoard> tilesToPlace, bool horizontal, bool mainWord)
         {
             if (wordOnBoard.word.Length < 2)
                 return 0;
@@ -491,7 +491,7 @@ namespace SkyCrabServer.ServerLogics
                     points += (Int16)(letterPoints * letterMultiplier);
             }
             points *= wordMultiplier;
-            if (tilesToPlace.Count == Rack.IntendedTilesCount)
+            if (mainWord && tilesToPlace.Count == Rack.IntendedTilesCount)
                 points += 50;
             return points;
         }
