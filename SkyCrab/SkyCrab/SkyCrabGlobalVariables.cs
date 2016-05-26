@@ -34,5 +34,10 @@ namespace SkyCrab
         public static bool isPlacedTilesByPlayers = false;  // zmienna, która sygnalizuje wyłożenie przez innego gracza płytek
         public static TilesToPlace TilesToPlaceByPlayers; // zmienna która przechowuje płytki przesłane przez innego gracza
         public static readonly object roomLock = new object();
+        /*zmienne przydatne przy przechodzeniu do okienka regulaminu*/
+
+        public static string login;
+        public static string email;
+
     }
 }

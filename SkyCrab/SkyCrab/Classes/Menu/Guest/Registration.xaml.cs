@@ -16,6 +16,12 @@ namespace SkyCrab.Classes.Menu
         public Registration()
         {
             InitializeComponent();
+            if (SkyCrabGlobalVariables.login != null)
+                if (SkyCrabGlobalVariables.login != "")
+                    loginTextbox.Text = SkyCrabGlobalVariables.login;
+            if (SkyCrabGlobalVariables.email != null)
+                if (SkyCrabGlobalVariables.email != "")
+                    emailTextbox.Text = SkyCrabGlobalVariables.email;
         }
 
         private void RegistrationButton_Click(object sender, RoutedEventArgs e)
@@ -134,6 +140,10 @@ namespace SkyCrab.Classes.Menu
 
        private void RulesLink_Click(object sender, RoutedEventArgs e)
         {
+            if(loginTextbox.Text != "")
+                 SkyCrabGlobalVariables.login = loginTextbox.Text;
+            if(emailTextbox.Text != "")
+                SkyCrabGlobalVariables.email = emailTextbox.Text;
             Switcher.Switch(new Rules());
         }
     }
