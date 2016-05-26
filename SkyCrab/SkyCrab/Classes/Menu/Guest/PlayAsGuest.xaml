@@ -139,7 +139,7 @@
                 <ColumnDefinition Width="0.05*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button x:Name="SelectAndJoinToRoom" Grid.Column="1" Margin="5" Content="Wybierz pokój" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="SelectAndJoinToRoom_Click"></Button>
-            <Button Grid.Column="2" Margin="5,5,5,0" Content="Powrót do menu" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Button_Click" Height="50" VerticalAlignment="Top"></Button>
+            <Button Grid.Column="2" Margin="5" Content="Powrót do menu" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Background="#FFFFD8D8" Click="Button_Click"></Button>
         </Grid>
     </Grid>
 </UserControl>
