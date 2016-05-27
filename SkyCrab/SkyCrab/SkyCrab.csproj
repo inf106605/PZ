@@ -62,6 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\Menu\Guest\RulesClass.cs" />
     <Compile Include="Classes\ScrabbleGameFolder\ScrabbleBoard.cs" />
     <Compile Include="Classes\ScrabbleGameFolder\ScrabbleGame.cs" />
     <Compile Include="Classes\ScrabbleGameFolder\ScrabblePlayers.cs" />
@@ -294,6 +295,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Game\blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Classes\Menu\Guest\RulesText.txt" />
   </ItemGroup>
   <Import Project="..\Common classes\Common classes.projitems" Label="Shared" />
   <Import Project="..\Connection\Connection.projitems" Label="Shared" />

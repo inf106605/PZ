@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SkyCrab.Classes.Menu.Guest;
+using System.Windows;
 using System.Windows.Controls;
 namespace SkyCrab.Classes.Menu
 {
@@ -10,6 +11,12 @@ namespace SkyCrab.Classes.Menu
         public Rules()
         {
             InitializeComponent();
+            RulesText.AppendText(RulesClass.PrintText());
+        }
+
+        string LoadRulesFromFile()
+        {
+            return "";
         }
 
         private void ReturnRegistration_Click(object sender, RoutedEventArgs e)
