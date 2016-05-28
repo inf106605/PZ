@@ -34,6 +34,8 @@ namespace SkyCrab.Classes.Menu
 
         ObservableCollection<String> minTimeLimitLabels;
         ObservableCollection<String> maxTimeLimitLabels;
+        ObservableCollection<String> minTimeLimitMinOrSecondLabel;
+        ObservableCollection<String> maxTimeLimitMinOrSecondLabel;
         ObservableCollection<String> minCountPlayersLabels;
         ObservableCollection<String> maxCountPlayersLabels;
 
@@ -159,8 +161,10 @@ namespace SkyCrab.Classes.Menu
                 if ((string)minTimeLimit.SelectedValue == "Brak limitu")
                     filterRoom.Rules.maxTurnTime.min = 0;
                 else if (int.Parse((string)minTimeLimit.SelectedValue) > 0)
-                    filterRoom.Rules.maxTurnTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
-
+                    if(minTimeLimitMin.Text == "s")
+                         filterRoom.Rules.maxTurnTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
+                    else
+                        filterRoom.Rules.maxTurnTime.min = uint.Parse((string)minTimeLimit.SelectedValue) * 60;
             }
 
 
@@ -170,7 +174,10 @@ namespace SkyCrab.Classes.Menu
                     filterRoom.Rules.maxTurnTime.max = 0;
 
                 else if (int.Parse((string)maxTimeLimit.SelectedValue) > 0)
-                    filterRoom.Rules.maxTurnTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
+                    if (maxTimeLimitMin.Text == "s")
+                        filterRoom.Rules.maxTurnTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
+                    else
+                        filterRoom.Rules.maxTurnTime.max = uint.Parse((string)maxTimeLimit.SelectedValue) * 60;
             }
 
             // min i max liczba graczy
@@ -325,7 +332,10 @@ namespace SkyCrab.Classes.Menu
                 if ((string)minTimeLimit.SelectedValue == "Brak limitu")
                     filterRoom.Rules.maxTurnTime.min = 0;
                 else if (int.Parse((string)minTimeLimit.SelectedValue) > 0)
-                    filterRoom.Rules.maxTurnTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
+                    if (minTimeLimitMin.Text == "s")
+                        filterRoom.Rules.maxTurnTime.min = uint.Parse((string)minTimeLimit.SelectedValue);
+                    else
+                        filterRoom.Rules.maxTurnTime.min = uint.Parse((string)minTimeLimit.SelectedValue) * 60;
 
             }
 
@@ -336,7 +346,10 @@ namespace SkyCrab.Classes.Menu
                     filterRoom.Rules.maxTurnTime.max = 0;
 
                 else if (int.Parse((string)maxTimeLimit.SelectedValue) > 0)
-                    filterRoom.Rules.maxTurnTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
+                    if (maxTimeLimitMin.Text == "s")
+                        filterRoom.Rules.maxTurnTime.max = uint.Parse((string)maxTimeLimit.SelectedValue);
+                    else
+                        filterRoom.Rules.maxTurnTime.max = uint.Parse((string)maxTimeLimit.SelectedValue) * 60;
             }
 
             // min i max liczba graczy
@@ -466,6 +479,20 @@ namespace SkyCrab.Classes.Menu
             maxTimeLimitLabels.Add("Brak limitu");
             maxTimeLimit.ItemsSource = minTimeLimitLabels;
             maxTimeLimit.SelectedIndex = 6;
+
+            minTimeLimitMinOrSecondLabel = new ObservableCollection<String>();
+
+            minTimeLimitMinOrSecondLabel.Add("s");
+            minTimeLimitMinOrSecondLabel.Add("min");
+            minTimeLimitMin.ItemsSource = minTimeLimitMinOrSecondLabel;
+            minTimeLimitMin.SelectedIndex = 0;
+
+            maxTimeLimitMinOrSecondLabel = new ObservableCollection<String>();
+
+            maxTimeLimitMinOrSecondLabel.Add("s");
+            maxTimeLimitMinOrSecondLabel.Add("min");
+            maxTimeLimitMin.ItemsSource = maxTimeLimitMinOrSecondLabel;
+            maxTimeLimitMin.SelectedIndex = 0;
 
             minCountPlayersLabels = new ObservableCollection<String>();
             for (int i = 1; i <= 4; i++)

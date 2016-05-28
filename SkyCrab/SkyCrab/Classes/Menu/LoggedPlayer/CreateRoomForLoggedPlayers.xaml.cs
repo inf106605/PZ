@@ -29,10 +29,16 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
     public partial class CreateRoomForLoggedPlayers : UserControl
     {
         ObservableCollection<String> labels; //  values of selectbox ( count players )
+        ObservableCollection<String> TimeLimitMinorSecondList;
 
         public CreateRoomForLoggedPlayers()
         {
             InitializeComponent();
+            TimeLimitMinorSecondList = new ObservableCollection<String>();
+            TimeLimitMinorSecondList.Add("s");
+            TimeLimitMinorSecondList.Add("min");
+            TimeLimitMinorSecond.ItemsSource = TimeLimitMinorSecondList;
+            TimeLimitMinorSecond.SelectedIndex = 0;
         }
 
         private void PlayAsLoggedPlayerReturn_Click(object sender, RoutedEventArgs e)
@@ -111,7 +117,10 @@ namespace SkyCrab.Classes.Menu.LoggedPlayer
                     return;
                 }
                 else if (int.Parse((string)TimeLimit.Text) > 0)
-                    room.Rules.maxTurnTime.value = uint.Parse((string)TimeLimit.Text);
+                    if (TimeLimitMinorSecond.Text == "s")
+                        room.Rules.maxTurnTime.value = uint.Parse((string)TimeLimit.Text);
+                    else
+                        room.Rules.maxTurnTime.value = uint.Parse((string)TimeLimit.Text) * 60;
             }
 
             // przypisanie maksymalnej liczby graczy

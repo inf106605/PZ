@@ -94,10 +94,26 @@
                             <RadioButton x:Name="publicRoomRadioButton" Grid.Column="0" Content="publiczny" FontSize="10"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" IsChecked="True" Click="UpdateSearching" />
                             <RadioButton x:Name="friendsRoomRadioButton" Grid.Column="1" Content="znajomi"  FontSize="10" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" Click="UpdateSearching" />
                         </Grid>
-                        <ComboBox x:Name="minTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="15" SelectionChanged="UpdateSearching">
-                        </ComboBox>
-                        <ComboBox x:Name="maxTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="UpdateSearching">
-                        </ComboBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" x:Name="minTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="15" SelectionChanged="UpdateSearching">
+                            </ComboBox>
+                            <ComboBox Grid.Column="2" x:Name="minTimeLimitMin" IsEditable="False" MinWidth="30" FontSize="9" IsReadOnly="True" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="15" SelectionChanged="UpdateSearching"></ComboBox>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="maxTimeLimit" IsEditable="True" MinWidth="30" FontSize="9" IsReadOnly="False" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="UpdateSearching">
+                            </ComboBox>
+                            <ComboBox Grid.Column="2" x:Name="maxTimeLimitMin" IsEditable="False" MinWidth="30" FontSize="9" IsReadOnly="True" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="UpdateSearching"></ComboBox>
+                        </Grid>
                         <ComboBox x:Name="minCountPlayers" IsEditable="False" Text="1" MinWidth="30" FontSize="9"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="UpdateSearching">
                         </ComboBox>
                         <ComboBox x:Name="maxCountPlayers" IsEditable="False" Text="4" MinWidth="30" FontSize="9"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  SelectionChanged="UpdateSearching">
@@ -121,7 +137,7 @@
                         <GridView AllowsColumnReorder="True">
                             <GridView.Columns>
                                 <GridViewColumn Header="Nazwa pokoju" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Header="Max czas tury" DisplayMemberBinding="{Binding MaxTimeLimit}" />
+                                <GridViewColumn Header="Max czas tury [s]" DisplayMemberBinding="{Binding MaxTimeLimit}" />
                                 <GridViewColumn Header="Liczba graczy" DisplayMemberBinding="{Binding MaxPlayersLimit}" />
                                 <GridViewColumn Header="Reguła piątki" DisplayMemberBinding="{Binding IsRulesFive}" />
                                 <GridViewColumn Header="Reguła wymiany" DisplayMemberBinding="{Binding IsRulesExchange}" />

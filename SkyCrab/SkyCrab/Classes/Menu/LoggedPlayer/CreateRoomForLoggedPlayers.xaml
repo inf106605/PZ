@@ -46,7 +46,7 @@
                 <UniformGrid Rows="4">
                 <TextBlock Name="NameRoomLabel"  Text="NAZWA POKOJU" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
                 <TextBlock Name="TypeRoomabel"  Text="RODZAJ POKOJU" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
-                <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5" Foreground="#FFF95F5F"></TextBlock>
+                <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5" Foreground="#FFF95F5F"></TextBlock>
                 <TextBlock Name="maxCountPlayersTextBlock" Text="Liczba graczy" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Right" Margin="5" Foreground="#FFF95F5F"></TextBlock>
             </UniformGrid>
             </Viewbox>
@@ -63,16 +63,25 @@
                 </Viewbox>
                 <Viewbox HorizontalAlignment="Left" Margin="1">
                     <UniformGrid>
-                        <ComboBox IsEditable="True" Text="15" MinWidth="50"  IsReadOnly="False" Name="TimeLimit" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <ComboBoxItem Tag="1">5</ComboBoxItem>
-                        <ComboBoxItem Tag="2">10</ComboBoxItem>
-                        <ComboBoxItem Tag="3">15</ComboBoxItem>
-                        <ComboBoxItem Tag="4">30</ComboBoxItem>
-                        <ComboBoxItem Tag="5">45</ComboBoxItem>
-                        <ComboBoxItem Tag="6">60</ComboBoxItem>
-                        <ComboBoxItem Tag="6">Brak limitu</ComboBoxItem>
-                    </ComboBox>
-                </UniformGrid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" IsEditable="True" Text="15" MinWidth="50"  IsReadOnly="False" Name="TimeLimit" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ComboBoxItem Tag="1">5</ComboBoxItem>
+                                <ComboBoxItem Tag="2">10</ComboBoxItem>
+                                <ComboBoxItem Tag="3">15</ComboBoxItem>
+                                <ComboBoxItem Tag="4">30</ComboBoxItem>
+                                <ComboBoxItem Tag="5">45</ComboBoxItem>
+                                <ComboBoxItem Tag="6">60</ComboBoxItem>
+                                <ComboBoxItem Tag="6">Brak limitu</ComboBoxItem>
+                            </ComboBox>
+                            <ComboBox Grid.Column="2" x:Name="TimeLimitMinorSecond" Text="15" MinWidth="50"  IsReadOnly="True" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            </ComboBox>
+                        </Grid>
+                    </UniformGrid>
                 </Viewbox>
                 <Viewbox HorizontalAlignment="Left" Margin="1">
                     <UniformGrid>
