@@ -39,5 +39,9 @@ namespace SkyCrab
         public static string login;
         public static string email;
 
+        /*zmienne przydatne przy tworzeniu pokoju przez gościa do określenia czy wybrano czas w min lub s */
+
+        public static string TimeMinOrSecond;
+
     }
 }

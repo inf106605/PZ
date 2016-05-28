@@ -55,7 +55,13 @@
                 </Viewbox>
                 <Viewbox HorizontalAlignment="Left" Margin="1">
                     <UniformGrid>
-                        <ComboBox IsEditable="True" Text="15" MinWidth="50"  IsReadOnly="False" Name="TimeLimit" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" IsEditable="True" Text="15" MinWidth="50"  IsReadOnly="False" Name="TimeLimit" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <ComboBoxItem>5</ComboBoxItem>
                             <ComboBoxItem>10</ComboBoxItem>
                             <ComboBoxItem>15</ComboBoxItem>
@@ -64,6 +70,9 @@
                             <ComboBoxItem>60</ComboBoxItem>
                             <ComboBoxItem>Brak limitu</ComboBoxItem>
                         </ComboBox>
+                            <ComboBox Grid.Column="2" x:Name="TimeLimitMinorSecond" Text="15" MinWidth="50"  IsReadOnly="True" FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            </ComboBox>
+                        </Grid>
                     </UniformGrid>
                 </Viewbox>
                 <Viewbox HorizontalAlignment="Left" Margin="1">

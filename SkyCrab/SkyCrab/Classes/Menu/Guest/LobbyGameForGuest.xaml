@@ -52,7 +52,7 @@
                     <TextBlock Name="NameRoomLabel"  Text="NAZWA POKOJU" FontFamily="Gill Sans Ultra Bold" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="TypeRoomLabel"  Text="Rodzaj pokoju" FontFamily="Gill Sans Ultra Bold" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="OwnerRoomLabel"  Text="Właściciel pokoju" FontFamily="Gill Sans Ultra Bold" Margin="5"  Foreground="#FFF95F5F"></TextBlock>
-                    <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [min]" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
+                    <TextBlock Name="TimeLimitTextBlock"  Text="Limit czasu [s]" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
                     <TextBlock Name="maxCountPlayersTextBlock" Text="Liczba graczy" FontFamily="Gill Sans Ultra Bold" Margin="5" Foreground="#FFF95F5F"></TextBlock>
                 </UniformGrid>
             </Viewbox>

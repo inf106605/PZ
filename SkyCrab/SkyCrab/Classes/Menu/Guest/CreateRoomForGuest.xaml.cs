@@ -28,10 +28,16 @@ namespace SkyCrab.Classes.Menu.Guest
     public partial class CreateRoomForGuest : UserControl
     {
         ObservableCollection<String> labels; //  values of selectbox ( count players )
+        ObservableCollection<String> TimeLimitMinorSecondList;
 
         public CreateRoomForGuest()
         {
             InitializeComponent();
+            TimeLimitMinorSecondList = new ObservableCollection<String>();
+            TimeLimitMinorSecondList.Add("s");
+            TimeLimitMinorSecondList.Add("min");
+            TimeLimitMinorSecond.ItemsSource = TimeLimitMinorSecondList;
+            TimeLimitMinorSecond.SelectedIndex = 0;
         }
 
         private void PlayAsGuestReturn_Click(object sender, RoutedEventArgs e)
@@ -86,13 +92,16 @@ namespace SkyCrab.Classes.Menu.Guest
 
                 if ((string)TimeLimit.Text == "Brak limitu")
                     room.Rules.maxTurnTime.value = 0;
-                else if(!match.Success)
+                else if (!match.Success)
                 {
                     MessageBox.Show("Nieprawidłowa wartość czasu gry!");
                     return;
                 }
-                else if(int.Parse((string)TimeLimit.Text) > 0)
-                    room.Rules.maxTurnTime.value = uint.Parse((string)TimeLimit.Text);
+                else if (int.Parse((string)TimeLimit.Text) > 0)
+                    if (TimeLimitMinorSecond.Text == "s")
+                         room.Rules.maxTurnTime.value = uint.Parse((string)TimeLimit.Text);
+                    else 
+                         room.Rules.maxTurnTime.value = uint.Parse((string)TimeLimit.Text) * 60;
             }
 
             // przypisanie maksymalnej liczby graczy
