@@ -28,16 +28,16 @@
         </UniformGrid>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="0.05*"></RowDefinition>
                 <RowDefinition Height="0.1*"></RowDefinition>
-                <RowDefinition Height="0.1*"></RowDefinition>
-                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.05*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Viewbox Grid.Row="1">
                 <TextBlock Text="O PROGRAMIE"  FontFamily="Gill Sans Ultra Bold" Foreground="#FFF95F5F" TextWrapping="Wrap"></TextBlock>
             </Viewbox>
             <Grid  Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Visible" IsReadOnly="True"></RichTextBox>
+                <RichTextBox x:Name="AboutProgramContent" ScrollViewer.VerticalScrollBarVisibility="Visible" IsReadOnly="True"></RichTextBox>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >

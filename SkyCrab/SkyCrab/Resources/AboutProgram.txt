@@ -1,0 +1,7 @@
+Aplikacja SkyCrab powsta³a w wyniku realizacji projektu na przedmiot Projekt Zespo³owy. Twórcy gry nie pobieraj¹ za ni¹ ¿adnych op³at.
+Jej autorami s¹: Krzysztof Jerzyñski - twórca aplikacji klienta gry oraz Piotr Siupa - twórca aplikacji serwera gry
+W kwestii dotycz¹cych pomys³ów rozwoju niniejszej aplikacji prosimy o kontakt podany poni¿ej.
+Kontakt e-mail:  krzysztof.k.jerzynski@student.put.poznan.pl , piotr.siupa@student.put.poznan.pl
+Dziêkujemy za skorzystanie z naszej aplikacji.
+==================================================
+© SkyCrab 2016 by Krzysztof Jerzyñski & Piotr Siupa

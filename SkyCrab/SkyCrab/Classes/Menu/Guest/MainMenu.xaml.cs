@@ -5,6 +5,8 @@ using SkyCrab.Classes.Menu.Guest;
 using SkyCrab.Common_classes.Players;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrab.Connection.PresentationLayer.Messages;
+using System.Diagnostics;
+using System.IO;
 
 namespace SkyCrab.Menu
 {
@@ -73,12 +75,22 @@ namespace SkyCrab.Menu
 
         private void Help_Button_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new Help());
+            //Switcher.Switch(new Help());
+
+            if (File.Exists("TutorialSkyCrab.pdf"))
+            {
+                Process.Start("TutorialSkyCrab.pdf");
+                e.Handled = true;
+            }
+            else
+            {
+                MessageBox.Show("Plik z instrukcją nie istnieje!");
+            }
         }
 
-        // Akcja do przycisku - O programie
+    // Akcja do przycisku - O programie
 
-        private void AboutProgram_Button_Click(object sender, RoutedEventArgs e)
+    private void AboutProgram_Button_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new About());
         }

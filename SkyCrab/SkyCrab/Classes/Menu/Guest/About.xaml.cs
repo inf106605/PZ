@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SkyCrab.Menu;
+using SkyCrab.Classes.Menu.Guest;
 
 namespace SkyCrab.Classes.Menu
 {
@@ -24,6 +25,7 @@ namespace SkyCrab.Classes.Menu
         public About()
         {
             InitializeComponent();
+            ContentAboutProgram.AppendText(AboutProgramClass.PrintText());
         }
 
         private void ReturnMainMenu_Click(object sender, RoutedEventArgs e)
