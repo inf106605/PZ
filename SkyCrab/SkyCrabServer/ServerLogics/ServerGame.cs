@@ -794,7 +794,8 @@ namespace SkyCrabServer.ServerLogics
             game.SwitchToNextPlayer(pass);
             if (IsGameEndedByPassing())
             {
-                EndGame();
+                if (!game.IsFinished)
+                    EndGame();
             }
             else
             {
