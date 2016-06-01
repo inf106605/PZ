@@ -55,29 +55,33 @@ namespace SkyCrab.Connection.PresentationLayer.Messages
         //CHAT
         NOT_IN_ROOM4            = NOT_IN_ROOM,
 
+        //GET_GAME_LOG
+        NO_SUCH_GAME            = 18,
+        GAME_NOT_ENDED          = 19,
+
         //REORDER_RACK_TILES
-        NOT_IN_GAME             = 18,
-        INCORRECT_MOVE          = 19,
+        NOT_IN_GAME             = 20,
+        INCORRECT_MOVE          = 21,
         //PLACE_TILES
         NOT_IN_GAME2            = NOT_IN_GAME,
-        NOT_YOUR_TURN           = 20,
+        NOT_YOUR_TURN           = 22,
         INCORRECT_MOVE2         = INCORRECT_MOVE,
-        TOO_LESS_TILES          = 21,
-        FIVES_FIRST_VIOLATION   = 22,
-        LETTERS_NOT_FROM_RACK   = 23,
-        LETTERS_NOT_MATH        = 24,
-        WORD_NOT_IN_LINE        = 25,
-        NOT_IN_STARTING_SQUARE  = 26,
-        NOT_ADJANCENT           = 27,
-        NOT_CONTINUOUS          = 28,
-        INCORECT_WORD           = 29,
+        TOO_LESS_TILES          = 23,
+        FIVES_FIRST_VIOLATION   = 24,
+        LETTERS_NOT_FROM_RACK   = 25,
+        LETTERS_NOT_MATH        = 26,
+        WORD_NOT_IN_LINE        = 27,
+        NOT_IN_STARTING_SQUARE  = 28,
+        NOT_ADJANCENT           = 29,
+        NOT_CONTINUOUS          = 30,
+        INCORECT_WORD           = 31,
         //EXCHANGE_TILES
         NOT_IN_GAME3            = NOT_IN_GAME,
         NOT_YOUR_TURN2          = NOT_YOUR_TURN,
         TOO_LESS_TILES2         = TOO_LESS_TILES,
         LETTERS_NOT_FROM_RACK2  = LETTERS_NOT_FROM_RACK,
-        TOO_LESS_POUCH_LETTERS  = 30,
-        RESTR_EXCH_VIOLATION    = 31,
+        TOO_LESS_POUCH_LETTERS  = 32,
+        RESTR_EXCH_VIOLATION    = 33,
         //PASS
         NOT_IN_GAME4            = NOT_IN_GAME,
         NOT_YOUR_TURN3          = NOT_YOUR_TURN

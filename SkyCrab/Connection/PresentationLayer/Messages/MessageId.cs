@@ -42,24 +42,27 @@
         PLAYER_NOT_READY    = 28,
         NEW_ROOM_OWNER      = 29,
         CHAT                = 30,
+        //Games
+        GET_GAME_LOG        = 31,
+        GAME_LOG            = 32,
 
         //--- Game ---
         //Commands
-        PLACE_TILES         = 31,
-        EXCHANGE_TILES      = 32,
-        PASS                = 33,
+        PLACE_TILES         = 33,
+        EXCHANGE_TILES      = 34,
+        PASS                = 35,
         //Informations
-        GAME_STARTED        = 34,
-        GAME_ENDED          = 35,
-        NEXT_TURN           = 36,
-        NEW_TILES           = 37,
-        LOSS_TILES          = 38,
-        POINTS_CHANGED      = 39,
-        REORDER_RACK_TILES  = 40,
-        PLAYER_FAILED       = 41,
-        PLAYER_PLACED_TILES = 42,
-        PLAYER_EXCHAN_TILES = 43,
-        PLAYER_PASSED       = 44,
-        TIMEOUT_OCCURRED    = 45
+        GAME_STARTED        = 36,
+        GAME_ENDED          = 37,
+        NEXT_TURN           = 38,
+        NEW_TILES           = 39,
+        LOSS_TILES          = 40,
+        POINTS_CHANGED      = 41,
+        REORDER_RACK_TILES  = 42,
+        PLAYER_FAILED       = 43,
+        PLAYER_PLACED_TILES = 44,
+        PLAYER_EXCHAN_TILES = 45,
+        PLAYER_PASSED       = 46,
+        TIMEOUT_OCCURRED    = 47
     }
 }

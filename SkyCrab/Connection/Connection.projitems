@@ -92,6 +92,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Friends\GetFriendsMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Friends\PlayerListMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Friends\RemoveFriendMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Games\GameLogMsg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Games\GetGameLogMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Rooms\ChatMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Rooms\CreateRoomMsg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PresentationLayer\Messages\Menu\Rooms\FindRoomsMsg.cs" />

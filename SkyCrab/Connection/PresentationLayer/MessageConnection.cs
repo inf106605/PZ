@@ -14,6 +14,7 @@ using SkyCrab.Connection.PresentationLayer.Messages.Game.Commands;
 using SkyCrab.Connection.PresentationLayer.Messages.Game.Informations;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Friends;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Games;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Connection.SessionLayer;
 using SkyCrab.Connection.Utils;
@@ -52,7 +53,7 @@ namespace SkyCrab.Connection.PresentationLayer
         }
 
 
-        private static readonly Version version = new Version(20, 0, 0);
+        private static readonly Version version = new Version(21, 0, 0);
         private static readonly Dictionary<MessageId, AbstractMessage> messageTypes = new Dictionary<MessageId, AbstractMessage>();
         private Task listeningTask;
         private Task processingTask;
@@ -122,6 +123,9 @@ namespace SkyCrab.Connection.PresentationLayer
             AddMessage(new PlayerNotReadyMsg());
             AddMessage(new NewRoomOwnerMsg());
             AddMessage(new ChatMsg());
+            //Games
+            AddMessage(new GetGameLogMsg());
+            AddMessage(new GameLogMsg());
 
             //--- Game ---
             //Commands
