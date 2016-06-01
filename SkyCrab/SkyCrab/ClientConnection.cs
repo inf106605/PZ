@@ -20,6 +20,9 @@ using SkyCrab.Common_classes.Games;
 using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Common_classes.Games.Players;
 using System.Collections.Generic;
+using Microsoft.Win32;
+using System.IO;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Games;
 
 namespace SkyCrab
 {
@@ -157,6 +160,56 @@ namespace SkyCrab
                                         SkyCrabGlobalVariables.MessagesLog += " (WALKOWER)";
                                     SkyCrabGlobalVariables.MessagesLog += Environment.NewLine;
                                 }
+
+                                MessageBoxResult result = MessageBox.Show("Czy chcesz zapisać etapy rozgrywki ?", "Komunikat zapisu przebiegu gry", MessageBoxButton.YesNo);
+                                switch (result)
+                                {
+                                    case MessageBoxResult.Yes:
+                                        {
+                                            var getGameLogMsgAnswer = GetGameLogMsg.SyncPost(App.clientConn, SkyCrabGlobalVariables.GameId, 1000);
+
+                                            if (!getGameLogMsgAnswer.HasValue)
+                                            {
+                                                MessageBox.Show("Brak odpowiedzi od serwera!");
+                                            }
+
+                                            var answerValue = getGameLogMsgAnswer.Value;
+
+                                            if (answerValue.messageId == MessageId.ERROR)
+                                            {
+                                                ErrorCode errorCode = (ErrorCode)answerValue.message;
+
+                                                switch (errorCode)
+                                                {
+                                                    case ErrorCode.NO_SUCH_GAME:
+                                                        {
+                                                            MessageBox.Show("Nie ma Cię w grze!");
+                                                            break;
+                                                        }
+                                                    case ErrorCode.GAME_NOT_ENDED:
+                                                        {
+                                                            MessageBox.Show("Gra jeszcze się nie skończyła!");
+                                                            break;
+                                                        }
+                                                }
+                                            }
+
+                                            if (answerValue.messageId == MessageId.GAME_LOG)
+                                            {
+                                                string gameLogString = (string)answerValue.message;
+
+                                                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                                                saveFileDialog.Filter = "Text File | *.txt";
+                                                if (saveFileDialog.ShowDialog() == true)
+                                                    File.WriteAllText(saveFileDialog.FileName, gameLogString);
+                                            }
+
+                                            break;
+                                        }
+                                    case MessageBoxResult.No:
+                                        break;
+                                }
+
                                 SkyCrabGlobalVariables.room.room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
                                 SkyCrabGlobalVariables.game.Room.SetPlayerReady(SkyCrabGlobalVariables.player.Id, false);
                                 SkyCrabGlobalVariables.isGame = false;

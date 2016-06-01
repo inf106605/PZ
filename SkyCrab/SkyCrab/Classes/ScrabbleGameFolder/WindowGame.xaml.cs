@@ -1,4 +1,5 @@
-﻿using SkyCrab.Classes.Menu;
+﻿using Microsoft.Win32;
+using SkyCrab.Classes.Menu;
 using SkyCrab.Classes.Menu.Guest;
 using SkyCrab.Classes.Menu.LoggedPlayer;
 using SkyCrab.Common_classes;
@@ -11,11 +12,13 @@ using SkyCrab.Common_classes.Games.Tiles;
 using SkyCrab.Connection.PresentationLayer.Messages;
 using SkyCrab.Connection.PresentationLayer.Messages.Game;
 using SkyCrab.Connection.PresentationLayer.Messages.Game.Commands;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Games;
 using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
 using SkyCrab.Menu;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -60,6 +63,7 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             if(!SkyCrabGlobalVariables.isGame || SkyCrabGlobalVariables.game == null)
             {
                 dispatcherTimerChat.Stop();
+
                 if (SkyCrabGlobalVariables.player.IsGuest)
                     Switcher.Switch(new LobbyGameForGuest());
                 else
