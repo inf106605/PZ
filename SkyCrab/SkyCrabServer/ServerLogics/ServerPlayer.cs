@@ -17,6 +17,7 @@ namespace SkyCrabServer.ServerLogics
         public Player player;
         public readonly ServerFriend serverFriend;
         public readonly ServerRoom serverRoom;
+        public readonly ServerGameResult serverGameResult;
         public readonly ServerGame serverGame;
 
 
@@ -56,6 +57,7 @@ namespace SkyCrabServer.ServerLogics
             this.connection = connection;
             this.serverFriend = new ServerFriend(this);
             this.serverRoom = new ServerRoom(this);
+            this.serverGameResult = new ServerGameResult(this);
             this.serverGame = new ServerGame(this, serverRoom);
         }
 

@@ -88,6 +88,7 @@
     <Compile Include="ServerClasses\Sequence.cs" />
     <Compile Include="ServerLogics\ServerFriend.cs" />
     <Compile Include="ServerLogics\ServerGame.cs" />
+    <Compile Include="ServerLogics\ServerGameResult.cs" />
     <Compile Include="ServerLogics\ServerPlayer.cs" />
     <Compile Include="ServerLogics\ServerRoom.cs" />
     <Compile Include="SkyCrab_Server.cs" />

@@ -128,6 +128,12 @@ namespace SkyCrabServer.Connactions
                         serverPlayer.serverRoom.Chat(id, (ChatMessage)messageInfo.message);
                         break;
 
+                    //games
+
+                    case MessageId.GET_GAME_LOG:
+                        serverPlayer.serverGameResult.GetGameLog(id, (UInt32)messageInfo.message);
+                        break;
+
                     //GAME
 						
                     case MessageId.REORDER_RACK_TILES:
