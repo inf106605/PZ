@@ -880,6 +880,8 @@ namespace SkyCrabServer.ServerLogics
         {
             if (turnTimeoutTimer != null)
                 return;
+            if (game == null || game.IsFinished)
+                return;
             uint turnNumber = game.TurnNumber;
             turnTimeoutTimer = Task.Factory.StartNew(() => TurnTimerTaskBody(turnNumber));
         }
