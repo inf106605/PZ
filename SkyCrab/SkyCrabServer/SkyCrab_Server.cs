@@ -12,7 +12,7 @@ namespace SkyCrabServer
     class SkyCrab_Server
     {
 
-        private static readonly Version version = new Version(1, 3, 0);
+        private static readonly Version version = new Version(1, 3, 1);
 
 
         static int Main(string[] args)
@@ -75,7 +75,7 @@ namespace SkyCrabServer
             Console.WriteLine();
             Console.WriteLine("Usage: SkyCrab_Server [ADDRESS] [PORT]");
             Console.WriteLine("\tADDRESS\tAn address or a domain to which the server will listen\n\t\tfor new connections.\n\t\tIf it is not given, the server will listen to all adresses.");
-            Console.WriteLine("\tPORT\tA port to which the server will listen for new connections.\n\t\tIf it is not given, the server will use default port.\n\t\t(Using the default port is recomended.)");
+            Console.WriteLine("\tPORT\tA port to which the server will listen for new connections.\n\t\tIf it is not given, the server will use the default port.\n\t\t(Using the default port is recomended.)");
             Console.WriteLine();
         }
 

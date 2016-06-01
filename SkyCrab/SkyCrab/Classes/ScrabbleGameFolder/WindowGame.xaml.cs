@@ -72,9 +72,14 @@ namespace SkyCrab.Classes.ScrabbleGameFolder
             }
 
             // Updating the Label which displays the current second
-            ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
-            ReadChat.SelectionStart = ReadChat.Text.Length; // przewijanie scrollbara automatycznie w dół - 1
-            ReadChat.ScrollToEnd(); //  // przewijanie scrollbara automatycznie w dół - 2
+
+            if (ReadChat.Text != SkyCrabGlobalVariables.MessagesLog)
+            {
+                ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
+                ReadChat.SelectionStart = ReadChat.Text.Length; // przewijanie scrollbara automatycznie w dół - 1
+                ReadChat.ScrollToEnd(); //  // przewijanie scrollbara automatycznie w dół - 2
+                System.Media.SystemSounds.Asterisk.Play();
+            }
 
             // aktualizowanie listy graczy 
             InitBindingPlayers();

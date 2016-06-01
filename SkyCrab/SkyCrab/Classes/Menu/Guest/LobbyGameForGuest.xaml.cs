@@ -53,9 +53,13 @@ namespace SkyCrab.Classes.Menu.Guest
             DataContext = playersInLobby;
             // Forcing the CommandManager to raise the RequerySuggested event
 
-            ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
+            if (ReadChat.Text != SkyCrabGlobalVariables.MessagesLog)
+            {
+                ReadChat.Text = SkyCrabGlobalVariables.MessagesLog;
+                System.Media.SystemSounds.Asterisk.Play();
+            }
 
-            if(SkyCrabGlobalVariables.isGame)
+            if (SkyCrabGlobalVariables.isGame)
             {
                 Switcher.Switch(new WindowGame());
                 dispatcherTimer.Stop();
