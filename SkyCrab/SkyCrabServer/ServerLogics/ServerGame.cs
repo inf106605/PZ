@@ -785,7 +785,6 @@ namespace SkyCrabServer.ServerLogics
         private void OnEndGame()
         {
             game.Room.InGame = false;
-            GameTable.Finish(game.Id);
         }
 
         private void SwitchToNextPlayer(bool pass)
@@ -853,6 +852,7 @@ namespace SkyCrabServer.ServerLogics
                     throw new Exception("Whatever...");
                 GameEndedMsg.AsyncPost(otherServerPlayer.connection);
             }
+            GameTable.Finish(game.Id);
             foreach (PlayerInRoom playerInRoom in serverRoom.room.Players)
             {
                 ServerPlayer otherServerPlayer; //Schrödinger Variable
