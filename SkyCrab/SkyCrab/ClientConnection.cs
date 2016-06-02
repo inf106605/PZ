@@ -101,8 +101,15 @@ namespace SkyCrab
                             SkyCrabGlobalVariables.chatMessages = new ChatMessage();
                             SkyCrabGlobalVariables.chatMessages = (ChatMessage)messageInfo.message;
 
-                            PlayerInRoom tempPlayer = SkyCrabGlobalVariables.room.room.GetPlayer(SkyCrabGlobalVariables.chatMessages.PlayerId);
-                            SkyCrabGlobalVariables.MessagesLog += tempPlayer.Player.Nick + ": " + SkyCrabGlobalVariables.chatMessages.Message + Environment.NewLine;
+                            if (SkyCrabGlobalVariables.chatMessages.PlayerId == 0)
+                            {
+                                SkyCrabGlobalVariables.MessagesLog += "<SERWER>: " + SkyCrabGlobalVariables.chatMessages.Message + Environment.NewLine;
+                            }
+                            else
+                            {
+                                PlayerInRoom tempPlayer = SkyCrabGlobalVariables.room.room.GetPlayer(SkyCrabGlobalVariables.chatMessages.PlayerId);
+                                SkyCrabGlobalVariables.MessagesLog += tempPlayer.Player.Nick + ": " + SkyCrabGlobalVariables.chatMessages.Message + Environment.NewLine;
+                            }
 
                             SkyCrabGlobalVariables.chatMessages = null;
                             break;

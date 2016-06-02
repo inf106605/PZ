@@ -1,4 +1,8 @@
-﻿using System;
+﻿using SkyCrab.Common_classes;
+using SkyCrab.Common_classes.Chats;
+using SkyCrab.Connection.PresentationLayer.Messages.Menu.Rooms;
+using SkyCrabServer.ServerLogics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -10,7 +14,7 @@ namespace SkyCrabServer.Consoles
     sealed class ServerConsole : IDisposable
     {
 
-        private delegate bool CommandAction();
+        private delegate bool CommandAction(string param);
 
 
         private const string COMMAND_PROMPT = "> ";
@@ -27,6 +31,7 @@ namespace SkyCrabServer.Consoles
         static ServerConsole()
         {
             commands.Add("HELP", Help);
+            commands.Add("SAY", Say);
             commands.Add("EXIT", Exit);
             commands.Add("CLOSE", Exit);
             commands.Add("STOP", Exit);
@@ -96,8 +101,15 @@ namespace SkyCrabServer.Consoles
 
         private bool IsAllowerChar(char character)
         {
-            return (character >= 'A' && character <= 'Z') ||
-                (character >= 'a' && character <= 'z');
+            char[] otherAllowedChars = new char[] { ' ', ',', '.', '!', '?', '+', '-', '_', '(', ')' };
+            if ((character >= 'A' && character <= 'Z') ||
+                (character >= 'a' && character <= 'z') ||
+                (character >= '0' && character <= '9'))
+                return true;
+            foreach (char allowedChar in otherAllowedChars)
+                if (character == allowedChar)
+                    return true;
+            return false;
         }
 
         private void InterpretCommand()
@@ -106,12 +118,15 @@ namespace SkyCrabServer.Consoles
             {
                 Lock();
                 Console.WriteLine('\r' + COMMAND_PROMPT + inputString);
-                string upperInputString = inputString.ToUpper();
+                string[] splittedInputString = inputString.Split(new char[] { ' ' }, 2);
+                if (splittedInputString.Length == 1)
+                    splittedInputString = new string[] { splittedInputString[0], "" };
+                splittedInputString[0] = splittedInputString[0].ToUpper();
                 inputString = "";
                 CommandAction commandAction;
-                if (commands.TryGetValue(upperInputString, out commandAction))
+                if (commands.TryGetValue(splittedInputString[0], out commandAction))
                 {
-                    if (commandAction.Invoke())
+                    if (commandAction.Invoke(splittedInputString[1]))
                         closed = true;
                 }
                 else
@@ -174,17 +189,42 @@ namespace SkyCrabServer.Consoles
             Unlock();
         }
 
-        private static bool Help()
+        private static bool Help(string param)
         {
             Console.WriteLine("-------------------------------------HELP--------------------------------------");
             Console.WriteLine("Available commands:");
             Console.WriteLine("\t'HELP'\tShow this message.");
+            Console.WriteLine("\t'SAY'\tSend a message to all users.");
             Console.WriteLine("\t'STOP'\tStop server and exit the program.\n\t\t(Alternative forms: 'EXIT', 'CLOSE'.)");
             Console.WriteLine("-------------------------------------HELP--------------------------------------");
             return false;
         }
 
-        private static bool Exit()
+        private static bool Say(string param)
+        {
+            if (LengthLimit.ChatMessage.Check(param) != LengthLimit.Result.OK)
+            {
+                Console.WriteLine("Incorrect length of message!");
+                return false;
+            }
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.PlayerId = 0;
+            chatMessage.Message = param;
+            Globals.dataLock.AcquireReaderLock(-1);
+            try
+            {
+                foreach (ServerPlayer serverPlayer in Globals.players.Values)
+                    ChatMsg.AsyncPost(serverPlayer.connection, chatMessage, null);
+            }
+            finally
+            {
+                Globals.dataLock.ReleaseReaderLock();
+            }
+            Console.WriteLine("Message is sended.");
+            return false;
+        }
+
+        private static bool Exit(string param)
         {
             Console.WriteLine("Stopping the server...");
             return true;
