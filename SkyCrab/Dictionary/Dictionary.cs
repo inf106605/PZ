@@ -101,7 +101,7 @@ namespace SkyCrab.Dictionaries
         {
 	        int max = Math.Min(wholeWord.Length, previousWord.Length);
             int i = 0;
-	        for (i = 0;; ++i)
+	        for (;; ++i)
 	        {
 		        if (i == max)
 			        break;
