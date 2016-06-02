@@ -5,6 +5,7 @@ using SkyCrab.Connection.PresentationLayer.Messages.Menu.Accounts;
 using SkyCrabServer.Connactions;
 using SkyCrabServer.Databases;
 using System;
+using System.Text.RegularExpressions;
 
 namespace SkyCrabServer.ServerLogics
 {
@@ -247,7 +248,9 @@ namespace SkyCrabServer.ServerLogics
 
         private static bool IsNickShitty(string nick)
         {
-            string[] reservedNicks = { "siupa", "kris", "jerzyna" };
+            nick = nick.Trim();
+            nick = Regex.Replace(nick, @"\s+", " ");
+            string[] reservedNicks = { "siupa", "kris", "jerzyna", "piotr siupa", "<serwer>", "<server>" };
             foreach (string reservedNick in reservedNicks)
                 if (reservedNick.ToUpper() == nick.ToUpper())
                     return true;
